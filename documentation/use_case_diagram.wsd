@@ -1,0 +1,45 @@
+@startuml sms
+
+left to right direction
+
+actor Administrator as admin
+
+actor Client as client
+actor Server as server
+
+
+package "Systems Management Server" {
+  usecase "Als Admin anmelden" as UC0
+  usecase "Gerät hinzufügen" as UC1
+  usecase "Installierbare Pakete hinzufügen" as UC2
+  usecase "Programm herunterladen" as UC3
+  usecase "Geräte in Gruppe hinzufügen" as UC4
+  usecase "Diagramme erstellen lassen" as UC5
+  usecase "Programme remote installieren" as UC6
+  usecase "Installierte Pakete betrachten" as UC7
+  usecase "Daten von API fetchen" as UC8
+  usecase "Kommando für Client erstellen" as UC10
+  usecase "Nach ausstehenden Kommandos fragen" as UC9
+}
+
+admin -- UC0
+UC0 <.. UC5 : <<extends>>
+UC0 <.. UC1 : <<extends>>
+UC0 <.. UC2 : <<extends>>
+UC0 <.. UC7 : <<extends>>
+UC0 <.. UC6 : <<extends>>
+UC0 <.. UC4 : <<extends>>
+UC8 -- server
+UC10 -- server
+UC5 ..> UC8 : <<include>>
+UC2 -- server
+UC1 -- server
+UC4 -- server
+UC6 -- server
+UC7 ..> UC8 : <<include>>
+UC9 -- client
+UC9 <.. UC3 : <<extends>>
+UC9 - server
+
+
+@enduml
