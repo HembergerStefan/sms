@@ -1,0 +1,14 @@
+@startuml sms
+
+skinparam linestyle ortho
+rectangle "User" as user
+rectangle "Website" as web
+rectangle "Server" as server
+rectangle "Client" as client
+
+user -right-> web: login()
+web -right-> server: send_task()
+server -left-> web: fetch_data()
+server <-right- client: fetch_tasks() 
+
+@enduml
