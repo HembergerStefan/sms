@@ -39,7 +39,7 @@ Font-Styles:	 Poppins ExtraBold, Poppins SemiBold, Poppins Regular, Poppins Ligh
 
 ### **Example of the font styles usage:**
 
-![](ressources\images\Aspose.Words.250e5450-5055-47c2-bdb9-e05fa0d0294b.003.png)
+![](ressources\Aspose.Words.250e5450-5055-47c2-bdb9-e05fa0d0294b.003.png)
 
 Sneak-peek: Theme pack Moderna Light
 
@@ -111,7 +111,7 @@ The definition of the color packs is currently not fully completed, some accent 
 
 #### **Preview:**
 
-![](ressources\images\Aspose.Words.250e5450-5055-47c2-bdb9-e05fa0d0294b.004.png)
+![](ressources\Aspose.Words.250e5450-5055-47c2-bdb9-e05fa0d0294b.004.png)
 
 ---
 
@@ -142,7 +142,7 @@ The definition of the color packs is currently not fully completed, some accent 
 
 #### **Preview:**
 
-![](ressources\images\Aspose.Words.250e5450-5055-47c2-bdb9-e05fa0d0294b.005.png)
+![](ressources\Aspose.Words.250e5450-5055-47c2-bdb9-e05fa0d0294b.005.png)
 
 ---
 
@@ -173,7 +173,7 @@ The definition of the color packs is currently not fully completed, some accent 
 
 #### **Preview:**
 
-![](ressources\images\Aspose.Words.250e5450-5055-47c2-bdb9-e05fa0d0294b.006.png)
+![](ressources\Aspose.Words.250e5450-5055-47c2-bdb9-e05fa0d0294b.006.png)
 
 ---
 
@@ -204,7 +204,7 @@ The definition of the color packs is currently not fully completed, some accent 
 
 #### **Preview:**
 
-![](ressources\images\Aspose.Words.250e5450-5055-47c2-bdb9-e05fa0d0294b.007.png)
+![](ressources\Aspose.Words.250e5450-5055-47c2-bdb9-e05fa0d0294b.007.png)
 
 ---
 
@@ -235,7 +235,7 @@ The definition of the color packs is currently not fully completed, some accent 
 
 #### **Preview:**
 
-![](ressources\images\Aspose.Words.250e5450-5055-47c2-bdb9-e05fa0d0294b.008.png)
+![](ressources\Aspose.Words.250e5450-5055-47c2-bdb9-e05fa0d0294b.008.png)
 
 ---
 
@@ -266,7 +266,7 @@ The definition of the color packs is currently not fully completed, some accent 
 
 #### **Preview:**
 
-![](ressources\images\Aspose.Words.250e5450-5055-47c2-bdb9-e05fa0d0294b.009.png)
+![](ressources\Aspose.Words.250e5450-5055-47c2-bdb9-e05fa0d0294b.009.png)
 
 ---
 
