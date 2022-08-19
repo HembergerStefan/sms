@@ -291,3 +291,10 @@ In every case the whole website must have a consistent style – inconsistency i
 
 ## **Language Model**
 The user should be able to toggle between English and German, this will change the entire dashboard language.
+
+\
+&nbsp;
+\
+&nbsp;
+
+## **[To Top ↑](#website-appearance-specification)**
