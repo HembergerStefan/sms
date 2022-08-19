@@ -1,9 +1,9 @@
 # **Systems Management Server**
-**Create date:** 2022-08-15
+**Create date:** 2022-07-15
 
 **Last modified:** 2022-08-19
 
-**Author:** Julian Berger
+**Author:** Julian Berger, Christian Freilinger, Stefan Hemberger
 
 **Version:** 1.0
 
