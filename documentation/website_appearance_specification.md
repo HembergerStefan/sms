@@ -294,6 +294,12 @@ The user should be able to toggle between English and German, this will change t
 
 \
 &nbsp;
+
+## **Icons**
+The icons used on the website are all from Material UI.
+
+\
+&nbsp;
 \
 &nbsp;
 
