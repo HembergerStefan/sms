@@ -1,0 +1,155 @@
+ul {
+    list-style-type: none;
+}
+
+/* Sidebar area Section --Begin */
+#side-container {
+    grid-area: sidebar;
+
+    position: relative;
+
+    height: 100%;
+    width: 100%;
+
+    padding: 80px 0 48px;
+
+    background-color: var(--nl-clr-2);
+}
+
+#side-container:hover #side-collapse-button {
+    opacity: 1;
+}
+
+#side-collapse-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: absolute;
+    top: 2%;
+    right: -12px;
+
+    height: 23px;
+    width: 23px;
+
+    border: unset;
+    border-radius: 50%;
+
+    background-color: var(--ac-clr-2);
+
+    cursor: pointer;
+
+    opacity: 0;
+
+    transition: all 500ms;
+
+    z-index: 1;
+}
+
+#side-collapse-button-label {
+    content: '';
+
+    display: inline-block;
+    position: relative;
+
+    left: 10%;
+
+    height: 10px;
+    width: 10px;
+
+    border: 2px solid var(--nl-clr-3);
+    border-top: 0;
+    border-left: 0;
+
+    transform: rotateZ(135deg);
+}
+
+.active-sidebar-button-label {
+    left: -10% !important;
+    transform: rotateZ(-45deg) !important;
+}
+
+/* Sidebar area Section --End */
+
+/* Sidebar nav listing Section --Begin */
+#side-content-container {
+    display: grid;
+    align-items: stretch;
+
+    height: 100%;
+    width: 100%;
+}
+
+.side-content-nav:nth-of-type(2) {
+    align-self: flex-end;
+}
+
+.side-content-nav ul {
+    display: grid;
+    gap: 1.68rem;
+
+    padding-left: 32px;
+
+    user-select: none;
+}
+
+.side-image--text-wrapper {
+    position: relative;
+}
+
+.side-image--text-wrapper > a {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    width: fit-content;
+
+    gap: 1.375rem;
+
+    cursor: pointer;
+}
+
+.active-sidebar--collapse-text {
+    display: none;
+}
+
+.side-active-nav-item {
+    color: var(--ac-clr-2);
+
+    transition: all 400ms;
+}
+
+.side-active-nav-item::after {
+    content: '';
+
+    display: inline-block;
+    position: absolute;
+
+    top: -30%;
+    right: 0;
+
+    height: 40px;
+    width: 8px;
+
+    border-radius: 5px 0 0 5px;
+
+    background-color: var(--ac-clr-2);
+
+    opacity: 0;
+
+    animation: active-nav-item 600ms ease-out forwards;
+}
+
+@keyframes active-nav-item {
+    to {
+        opacity: 1;
+    }
+}
+
+/* Sidebar nav listing Section --End */
+
+@media only screen and (max-width: 1250px) {
+    #side-collapse-button {
+        opacity: 1;
+    }
+}

@@ -1,13 +1,134 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;600;800&display=swap');
+
+:root {
+    --ac-clr-1: hsl(248, 64%, 56%);
+    --ac-clr-2: hsl(342, 99%, 45%);
+    --ac-clr-3: hsl(160, 78%, 47%);
+
+    --pr-clr: hsl(235, 10%, 26%);
+    --sc-clr: hsl(240, 1%, 32%);
+
+    --nl-clr-1: hsl(270, 4%, 90%);
+    --nl-clr-2: hsl(0, 0%, 100%);
+    --nl-clr-3: hsl(0, 0%, 100%);
+    --nl-clr-4: hsl(0, 0%, 0%);
+
+    --drp-shadow: 0 2rem 3rem hsl(230, 26%, 89%);
+
+    --pr-ff: 'Poppins', sans-serif;
+
+    --fw--extra-light: 200;
+    --fw-light: 300;
+    --fw-regular: 400;
+    --fw--semi-bold: 600;
+    --fw--extra-bold: 800;
+
+    --fs-100: 11px;
+    --fs-200: 12px;
+    --fs-300: 14px;
+    --fs-400: 15px;
+    --fs-600: 18px;
+    --fs-700: 20px;
+    --fs-800: 24px;
+    --fs-900: 28px;
+    --fs-1000: 34px;
+    --fs-1100: 40px;
+
+    --fs-pr-heading: var(--fs-1100);
+    --fs-sc-heading: var(--fs-1000);
+    --fs-tr-heading: var(--fs-900);
+    --fs-qr-heading: var(--fs-700);
+    --fs-qi-heading: var(--fs-300);
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+*, *::before, *::after {
+    box-sizing: border-box;
+    outline: unset;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+
+    outline: unset;
+    border: unset;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+
+    font-family: var(--pr-ff);
+}
+
+a {
+    color: inherit;
+    text-decoration: inherit;
+    cursor: inherit;
+}
+
+/* Utility classes */
+.fs-pr-1 {
+    font-size: var(--fs-pr-heading);
+}
+
+.fs-sc-1 {
+    font-size: var(--fs-sc-heading);
+}
+
+.fs-tr-1 {
+    font-size: var(--fs-tr-heading);
+}
+
+.fs-qr-1 {
+    font-size: var(--fs-qr-heading);
+}
+
+.fs-qi-1 {
+    font-size: var(--fs-qi-heading);
+}
+
+.clr-pr-1 {
+    color: var(--pr-clr);
+}
+
+.clr-sc-1 {
+    color: var(--sc-clr);
+}
+
+.fw--extra-light {
+    font-weight: var(--fw--extra-light);
+}
+
+.fw-light {
+    font-weight: var(--fw-light);
+}
+
+.fw-regular {
+    font-weight: var(--fw-regular);
+}
+
+.fw--semi-bold {
+    font-weight: var(--fw--semi-bold);
+}
+
+.fw--extra-bold {
+    font-weight: var(--fw--extra-bold);
+}
+
+#layout-container {
+    display: grid;
+    grid-template-areas: 'navbar navbar'
+                         'sidebar main';
+
+    grid-template-rows: max(65px, 6vh) 1fr;
+    /*grid-template-columns: max(245px, 10vw) 1fr;
+    grid-template-rows: 80px 1fr;*/
+    grid-template-columns: 260px 1fr;
+
+    height: 100vh
+}
+
+.active-sidebar-layout {
+    grid-template-columns: 100px 1fr !important;
 }

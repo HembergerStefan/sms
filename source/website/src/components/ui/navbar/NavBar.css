@@ -1,0 +1,150 @@
+#nav-container, #nav-logo-container, #nav-profile-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Nav Section --Begin */
+#nav-container {
+    grid-area: navbar;
+
+    height: 100%;
+    width: 100%;
+
+    padding: 0 17px;
+
+    background-color: var(--nl-clr-2);
+}
+
+#nav-container div:nth-of-type(2) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Nav Section --End */
+
+/* Nav Logo Section --Begin */
+#nav-logo-container {
+    gap: 1rem;
+
+    width: fit-content;
+}
+
+#nav-logo {
+    width: max(60px, 5vh);
+}
+
+/* Nav Logo Section --End */
+
+/* Nav Interaction Section --Begin */
+#nav-interaction-container {
+    display: flex;
+    gap: .5rem;
+
+    margin-right: 3rem;
+}
+
+#nav-interaction-container div {
+    display: flex;
+}
+
+#nav-notification-bell {
+    cursor: pointer;
+}
+
+#nav-notification-bell span::after {
+    content: '';
+
+    display: inline-block;
+    position: relative;
+
+    top: -15%;
+    left: -90%;
+
+    height: 14px;
+    width: 14px;
+
+    border-radius: 50%;
+
+    background-color: hsl(206, 100%, 50%);
+
+    border: 3px solid var(--nl-clr-3);
+}
+
+#nav-language-change {
+    display: flex;
+    gap: .5rem;
+
+    cursor: pointer;
+}
+
+#nav-language-change span {
+    position: relative;
+    top: -10%;
+
+    transition: top 400ms;
+}
+
+#nav-language-change span::after {
+    content: '';
+
+    display: inline-block;
+
+    height: 10px;
+    width: 10px;
+
+    border: 2px solid var(--nl-clr-4);
+    border-top: 0;
+    border-left: 0;
+
+    transform: rotateZ(45deg);
+}
+
+#nav-language-change:hover span {
+    position: relative;
+    top: 5%;
+}
+
+/* Nav Interaction Section --End */
+
+/* Nav Profile Section --Begin */
+#nav-profile-container {
+    gap: 1rem;
+}
+
+#nav-profile-container span:nth-of-type(2) {
+    display: inline-block;
+
+    height: 50px;
+    width: 50px;
+
+    border-radius: 50%;
+
+    background-color: hsl(215, 21%, 28%);
+}
+
+#nav-profile-container span:nth-of-type(2)::after {
+    content: '';
+
+    display: inline-block;
+    position: relative;
+
+    top: 60%;
+    left: 75%;
+
+    height: 16px;
+    width: 16px;
+
+    border-radius: 50%;
+
+    background-color: var(--ac-clr-3);
+
+    border: 3px solid var(--nl-clr-3);
+}
+
+/* Nav Profile Section --End */
+
+@media only screen and (max-width: 842px) {
+
+}
