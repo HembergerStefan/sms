@@ -25,20 +25,30 @@
 
     --fs-100: 11px;
     --fs-200: 12px;
-    --fs-300: 14px;
-    --fs-400: 15px;
-    --fs-600: 18px;
-    --fs-700: 20px;
-    --fs-800: 24px;
-    --fs-900: 28px;
-    --fs-1000: 34px;
-    --fs-1100: 40px;
+    --fs-300: 13px;
+    --fs-400: 14px;
+    --fs-500: 15px;
+    --fs-600: 16px;
+    --fs-800: 18px;
+    --fs-2000: 20px;
+    --fs-2400: 24px;
+    --fs-2800: 28px;
+    --fs-3400: 34px;
+    --fs-4000: 40px;
 
-    --fs-pr-heading: var(--fs-1100);
-    --fs-sc-heading: var(--fs-1000);
-    --fs-tr-heading: var(--fs-900);
-    --fs-qr-heading: var(--fs-700);
-    --fs-qi-heading: var(--fs-300);
+    --fs-pr-heading: var(--fs-4000);
+    --fs-sc-heading: var(--fs-3400);
+    --fs-tr-heading: var(--fs-2800);
+    --fs-qr-heading: var(--fs-2000);
+    --fs-qi-heading: var(--fs-500);
+
+    --fs-pr-body: var(--fs-800);
+    --fs-sc-body: var(--fs-600);
+    --fs-tr-body: var(--fs-300);
+
+    --br-r-medium: 15px;
+    --br-r-small: 8px;
+    --br-r-extra-small: 5px;
 }
 
 *, *::before, *::after {
@@ -52,11 +62,6 @@
 
     outline: unset;
     border: unset;
-}
-
-html, body {
-    margin: 0;
-    padding: 0;
 
     font-family: var(--pr-ff);
 }
@@ -65,6 +70,10 @@ a {
     color: inherit;
     text-decoration: inherit;
     cursor: inherit;
+}
+
+ul {
+    list-style-type: none;
 }
 
 /* Utility classes */
@@ -86,6 +95,14 @@ a {
 
 .fs-qi-1 {
     font-size: var(--fs-qi-heading);
+}
+
+.fs-pr-body-1 {
+    font-size: var(--fs-pr-body);
+}
+
+.fs-sc-body-1 {
+    font-size: var(--fs-sc-body);
 }
 
 .clr-pr-1 {
@@ -114,6 +131,46 @@ a {
 
 .fw--extra-bold {
     font-weight: var(--fw--extra-bold);
+}
+
+.bg-clr--item-fit--1 {
+    height: fit-content;
+    width: fit-content;
+
+    padding: 6px;
+
+    border-radius: var(--br-r-small);
+
+    color: hsl(215, 98%, 56%);
+
+    background-color: hsl(215, 98%, 56%, 28.9%);
+}
+
+.bg-clr--item-fit--2 {
+    height: fit-content;
+    width: fit-content;
+
+    padding: 6px;
+
+    border-radius: var(--br-r-small);
+
+    color: hsl(133, 72%, 45%);
+
+    background-color: hsl(133, 72%, 45%, 28.9%);
+}
+
+.stick-to-head {
+    position: sticky;
+    top: 0;
+
+    height: fit-content;
+    width: 100%;
+
+    padding-bottom: 10px;
+
+    background-color: var(--nl-clr-3);
+
+    z-index: 1;
 }
 
 #layout-container {
