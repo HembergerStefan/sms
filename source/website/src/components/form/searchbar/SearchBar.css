@@ -17,9 +17,9 @@
     border-radius: 30px;
     border: 2px solid var(--nl-clr-3);
 
-    background: var(--nl-clr-1);
+    background: hsl(240, 20%, 98%);
 
-    transition: all 400ms;
+    transition: all 400ms ease-out;
 }
 
 .search-bar--container-open {
@@ -30,13 +30,13 @@
 #search-bar--container > form:hover {
     width: 90%;
 
-    border: 2px solid #e8e8e8;
+    border: 2px solid hsl(0, 0%, 93%);
 }
 
 .search-bar--container-open {
     width: 90% !important;
 
-    border: 2px solid #e8e8e8 !important;
+    border: 2px solid hsl(0, 0%, 93%) !important;
 }
 
 #search-bar--container > form:focus-within > #search-bar--text-input,
@@ -54,7 +54,6 @@
     opacity: 1 !important;
 
     z-index: initial !important;
-    cursor: initial !important;
 
     width: 100% !important;
 }
@@ -88,15 +87,11 @@
 
     opacity: 0;
 
-    cursor: pointer;
-
     z-index: 2;
 }
 
 #search-bar--text-input::placeholder {
     color: hsl(0, 0%, 51%);
-
-    font-size: 13px;
 }
 
 #search-bar--text-input:valid {
@@ -105,8 +100,8 @@
 
 #search-btn {
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
 
     position: absolute;
     top: 7%;
@@ -118,6 +113,108 @@
     border-radius: 50%;
 
     background-color: var(--ac-clr-2);
+}
+
+#blocking-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    height: 100vh;
+    width: 100vw;
+
+    background-color: hsl(0, 0%, 0%, 30%);
+
+    backdrop-filter: blur(4px);
+
+    z-index: 2;
+}
+
+#search-content-container {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+
+    height: fit-content;
+    width: 50vw;
+
+    max-height: 80vh;
+    max-width: 740px;
+
+    padding: 30px 30px 20px 30px;
+
+    border-radius: var(--br-r-medium);
+
+    background-color: var(--nl-clr-2);
+
+
+    z-index: 3;
+}
+
+#search-content-container > div {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+
+    max-height: 610px;
+    overflow: auto;
+}
+
+#search-content-container > div > div {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    /* To reset the padding-bottom of the sticky header element */
+    margin-top: -10px;
+}
+
+.search-item-container {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    position: relative;
+
+    height: 48px;
+    width: 100%;
+
+    padding: 6px 15px;
+
+    border-radius: var(--br-r-small);
+
+    background-color: hsl(210, 67%, 96%);
 
     cursor: pointer;
+}
+
+.search-item-container:hover {
+    background-color: hsl(210, 81%, 94%);
+}
+
+.search-item-container > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 2px;
+
+    border-radius: var(--br-r-extra-small);
+
+    background-color: var(--nl-clr-3);
+}
+
+.search-item-container > div:nth-of-type(2) {
+    position: absolute;
+    right: 20px;
+
+    transition: all 300ms;
+}
+
+.search-item-container:hover > div:nth-of-type(2) {
+    right: 15px !important;
 }
