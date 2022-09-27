@@ -40,7 +40,7 @@ const SearchBar = ({searchData}: { searchData: Function }) => {
                    autoComplete='off'
                    autoFocus/>
 
-            <div id='search-icon-container'>
+            <div id='search-bar--icon-container'>
                 <SearchRoundedIcon style={{color: 'var(--nl-clr-3)'}}/>
             </div>
         </div>
