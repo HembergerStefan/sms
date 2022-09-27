@@ -25,11 +25,9 @@ const SideBar = () => {
 
     return (
         <aside id='side-container'>
-            <div className='test'>
-                <button id='side-collapse-button' onClick={collapseSideBar}>
-                    <span id='side-collapse-button-label'/>
-                </button>
-            </div>
+            <button id='side-collapse-button' onClick={collapseSideBar}>
+                <span id='side-collapse-button-label'/>
+            </button>
 
             <div id='side-content-container'>
                 <nav className='side-content-nav'>

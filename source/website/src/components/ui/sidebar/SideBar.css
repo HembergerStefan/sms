@@ -2,18 +2,14 @@
 #side-container {
     grid-area: sidebar;
 
+    position: relative;
+
     height: 100%;
     width: 100%;
 
     padding: 80px 0 48px;
 
     background-color: var(--nl-clr-2);
-}
-
-#side-container > div:nth-of-type(1) {
-    position: relative;
-
-    top: -65px;
 }
 
 #side-container:hover #side-collapse-button {
