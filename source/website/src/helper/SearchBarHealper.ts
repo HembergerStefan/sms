@@ -10,7 +10,7 @@ export const addLastSearch = (search: string, lastSearch: string[]) => {
                 pastSearches.pop();
             }
 
-            localStorage['pastSearches'] = JSON.stringify(pastSearches);
+            localStorage['lastSearches'] = JSON.stringify(pastSearches);
         }
     }
 }
@@ -18,8 +18,8 @@ export const addLastSearch = (search: string, lastSearch: string[]) => {
 export const getLastSearches = (setLastSearch: Function) => {
     let pastSearches: any[] = [];
 
-    if (localStorage['pastSearches']) {
-        pastSearches = JSON.parse(localStorage['pastSearches']);
+    if (localStorage['lastSearches']) {
+        pastSearches = JSON.parse(localStorage['lastSearches']);
     }
 
     setLastSearch(pastSearches)
