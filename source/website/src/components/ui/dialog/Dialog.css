@@ -1,0 +1,72 @@
+#dialog-container {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+
+    position: relative;
+
+    height: fit-content;
+    width: 50vw;
+
+    max-height: 80vh;
+    max-width: 740px;
+
+    padding: 30px 30px 20px 30px;
+
+    border-radius: var(--br-r-medium);
+
+    background-color: var(--nl-clr-2);
+}
+
+#dialog-menu-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+
+    position: absolute;
+    top: 20px;
+    right: 20px;
+
+    height: fit-content;
+    width: fit-content;
+}
+
+#dialog-menu-container > div:nth-of-type(1) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: fit-content;
+    width: fit-content;
+
+    padding: var(--br-r-small);
+
+    border-radius: 50%;
+
+    cursor: pointer;
+}
+
+#dialog-menu-container > div:nth-of-type(1):hover {
+    background-color: hsl(0, 0%, 95%);
+}
+
+#dialog-menu-container > div:nth-of-type(2) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 50px;
+    width: 50px;
+
+    border-radius: 15px;
+    border: 2px solid hsl(0, 0%, 85%);
+
+    cursor: pointer;
+}
+
+#dialog-footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
