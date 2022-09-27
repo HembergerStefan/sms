@@ -7,6 +7,7 @@ import './NavBar.css'
 const NavBar = () => {
 
     const [productName, setProductName] = useState('Systems Management Server')
+    const [userName, setUserName] = useState('Håkon Wium Lie')
 
     useEffect(() => {
         window.addEventListener('resize', () => {
@@ -39,7 +40,7 @@ const NavBar = () => {
                 </div>
 
                 <div id='nav-profile-container'>
-                    <span className='fw--semi-bold'>Håkon Wium Lie</span>
+                    <span className='fw--semi-bold'>{userName}</span>
                     <span/>
                 </div>
             </div>
