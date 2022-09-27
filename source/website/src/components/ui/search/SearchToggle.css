@@ -1,0 +1,21 @@
+#search-toggle--container {
+    display: flex;
+    justify-content: center;
+
+    margin: 40px 0;
+}
+
+#search-toggle-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 40px;
+    width: 40px;
+
+    border-radius: 15px;
+
+    background-color: var(--ac-clr-2);
+
+    cursor: pointer;
+}
