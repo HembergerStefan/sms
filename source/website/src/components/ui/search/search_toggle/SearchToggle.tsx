@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
 import Dialog from '../../dialog/Dialog';
+import SearchInformationDialog from '../../dialog/search/SearchInformationDialog';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import './SearchToggle.css'
 
@@ -20,8 +21,10 @@ const SearchToggle = () => {
 
             {
                 (renderComponent) ? ReactDOM.createPortal(
-                    <Dialog title='Search Result' unmountComponent={unmountComponent} body={<span>Test</span>}
-                            footer={<button>Close</button>}/>, document.querySelector('#layout-container')!) : null
+                    <Dialog title='Dashboard Search'
+                            unmountComponent={unmountComponent}
+                            body={<SearchInformationDialog/>}/>,
+                    document.querySelector('#layout-container')!) : null
             }
         </div>
     );
