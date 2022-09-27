@@ -1,15 +1,14 @@
 import React from 'react';
-import SearchBar from '../../form/searchbar/SearchBar';
+import SearchToggle from '../search/SearchToggle';
 import NavBarItemsManager from '../navbar/NavBarItemsManager';
 import './SideBar.css'
 
 const SideBar = () => {
 
     const collapseSideBar = () => {
-        const layoutElement = document.getElementById('layout-container')
-        const sideBarButton = document.getElementById('side-collapse-button-label')
+        const layoutElement = document.querySelector('#layout-container')
+        const sideBarButton = document.querySelector('#side-collapse-button-label')
         const sideBarNavContent = document.querySelectorAll('.side-image--text-wrapper > a > span')
-        const sideBarSearchBar = document.querySelector('#search-bar--text-input')
 
         if (layoutElement != null) {
             layoutElement.classList.toggle('active-sidebar-layout')
@@ -22,16 +21,14 @@ const SideBar = () => {
         if (sideBarNavContent != null) {
             sideBarNavContent.forEach(cr => cr.classList.toggle('active-sidebar--collapse-text'))
         }
-
-        if (sideBarSearchBar != null) {
-            sideBarSearchBar.classList.toggle('closed--search-bar')
-        }
     }
 
     return (
         <aside id='side-container'>
             <div className='test'>
-                <button id='side-collapse-button' onClick={collapseSideBar}><span id='side-collapse-button-label'/></button>
+                <button id='side-collapse-button' onClick={collapseSideBar}>
+                    <span id='side-collapse-button-label'/>
+                </button>
             </div>
 
             <div id='side-content-container'>
@@ -40,7 +37,7 @@ const SideBar = () => {
                 </nav>
 
                 <nav className='side-content-nav'>
-                    <SearchBar/>
+                    <SearchToggle/>
 
                     <NavBarItemsManager startIndex={6} endIndex={8}/>
                 </nav>
