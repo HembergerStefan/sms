@@ -1,5 +1,5 @@
 import React from 'react';
-import SearchToggle from '../search/SearchToggle';
+import SearchToggle from '../search/search_toggle/SearchToggle';
 import NavBarItemsManager from '../navbar/NavBarItemsManager';
 import './SideBar.css'
 
