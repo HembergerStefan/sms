@@ -1,9 +1,3 @@
-#search-result-container {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
 .search-item-container {
     display: flex;
     align-items: center;
