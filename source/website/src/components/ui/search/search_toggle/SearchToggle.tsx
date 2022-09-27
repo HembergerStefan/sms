@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
-import Dialog from '../dialog/Dialog';
+import Dialog from '../../dialog/Dialog';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import './SearchToggle.css'
 
