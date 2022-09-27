@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
-import {getLastSearches} from '../../../../helper/SearchBarHealper';
+import {addLastSearch, getLastSearches} from '../../../../helper/SearchBarHealper';
 import SearchBar from '../../../form/searchbar/SearchBar';
-import SearchRecentSearchedItem from '../../../form/searchbar/SearchRecentSearchedItem';
-import SearchResultItem from '../../../form/searchbar/SearchResultItem';
-import '../../../form/searchbar/SearchBar.css'
+import SearchItemManager from '../../search/search_item/SearchItemManager';
+import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
+import './SearchInformationDialog.css'
 
 const SearchInformationDialog = () => {
 
@@ -15,14 +15,39 @@ const SearchInformationDialog = () => {
         getLastSearches(setLastSearch)
     }
 
+    const addSearch = (cr: string) => {
+        addLastSearch(cr, lastSearch)
+    }
+
     return (
         <>
             <SearchBar searchData={searchDataFunc}/>
 
-            <div className='overflowing-container'>
-                <SearchRecentSearchedItem lastSearch={lastSearch} setLastSearch={setLastSearch}/>
+            <div id='search-information-container' className='overflowing-container'>
 
-                <SearchResultItem searchData={searchData} lastSearch={lastSearch}/>
+                {/* Recent searches */}
+                <div className='search-information--result-container'>
+                    <SearchItemManager
+                        heading={
+                            <div id='search-information--recent-search-wrapper' className='stick-to-head'>
+                                <span className='fs-pr-body-1 fw--semi-bold'>Recent Searches</span>
+                                <DeleteRoundedIcon
+                                    style={{color: 'var(--ac-clr-2)', cursor: 'pointer', fontSize: '28px'}}
+                                    onClick={() => {
+                                        localStorage.removeItem('lastSearches')
+                                        getLastSearches(setLastSearch)
+                                    }}/>
+                            </div>
+                        }
+                        data={lastSearch}/>
+                </div>
+
+                {/* Current search result */}
+                <div className='search-information--result-container'>
+                    <SearchItemManager
+                        heading={<span className='fs-pr-body-1 fw--semi-bold stick-to-head'>Highest Conformity</span>}
+                        data={searchData} addLastSearch={addSearch}/>
+                </div>
             </div>
         </>
     );
