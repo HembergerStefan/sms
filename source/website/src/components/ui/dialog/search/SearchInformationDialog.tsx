@@ -1,14 +1,29 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {addLastSearch, getLastSearches} from '../../../../helper/SearchBarHealper';
+import {useTranslation} from 'react-i18next';
+import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import SearchBar from '../../../form/searchbar/SearchBar';
 import SearchItemManager from '../../search/search_item/SearchItemManager';
-import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import './SearchInformationDialog.css'
 
 const SearchInformationDialog = () => {
 
+    const {t} = useTranslation();
+
     const [searchData, setSearchData] = useState<string[]>([])
     const [lastSearch, setLastSearch] = useState<string[]>([])
+
+    useEffect(() => {
+        const deleteIcon = document.querySelector('#delete-icon')
+
+        if (deleteIcon !== null) {
+            if (lastSearch.length !== 0) {
+                deleteIcon.setAttribute('style', 'visibility: visible')
+            } else {
+                deleteIcon.setAttribute('style', 'visibility: hidden')
+            }
+        }
+    }, [lastSearch])
 
     const searchDataFunc = (data: string[]) => {
         setSearchData(data)
@@ -23,20 +38,19 @@ const SearchInformationDialog = () => {
         <>
             <SearchBar searchData={searchDataFunc}/>
 
-            <div id='search-information-container' className='overflowing-container'>
+            <div id='search-information-container'>
 
                 {/* Recent searches */}
                 <div className='search-information--result-container'>
                     <SearchItemManager
                         heading={
                             <div id='search-information--recent-search-wrapper' className='stick-to-head'>
-                                <span className='fs-pr-body-1 fw--semi-bold'>Recent Searches</span>
-                                <DeleteRoundedIcon
-                                    style={{color: 'var(--ac-clr-2)', cursor: 'pointer', fontSize: '28px'}}
-                                    onClick={() => {
-                                        localStorage.removeItem('lastSearches')
-                                        getLastSearches(setLastSearch)
-                                    }}/>
+                                <span className='fs-pr-body-1 fw--semi-bold'>{t('Recent Searches')}</span>
+                                <DeleteRoundedIcon id='delete-icon'
+                                                   onClick={() => {
+                                                       localStorage.removeItem('lastSearches')
+                                                       getLastSearches(setLastSearch)
+                                                   }}/>
                             </div>
                         }
                         data={lastSearch}/>
@@ -45,7 +59,7 @@ const SearchInformationDialog = () => {
                 {/* Current search result */}
                 <div className='search-information--result-container'>
                     <SearchItemManager
-                        heading={<span className='fs-pr-body-1 fw--semi-bold stick-to-head'>Highest Conformity</span>}
+                        heading={<span className='fs-pr-body-1 fw--semi-bold stick-to-head'>{t('Highest Conformity')}</span>}
                         data={searchData} addLastSearch={addSearch}/>
                 </div>
             </div>
