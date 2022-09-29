@@ -1,5 +1,6 @@
 import React from 'react';
 import SearchItem from './SearchItem';
+import {useTranslation} from 'react-i18next';
 import './SearchItem.css'
 
 interface SearchItemProps {
@@ -9,6 +10,8 @@ interface SearchItemProps {
 }
 
 const SearchItemManager = ({heading, data, addLastSearch}: SearchItemProps) => {
+
+    const {t} = useTranslation();
 
     return (
         <>
@@ -28,7 +31,7 @@ const SearchItemManager = ({heading, data, addLastSearch}: SearchItemProps) => {
                         <>
                             {heading}
                             <span
-                                className='fs-sc-body-1 fw-regular'>Nothing searched yet ... start searching now!</span>
+                                className='fs-sc-body-1 fw-regular'>{t('Not looking for anything yet? Start your search now!')}</span>
                         </>
                         : null
             }

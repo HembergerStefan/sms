@@ -2,9 +2,12 @@ import React, {useEffect, useState} from 'react';
 import DiceCoefficient from '../../../data/algorithm/DiceCoefficient'
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import {KeyWords} from '../../../data/searchbar/SearchKeyWords';
+import {useTranslation} from 'react-i18next';
 import './SearchBar.css'
 
 const SearchBar = ({searchData}: { searchData: Function }) => {
+
+    const {t} = useTranslation();
 
     const [searchText, setSearchText] = useState('')
     const [data, setData] = useState<string[]>([])
@@ -19,7 +22,7 @@ const SearchBar = ({searchData}: { searchData: Function }) => {
 
         if (searchText !== '') {
             KeyWords.forEach(keyWord => {
-                const s = DiceCoefficient.distance(searchText, keyWord.name)
+                const s = DiceCoefficient.distance(searchText, t(keyWord.name))
 
                 // Filter if the item should be added or not
                 if (s >= 0.21) {
@@ -34,7 +37,7 @@ const SearchBar = ({searchData}: { searchData: Function }) => {
     return (
         <div id='search-bar--container'>
             <input id='search-bar--text-input' className='fs-qi-1 fw-regular' type='text'
-                   placeholder='Search by anything ...'
+                   placeholder={t('Search by anything ...')}
                    onChange={event => setSearchText(event.target.value)}
                    onKeyUp={getFoundKeyWords}
                    autoComplete='off'
