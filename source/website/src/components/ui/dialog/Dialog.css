@@ -32,39 +32,6 @@
     width: fit-content;
 }
 
-#dialog-menu-container > div:nth-of-type(1) {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    height: fit-content;
-    width: fit-content;
-
-    padding: var(--br-r-small);
-
-    border-radius: 50%;
-
-    cursor: pointer;
-}
-
-#dialog-menu-container > div:nth-of-type(1):hover {
-    background-color: hsl(0, 0%, 95%);
-}
-
-#dialog-menu-container > div:nth-of-type(2) {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    height: 50px;
-    width: 50px;
-
-    border-radius: 15px;
-    border: 2px solid hsl(0, 0%, 85%);
-
-    cursor: pointer;
-}
-
 #dialog-footer-container {
     display: flex;
     justify-content: space-between;
