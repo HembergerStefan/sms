@@ -1,0 +1,43 @@
+/* Add this attribute to the element that needs a tooltip */
+[data-tooltip] {
+    position: relative;
+
+    z-index: 1;
+}
+
+/* Position tooltip above the element */
+[data-tooltip]:before {
+    content: attr(data-tooltip);
+
+    position: absolute;
+    bottom: 150%;
+
+    text-align: center;
+    font-size: var(--fs-qi-heading);
+
+    width: fit-content;
+
+    padding: 7px;
+
+    border-radius: var(--br-r-extra-small);
+
+    color: var(--nl-clr-3);
+    background-color: hsl(0, 0%, 31%);
+
+    opacity: 0;
+    visibility: hidden;
+
+    pointer-events: none; /* Can't select item */
+}
+
+/* Show tooltip content on hover */
+[data-tooltip]:hover:before {
+    animation: show-tooltip 300ms 500ms forwards;
+}
+
+@keyframes show-tooltip {
+    to {
+        visibility: visible;
+        opacity: 1;
+    }
+}
