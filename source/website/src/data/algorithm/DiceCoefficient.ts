@@ -11,7 +11,9 @@ export default class DiceCoefficient {
         if (origin === compare) return 1
 
         // Bigrams can't be compared because they need 2 values -> 0% equal
-        if (length1 < 2 || length2 < 2) if (compare.includes(origin)) return 1
+        if (length1 < 2 || length2 < 2) if (compare.startsWith(origin)) return 1
+
+        if (origin.substr(0, 2) === compare.substr(0, 2)) return 1
 
         let originBigrams = new Map();
 
@@ -20,7 +22,6 @@ export default class DiceCoefficient {
         for (let i = 0; i < length1 - 1; i++) {
             const bigram = origin.substr(i, 2)
             const count = originBigrams.has(bigram) ? originBigrams.get(bigram) + 1 : 1
-
             originBigrams.set(bigram, count)
         }
 
