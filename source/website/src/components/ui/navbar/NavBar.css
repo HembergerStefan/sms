@@ -40,27 +40,25 @@
 /* Nav Interaction Section --Begin */
 #nav-interaction-container {
     display: flex;
-    gap: .5rem;
-
+    gap: 25px;
     margin-right: 3rem;
 }
 
-#nav-interaction-container div {
-    display: flex;
-}
 
 #nav-notification-bell {
+    display: flex;
+    align-items: center;
+
+    position: relative;
+
     cursor: pointer;
 }
 
-#nav-notification-bell span::after {
-    content: '';
+#nav-notification-bell > span {
+    position: absolute;
 
-    display: inline-block;
-    position: relative;
-
-    top: -15%;
-    left: -90%;
+    top: -4%;
+    left: 52%;
 
     height: 14px;
     width: 14px;
@@ -71,42 +69,6 @@
 
     border: 3px solid var(--nl-clr-3);
 }
-
-#nav-language-change {
-    display: flex;
-    gap: .5rem;
-
-    cursor: pointer;
-}
-
-#nav-language-change span {
-    position: relative;
-    top: -10%;
-
-    transition: top 400ms;
-}
-
-#nav-language-change span::after {
-    content: '';
-
-    display: inline-block;
-
-    height: 10px;
-    width: 10px;
-
-    border: 2px solid var(--nl-clr-4);
-    border-top: 0;
-    border-left: 0;
-
-    transform: rotateZ(45deg);
-}
-
-#nav-language-change:hover span {
-    position: relative;
-    top: 5%;
-}
-
-/* Nav Interaction Section --End */
 
 /* Nav Profile Section --Begin */
 #nav-profile-container {

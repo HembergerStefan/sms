@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import logo from '../../../data/images/project_logo.png'
-import LanguageRoundedIcon from '@mui/icons-material/LanguageRounded';
 import NotificationsNoneRoundedIcon from '@mui/icons-material/NotificationsNoneRounded';
+import LngDropdown from '../../form/language_dropdown/LngDropdown';
 import './NavBar.css'
 
 const NavBar = () => {
@@ -33,10 +33,7 @@ const NavBar = () => {
                         <span/>
                     </div>
 
-                    <div id='nav-language-change'>
-                        <LanguageRoundedIcon style={{fontSize: '28px'}}/>
-                        <span/>
-                    </div>
+                    <LngDropdown/>
                 </div>
 
                 <div id='nav-profile-container'>
