@@ -1,4 +1,5 @@
 import React from 'react';
+import KeyboardArrowLeftRoundedIcon from '@mui/icons-material/KeyboardArrowLeftRounded';
 import SearchToggle from '../search/search_toggle/SearchToggle';
 import SideBarItemsManager from './SideBarItemsManager';
 import './SideBar.css'
@@ -6,8 +7,8 @@ import './SideBar.css'
 const SideBar = () => {
 
     const collapseSideBar = () => {
-        const layoutElement = document.querySelector('#layout-container')
-        const sideBarButton = document.querySelector('#side-collapse-button-label')
+        const layoutElement = document.querySelector('#side-container')
+        const sideBarButton = document.querySelector('#side-collapse-icon')
         const sideBarNavContent = document.querySelectorAll('.side-image--text-wrapper > a > span')
 
         if (layoutElement != null) {
@@ -15,18 +16,35 @@ const SideBar = () => {
         }
 
         if (sideBarButton != null) {
-            sideBarButton.classList.toggle('active-sidebar-button-label')
+            sideBarButton.classList.toggle('active-sidebar-button-icon')
         }
 
         if (sideBarNavContent != null) {
-            sideBarNavContent.forEach(cr => cr.classList.toggle('active-sidebar--collapse-text'))
+            sideBarNavContent.forEach(cr => {
+                if (cr.classList.contains('active-sidebar--collapse-text')) {
+                    setTimeout(() => {
+                        cr.setAttribute('style', 'display: block');
+
+                        setTimeout(() => {
+                            cr.classList.toggle('active-sidebar--collapse-text')
+                        }, 150)
+                    }, 150)
+
+                } else {
+                    cr.classList.toggle('active-sidebar--collapse-text')
+
+                    setTimeout(() => {
+                        cr.setAttribute('style', 'display: none');
+                    }, 150)
+                }
+            })
         }
     }
 
     return (
         <aside id='side-container'>
             <button id='side-collapse-button' onClick={collapseSideBar}>
-                <span id='side-collapse-button-label'/>
+                <KeyboardArrowLeftRoundedIcon id='side-collapse-icon'/>
             </button>
 
             <div id='side-content-container'>

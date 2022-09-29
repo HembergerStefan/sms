@@ -210,13 +210,14 @@ ul {
     grid-template-rows: max(65px, 6vh) 1fr;
     /*grid-template-columns: max(245px, 10vw) 1fr;
     grid-template-rows: 80px 1fr;*/
-    grid-template-columns: 260px 1fr;
+    grid-template-columns: min-content 1fr;
 
     height: 100vh
 }
 
 .active-sidebar-layout {
-    grid-template-columns: 100px 1fr !important;
+    /*grid-template-columns: 100px 1fr !important;*/
+    width: 100px !important;
 }
 
 .blocking-container {
