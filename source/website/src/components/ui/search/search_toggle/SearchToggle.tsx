@@ -4,8 +4,11 @@ import Dialog from '../../dialog/Dialog';
 import SearchInformationDialog from '../../dialog/search/SearchInformationDialog';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import './SearchToggle.css'
+import {useTranslation} from 'react-i18next';
 
 const SearchToggle = () => {
+
+    const {t} = useTranslation();
 
     const [renderComponent, setRenderComponent] = useState(false)
 
@@ -21,9 +24,10 @@ const SearchToggle = () => {
 
             {
                 (renderComponent) ? ReactDOM.createPortal(
-                    <Dialog title='Dashboard Search'
+                    <Dialog title={t('Dashboard Search')}
                             unmountComponent={unmountComponent}
-                            body={<SearchInformationDialog/>}/>,
+                            body={<SearchInformationDialog/>}
+                            footer={<span className='fs-tr-body-1'>Version 0.8.5</span>}/>,
                     document.querySelector('#layout-container')!) : null
             }
         </div>
