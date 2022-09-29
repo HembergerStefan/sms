@@ -106,8 +106,6 @@
 
 .side-active-nav-item {
     color: var(--ac-clr-2);
-
-    transition: all 400ms;
 }
 
 .side-active-nav-item::after {
