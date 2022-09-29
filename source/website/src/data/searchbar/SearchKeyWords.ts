@@ -5,6 +5,7 @@ export const KeyWords = [
     {name: 'Groups', link: '/groups'},
     {name: 'Scripts', link: '/scripts'},
     {name: 'Packages', link: '/packages'},
+    {name: 'User', link: '/user'},
     {name: 'Profile', link: '/profile'},
     {name: 'Settings', link: '/settings'},
 ]
