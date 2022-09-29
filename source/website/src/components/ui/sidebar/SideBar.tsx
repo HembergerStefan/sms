@@ -21,15 +21,18 @@ const SideBar = () => {
 
         if (sideBarNavContent != null) {
             sideBarNavContent.forEach(cr => {
+                /* The content is collapse - show it again */
                 if (cr.classList.contains('active-sidebar--collapse-text')) {
                     setTimeout(() => {
                         cr.setAttribute('style', 'display: block');
 
+                        /* Display the text with a transition delay */
                         setTimeout(() => {
                             cr.classList.toggle('active-sidebar--collapse-text')
                         }, 150)
                     }, 150)
 
+                    /* The content isn't collapsed - collapse it */
                 } else {
                     cr.classList.toggle('active-sidebar--collapse-text')
 
