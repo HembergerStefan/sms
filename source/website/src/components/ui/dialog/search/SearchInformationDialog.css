@@ -2,6 +2,10 @@
     display: flex;
     flex-direction: column;
     gap: 28px;
+
+    max-height: 610px;
+
+    overflow: auto;
 }
 
 .search-information--result-container {
