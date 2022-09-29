@@ -1,6 +1,6 @@
 import React from 'react';
 import SearchToggle from '../search/search_toggle/SearchToggle';
-import NavBarItemsManager from '../navbar/NavBarItemsManager';
+import SideBarItemsManager from './SideBarItemsManager';
 import './SideBar.css'
 
 const SideBar = () => {
@@ -31,13 +31,13 @@ const SideBar = () => {
 
             <div id='side-content-container'>
                 <nav className='side-content-nav'>
-                    <NavBarItemsManager startIndex={0} endIndex={6}/>
+                    <SideBarItemsManager startIndex={0} endIndex={6}/>
                 </nav>
 
                 <nav className='side-content-nav'>
                     <SearchToggle/>
 
-                    <NavBarItemsManager startIndex={6} endIndex={8}/>
+                    <SideBarItemsManager startIndex={6} endIndex={8}/>
                 </nav>
             </div>
         </aside>
