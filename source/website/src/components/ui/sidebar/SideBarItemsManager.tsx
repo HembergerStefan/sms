@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import {Link, useLocation} from "react-router-dom";
 import DashboardRoundedIcon from "@mui/icons-material/DashboardRounded";
 import DevicesRoundedIcon from "@mui/icons-material/DevicesRounded";
@@ -9,6 +9,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import SettingsIcon from "@mui/icons-material/Settings";
 import {NavBarItems} from '../../../data/navbar/NavBarItems';
 import {useTranslation} from 'react-i18next';
+import '../tooltip/Tooltip.css'
 
 const SideBarItemsManager = ({startIndex, endIndex}: { startIndex: number, endIndex: number }) => {
 
@@ -40,7 +41,7 @@ const SideBarItemsManager = ({startIndex, endIndex}: { startIndex: number, endIn
                 NavBarItems.slice(startIndex, endIndex).map((value, index) => (
                     <li key={index}
                         className={`side-image--text-wrapper ${(splitLocation[1] === value.url) ? 'side-active-nav-item' : ''}`}>
-                        <Link to={`/${value.url}`}>
+                        <Link to={`/${value.url}`} data-tooltip={t(value.title)}>
                             {
                                 /* Create the mui svg component */
                                 React.createElement(Components[value.image])
