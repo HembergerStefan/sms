@@ -8,8 +8,11 @@ import AppsRoundedIcon from "@mui/icons-material/AppsRounded";
 import PersonIcon from "@mui/icons-material/Person";
 import SettingsIcon from "@mui/icons-material/Settings";
 import {NavBarItems} from '../../../data/navbar/NavBarItems';
+import {useTranslation} from 'react-i18next';
 
-const NavBarItemsManager = ({startIndex, endIndex}: { startIndex: number, endIndex: number }) => {
+const SideBarItemsManager = ({startIndex, endIndex}: { startIndex: number, endIndex: number }) => {
+
+    const {t} = useTranslation();
 
     // Assigning location variable
     const location = useLocation();
@@ -42,7 +45,7 @@ const NavBarItemsManager = ({startIndex, endIndex}: { startIndex: number, endInd
                                 /* Create the mui svg component */
                                 React.createElement(Components[value.image])
                             }
-                            <span className='fs-qi-1 fw--semi-bold'>{value.title}</span>
+                            <span className='fs-qi-1 fw--semi-bold'>{t(value.title)}</span>
                         </Link>
                     </li>
                 ))
@@ -51,4 +54,4 @@ const NavBarItemsManager = ({startIndex, endIndex}: { startIndex: number, endInd
     );
 };
 
-export default NavBarItemsManager;
+export default SideBarItemsManager;
