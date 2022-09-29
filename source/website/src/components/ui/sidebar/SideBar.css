@@ -127,7 +127,7 @@
     height: 40px;
     width: 8px;
 
-    border-radius: 5px 0 0 5px;
+    border-radius: var(--br-r-extra-small) 0 0 var(--br-r-extra-small);
 
     background-color: var(--ac-clr-2);
 
