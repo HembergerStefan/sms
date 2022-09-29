@@ -1,7 +1,7 @@
 #search-bar--container {
     display: grid;
     grid-template-areas: 'searchbar icon';
-    grid-template-rows: repeat(2, 7vh);
+    grid-template-rows: repeat(2, 56px);
     grid-template-columns: 9fr 1fr;
 
     height: 7vh;
@@ -9,7 +9,7 @@
 
     max-height: 56px;
 
-    border-radius: 15px 0 0 15px;
+    border-radius: var(--br-r-medium) 0 0 var(--br-r-medium);
 
     background: hsl(240, 20%, 98%);
 }
@@ -24,7 +24,7 @@
 
     padding: 10px;
 
-    border-radius: 15px 0 0 15px;
+    border-radius: var(--br-r-medium) 0 0 var(--br-r-medium);
     border: 2px solid hsl(240, 10%, 92%);
 
     background: hsl(240, 38%, 98%);
@@ -48,7 +48,7 @@
 
     max-height: 56px;
 
-    border-radius: 0 15px 15px 0;
+    border-radius: 0 var(--br-r-medium) var(--br-r-medium) 0;
 
     background-color: var(--ac-clr-2);
 }
