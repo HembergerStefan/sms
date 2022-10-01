@@ -76,6 +76,7 @@
     user-select: none;
 }
 
+/* Sidebar single item  Section --Begin */
 .side-image--text-wrapper {
     position: relative;
 }
@@ -84,10 +85,9 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    gap: 1.375rem;
 
     width: fit-content;
-
-    gap: 1.375rem;
 
     cursor: pointer;
 }
@@ -96,7 +96,7 @@
     opacity: 1;
     visibility: visible;
 
-    transition: all 200ms;
+    transition: opacity 200ms, visibility 200ms;
 }
 
 .active-sidebar--collapse-text {
@@ -104,8 +104,10 @@
     visibility: hidden !important;
 }
 
-.side-active-nav-item {
-    color: var(--ac-clr-2);
+.side-active-nav-item, .side-active-nav-item > a > span {
+    color: var(--ac-clr-2) !important;
+
+    transition: color 200ms;
 }
 
 .side-active-nav-item::after {
@@ -129,13 +131,13 @@
     animation: active-nav-item 600ms ease-out forwards;
 }
 
+/* Sidebar single item  Section --End */
+
 @keyframes active-nav-item {
     to {
         opacity: 1;
     }
 }
-
-/* Sidebar nav listing Section --End */
 
 @media only screen and (max-width: 1250px) {
     #side-collapse-button {
