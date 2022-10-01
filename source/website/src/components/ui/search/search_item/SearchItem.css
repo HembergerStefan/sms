@@ -5,32 +5,27 @@
 
     position: relative;
 
-    height: 48px;
+    height: 52px;
     width: 100%;
 
     padding: 6px 15px;
 
     border-radius: var(--br-r-small);
 
-    background-color: hsl(210, 67%, 96%);
-
     cursor: pointer;
+
+    transition: background-color 400ms;
 }
 
 .search-item-container:hover {
-    background-color: hsl(210, 81%, 94%);
+    background-color: hsl(247, 27%, 94%);
+    transition: unset;
 }
 
 .search-item-container > div {
     display: flex;
     justify-content: center;
     align-items: center;
-
-    padding: 2px;
-
-    border-radius: var(--br-r-extra-small);
-
-    background-color: var(--nl-clr-3);
 }
 
 .search-item-container > div:nth-of-type(2) {
