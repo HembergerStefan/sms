@@ -1,5 +1,5 @@
 import React from 'react';
-import SearchItem from './SearchItem';
+import SearchResultItem from './SearchResultItem';
 import {useTranslation} from 'react-i18next';
 import './SearchItem.css'
 
@@ -9,7 +9,7 @@ interface SearchItemProps {
     addLastSearch?: Function
 }
 
-const SearchItemManager = ({heading, data, addLastSearch}: SearchItemProps) => {
+const SearchResultItemManager = ({heading, data, addLastSearch}: SearchItemProps) => {
 
     const {t} = useTranslation();
 
@@ -21,8 +21,8 @@ const SearchItemManager = ({heading, data, addLastSearch}: SearchItemProps) => {
                         {heading}
 
                         {
-                            data.map((cr) => (
-                                <SearchItem entry={cr} addLastSearch={addLastSearch}/>
+                            data.map((value, index) => (
+                                <SearchResultItem key={index} entry={value} addLastSearch={addLastSearch}/>
                             ))
                         }
                     </>
@@ -31,7 +31,7 @@ const SearchItemManager = ({heading, data, addLastSearch}: SearchItemProps) => {
                         <>
                             {heading}
                             <span
-                                className='fs-sc-body-1 fw-regular'>{t('Not looking for anything yet? Start your search now!')}</span>
+                                className='fs-pr-body-1 fw-regular'>{t('Not looking for anything yet? Start your search now!')}</span>
                         </>
                         : null
             }
@@ -39,4 +39,4 @@ const SearchItemManager = ({heading, data, addLastSearch}: SearchItemProps) => {
     );
 };
 
-export default SearchItemManager;
+export default SearchResultItemManager;
