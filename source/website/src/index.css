@@ -5,15 +5,16 @@
     --ac-clr-2: hsl(342, 99%, 45%);
     --ac-clr-3: hsl(160, 78%, 47%);
 
-    --pr-clr: hsl(235, 10%, 26%);
-    --sc-clr: hsl(240, 1%, 32%);
+    --pr-clr: hsl(217, 33%, 17%);
+    --sc-clr: hsl(215, 25%, 27%);
 
     --nl-clr-1: hsl(270, 4%, 90%);
     --nl-clr-2: hsl(0, 0%, 100%);
     --nl-clr-3: hsl(0, 0%, 100%);
     --nl-clr-4: hsl(0, 0%, 0%);
 
-    --drp-shadow: 0 2rem 3rem hsl(230, 26%, 89%);
+    --drp-shadow-light: 0 2rem 3rem hsl(230, 26%, 89%);
+    --drp-shadow-dark: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.2);
 
     --pr-ff: 'Poppins', sans-serif;
 
@@ -40,16 +41,20 @@
     --fs-sc-heading: var(--fs-3400);
     --fs-tr-heading: var(--fs-2800);
     --fs-qr-heading: var(--fs-2000);
-    --fs-qi-heading: var(--fs-500);
+    --fs-qi-heading: var(--fs-800);
 
-    --fs-pr-body: var(--fs-800);
-    --fs-sc-body: var(--fs-600);
+    --fs-pr-body: var(--fs-600);
+    --fs-sc-body: var(--fs-500);
     --fs-tr-body: var(--fs-400);
     --fs-qr-body: var(--fs-300);
 
     --br-r-medium: 15px;
     --br-r-small: 8px;
     --br-r-extra-small: 5px;
+
+    --mg-t-medium: 15px;
+    --mg-t-small: 8px;
+    --mg-t-extra-small: 5px;
 }
 
 *, *::before, *::after {
@@ -65,6 +70,7 @@
     border: unset;
 
     font-family: var(--pr-ff);
+    font-size: var(--fs-pr-body);
 }
 
 a {
@@ -75,6 +81,10 @@ a {
 
 ul {
     list-style-type: none;
+}
+
+span {
+    color: var(--pr-clr);
 }
 
 ::-webkit-scrollbar {
@@ -160,6 +170,18 @@ ul {
 
 .fw--extra-bold {
     font-weight: var(--fw--extra-bold);
+}
+
+.mg-t-medium {
+    margin-top: var(--mg-t-medium);
+}
+
+.mg-t-small {
+    margin-top: var(--mg-t-small);
+}
+
+.mg-t--extra-small {
+    margin-top: var(--mg-t-extra-small);
 }
 
 .bg-clr--item-fit--1 {
@@ -293,6 +315,10 @@ ul {
 
 #close-icon {
     font-size: 28px;
+}
+
+#arrow-forward-icon {
+    font-size: 15px;
 }
 
 /* Close icon section --End */
