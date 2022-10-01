@@ -1,38 +1,76 @@
 /* Add this attribute to the element that needs a tooltip */
-[data-tooltip] {
-    position: relative;
-
-    z-index: 1;
-}
-
-/* Position tooltip above the element */
-[data-tooltip]:before {
-    content: attr(data-tooltip);
+#tooltip-container {
+    display: grid;
+    justify-content: center;
+    align-items: center;
 
     position: absolute;
-    bottom: 150%;
-
-    text-align: center;
-    font-size: var(--fs-qi-heading);
 
     width: fit-content;
+    max-width: 342px;
 
-    padding: 7px;
+    padding: 15px;
 
-    border-radius: var(--br-r-extra-small);
+    border-radius: var(--br-r-medium);
 
-    color: var(--nl-clr-3);
-    background-color: hsl(0, 0%, 31%);
+    background-color: var(--nl-clr-3);
+    box-shadow: var(--drp-shadow-dark);
+    /*background-color: hsl(0, 0%, 31%, 0.98);*/
 
     opacity: 0;
     visibility: hidden;
 
     pointer-events: none; /* Can't select item */
+
+    z-index: 999;
+
+    animation: show-tooltip 300ms 500ms forwards;
 }
 
-/* Show tooltip content on hover */
-[data-tooltip]:hover:before {
-    animation: show-tooltip 300ms 500ms forwards;
+.tooltip-top::before {
+    content: '';
+
+    position: absolute;
+    top: 100%;
+    left: 50%;
+
+    margin-left: -10px;
+
+    border-width: 10px;
+    border-style: solid;
+    border-color: var(--nl-clr-3) transparent transparent transparent;
+}
+
+.tooltip-left::before {
+    content: '';
+
+    position: absolute;
+    top: 50%;
+    left: -19px;
+
+    margin-top: -10px;
+
+    border-width: 10px;
+    border-style: solid;
+    border-color: var(--nl-clr-3) transparent transparent transparent;
+
+    transform: rotateZ(90deg);
+}
+
+.tooltip-bottom::before {
+    content: '';
+
+    position: absolute;
+    top: -19px;
+    left: 50%;
+
+    margin-left: -10px;
+
+    border-width: 10px;
+    border-style: solid;
+    border-color: var(--nl-clr-3) transparent transparent transparent;
+
+    transform: rotateZ(180deg);
 }
 
 @keyframes show-tooltip {
