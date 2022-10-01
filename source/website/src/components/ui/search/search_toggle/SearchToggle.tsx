@@ -27,7 +27,7 @@ const SearchToggle = () => {
                     <Dialog title={t('Dashboard Search')}
                             unmountComponent={unmountComponent}
                             body={<SearchInformationDialog/>}
-                            footer={<span className='fs-tr-body-1'>Version 0.8.5</span>}/>,
+                            footer={<span className='fs-tr-body-1'>Version 0.8.7</span>}/>,
                     document.querySelector('#layout-container')!) : null
             }
         </div>
