@@ -3,7 +3,7 @@
   "Recent Searches": "Recent Searches",
   "Highest Conformity": "Highest Conformity",
   "Not looking for anything yet? Start your search now!": "Not looking for anything yet? Start your search now!",
-  "Search by anything ...": "Search by anything ...",
+  "Search for anything ...": "Search for anything ...",
 
   "Overview": "Overview",
   "Main": "Main",
@@ -13,5 +13,10 @@
   "Packages": "Packages",
   "User": "User",
   "Profile": "Profile",
-  "Settings": "Settings"
+  "Settings": "Settings",
+
+  "Click here to delete all the recent searches": "Click here to delete all the recent searches",
+  "Quick Delete": "Quick Delete",
+  "Customize the Dashboard language preset": "Customize the Dashboard language preset",
+  "Change Language": "Change Language"
 }

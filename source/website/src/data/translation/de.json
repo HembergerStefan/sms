@@ -3,7 +3,7 @@
   "Recent Searches": "Zuletzt gesucht",
   "Highest Conformity": "Höchste Übereinstimmung",
   "Not looking for anything yet? Start your search now!": "Noch nichts gesucht? Beginnen Sie jetzt mit der Suche!",
-  "Search by anything ...": "Nach allem suchen ...",
+  "Search for anything ...": "Nach allem suchen ...",
 
   "Overview": "Übersicht",
   "Main": "Hauptübersicht",
@@ -13,5 +13,10 @@
   "Packages": "Packete",
   "User": "Benutzer",
   "Profile": "Profil",
-  "Settings": "Einstellungen"
+  "Settings": "Einstellungen",
+
+  "Click here to delete all the recent searches": "Hier klicken, um alle vergangenen Suchanfragen zu löschen",
+  "Quick Delete": "Schnell-Löschen",
+  "Customize the Dashboard language preset": "Anpassen der Dashboard-Sprachvoreinstellung",
+  "Change Language": "Sprache ändern"
 }
