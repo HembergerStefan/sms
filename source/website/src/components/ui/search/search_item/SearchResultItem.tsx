@@ -1,23 +1,37 @@
 import React, {useEffect, useState} from 'react';
 import {getLinkToItem} from '../../../../helper/SearchBarHealper';
 import TagIcon from '@mui/icons-material/Tag';
+import AccessTimeRoundedIcon from '@mui/icons-material/AccessTimeRounded';
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
 import {useTranslation} from 'react-i18next';
 import './SearchItem.css'
+
 
 interface SearchItemProps {
     entry: string
     addLastSearch?: Function
 }
 
-const SearchItem = ({entry, addLastSearch}: SearchItemProps) => {
+const SearchResultItem = ({entry, addLastSearch}: SearchItemProps) => {
 
     const {t} = useTranslation();
 
     const [translateEntry, setTranslateEntry] = useState('')
+    const [searchIcon, setSearchIcon] = useState('tagIcon')
+
+    const Components: { [key: string]: any } = {
+        tagIcon: TagIcon,
+        accessTimeRoundedIcon: AccessTimeRoundedIcon
+    };
 
     useEffect(() => {
         setTranslateEntry(t(entry))
+
+        if (addLastSearch != null) {
+            setSearchIcon('tagIcon')
+        } else {
+            setSearchIcon('accessTimeRoundedIcon')
+        }
     }, [])
 
     return (
@@ -30,19 +44,21 @@ const SearchItem = ({entry, addLastSearch}: SearchItemProps) => {
                          addLastSearch(entry)
                      }
                  }}>
-                <div>
-                    <TagIcon style={{color: 'hsl(215, 11%, 47%)'}}/>
+                <div className='clr-sc-1'>
+                    {
+                        /* Create the mui svg component */
+                        React.createElement(Components[searchIcon])
+                    }
                 </div>
 
-                <span className='fs-sc-body-1 fw-regular'>{translateEntry}</span>
+                <span className='fs-pr-body-1 fw-regular clr-sc-1'>{translateEntry}</span>
 
-                <div>
-                    <ArrowForwardIosRoundedIcon
-                        style={{color: 'hsl(216, 16%, 40%)', fontSize: '15px'}}/>
+                <div className='clr-sc-1'>
+                    <ArrowForwardIosRoundedIcon id='arrow-forward-icon'/>
                 </div>
             </div>
         </>
     );
 };
 
-export default SearchItem;
+export default SearchResultItem;
