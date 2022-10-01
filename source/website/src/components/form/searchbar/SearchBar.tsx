@@ -36,15 +36,15 @@ const SearchBar = ({searchData}: { searchData: Function }) => {
 
     return (
         <div id='search-bar--container'>
-            <input id='search-bar--text-input' className='fs-qi-1 fw-regular' type='text'
-                   placeholder={t('Search by anything ...')}
+            <input id='search-bar--text-input' className='fs-sc-body-1 fw-regular' type='text'
+                   placeholder={t('Search for anything ...')}
                    onChange={event => setSearchText(event.target.value)}
                    onKeyUp={getFoundKeyWords}
                    autoComplete='off'
                    autoFocus/>
 
             <div id='search-bar--icon-container'>
-                <SearchRoundedIcon style={{color: 'var(--nl-clr-3)'}}/>
+                <SearchRoundedIcon/>
             </div>
         </div>
     );

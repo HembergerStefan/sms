@@ -50,5 +50,6 @@
 
     border-radius: 0 var(--br-r-medium) var(--br-r-medium) 0;
 
+    color: var(--nl-clr-3);
     background-color: var(--ac-clr-2);
 }
