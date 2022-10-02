@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {getLinkToItem} from '../../../../helper/SearchBarHealper';
+import {getLinkToItem} from '../../../../helper/SearchBarHelper';
 import TagIcon from '@mui/icons-material/Tag';
 import AccessTimeRoundedIcon from '@mui/icons-material/AccessTimeRounded';
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';

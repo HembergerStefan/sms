@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import ReactDOM from 'react-dom';
-import {addLastSearch, getLastSearches} from '../../../../helper/SearchBarHealper';
+import {addLastSearch, getLastSearches} from '../../../../helper/SearchBarHelper';
 import {useTranslation} from 'react-i18next';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import SearchBar from '../../../form/searchbar/SearchBar';
