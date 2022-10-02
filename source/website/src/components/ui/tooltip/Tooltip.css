@@ -27,48 +27,37 @@
     animation: show-tooltip 300ms 500ms forwards;
 }
 
-.tooltip-top::before {
+.tooltip-top::before, .tooltip-left::before, .tooltip-bottom::before {
     content: '';
 
     position: absolute;
-    top: 100%;
-    left: 50%;
-
-    margin-left: -10px;
 
     border-width: 10px;
     border-style: solid;
     border-color: var(--nl-clr-3) transparent transparent transparent;
 }
 
-.tooltip-left::before {
-    content: '';
+.tooltip-top::before {
+    top: 100%;
+    left: 50%;
 
-    position: absolute;
+    margin-left: -10px;
+}
+
+.tooltip-left::before {
     top: 50%;
     left: -19px;
 
     margin-top: -10px;
 
-    border-width: 10px;
-    border-style: solid;
-    border-color: var(--nl-clr-3) transparent transparent transparent;
-
     transform: rotateZ(90deg);
 }
 
 .tooltip-bottom::before {
-    content: '';
-
-    position: absolute;
     top: -19px;
     left: 50%;
 
     margin-left: -10px;
-
-    border-width: 10px;
-    border-style: solid;
-    border-color: var(--nl-clr-3) transparent transparent transparent;
 
     transform: rotateZ(180deg);
 }
