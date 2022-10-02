@@ -15,11 +15,17 @@ const Dialog = ({title, unmountComponent, body, footer}: DialogProps) => {
     const [shake, setShake] = useState('')
 
     useEffect(() => {
-        document.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape') {
+        const updateComponentMounting = (ev: { key: string; }) => {
+            if (ev.key === 'Escape') {
                 unmountComponent()
             }
-        });
+        };
+
+        document.addEventListener('keydown', updateComponentMounting)
+
+        return () => {
+            window.removeEventListener('keydown', updateComponentMounting);
+        }
     }, [])
 
     return (
