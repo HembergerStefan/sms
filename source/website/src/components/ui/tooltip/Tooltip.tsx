@@ -22,7 +22,7 @@ const Tooltip = ({content}: TooltipProps) => {
             tooltipRef.current.classList.add('tooltip-top')
 
             /* Side Positioning */
-            if (mousePosition.x! < 60) {
+            if (mousePosition.x! < 65) {
                 offsetX = -35
                 offsetY = tooltipRef.current.offsetHeight / 2
 
