@@ -1,15 +1,15 @@
-import React, {useEffect, useState} from 'react';
-import {Link, useLocation} from "react-router-dom";
-import DashboardRoundedIcon from "@mui/icons-material/DashboardRounded";
-import DevicesRoundedIcon from "@mui/icons-material/DevicesRounded";
-import GroupsIcon from "@mui/icons-material/Groups";
+import React, {createElement} from 'react';
+import {Link, useLocation} from 'react-router-dom';
+import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
+import DevicesRoundedIcon from '@mui/icons-material/DevicesRounded';
+import GroupsIcon from '@mui/icons-material/Groups';
 import TerminalRoundedIcon from "@mui/icons-material/TerminalRounded";
-import AppsRoundedIcon from "@mui/icons-material/AppsRounded";
-import PersonIcon from "@mui/icons-material/Person";
+import AppsRoundedIcon from '@mui/icons-material/AppsRounded';
+import PersonIcon from '@mui/icons-material/Person';
 import SettingsIcon from '@mui/icons-material/Settings';
 import {useTranslation} from 'react-i18next';
-import Tooltip from '../tooltip/Tooltip';
-import ReactDOM from 'react-dom';
+import TooltipManager from '../tooltip/TooltipManager';
+import useHover from '../../../hooks/useHover';
 
 interface SideBarListItemProps {
     value: any
@@ -19,7 +19,7 @@ const SideBarListItem = ({value}: SideBarListItemProps) => {
 
     const {t} = useTranslation();
 
-    const [renderComponent, setRenderComponent] = useState(false)
+    const [hoverRef, isHovered] = useHover();
 
     // Assigning location variable
     const location = useLocation();
@@ -41,32 +41,23 @@ const SideBarListItem = ({value}: SideBarListItemProps) => {
         settingsIcon: SettingsIcon
     };
 
-    useEffect(() => {
-        const sideBarContainer = document.querySelector('.active-sidebar-layout')
-
-        if (sideBarContainer === null) {
-            setRenderComponent(false)
-        }
-    }, [renderComponent])
-
     return (
         <>
             <li
                 className={`clr-pr-1 side-image--text-wrapper ${(splitLocation[1] === value.url) ? 'side-active-nav-item' : ''}`}>
-                <Link to={`/${value.url}`} onMouseOver={() => setRenderComponent(true)}
-                      onMouseLeave={() => setRenderComponent(false)}>
+                <Link ref={hoverRef} to={`/${value.url}`}>
                     {
                         /* Create the mui svg component */
-                        React.createElement(Components[value.image], {style: {fontSize: '24px'}})
+                        createElement<any>(Components[value.image], {style: {fontSize: '24px'}})
                     }
                     <span className='fs-sc-body-1 fw--semi-bold'>{t(value.title)}</span>
                 </Link>
             </li>
 
             {
-                (renderComponent) ? ReactDOM.createPortal(
-                    <Tooltip content={<span className='fs-pr-body-1 fw--semi-bold'>{t(value.title)}</span>}/>,
-                    document.querySelector('#layout-container')!) : null
+                (isHovered && document.querySelector<Element>('.active-sidebar-layout') !== null) ?
+                    <TooltipManager content={<span className='fs-pr-body-1 fw--semi-bold'>{t(value.title)}</span>}/>
+                    : null
             }
         </>
     );

@@ -7,6 +7,8 @@ import SearchBar from '../../../form/searchbar/SearchBar';
 import SearchResultItemManager from '../../search/search_item/SearchResultItemManager';
 import Tooltip from '../../tooltip/Tooltip';
 import './SearchInformationDialog.css'
+import useHover from "../../../../hooks/useHover";
+import TooltipManager from "../../tooltip/TooltipManager";
 
 const SearchInformationDialog = () => {
 
@@ -14,7 +16,7 @@ const SearchInformationDialog = () => {
 
     const [searchData, setSearchData] = useState<string[]>([])
     const [lastSearch, setLastSearch] = useState<string[]>([])
-    const [renderComponent, setRenderComponent] = useState(false)
+    const [hoverRef, isHovered] = useHover();
 
     useEffect(() => {
         const deleteIcon = document.querySelector('#delete-icon')
@@ -49,13 +51,11 @@ const SearchInformationDialog = () => {
                         heading={
                             <div id='search-information--recent-search-wrapper' className='stick-to-head'>
                                 <span className='fs-qi-1 fw--semi-bold'>{t('Recent Searches')}</span>
-                                <DeleteRoundedIcon id='delete-icon'
+                                <DeleteRoundedIcon ref={hoverRef} id='delete-icon'
                                                    onClick={() => {
                                                        localStorage.removeItem('lastSearches')
                                                        getLastSearches(setLastSearch)
-                                                   }}
-                                                   onMouseOver={() => setRenderComponent(true)}
-                                                   onMouseLeave={() => setRenderComponent(false)}/>
+                                                   }}/>
                             </div>
                         }
                         data={lastSearch}/>
@@ -71,14 +71,14 @@ const SearchInformationDialog = () => {
             </div>
 
             {
-                (renderComponent) ? ReactDOM.createPortal(
-                    <Tooltip content={
-                        <>
-                            <span className='fs-qi-1 fw--semi-bold'>🗑️ {t('Quick Delete')}</span>
-                            <span className='fs-pr-body-1 fw-regular clr-sc-1 mg-t-small'>{t('Click here to delete all the recent searches')}.</span>
-                        </>
-                    }/>,
-                    document.querySelector('#layout-container')!) : null
+                (isHovered) ? <TooltipManager content={
+                    <>
+                        <span className='fs-qi-1 fw--semi-bold'>🗑️ {t('Quick Delete')}</span>
+                        <span className='fs-pr-body-1 fw-regular clr-sc-1 mg-t-small'>{
+                            t('Click here to delete all the recent searches')
+                        }.</span>
+                    </>
+                }/> : null
             }
         </>
     );

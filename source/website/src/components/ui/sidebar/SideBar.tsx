@@ -9,8 +9,8 @@ const SideBar = () => {
     const sideContainerRef = useRef<HTMLElement>(null)
 
     const collapseSideBar = () => {
-        const sideBarButton = document.querySelector('#side-collapse-icon')
-        const sideBarNavContent = document.querySelectorAll('.side-image--text-wrapper > a > span')
+        const sideBarButton = document.querySelector<Element>('#side-collapse-icon')
+        const sideBarNavContent = document.querySelectorAll<Element>('.side-image--text-wrapper > a > span')
 
         if (sideContainerRef.current != null) {
             sideContainerRef.current.classList.toggle('active-sidebar-layout')
