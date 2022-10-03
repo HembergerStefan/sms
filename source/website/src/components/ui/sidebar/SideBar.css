@@ -68,10 +68,11 @@
 }
 
 .side-content-nav ul {
-    display: grid;
+    display: flex;
+    flex-direction: column;
     gap: 1.68rem;
 
-    padding-left: 32px;
+    padding-left: 38px;
 
     user-select: none;
 }
@@ -83,7 +84,6 @@
 
 .side-image--text-wrapper > a {
     display: flex;
-    justify-content: flex-start;
     align-items: center;
     gap: 1.375rem;
 
