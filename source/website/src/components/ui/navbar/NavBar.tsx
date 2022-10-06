@@ -1,23 +1,23 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react'
+import useResize from '../../../hooks/useResize'
 import logo from '../../../data/images/project_logo.png'
-import NotificationsNoneRoundedIcon from '@mui/icons-material/NotificationsNoneRounded';
-import LngDropdown from '../../form/language_dropdown/LngDropdown';
+import NotificationsNoneRoundedIcon from '@mui/icons-material/NotificationsNoneRounded'
+import LngDropdown from '../../form/language_dropdown/LngDropdown'
 import './NavBar.css'
 
 const NavBar = () => {
 
     const [productName, setProductName] = useState('Systems Management Server')
     const [userName, setUserName] = useState('Håkon Wium Lie')
+    const windowSize = useResize()
 
     useEffect(() => {
-        window.addEventListener('resize', () => {
-            if (window.innerWidth <= 842) {
-                setProductName('SMS')
-            } else {
-                setProductName('Systems Management Server')
-            }
-        })
-    }, [])
+        if (windowSize.width <= 842) {
+            setProductName('SMS')
+        } else {
+            setProductName('Systems Management Server')
+        }
+    }, [windowSize])
 
     return (
         <nav id='nav-container'>
@@ -45,4 +45,4 @@ const NavBar = () => {
     );
 };
 
-export default NavBar;
+export default NavBar
