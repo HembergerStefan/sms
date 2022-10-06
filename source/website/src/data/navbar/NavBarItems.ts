@@ -2,7 +2,7 @@ export const NavBarItems = [
     {
         title: 'Overview',
         url: '',
-        image: 'dashboardRoundedIcon'
+        image: 'homeRoundedIcon'
     },
     {
         title: 'Devices',
