@@ -66,11 +66,15 @@
 
     padding: 10px;
 
+    transition: background-color 300ms;
+
     cursor: pointer;
 }
 
 #language-dropdown-content > li:hover {
     border-radius: var(--br-r-small);
 
-    background-color: hsl(0, 0%, 95%);
+    background-color: hsl(240, 75%, 97%);
+
+    transition: unset;
 }
