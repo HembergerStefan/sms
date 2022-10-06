@@ -24,7 +24,7 @@
 
     z-index: 999;
 
-    animation: show-tooltip 300ms 500ms forwards;
+    animation: show-tooltip 300ms 800ms forwards;
 }
 
 .tooltip-top::before, .tooltip-left::before, .tooltip-bottom::before {
