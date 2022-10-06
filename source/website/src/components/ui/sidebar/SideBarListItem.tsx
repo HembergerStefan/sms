@@ -1,6 +1,6 @@
 import React, {createElement} from 'react';
 import {Link, useLocation} from 'react-router-dom';
-import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
+import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import DevicesRoundedIcon from '@mui/icons-material/DevicesRounded';
 import GroupsIcon from '@mui/icons-material/Groups';
 import TerminalRoundedIcon from "@mui/icons-material/TerminalRounded";
@@ -32,7 +32,7 @@ const SideBarListItem = ({value}: SideBarListItemProps) => {
     * by using this the typescript array can use the name of the components and it can be mapped to the real component
     * by reference */
     const Components: { [key: string]: any } = {
-        dashboardRoundedIcon: DashboardRoundedIcon,
+        homeRoundedIcon: HomeRoundedIcon,
         devicesRoundedIcon: DevicesRoundedIcon,
         groupsIcon: GroupsIcon,
         terminalRoundedIcon: TerminalRoundedIcon,
