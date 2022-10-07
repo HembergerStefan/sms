@@ -44,13 +44,13 @@ const SideBarListItem = ({value}: SideBarListItemProps) => {
     return (
         <>
             <li
-                className={`clr-pr-1 side-image--text-wrapper ${(splitLocation[1] === value.url) ? 'side-active-nav-item' : ''}`}>
+                className={`nv-clr--default side-image--text-wrapper ${(splitLocation[1] === value.url) ? 'side-active-nav-item' : ''}`}>
                 <Link ref={hoverRef} to={`/${value.url}`}>
                     {
                         /* Create the mui svg component */
-                        createElement<any>(Components[value.image], {style: {fontSize: '24px'}})
+                        createElement<any>(Components[value.image], {style: {fontSize: '25px'}})
                     }
-                    <span className='fs-sc-body-1 fw--semi-bold'>{t(value.title)}</span>
+                    <span className='fs-pr-body-1 fw--semi-bold nv-clr--default'>{t(value.title)}</span>
                 </Link>
             </li>
 
