@@ -32,7 +32,7 @@
 }
 
 #nav-logo {
-    width: max(60px, 5vh);
+    width: max(55px, 5vh);
 }
 
 /* Nav Logo Section --End */
@@ -41,9 +41,8 @@
 #nav-interaction-container {
     display: flex;
     gap: 25px;
-    margin-right: 3rem;
+    margin-right: 25px;
 }
-
 
 #nav-notification-bell {
     display: flex;
