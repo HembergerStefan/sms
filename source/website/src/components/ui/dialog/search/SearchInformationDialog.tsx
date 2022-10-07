@@ -1,11 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import ReactDOM from 'react-dom';
 import {addLastSearch, getLastSearches} from '../../../../helper/SearchBarHelper';
 import {useTranslation} from 'react-i18next';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import SearchBar from '../../../form/searchbar/SearchBar';
 import SearchResultItemManager from '../../search/search_item/SearchResultItemManager';
-import Tooltip from '../../tooltip/Tooltip';
 import './SearchInformationDialog.css'
 import useHover from "../../../../hooks/useHover";
 import TooltipManager from "../../tooltip/TooltipManager";
