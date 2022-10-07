@@ -16,7 +16,7 @@
 }
 
 .language-icon {
-    width: 33px;
+    width: min(33px, 2vw);
 }
 
 /* Lng Dropdown Section --End */
