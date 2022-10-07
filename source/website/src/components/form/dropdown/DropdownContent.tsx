@@ -3,10 +3,10 @@ import './Dropdown.css'
 
 interface DropdownContentProps {
     mount: boolean
-    crItem: Function
+    setCrItem: Function
 }
 
-const DropdownContent = ({mount, crItem}: DropdownContentProps) => {
+const DropdownContent = ({mount, setCrItem}: DropdownContentProps) => {
 
     const mountRef = useRef<HTMLUListElement>(null)
 
@@ -26,15 +26,25 @@ const DropdownContent = ({mount, crItem}: DropdownContentProps) => {
         }
     }, [mount])
 
+    const toggleDropdownContent = (cr: string): void => {
+        setCrItem(cr)
+
+        if (mountRef.current !== null) {
+            mountRef.current.classList.remove('active-dropdown-content')
+        }
+    }
+
     return (
         <ul ref={mountRef} id='dropdown-content'>
-            {
-                ITEMS.map((cr) => (
-                    <li onClick={() => crItem(cr)}>
-                        <span>{cr}</span>
-                    </li>
-                ))
-            }
+            <div id='dropdown-content-scroll-area'>
+                {
+                    ITEMS.map((cr) => (
+                        <li onClick={() => toggleDropdownContent(cr)}>
+                            <span className='fs-pr-body-1 fw-regular'>{cr}</span>
+                        </li>
+                    ))
+                }
+            </div>
         </ul>
     );
 };
