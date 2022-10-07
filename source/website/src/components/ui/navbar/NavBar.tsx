@@ -29,7 +29,7 @@ const NavBar = () => {
             <div>
                 <div id='nav-interaction-container'>
                     <div id='nav-notification-bell' className='clr-pr-1'>
-                        <NotificationsNoneRoundedIcon style={{fontSize: '28px'}}/>
+                        <NotificationsNoneRoundedIcon style={{fontSize: 'min(33px, 2vw)'}}/>
                         <span/>
                     </div>
 
