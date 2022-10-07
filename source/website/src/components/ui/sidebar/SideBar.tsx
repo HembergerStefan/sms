@@ -1,14 +1,14 @@
-import React, {useRef} from 'react';
-import KeyboardArrowLeftRoundedIcon from '@mui/icons-material/KeyboardArrowLeftRounded';
-import SearchToggle from '../search/search_toggle/SearchToggle';
-import SideBarItemsManager from './SideBarItemsManager';
+import React, {useRef} from 'react'
+import KeyboardArrowLeftRoundedIcon from '@mui/icons-material/KeyboardArrowLeftRounded'
+import SearchToggle from '../search/search_toggle/SearchToggle'
+import SideBarItemsManager from './SideBarItemsManager'
 import './SideBar.css'
 
 const SideBar = () => {
 
     const sideContainerRef = useRef<HTMLElement>(null)
 
-    const collapseSideBar = () => {
+    const collapseSideBar = (): void => {
         const sideBarButton = document.querySelector<Element>('#side-collapse-icon')
         const sideBarNavContent = document.querySelectorAll<Element>('.side-image--text-wrapper > a > span')
 
@@ -63,7 +63,7 @@ const SideBar = () => {
                 </nav>
             </div>
         </aside>
-    );
-};
+    )
+}
 
-export default SideBar;
+export default SideBar
