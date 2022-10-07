@@ -1,15 +1,15 @@
-import React, {createElement} from 'react';
-import {Link, useLocation} from 'react-router-dom';
-import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
-import DevicesRoundedIcon from '@mui/icons-material/DevicesRounded';
-import GroupsIcon from '@mui/icons-material/Groups';
-import TerminalRoundedIcon from "@mui/icons-material/TerminalRounded";
-import AppsRoundedIcon from '@mui/icons-material/AppsRounded';
-import PersonIcon from '@mui/icons-material/Person';
-import SettingsIcon from '@mui/icons-material/Settings';
-import {useTranslation} from 'react-i18next';
-import TooltipManager from '../tooltip/TooltipManager';
-import useHover from '../../../hooks/useHover';
+import React, {createElement} from 'react'
+import {Link, useLocation} from 'react-router-dom'
+import {useTranslation} from 'react-i18next'
+import HomeRoundedIcon from '@mui/icons-material/HomeRounded'
+import DevicesRoundedIcon from '@mui/icons-material/DevicesRounded'
+import GroupsIcon from '@mui/icons-material/Groups'
+import TerminalRoundedIcon from "@mui/icons-material/TerminalRounded"
+import AppsRoundedIcon from '@mui/icons-material/AppsRounded'
+import PersonIcon from '@mui/icons-material/Person'
+import SettingsIcon from '@mui/icons-material/Settings'
+import TooltipManager from '../tooltip/TooltipManager'
+import useHover from '../../../hooks/useHover'
 
 interface SideBarListItemProps {
     value: any
@@ -17,29 +17,29 @@ interface SideBarListItemProps {
 
 const SideBarListItem = ({value}: SideBarListItemProps) => {
 
-    const {t} = useTranslation();
+    const {t} = useTranslation()
 
-    const [hoverRef, isHovered] = useHover();
+    const [hoverRef, isHovered] = useHover()
 
     // Assigning location variable
-    const location = useLocation();
+    const location = useLocation()
     // Destructuring pathname from location
-    const {pathname} = location;
+    const {pathname} = location
     // Javascript split method to get the name of the path in array
-    const splitLocation = pathname.split('/');
+    const splitLocation = pathname.split('/')
 
     /* List of all the svg mui icon components -> the name is mapped to the original component by reference
     * by using this the typescript array can use the name of the components and it can be mapped to the real component
     * by reference */
     const Components: { [key: string]: any } = {
-        homeRoundedIcon: HomeRoundedIcon,
-        devicesRoundedIcon: DevicesRoundedIcon,
-        groupsIcon: GroupsIcon,
-        terminalRoundedIcon: TerminalRoundedIcon,
-        appsRoundedIcon: AppsRoundedIcon,
-        personIcon: PersonIcon,
-        settingsIcon: SettingsIcon
-    };
+        'homeRoundedIcon': HomeRoundedIcon,
+        'devicesRoundedIcon': DevicesRoundedIcon,
+        'groupsIcon': GroupsIcon,
+        'terminalRoundedIcon': TerminalRoundedIcon,
+        'appsRoundedIcon': AppsRoundedIcon,
+        'personIcon': PersonIcon,
+        'settingsIcon': SettingsIcon
+    }
 
     return (
         <>
@@ -60,7 +60,7 @@ const SideBarListItem = ({value}: SideBarListItemProps) => {
                     : null
             }
         </>
-    );
-};
+    )
+}
 
-export default SideBarListItem;
+export default SideBarListItem

@@ -1,6 +1,6 @@
-import React from 'react';
-import {NavBarItems} from '../../../data/navbar/NavBarItems';
-import SideBarListItem from './SideBarListItem';
+import React from 'react'
+import {NavBarItems} from '../../../data/navbar/NavBarItems'
+import SideBarListItem from './SideBarListItem'
 
 interface SideBarItemsManagerProps {
     startIndex: number
@@ -20,4 +20,4 @@ const SideBarItemsManager = ({startIndex, endIndex}: SideBarItemsManagerProps) =
     );
 };
 
-export default SideBarItemsManager;
+export default SideBarItemsManager
