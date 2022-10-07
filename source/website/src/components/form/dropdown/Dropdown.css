@@ -28,7 +28,7 @@
     cursor: pointer;
 }
 
-#dropdown-header-container:hover > div {
+#dropdown-header-container > div:hover {
     background-color: hsl(240, 75%, 96%)
 }
 
@@ -118,6 +118,10 @@
     background-color: hsl(240, 75%, 97%);
 
     transition: unset;
+}
+
+#dropdown-content li:active {
+    background-color: hsl(240, 75%, 94%);
 }
 
 /* Dropdown Content Section --End */
