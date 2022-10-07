@@ -1,13 +1,24 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef} from 'react'
 import './Dropdown.css'
 
 interface DropdownContentProps {
     mount: boolean
+    crItem: Function
 }
 
-const DropdownContent = ({mount}: DropdownContentProps) => {
+const DropdownContent = ({mount, crItem}: DropdownContentProps) => {
 
     const mountRef = useRef<HTMLUListElement>(null)
+
+    const ITEMS = [
+        'Adobe Illustrator',
+        'WebStorm',
+        'IntelliJ IDEA Ultimate',
+        'Figma',
+        'Spotify',
+        'Windows Explorer',
+        'Steam'
+    ]
 
     useEffect(() => {
         if (mountRef.current !== null) {
@@ -17,20 +28,15 @@ const DropdownContent = ({mount}: DropdownContentProps) => {
 
     return (
         <ul ref={mountRef} id='dropdown-content'>
-            <li>
-                <span>Adobe Illustrator</span>
-            </li>
-            <li>
-                <span>WebStorm</span>
-            </li>
-            <li>
-                <span>IntelliJ IDEA Ultimate</span>
-            </li>
-            <li>
-                <span>Figma</span>
-            </li>
+            {
+                ITEMS.map((cr) => (
+                    <li onClick={() => crItem(cr)}>
+                        <span>{cr}</span>
+                    </li>
+                ))
+            }
         </ul>
     );
 };
 
-export default DropdownContent;
+export default DropdownContent
