@@ -66,14 +66,14 @@
 
     padding: 10px;
 
+    border-radius: var(--br-r-small);
+
     transition: background-color 300ms;
 
     cursor: pointer;
 }
 
 #language-dropdown-content > li:hover {
-    border-radius: var(--br-r-small);
-
     background-color: hsl(240, 75%, 97%);
 
     transition: unset;
