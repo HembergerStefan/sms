@@ -13,8 +13,30 @@
     --nl-clr-3: hsl(0, 0%, 100%);
     --nl-clr-4: hsl(0, 0%, 0%);
 
-    --drp-shadow-light: 0 2rem 3rem hsl(230, 26%, 89%);
-    --drp-shadow-dark: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.2);
+    --nv-item-d: hsl(240, 7%, 24%);
+    --mu-item-d: hsl(0, 0%, 95%);
+
+    --drp-shadow-light: 0.6px 0.6px 2.2px rgba(0, 0, 0, -0.014),
+    1.3px 1.3px 5.3px rgba(0, 0, 0, -0.019),
+    2.5px 2.5px 10px rgba(0, 0, 0, -0.015),
+    4.5px 4.5px 17.9px rgba(0, 0, 0, 0),
+    8.4px 8.4px 33.4px rgba(0, 0, 0, 0.027),
+    10px 10px 60px rgba(0, 0, 0, 0.07);
+
+    --drp-shadow-dark: 0px 0px 7.2px rgba(0, 0, 0, -0.001),
+    0.4px 0.4px 13.5px rgba(0, 0, 0, 0.004),
+    1.2px 1.2px 18.4px rgba(0, 0, 0, 0.013),
+    3px 3px 21.9px rgba(0, 0, 0, 0.025),
+    7.1px 7.1px 24.4px rgba(0, 0, 0, 0.042),
+    20px 20px 40px rgba(0, 0, 0, 0.07);
+    /*--drp-shadow-dark: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.2);*/
+
+    --drp-shadow-dark-rvt: 0px 0px 0.7px rgba(0, 0, 0, 0.07),
+    0px 0px 2.7px rgba(0, 0, 0, 0.015),
+    0px 0px 6.5px rgba(0, 0, 0, 0.024),
+    0px 0px 12.9px rgba(0, 0, 0, 0.029),
+    0px 0px 23.9px rgba(0, 0, 0, 0.028),
+    0px 0px 50px rgba(0, 0, 0, 0.020);
 
     --pr-ff: 'Poppins', sans-serif;
 
@@ -152,6 +174,14 @@ span {
     color: var(--sc-clr);
 }
 
+.nv-clr--default {
+    color: var(--nv-item-d);
+}
+
+.mu-clr--default {
+    color: var(--mu-item-d);
+}
+
 .fw--extra-light {
     font-weight: var(--fw--extra-light);
 }
@@ -285,7 +315,7 @@ span {
 }
 
 #more-vert-icon-container:hover {
-    background-color: hsl(0, 0%, 95%);
+    background-color: var(--mu-item-d);
 }
 
 /* More icon section --End */
@@ -300,7 +330,7 @@ span {
     width: 45px;
 
     border-radius: var(--br-r-medium);
-    background-color: hsl(0, 0%, 95%);
+    background-color: var(--mu-item-d);
 
     cursor: pointer;
 }
