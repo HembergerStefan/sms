@@ -1,6 +1,6 @@
 import React, {useRef} from 'react'
 import KeyboardArrowLeftRoundedIcon from '@mui/icons-material/KeyboardArrowLeftRounded'
-import SearchToggle from '../search/search_toggle/SearchToggle'
+import SearchToggle from '../../form/search_toggle/SearchToggle'
 import SideBarItemsManager from './SideBarItemsManager'
 import './SideBar.css'
 
@@ -10,10 +10,48 @@ const SideBar = () => {
 
     const collapseSideBar = (): void => {
         const sideBarButton = document.querySelector<Element>('#side-collapse-icon')
+        const sideGroupListingExpand = document.querySelector<Element>('#expand-more-icon-container')
+        const sideGroupListing = document.querySelector<Element>('#side-group-listing--container')
         const sideBarNavContent = document.querySelectorAll<Element>('.side-image--text-wrapper > a > span')
 
         if (sideContainerRef.current != null) {
             sideContainerRef.current.classList.toggle('active-sidebar-layout')
+
+            /* TODO: optimize */
+            if (sideContainerRef.current.classList.contains('active-sidebar-layout')) {
+                if (sideGroupListingExpand != null) {
+                    sideGroupListingExpand.classList.toggle('active-side-group-listing')
+
+                    setTimeout(() => {
+                        sideGroupListingExpand.setAttribute('style', 'display: none');
+                    }, 150)
+                }
+
+                if (sideGroupListing != null) {
+                    sideGroupListing.classList.toggle('active-sidebar--collapse-text')
+
+                    setTimeout(() => {
+                        sideGroupListing.setAttribute('style', 'display: none');
+                    }, 150)
+                }
+            } else {
+                if (sideGroupListingExpand != null) {
+                    sideGroupListingExpand.classList.toggle('active-side-group-listing')
+
+                    setTimeout(() => {
+                        sideGroupListingExpand.setAttribute('style', 'display: flex');
+                    }, 150)
+                }
+
+                if (sideGroupListing != null) {
+                    sideGroupListing.classList.toggle('active-sidebar--collapse-text')
+
+                    setTimeout(() => {
+                        sideGroupListing.setAttribute('style', 'display: flex');
+                    }, 150)
+
+                }
+            }
         }
 
         if (sideBarButton != null) {
@@ -29,13 +67,13 @@ const SideBar = () => {
 
                         /* Display the text with a transition delay */
                         setTimeout(() => {
-                            cr.classList.toggle('active-sidebar--collapse-text')
+                            cr.classList.remove('active-sidebar--collapse-text')
                         }, 150)
                     }, 150)
 
                     /* The content isn't collapsed - collapse it */
                 } else {
-                    cr.classList.toggle('active-sidebar--collapse-text')
+                    cr.classList.add('active-sidebar--collapse-text')
 
                     setTimeout(() => {
                         cr.setAttribute('style', 'display: none');
