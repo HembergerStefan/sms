@@ -1,20 +1,16 @@
-import React, {useState} from 'react';
-import ReactDOM from 'react-dom';
-import Dialog from '../../dialog/Dialog';
-import SearchInformationDialog from '../../dialog/search/SearchInformationDialog';
-import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
+import React, {useState} from 'react'
+import ReactDOM from 'react-dom'
+import {useTranslation} from 'react-i18next'
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded'
+import Dialog from '../../../components/ui/dialog/Dialog'
+import SearchInformationDialog from '../../../components/ui/dialog/search/SearchInformationDialog'
 import './SearchToggle.css'
-import {useTranslation} from 'react-i18next';
 
 const SearchToggle = () => {
 
     const {t} = useTranslation();
 
     const [renderComponent, setRenderComponent] = useState(false)
-
-    const unmountComponent = () => {
-        setRenderComponent(false)
-    }
 
     return (
         <div id='search-toggle--container'>
@@ -25,13 +21,13 @@ const SearchToggle = () => {
             {
                 (renderComponent) ? ReactDOM.createPortal(
                     <Dialog title={t('Dashboard Search')}
-                            unmountComponent={unmountComponent}
+                            unmountComponent={setRenderComponent}
                             body={<SearchInformationDialog/>}
                             footer={<span className='fs-tr-body-1'>Version 0.8.7</span>}/>,
                     document.querySelector('#layout-container')!) : null
             }
         </div>
-    );
-};
+    )
+}
 
-export default SearchToggle;
+export default SearchToggle

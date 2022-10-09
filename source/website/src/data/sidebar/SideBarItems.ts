@@ -1,4 +1,4 @@
-export const NavBarItems = [
+export const SideBarItems = [
     {
         title: 'Overview',
         url: '',
