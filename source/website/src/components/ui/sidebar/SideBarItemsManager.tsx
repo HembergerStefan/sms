@@ -1,5 +1,5 @@
 import React from 'react'
-import {NavBarItems} from '../../../data/navbar/NavBarItems'
+import {SideBarItems} from '../../../data/sidebar/SideBarItems'
 import SideBarListItem from './SideBarListItem'
 
 interface SideBarItemsManagerProps {
@@ -12,12 +12,12 @@ const SideBarItemsManager = ({startIndex, endIndex}: SideBarItemsManagerProps) =
     return (
         <ul>
             {
-                NavBarItems.slice(startIndex, endIndex).map((value, index) => (
+                SideBarItems.slice(startIndex, endIndex).map((value, index) => (
                     <SideBarListItem key={index} value={value}/>
                 ))
             }
         </ul>
-    );
-};
+    )
+}
 
 export default SideBarItemsManager
