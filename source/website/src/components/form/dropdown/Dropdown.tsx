@@ -16,6 +16,14 @@ const Dropdown = () => {
     const [selectedItem, setSelectedItem] = useState<string>(defaultDropdownValue)
     const [interactionIcon, setInteractionIcon] = useState<string>('expandMoreRoundedIcon')
 
+    /* List of all the svg mui icon components -> the name is mapped to the original component by reference
+    * by using this the typescript array can use the name of the components and it can be mapped to the real component
+    * by reference */
+    const Components: { [key: string]: any } = {
+        'expandMoreRoundedIcon': ExpandMoreRoundedIcon,
+        'clearRoundedIcon': ClearRoundedIcon
+    }
+
     useEffect((): void => {
         if (iconToggleRef.current !== null) {
             iconToggleRef.current.classList.toggle('active-expand-more-icon')
@@ -35,14 +43,6 @@ const Dropdown = () => {
             }
         }
     }, [selectedItem])
-
-    /* List of all the svg mui icon components -> the name is mapped to the original component by reference
-    * by using this the typescript array can use the name of the components and it can be mapped to the real component
-    * by reference */
-    const Components: { [key: string]: any } = {
-        'expandMoreRoundedIcon': ExpandMoreRoundedIcon,
-        'clearRoundedIcon': ClearRoundedIcon
-    }
 
     const toggleSelectedItemIcon = (ev: React.MouseEvent<HTMLDivElement>): void => {
         if (interactionIcon === 'clearRoundedIcon') {
