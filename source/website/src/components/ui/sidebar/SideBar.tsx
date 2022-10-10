@@ -10,17 +10,45 @@ const SideBar = () => {
 
     const collapseSideBar = (): void => {
         const sideBarButton = document.querySelector<Element>('#side-collapse-icon')
-        const sideGroupListingExpand = document.querySelector<Element>('#expand-more-icon-container')
-        const sideGroupListing = document.querySelector<Element>('#side-group-listing--container')
         const sideBarNavContent = document.querySelectorAll<Element>('.side-image--text-wrapper > a > span')
 
         if (sideContainerRef.current != null) {
             sideContainerRef.current.classList.toggle('active-sidebar-layout')
+        }
 
-            /* TODO: optimize */
+        if (sideBarButton != null) {
+            sideBarButton.classList.toggle('active-sidebar--button-icon')
+        }
+
+        if (sideBarNavContent != null) {
+            sideBarNavContent.forEach(cr => {
+                /* The content is collapse - show it again */
+                if (cr.classList.contains('active-sidebar--collapse-text')) {
+                    setTimeout(() => {
+                        cr.classList.remove('active-sidebar--collapse-text')
+                    }, 150)
+
+                    /* The content isn't collapsed - collapse it */
+                } else {
+                    setTimeout(() => {
+                        cr.classList.add('active-sidebar--collapse-text')
+                    }, 40)
+                }
+            })
+        }
+
+        //toggleExpandGroupListing()
+    }
+
+    const toggleExpandGroupListing = (): void => {
+        const sideGroupListingExpand = document.querySelector<Element>('#expand-more-icon-container')
+        const sideGroupListing = document.querySelector<Element>('#side-group-listing--container')
+
+        /* TODO: optimize */
+        if (sideContainerRef.current !== null) {
             if (sideContainerRef.current.classList.contains('active-sidebar-layout')) {
                 if (sideGroupListingExpand != null) {
-                    sideGroupListingExpand.classList.toggle('active-side-group-listing')
+                    sideGroupListingExpand.classList.toggle('active-side--group-listing')
 
                     setTimeout(() => {
                         sideGroupListingExpand.setAttribute('style', 'display: none');
@@ -36,7 +64,7 @@ const SideBar = () => {
                 }
             } else {
                 if (sideGroupListingExpand != null) {
-                    sideGroupListingExpand.classList.toggle('active-side-group-listing')
+                    sideGroupListingExpand.classList.toggle('active-side--group-listing')
 
                     setTimeout(() => {
                         sideGroupListingExpand.setAttribute('style', 'display: flex');
@@ -52,34 +80,6 @@ const SideBar = () => {
 
                 }
             }
-        }
-
-        if (sideBarButton != null) {
-            sideBarButton.classList.toggle('active-sidebar-button-icon')
-        }
-
-        if (sideBarNavContent != null) {
-            sideBarNavContent.forEach(cr => {
-                /* The content is collapse - show it again */
-                if (cr.classList.contains('active-sidebar--collapse-text')) {
-                    setTimeout(() => {
-                        cr.setAttribute('style', 'display: block');
-
-                        /* Display the text with a transition delay */
-                        setTimeout(() => {
-                            cr.classList.remove('active-sidebar--collapse-text')
-                        }, 150)
-                    }, 150)
-
-                    /* The content isn't collapsed - collapse it */
-                } else {
-                    cr.classList.add('active-sidebar--collapse-text')
-
-                    setTimeout(() => {
-                        cr.setAttribute('style', 'display: none');
-                    }, 150)
-                }
-            })
         }
     }
 
