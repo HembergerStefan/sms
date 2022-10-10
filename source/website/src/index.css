@@ -13,8 +13,11 @@
     --nl-clr-3: hsl(0, 0%, 100%);
     --nl-clr-4: hsl(0, 0%, 0%);
 
-    --nv-item-d: hsl(240, 7%, 24%);
-    --mu-item-d: hsl(0, 0%, 95%);
+    --nv-item-d: hsl(217, 33%, 17%); /* Nav Item */
+    --mu-item-d: hsl(0, 0%, 95%); /* Menu Item */
+
+    --li-item-d: hsl(240, 75%, 97%); /* List item */
+    --li-item-h: hsl(240, 84%, 96%); /* List item hover */
 
     --drp-shadow-light: 0.6px 0.6px 2.2px rgba(0, 0, 0, -0.014),
     1.3px 1.3px 5.3px rgba(0, 0, 0, -0.019),
@@ -292,8 +295,31 @@ span {
 }
 
 /* Expand more section --Begin */
+#expand-more-icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: fit-content;
+    width: fit-content;
+
+    padding: var(--br-r-extra-small);
+
+    border-radius: 50%;
+
+    cursor: pointer;
+}
+
+#expand-more-icon-container:hover {
+    background-color: var(--mu-item-d);
+}
+
 #expand-more-icon {
     font-size: 28px;
+}
+
+.active-expand-more-icon {
+    transform: rotateZ(180deg);
 }
 
 /* Expand more section --End */
