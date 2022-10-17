@@ -74,7 +74,7 @@
     gap: 1rem;
 }
 
-#nav-profile-container span:nth-of-type(2) {
+#nav-profile-container span {
     display: inline-block;
 
     height: 50px;
@@ -85,7 +85,7 @@
     background-color: hsl(215, 21%, 28%);
 }
 
-#nav-profile-container span:nth-of-type(2)::after {
+#nav-profile-container span::after {
     content: '';
 
     display: inline-block;
