@@ -1,9 +1,11 @@
 import React, {useEffect, useState} from 'react'
-import Dropdown from '../components/form/dropdown/Dropdown'
-import KPIComponent from "../components/ui/kpi_component/KPIComponent";
+
 import PeopleAltRoundedIcon from '@mui/icons-material/PeopleAltRounded'
-import TerminalRoundedIcon from '@mui/icons-material/TerminalRounded';
-import DevicesRoundedIcon from '@mui/icons-material/DevicesRounded';
+import TerminalRoundedIcon from '@mui/icons-material/TerminalRounded'
+import DevicesRoundedIcon from '@mui/icons-material/DevicesRounded'
+
+import Dropdown from '../components/form/dropdown/Dropdown'
+import KPIComponent from "../components/ui/kpi_component/KPIComponent"
 
 const Overview = () => {
 
@@ -37,9 +39,8 @@ const Overview = () => {
             padding: '40px',
             gridArea: 'main'
         }}>
-            <span className='fs-pr-1 fw--semi-bold clr-pr-1'>{welcomeMessage.title}, {userName}!</span>
-            <br/>
-            <span className='fs-pr-body-1 fw-regular clr-sc-1'>{welcomeMessage.subTitle}</span>
+            <h1 className='fs-pr-1 fw--semi-bold'>{welcomeMessage.title}, {userName}!</h1>
+            <span className='fs-pr-body-1 fw-regula'>{welcomeMessage.subTitle}</span>
 
             <br/>
             <br/>
