@@ -1,5 +1,6 @@
-import React, {useEffect, useRef} from 'react';
-import useMousePosition from '../../../hooks/useMousePosition';
+import React, {useEffect, useRef} from 'react'
+
+import useMousePosition from '../../../hooks/useMousePosition'
 import './Tooltip.css'
 
 interface TooltipProps {
@@ -15,7 +16,7 @@ const Tooltip = ({content}: TooltipProps) => {
     useEffect(() => {
         if (tooltipRef.current !== null) {
             let offsetX = tooltipRef.current.offsetWidth / 2
-            let offsetY = tooltipRef.current.offsetHeight + 25
+            let offsetY = tooltipRef.current.offsetHeight + 20
 
             tooltipRef.current.classList.remove('tooltip-left')
             tooltipRef.current.classList.remove('tooltip-bottom')
@@ -34,7 +35,7 @@ const Tooltip = ({content}: TooltipProps) => {
             /* Nav Positioning */
             if (mousePosition.y! < 60) {
                 offsetX = tooltipRef.current.offsetWidth / 2
-                offsetY = -tooltipRef.current.offsetHeight / 2 + 15
+                offsetY = -35
 
                 tooltipRef.current.classList.remove('tooltip-top')
                 tooltipRef.current.classList.remove('tooltip-left')
@@ -49,7 +50,7 @@ const Tooltip = ({content}: TooltipProps) => {
         <div ref={tooltipRef} id='tooltip-container'>
             {content}
         </div>
-    );
-};
+    )
+}
 
-export default Tooltip;
+export default Tooltip

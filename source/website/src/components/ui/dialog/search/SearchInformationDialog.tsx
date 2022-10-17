@@ -14,7 +14,7 @@ const SearchInformationDialog = () => {
 
     const [searchData, setSearchData] = useState<string[]>([])
     const [lastSearch, setLastSearch] = useState<string[]>([])
-    const [hoverRef, isHovered] = useHover();
+    const [hoverRef, isHovered] = useHover()
 
     useEffect(() => {
         const deleteIcon = document.querySelector('#delete-icon')
@@ -48,7 +48,7 @@ const SearchInformationDialog = () => {
                     <SearchResultItemManager
                         heading={
                             <div id='search-information--recent-search-wrapper' className='stick-to-head'>
-                                <span className='fs-qi-1 fw--semi-bold'>{t('Recent Searches')}</span>
+                                <h1 className='fs-qi-1 fw--semi-bold'>{t('Recent Searches')}</h1>
                                 <DeleteRoundedIcon ref={hoverRef} id='delete-icon'
                                                    onClick={() => {
                                                        localStorage.removeItem('lastSearches')
@@ -62,20 +62,16 @@ const SearchInformationDialog = () => {
                 {/* Current search result */}
                 <div className='search-information--result-container'>
                     <SearchResultItemManager
-                        heading={<span
-                            className='fs-qi-1 fw--semi-bold stick-to-head'>{t('Highest Conformity')}</span>}
+                        heading={<h1
+                            className='fs-qi-1 fw--semi-bold stick-to-head'>{t('Highest Conformity')}</h1>}
                         data={searchData} addLastSearch={addSearch}/>
                 </div>
             </div>
 
             {
                 (isHovered) ? <TooltipManager content={
-                    <>
-                        <span className='fs-qi-1 fw--semi-bold'>🗑️ {t('Quick Delete')}</span>
-                        <span className='fs-pr-body-1 fw-regular clr-sc-1 mg-t-small'>{
-                            t('Click here to delete all the recent searches')
-                        }.</span>
-                    </>
+                    <span className='fs-pr-body-1 fw-regular clr-sc-1 mg-t-small'>{
+                        t('Click here to delete all the recent searches')}.</span>
                 }/> : null
             }
         </>

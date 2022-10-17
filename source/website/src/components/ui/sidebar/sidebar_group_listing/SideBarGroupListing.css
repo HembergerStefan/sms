@@ -1,40 +1,17 @@
-#side-group-listing--container {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-
-    height:  100%;
-
-    position: relative;
-
-    background-color: greenyellow;
-}
-
 #side-group-listing {
     display: flex;
-    justify-content: center;
     flex-direction: column;
     gap: 15px;
 
+    position: relative;
+
+    max-height: 0;
+
     margin: 0 20px 0 10px;
 
-    background-color: hotpink;
+    overflow: hidden;
 
-    transition: max-height 200ms;
-}
-
-#side-group-listing--container::before {
-    content: '';
-
-    position: absolute;
-    left: 0;
-
-    height: calc(100% + 20px);
-    width: 3px;
-
-    background-color: var(--ac-clr-2);
-
-    transform: rotateZ(180deg);
+    transition: max-height 300ms ease-out;
 }
 
 #side-group-listing > li {
@@ -44,6 +21,27 @@
     max-width: 150px;
 }
 
+/* The line beside the text */
+#side-group-listing > li::before {
+    content: '';
+
+    position: absolute;
+    left: 0;
+
+    height: 100%;
+    width: 3px;
+
+    background-color: var(--ac-clr-1);
+
+    transform: rotateZ(180deg);
+}
+
+/* The first list item has an margin top */
+#side-group-listing > li:first-child {
+    margin-top: 27px;
+}
+
+/* If the text is longer than the available space, the overflowing text won't be shown */
 #side-group-listing > li span {
     overflow: hidden;
     white-space: pre-wrap;
@@ -67,13 +65,18 @@
     padding: 0 5px;
 
     border-radius: var(--br-r-small);
-    background-color: hsl(0, 0%, 51%);
+    background-color: var(--ac-clr-1);
 }
 
 #side-group-listing > li > div > span {
     color: var(--nl-clr-3);
 }
 
-.active-side--group-listing {
-    max-height: 500px !important;
+.active-group-listing {
+    max-height: 0 !important;
+    transition: unset !important;
+}
+
+.active-group-listing--display-none {
+    display: none !important;
 }

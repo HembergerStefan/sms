@@ -11,7 +11,7 @@
 
     background-color: var(--nl-clr-2);
 
-    transition: width 650ms cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition: width 400ms cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 #side-container:hover #side-collapse-button {
@@ -33,7 +33,7 @@
     border: unset;
     border-radius: 50%;
 
-    background-color: var(--ac-clr-2);
+    background-color: var(--ac-clr-1);
 
     cursor: pointer;
 
@@ -45,7 +45,7 @@
 }
 
 #side-collapse-icon {
-    color: var(--nl-clr-3);
+    color: var(--nl-clr-2);
 }
 
 .active-sidebar--button-icon {
@@ -77,11 +77,11 @@
 }
 
 /* Sidebar single item  Section --Begin */
-.side-image--text-wrapper {
+.side-image--text-wrapper > div {
     position: relative;
 }
 
-.side-image--text-wrapper > a {
+.side-image--text-wrapper a {
     display: flex;
     align-items: center;
     gap: 1.375rem;
@@ -91,16 +91,12 @@
     cursor: pointer;
 }
 
-.side-image--text-wrapper > a > span {
-    display: block;
-}
-
 .active-sidebar--collapse-text {
     display: none !important;
 }
 
 .side-active-nav-item, .side-active-nav-item > a > span {
-    color: var(--ac-clr-2) !important;
+    color: var(--ac-clr-1) !important;
 
     transition: color 200ms;
 }
@@ -119,7 +115,7 @@
 
     border-radius: var(--br-r-extra-small) 0 0 var(--br-r-extra-small);
 
-    background-color: var(--ac-clr-2);
+    background-color: var(--ac-clr-1);
 
     opacity: 0;
 

@@ -15,7 +15,7 @@
 
     border-radius: var(--br-r-medium);
 
-    background-color: var(--ac-clr-2);
+    background-color: var(--ac-clr-1);
 
     cursor: pointer;
 
@@ -38,11 +38,11 @@
 }
 
 #search-toggle-btn:hover::before {
-    background-color: var(--ac-clr-2);
+    background-color: var(--ac-clr-1);
     animation: pulse 2s ease-out infinite;
 }
 
 #search-toggle-btn:hover::after {
-    background-color: var(--ac-clr-2);
+    background-color: var(--ac-clr-1);
     animation: pulse 2s 1s ease-out infinite;
 }
