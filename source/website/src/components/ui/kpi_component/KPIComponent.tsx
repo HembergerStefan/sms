@@ -10,7 +10,7 @@ interface KpiComponentProps {
 }
 
 const KpiComponent = ({title, value, icon, theme}: KpiComponentProps) => {
-    
+
     return (
         <div id='kpi-container'>
             <div style={{backgroundColor: theme}}>
