@@ -1,10 +1,14 @@
-import React, {useEffect, useState} from 'react';
-import ReactDOM from 'react-dom';
-import {useTranslation} from 'react-i18next';
+import React, {useEffect, useState} from 'react'
+import ReactDOM from 'react-dom'
+import {useTranslation} from 'react-i18next'
+
 import usa from '../../../data/images/language_dropdown/usa_icon.svg'
 import austria from '../../../data/images/language_dropdown/austria_icon.svg'
-import ExpandMoreRoundedIcon from '@mui/icons-material/ExpandMoreRounded';
-import Tooltip from '../../ui/tooltip/Tooltip';
+
+import ExpandMoreRoundedIcon from '@mui/icons-material/ExpandMoreRounded'
+
+import Tooltip from '../../ui/tooltip/Tooltip'
+
 import './LngDropdown.css'
 
 const LngDropdown = () => {
@@ -25,10 +29,10 @@ const LngDropdown = () => {
 
     /* Translation Method */
     const handleChangeLng = (lng: string) => {
-        i18n.changeLanguage(lng);
+        i18n.changeLanguage(lng)
 
-        localStorage.setItem('lng', lng);
-    };
+        localStorage.setItem('lng', lng)
+    }
 
     return (
         <>
@@ -42,7 +46,7 @@ const LngDropdown = () => {
 
                 <ul id='language-dropdown-content'>
                     <li onClick={() => {
-                        handleChangeLng('en')
+                        handleChangeLng('n')
                         setCrLngIcon(usa)
                     }}>
                         <img className='language-icon' src={usa} alt='lngIcon'/>
@@ -62,16 +66,13 @@ const LngDropdown = () => {
             {
                 (renderComponent) ? ReactDOM.createPortal(
                     <Tooltip content={
-                        <>
-                            <span className='fs-qi-1 fw--semi-bold'>📄 {t('Change Language')}</span>
-                            <span
-                                className='fs-pr-body-1 fw-regular clr-sc-1 mg-t-small'>{t('Customize the Dashboard language preset')}.</span>
-                        </>
+                        <span
+                            className='fw-regular clr-sc-1'>{t('Change language')}</span>
                     }/>,
                     document.querySelector('#layout-container')!) : null
             }
         </>
-    );
-};
+    )
+}
 
-export default LngDropdown;
+export default LngDropdown
