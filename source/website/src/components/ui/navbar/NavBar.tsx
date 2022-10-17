@@ -1,8 +1,13 @@
 import React, {useEffect, useState} from 'react'
-import useResize from '../../../hooks/useResize'
+
 import logo from '../../../data/images/project_logo.png'
+
 import NotificationsNoneRoundedIcon from '@mui/icons-material/NotificationsNoneRounded'
+
+import useResize from '../../../hooks/useResize'
+
 import LngDropdown from '../../form/language_dropdown/LngDropdown'
+
 import './NavBar.css'
 
 const NavBar = () => {
@@ -23,7 +28,7 @@ const NavBar = () => {
         <nav id='nav-container'>
             <div id='nav-logo-container'>
                 <img id='nav-logo' src={logo} alt='logo'/>
-                <span className='fs-qr-1 fw--semi-bold'>{productName}</span>
+                <h1 className='fs-qr-1 fw--semi-bold'>{productName}</h1>
             </div>
 
             <div>
@@ -37,12 +42,12 @@ const NavBar = () => {
                 </div>
 
                 <div id='nav-profile-container'>
-                    <span className='fw--semi-bold'>{userName}</span>
+                    <h1 className='fw--semi-bold'>{userName}</h1>
                     <span/>
                 </div>
             </div>
         </nav>
-    );
-};
+    )
+}
 
 export default NavBar
