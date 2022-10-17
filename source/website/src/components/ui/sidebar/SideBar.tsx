@@ -13,7 +13,7 @@ const SideBar = () => {
 
     const collapseSideBar = (): void => {
         const sideBarButton = document.querySelector<Element>('#side-collapse-icon')
-        const sideBarNavContent = document.querySelectorAll<Element>('.side-image--text-wrapper a > span')
+        const sideBarNavContent = document.querySelectorAll<Element>('.side-image--text-wrapper a span')
 
         const sideGroupListingExpand = document.querySelector<Element>('#expand-more-icon-container')
         const sideGroupListing = document.querySelector<Element>('#side-group-listing')
