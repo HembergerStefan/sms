@@ -1,12 +1,16 @@
-import React, {useEffect, useState} from 'react';
-import {addLastSearch, getLastSearches} from '../../../../helper/SearchBarHelper';
-import {useTranslation} from 'react-i18next';
-import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
-import SearchBar from '../../../form/searchbar/SearchBar';
-import SearchResultItemManager from '../../search/search_item/SearchResultItemManager';
+import React, {useEffect, useState} from 'react'
+import {useTranslation} from 'react-i18next'
+
+import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded'
+
+import useHover from '../../../../hooks/useHover'
+import {addLastSearch, getLastSearches} from '../../../../helper/SearchBarHelper'
+
+import TooltipManager from '../../tooltip/TooltipManager'
+import SearchBar from '../../../form/searchbar/SearchBar'
+import SearchResultItemManager from '../../search/search_item/SearchResultItemManager'
+
 import './SearchInformationDialog.css'
-import useHover from "../../../../hooks/useHover";
-import TooltipManager from "../../tooltip/TooltipManager";
 
 const SearchInformationDialog = () => {
 
@@ -70,12 +74,11 @@ const SearchInformationDialog = () => {
 
             {
                 (isHovered) ? <TooltipManager content={
-                    <span className='fs-pr-body-1 fw-regular clr-sc-1 mg-t-small'>{
-                        t('Click here to delete all the recent searches')}.</span>
+                    <span>{t('Delete recent searches')}</span>
                 }/> : null
             }
         </>
-    );
-};
+    )
+}
 
-export default SearchInformationDialog;
+export default SearchInformationDialog

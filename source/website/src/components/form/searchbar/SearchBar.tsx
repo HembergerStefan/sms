@@ -1,13 +1,17 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react'
+import {useTranslation} from 'react-i18next'
+
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded'
+
+import {KeyWords} from '../../../data/searchbar/SearchKeyWords'
+
 import DiceCoefficient from '../../../data/algorithm/DiceCoefficient'
-import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
-import {KeyWords} from '../../../data/searchbar/SearchKeyWords';
-import {useTranslation} from 'react-i18next';
+
 import './SearchBar.css'
 
 const SearchBar = ({searchData}: { searchData: Function }) => {
 
-    const {t} = useTranslation();
+    const {t} = useTranslation()
 
     const [searchText, setSearchText] = useState('')
     const [data, setData] = useState<string[]>([])
@@ -47,7 +51,7 @@ const SearchBar = ({searchData}: { searchData: Function }) => {
                 <SearchRoundedIcon/>
             </div>
         </div>
-    );
-};
+    )
+}
 
-export default SearchBar;
+export default SearchBar

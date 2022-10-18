@@ -15,9 +15,6 @@ const SideBar = () => {
         const sideBarButton = document.querySelector<Element>('#side-collapse-icon')
         const sideBarNavContent = document.querySelectorAll<Element>('.side-image--text-wrapper a span')
 
-        const sideGroupListingExpand = document.querySelector<Element>('#expand-more-icon-container')
-        const sideGroupListing = document.querySelector<Element>('#side-group-listing')
-
         if (sideContainerRef.current != null) {
             /* Set the width to 100px */
             sideContainerRef.current.classList.toggle('active-sidebar-layout')
@@ -43,19 +40,6 @@ const SideBar = () => {
                     }, 40)
                 }
             })
-        }
-
-        if (sideGroupListing != null) {
-            sideGroupListing.classList.toggle('active-group-listing')
-
-            setTimeout(() => {
-                sideGroupListing.classList.toggle('active-group-listing--display-none')
-            }, 50)
-
-        }
-
-        if (sideGroupListingExpand !== null) {
-            sideGroupListingExpand.classList.toggle('active-group-listing--display-none')
         }
     }
 
