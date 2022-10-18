@@ -11,7 +11,7 @@
 
     border-radius: var(--br-r-small);
 
-    background-color: var(--nl-clr-4);
+    background-color: var(--nl-clr-3);
     box-shadow: var(--drp-shadow-dark);
 
     opacity: 0;
@@ -26,7 +26,8 @@
 
 #tooltip-container span {
     font-size: var(--fs-sc-body);
-    color: var(--nl-clr-3);
+    font-weight: var(--fw--semi-bold);
+    color: var(--nl-clr-4);
 }
 
 .tooltip-top::before, .tooltip-left::before, .tooltip-bottom::before {
@@ -38,7 +39,7 @@
 
     border-width: 8px;
     border-style: solid;
-    border-color: var(--nl-clr-4) transparent transparent transparent;
+    border-color: var(--nl-clr-3) transparent transparent transparent;
 }
 
 .tooltip-top::before {
