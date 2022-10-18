@@ -15,10 +15,8 @@
   "Profile": "Profile",
   "Settings": "Settings",
 
-  "Click here to delete all the recent searches": "Click here to delete all the recent searches",
-  "Quick Delete": "Quick Delete",
-  "Customize the Dashboard language preset": "Customize the Dashboard language preset",
-  "Change Language": "Change Language",
+  "Delete recent searches": "Delete recent searches",
+  "Change language": "Change language",
 
   "Select Item": "Select Item"
 }

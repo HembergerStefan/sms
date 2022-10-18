@@ -15,10 +15,8 @@
   "Profile": "Profil",
   "Settings": "Einstellungen",
 
-  "Click here to delete all the recent searches": "Hier klicken, um alle vergangenen Suchanfragen zu löschen",
-  "Quick Delete": "Schnell-Löschen",
-  "Customize the Dashboard language preset": "Anpassen der Dashboard-Sprachvoreinstellung",
-  "Change Language": "Sprache ändern",
+  "Delete recent searches": "Vergangenen Suchanfragen löschen",
+  "Change language": "Sprache ändern",
 
   "Select Item": "Auswählen"
 }
