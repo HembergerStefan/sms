@@ -1,23 +1,35 @@
 import React, {createElement, useEffect, useRef, useState} from 'react'
 import {useTranslation} from 'react-i18next'
+
 import ExpandMoreRoundedIcon from '@mui/icons-material/ExpandMoreRounded'
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded'
+
+import useOnClickOutside from '../../../hooks/useOnClickOutside'
+
 import DropdownContent from './DropdownContent'
+
 import './Dropdown.css'
 
-const Dropdown = () => {
+interface DropdownProps {
+    defaultValue: string
+    items: string[]
+}
+
+const Dropdown = ({defaultValue, items}: DropdownProps) => {
 
     const {t} = useTranslation()
-    const defaultDropdownValue: string = 'Select Item'
 
     const iconToggleRef = useRef<HTMLDivElement>(null)
 
     const [activeDropdown, setActiveDropdown] = useState<boolean>(false)
-    const [selectedItem, setSelectedItem] = useState<string>(defaultDropdownValue)
+    const [selectedItem, setSelectedItem] = useState<string>(defaultValue)
     const [interactionIcon, setInteractionIcon] = useState<string>('expandMoreRoundedIcon')
 
+    /* Always hide the component when clicking outside the component */
+    const [dropdownRef] = useOnClickOutside(() => activeDropdown ? setActiveDropdown(false) : null)
+
     /* List of all the svg mui icon components -> the name is mapped to the original component by reference
-    * by using this the typescript array can use the name of the components and it can be mapped to the real component
+    * by using this the typescript array can use the name of the components, and it can be mapped to the real component
     * by reference */
     const Components: { [key: string]: any } = {
         'expandMoreRoundedIcon': ExpandMoreRoundedIcon,
@@ -32,7 +44,7 @@ const Dropdown = () => {
 
     useEffect((): void => {
         /* User selected item */
-        if (selectedItem !== defaultDropdownValue) {
+        if (selectedItem !== defaultValue) {
             setInteractionIcon('clearRoundedIcon')
         } else {
             setInteractionIcon('expandMoreRoundedIcon')
@@ -44,19 +56,18 @@ const Dropdown = () => {
         }
     }, [selectedItem])
 
-    const toggleSelectedItemIcon = (ev: React.MouseEvent<HTMLDivElement>): void => {
+    const resetSelection = (ev: React.MouseEvent<HTMLDivElement>): void => {
         if (interactionIcon === 'clearRoundedIcon') {
             ev.stopPropagation()
-
-            setSelectedItem(defaultDropdownValue)
+            setSelectedItem(defaultValue)
         }
     }
 
     return (
-        <div id='dropdown-container'>
-            <div id='dropdown-header-container' onClick={() => setActiveDropdown(!activeDropdown)}>
+        <div ref={dropdownRef} id='dropdown-container'>
+            <div id='dropdown-header-container' onClick={() => setActiveDropdown(prev => !prev)}>
                 <span className='fs-pr-body-1 fw-regular'>{t(selectedItem)}</span>
-                <div ref={iconToggleRef} onClick={toggleSelectedItemIcon}>
+                <div ref={iconToggleRef} onClick={resetSelection}>
                     {
                         /* Create the mui svg component */
                         createElement<any>(Components[interactionIcon])
@@ -64,7 +75,7 @@ const Dropdown = () => {
                 </div>
             </div>
 
-            <DropdownContent mount={activeDropdown} setCrItem={setSelectedItem}/>
+            <DropdownContent mount={activeDropdown} setCrItem={setSelectedItem} items={items}/>
         </div>
     )
 }
