@@ -46,7 +46,7 @@ const LngDropdown = () => {
 
                 <ul id='language-dropdown-content'>
                     <li onClick={() => {
-                        handleChangeLng('n')
+                        handleChangeLng('en')
                         setCrLngIcon(usa)
                     }}>
                         <img className='language-icon' src={usa} alt='lngIcon'/>
