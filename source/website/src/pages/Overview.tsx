@@ -30,6 +30,16 @@ const Overview = () => {
         }
     }
 
+    const ITEMS = [
+        'Adobe Illustrator',
+        'WebStorm',
+        'IntelliJ IDEA Ultimate',
+        'Figma',
+        'Spotify',
+        'Windows Explorer',
+        'Steam'
+    ]
+
     return (
         <div style={{
             height: '100%',
@@ -45,7 +55,7 @@ const Overview = () => {
             <br/>
             <br/>
 
-            <Dropdown/>
+            <Dropdown defaultValue='Select Item' items={ITEMS}/>
 
             <div style={{display: 'flex', alignItems: ' center', gap: '1rem'}}>
                 <KPIComponent title='Amount of Groups' value={4} icon={<PeopleAltRoundedIcon/>}
