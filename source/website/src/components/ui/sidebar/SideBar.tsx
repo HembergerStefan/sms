@@ -12,8 +12,8 @@ const SideBar = () => {
     const sideContainerRef = useRef<HTMLElement>(null)
 
     const collapseSideBar = (): void => {
-        const sideBarButton = document.querySelector<Element>('#side-collapse-icon')
-        const sideBarNavContent = document.querySelectorAll<Element>('.side-image--text-wrapper a span')
+        const sideBarButton = document.querySelector<HTMLElement>('#side-collapse-icon')
+        const sideBarNavContent = document.querySelectorAll<HTMLElement>('.side-image--text-wrapper a span')
 
         if (sideContainerRef.current != null) {
             /* Set the width to 100px */
