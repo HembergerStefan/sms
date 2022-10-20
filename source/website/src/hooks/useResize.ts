@@ -17,6 +17,6 @@ const useResize = (): { width: number; height: number } => {
     }, [])
 
     return resizeSize
-};
+}
 
 export default useResize
