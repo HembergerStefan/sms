@@ -1,49 +1,49 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect} from 'react'
 import {useTranslation} from 'react-i18next'
 
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded'
 
 import useHover from '../../../../hooks/useHover'
-import {addLastSearch, getLastSearches} from '../../../../helper/SearchBarHelper'
 
 import TooltipManager from '../../tooltip/TooltipManager'
 import SearchBar from '../../../form/searchbar/SearchBar'
 import SearchResultItemManager from '../../search/search_item/SearchResultItemManager'
 
 import './SearchInformationDialog.css'
+import useSearchStore from "../../../../store/searchResultStore";
+import useRecentSearchStore from "../../../../store/recentSearchStore";
 
 const SearchInformationDialog = () => {
 
-    const {t} = useTranslation();
+    const {t} = useTranslation()
 
-    const [searchData, setSearchData] = useState<string[]>([])
-    const [lastSearch, setLastSearch] = useState<string[]>([])
     const [hoverRef, isHovered] = useHover()
+
+    /* Get the search result out of the store & the possibility to update the store */
+    const {searchResult, resetSearchResult} = useSearchStore()
+    /* Get the recent searches out of the store & the possibility to update the store */
+    const {recentSearches, resetRecentSearch} = useRecentSearchStore()
+
+    /* Clear the search result store at the beginning */
+    useEffect(() => {
+        resetSearchResult()
+    }, [])
 
     useEffect(() => {
         const deleteIcon = document.querySelector('#delete-icon')
 
         if (deleteIcon !== null) {
-            if (lastSearch.length !== 0) {
+            if (recentSearches.length !== 0) {
                 deleteIcon.setAttribute('style', 'visibility: visible')
             } else {
                 deleteIcon.setAttribute('style', 'visibility: hidden')
             }
         }
-    }, [lastSearch])
-
-    const searchDataFunc = (data: string[]) => {
-        setSearchData(data)
-        getLastSearches(setLastSearch)
-    }
-
-    const addSearch = (cr: string) => {
-        addLastSearch(cr, lastSearch)
-    }
+    }, [recentSearches])
 
     return (
         <>
-            <SearchBar searchData={searchDataFunc}/>
+            <SearchBar/>
 
             <div id='search-information-container'>
 
@@ -54,13 +54,10 @@ const SearchInformationDialog = () => {
                             <div id='search-information--recent-search-wrapper' className='stick-to-head'>
                                 <h1 className='fs-qi-1 fw--semi-bold'>{t('Recent Searches')}</h1>
                                 <DeleteRoundedIcon ref={hoverRef} id='delete-icon'
-                                                   onClick={() => {
-                                                       localStorage.removeItem('lastSearches')
-                                                       getLastSearches(setLastSearch)
-                                                   }}/>
+                                                   onClick={() => resetRecentSearch()}/>
                             </div>
                         }
-                        data={lastSearch}/>
+                        data={recentSearches} isSearchResult={false}/>
                 </div>
 
                 {/* Current search result */}
@@ -68,7 +65,7 @@ const SearchInformationDialog = () => {
                     <SearchResultItemManager
                         heading={<h1
                             className='fs-qi-1 fw--semi-bold stick-to-head'>{t('Highest Conformity')}</h1>}
-                        data={searchData} addLastSearch={addSearch}/>
+                        data={searchResult} isSearchResult={true}/>
                 </div>
             </div>
 
