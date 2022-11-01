@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 
 import PeopleAltRoundedIcon from '@mui/icons-material/PeopleAltRounded'
 import TerminalRoundedIcon from '@mui/icons-material/TerminalRounded'
@@ -6,8 +6,12 @@ import DevicesRoundedIcon from '@mui/icons-material/DevicesRounded'
 
 import Dropdown from '../components/form/dropdown/Dropdown'
 import KPIComponent from "../components/ui/kpi_component/KPIComponent"
+import FullSize from "../components/form/menu/full_size/FullSizeButton";
+import KebabMenu from "../components/form/menu/kebab_menu/KebabMenuButton";
 
 const Overview = () => {
+
+    const cnRef = useRef<HTMLDivElement>(null)
 
     const [userName, setUserName] = useState('Håkon Wium Lie')
     const [welcomeMessage, setWelcomeMessage] = useState({title: 'Welcome', subTitle: 'How are you feeling today?'})
@@ -55,7 +59,17 @@ const Overview = () => {
             <br/>
             <br/>
 
+            <div ref={cnRef} className='box'
+                 style={{height: '80px', width: 'fit-content', display: 'flex', gap: '.5rem', padding: '5px'}}>
+                <FullSize containerRef={cnRef} size='var(--icon-size-small)'/>
+                <KebabMenu size='var(--icon-size-small)'/>
+            </div>
+
+            <br/>
+
+
             <Dropdown defaultValue='Select Item' items={ITEMS}/>
+
 
             <div style={{display: 'flex', alignItems: ' center', gap: '1rem'}}>
                 <KPIComponent title='Amount of Groups' value={4} icon={<PeopleAltRoundedIcon/>}
