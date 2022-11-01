@@ -2,13 +2,14 @@ import React, {useEffect, useState} from 'react'
 import {useTranslation} from 'react-i18next'
 
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
-import MoreVertRoundedIcon from '@mui/icons-material/MoreVertRounded'
 
 import useHover from '../../../hooks/useHover'
 
 import TooltipManager from '../tooltip/TooltipManager'
+import KebabMenu from '../../form/menu/kebab_menu/KebabMenuButton'
 
 import './Dialog.css'
+import CloseButton from "../../form/menu/close/CloseButton";
 
 interface DialogProps {
     title: string
@@ -24,23 +25,9 @@ const Dialog = ({title, unmountComponent, body, footer}: DialogProps) => {
     const [shake, setShake] = useState('')
     const [hoverRef, isHovered] = useHover()
 
-    useEffect(() => {
-        const updateComponentMounting = (ev: { key: string; }) => {
-            if (ev.key === 'Escape') {
-                unmountComponent()
-            }
-        }
-
-        document.addEventListener('keydown', updateComponentMounting)
-
-        return () => {
-            window.removeEventListener('keydown', updateComponentMounting)
-        }
-    }, [])
-
     return (
         <>
-            <div className='blocking-container' onClick={() => {
+            <div className='blocking-container' onMouseDown={() => {
                 setShake(() => 'shake')
 
                 setTimeout(() => {
@@ -49,16 +36,14 @@ const Dialog = ({title, unmountComponent, body, footer}: DialogProps) => {
                     }
                 }, 720)
             }}>
-                <div id='dialog-container' className={shake} onClick={event => event.stopPropagation()}>
+                <div id='dialog-container' className={shake} onMouseDown={event => event.stopPropagation()}>
                     <h1 className='fs-tr-1 fw--semi-bold'>{title}</h1>
                     <div id='dialog-menu-container'>
                         <div ref={hoverRef} id='more-vert-icon-container'>
-                            <MoreVertRoundedIcon id='more-vert-icon'/>
+                            <KebabMenu size='var(--icon-size-medium)'/>
                         </div>
 
-                        <div id='close-icon-container' onClick={() => unmountComponent()}>
-                            <CloseRoundedIcon id='close-icon'/>
-                        </div>
+                        <CloseButton size='28px' closeCallback={unmountComponent}/>
                     </div>
 
                     {body}
