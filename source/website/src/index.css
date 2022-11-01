@@ -8,16 +8,40 @@
     --pr-clr: hsl(217, 33%, 17%);
     --sc-clr: hsl(215, 25%, 27%);
 
-    --nl-clr-1: hsl(225, 55%, 96%);
+    --nl-clr-1: hsl(213, 100%, 96%);
     --nl-clr-2: hsl(0, 0%, 100%);
     --nl-clr-3: hsl(0, 0%, 100%); /* Always the same */
     --nl-clr-4: hsl(0, 0%, 0%); /* Always the same */
 
-    --nv-item-d: hsl(217, 33%, 17%); /* Nav Item */
-    --mu-item-d: hsl(0, 0%, 95%); /* Menu Item */
+    --nl--nav-clr-1: hsl(0, 0%, 100%);
 
-    --li-item-d: hsl(240, 75%, 97%); /* List item */
-    --li-item-h: hsl(240, 84%, 96%); /* List item hover */
+    --nv-item-d-clr: hsl(217, 33%, 17%); /* Navigation items default color */
+
+    --li-item-h-clr: hsl(210, 70%, 96%); /* List item hover */
+
+    /* Custom menu item style */
+    --mu-item--hover-bg--clr: hsl(0, 0%, 94%);
+
+    /* Custom input style */
+    --ipt--bg-clr: hsl(0, 0%, 100%);
+    --ipt--df-border--clr: hsl(210, 14%, 85%);
+    --ipt--hover-border--clr: hsl(239, 84%, 67%);
+    --ipt--active-border--clr: hsl(228, 96%, 89%);
+    --ipt--disabled-bg--clr: hsl(0, 0%, 96%);
+    --ipt--disabled-border--clr: hsl(0, 0%, 77%);
+    --ipt--disabled-text--clr: hsl(217, 20%, 78%);
+
+    /* Dropdown style */
+    --dpn--bg-clr: hsl(218, 40%, 96%);
+    --dpn--hover-bg-clr: hsl(240, 75%, 96%);
+
+    --box-bg: hsl(0, 0%, 100%);
+    --box-shadow: 0px 30px 50px hsl(212, 43%, 88%);
+    --border-box--color: hsl(213, 100%, 89%); /* The border color of the boxes */
+
+    /* Custom scrollbar style */
+    --scrollbar-thumb--bg-clr: hsl(196, 15%, 86%);
+    --scrollbar-thumb--hover-bg-clr: hsl(190, 15%, 70%);
 
     --drp-shadow-light: 0.6px 0.6px 2.2px rgba(0, 0, 0, -0.014),
     1.3px 1.3px 5.3px rgba(0, 0, 0, -0.019),
@@ -62,6 +86,10 @@
     --fs-3400: 34px;
     --fs-4000: 40px;
 
+    --icon-size-medium: 24px;
+    --icon-size-small: 18px;
+    --icon-size-extra-small: 16px;
+
     --fs-pr-heading: var(--fs-4000);
     --fs-sc-heading: var(--fs-3400);
     --fs-tr-heading: var(--fs-2800);
@@ -88,15 +116,46 @@
 
 /* Theme packs section --Begin */
 [data-theme='moderna-dark'] {
-    --ac-clr-1: hsl(233, 64%, 66%);
-    --ac-clr-2: hsl(355, 100%, 74%);
-    --ac-clr-3: hsl(161, 85%, 60%);
+    --ac-clr-1: hsl(230, 94%, 82%);
+    --ac-clr-2: hsl(169, 97%, 46%);
+    --ac-clr-3: hsl(29, 78%, 70%);
 
-    --pr-clr: hsl(216, 21%, 91%);
-    --sc-clr: hsl(220, 12%, 90%);
+    --pr-clr: hsl(220, 9%, 87%);
+    --sc-clr: hsl(215, 21%, 70%);
 
-    --nl-clr-1: hsl(216, 11%, 9%);
-    --nl-clr-2: hsl(202, 11%, 14%);
+    --nl-clr-1: hsl(214, 72%, 6%);
+    --nl-clr-2: hsl(215, 69%, 9%);
+
+    --nl--nav-clr-1: hsl(215, 69%, 9%);
+
+    --nv-item-d-clr: hsl(0, 0%, 80%); /* Navigation items default color */
+
+    --li-item-d-clr: hsl(240, 75%, 97%); /* List item */
+    --li-item-h-clr: hsl(216, 55%, 13%); /* List item hover */
+
+    /* Custom menu item style */
+    --mu-item--hover-bg--clr: hsl(215, 71%, 16%);
+
+    /* Custom input style */
+    --ipt--bg-clr: hsl(214, 72%, 6%);
+    --ipt--df-border--clr: hsl(215, 70%, 15%);
+    --ipt--hover-border--clr: hsl(230, 94%, 82%);
+    --ipt--active-border--clr: hsl(226, 26%, 45%);
+    --ipt--disabled-bg--clr: hsl(0, 0%, 96%);
+    --ipt--disabled-border--clr: hsl(0, 0%, 77%);
+    --ipt--disabled-text--clr: hsl(217, 20%, 78%);
+
+    /* Dropdown style */
+    --dpn--bg-clr: hsl(215, 71%, 16%);
+    --dpn--hover-bg-clr: hsl(216, 73%, 13%);
+
+    --box-bg: hsl(215, 70%, 15%, .55);
+    --box-shadow: 0px 50px 100px hsl(0, 0%, 0%, .25);
+    --border-box--color: hsl(215, 66%, 20%); /* The border color of the boxes */
+
+    /* Custom scrollbar style */
+    --scrollbar-thumb--bg-clr: hsl(0, 0%, 41%);
+    --scrollbar-thumb--hover-bg-clr: hsl(0, 0%, 48%);
 
     --drp-shadow: 0 2rem 3rem hsl(228, 14%, 7%);
 }
@@ -205,12 +264,12 @@ span {
     border-radius: 20px;
     border: 6px solid transparent;
 
-    background-color: hsl(196, 15%, 86%);
+    background-color: var(--scrollbar-thumb--bg-clr);
     background-clip: content-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background-color: hsl(190, 15%, 70%);
+    background-color: var(--scrollbar-thumb--hover-bg-clr);
 }
 
 /* Utility classes */
@@ -259,11 +318,7 @@ span {
 }
 
 .nv-clr--default {
-    color: var(--nv-item-d);
-}
-
-.mu-clr--default {
-    color: var(--mu-item-d);
+    color: var(--nv-item-d-clr);
 }
 
 .fw--extra-light {
@@ -309,6 +364,61 @@ span {
 .pd-t--extra-small {
     margin-top: var(--pd-t-extra-small);
 }
+
+.box {
+    border: 1px solid var(--border-box--color);
+    border-radius: var(--br-r-medium);
+    background-color: var(--box-bg);
+    box-shadow: var(--box-shadow);
+
+    overflow: hidden;
+}
+
+/* Modern input --Start */
+.md-input {
+    color: var(--pr-clr);
+
+    border: 1px solid var(--ipt--df-border--clr);
+    border-radius: var(--br-r-small);
+    background-color: var(--ipt--bg-clr);
+
+    transition: background-color 200ms, color 200ms, border-color 200ms, box-shadow 200ms;
+}
+
+.md-input:hover {
+    border-color: var(--ipt--hover-border--clr);
+}
+
+.md-input:enabled:focus-within {
+    box-shadow: 0 0 0 0.2rem var(--ipt--active-border--clr);
+    border-color: var(--ipt--hover-border--clr);
+}
+
+.md-input:disabled {
+    color: var(--ipt--disabled-text--clr);
+
+    background-color: var(--ipt--disabled-bg--clr);
+    border-color: var(--ipt--disabled-border--clr);
+}
+
+/* Modern input --End */
+
+/* Modern menu items --Start */
+.md-menu {
+    border: 1px solid transparent;
+    transition: background-color 200ms, border-color 200ms, box-shadow 200ms;
+}
+
+.md-menu:hover {
+    background-color: var(--mu-item--hover-bg--clr);
+}
+
+.md-menu:active {
+    box-shadow: 0 0 0 0.2rem var(--ipt--active-border--clr);
+    border-color: var(--ipt--hover-border--clr);
+}
+
+/* Modern menu items --End */
 
 .bg-clr--item-fit--1 {
     height: fit-content;
@@ -389,92 +499,16 @@ span {
     z-index: 999;
 }
 
-/* Expand more section --Begin */
-#expand-more-icon-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    height: fit-content;
-    width: fit-content;
-
-    padding: var(--br-r-extra-small);
-
-    border-radius: 50%;
-
-    cursor: pointer;
-
-    z-index: 1;
-}
-
-#expand-more-icon-container:hover {
-    background-color: var(--mu-item-d);
-}
-
-#expand-more-icon {
-    font-size: 28px;
-}
-
-.active-expand-more-icon {
+/* Expand more section --Start */
+.active--expand-more--icon {
     transform: rotateZ(180deg);
 }
 
 /* Expand more section --End */
 
-/* More icon section --Begin */
-#more-vert-icon-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    height: fit-content;
-    width: fit-content;
-
-    padding: var(--br-r-small);
-
-    border-radius: 50%;
-
-    cursor: pointer;
-}
-
-#more-vert-icon-container:hover {
-    background-color: var(--mu-item-d);
-}
-
-/* More icon section --End */
-
-/* Close icon section --Begin */
-#close-icon-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    height: 45px;
-    width: 45px;
-
-    border-radius: var(--br-r-medium);
-    background-color: var(--mu-item-d);
-
-    cursor: pointer;
-}
-
-#close-icon-container:hover {
-    background-color: var(--ac-clr-1);
-}
-
-#close-icon-container:hover > #close-icon {
-    color: var(--nl-clr-3);
-}
-
-#close-icon {
-    font-size: 28px;
-}
-
 #arrow-forward-icon {
     font-size: 15px;
 }
-
-/* Close icon section --End */
 
 /* Delete icon section --Begin */
 #delete-icon {
