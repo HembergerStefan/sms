@@ -1,32 +1,32 @@
-import React, {useEffect, useState} from 'react'
+import React, {useMemo, useState} from 'react'
 import {useTranslation} from 'react-i18next'
 
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded'
 
 import {KeyWords} from '../../../data/searchbar/SearchKeyWords'
 
+import useSearchStore from '../../../store/searchResultStore'
+
 import DiceCoefficient from '../../../data/algorithm/DiceCoefficient'
 
 import './SearchBar.css'
 
-const SearchBar = ({searchData}: { searchData: Function }) => {
+
+const SearchBar = () => {
 
     const {t} = useTranslation()
 
-    const [searchText, setSearchText] = useState('')
-    const [data, setData] = useState<string[]>([])
+    const [searchQuery, setQuery] = useState('')
 
-    /* Call the callback function of the parent (send him the found data) */
-    useEffect(() => {
-        searchData(data)
-    }, [data])
+    /* Update the search result in the store */
+    const setSearchResult = useSearchStore((state: { setSearchResult: (data: string[]) => void }) => state.setSearchResult)
 
-    const getFoundKeyWords = () => {
+    const memorizedSearchFoundData = useMemo(() => {
         let foundWords: string[] = []
 
-        if (searchText !== '') {
+        if (searchQuery !== '') {
             KeyWords.forEach(keyWord => {
-                const s = DiceCoefficient.distance(searchText, t(keyWord.name))
+                const s = DiceCoefficient.distance(searchQuery, t(keyWord.name))
 
                 // Filter if the item should be added or not
                 if (s >= 0.21) {
@@ -35,15 +35,15 @@ const SearchBar = ({searchData}: { searchData: Function }) => {
             })
         }
 
-        setData(foundWords)
-    }
+        return foundWords
+    }, [searchQuery])
 
     return (
         <div id='search-bar--container'>
-            <input id='search-bar--text-input' className='fs-sc-body-1 fw-regular' type='text'
+            <input id='search-bar--text-input' className='fs-sc-body-1 fw-regular md-input' type='text'
                    placeholder={t('Search for anything ...')}
-                   onChange={event => setSearchText(event.target.value)}
-                   onKeyUp={getFoundKeyWords}
+                   onChange={event => setQuery(() => event.target.value)}
+                   onKeyUp={() => setSearchResult(memorizedSearchFoundData)}
                    autoComplete='off'
                    autoFocus/>
 
