@@ -1,36 +1,32 @@
-import React, {useEffect, useState} from 'react';
-import {getLinkToItem} from '../../../../helper/SearchBarHelper';
-import TagIcon from '@mui/icons-material/Tag';
-import AccessTimeRoundedIcon from '@mui/icons-material/AccessTimeRounded';
-import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
-import {useTranslation} from 'react-i18next';
+import React, {useEffect, useState} from 'react'
+import TagIcon from '@mui/icons-material/Tag'
+import AccessTimeRoundedIcon from '@mui/icons-material/AccessTimeRounded'
+import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded'
+import {useTranslation} from 'react-i18next'
 import './SearchItem.css'
 
+import {getLinkToItem} from "../../../../utils/SearchBarHelper"
+import useRecentSearchStore from "../../../../store/recentSearchStore";
 
 interface SearchItemProps {
     entry: string
-    addLastSearch?: Function
+    isSearchResult: boolean
 }
 
-const SearchResultItem = ({entry, addLastSearch}: SearchItemProps) => {
+const SearchResultItem = ({entry, isSearchResult}: SearchItemProps) => {
 
-    const {t} = useTranslation();
+    const {t} = useTranslation()
 
-    const [translateEntry, setTranslateEntry] = useState('')
-    const [searchIcon, setSearchIcon] = useState('tagIcon')
+    const [searchIcon, setSearchIcon] = useState<JSX.Element>(<TagIcon/>)
 
-    const Components: { [key: string]: any } = {
-        tagIcon: TagIcon,
-        accessTimeRoundedIcon: AccessTimeRoundedIcon
-    };
+    /* Update the recent searches in the store */
+    const addRecentSearch = useRecentSearchStore((state: { addRecentSearch: (entry: string) => void }) => state.addRecentSearch)
 
     useEffect(() => {
-        setTranslateEntry(t(entry))
-
-        if (addLastSearch != null) {
-            setSearchIcon('tagIcon')
+        if (isSearchResult) {
+            setSearchIcon(() => <TagIcon/>)
         } else {
-            setSearchIcon('accessTimeRoundedIcon')
+            setSearchIcon(() => <AccessTimeRoundedIcon/>)
         }
     }, [])
 
@@ -38,27 +34,27 @@ const SearchResultItem = ({entry, addLastSearch}: SearchItemProps) => {
         <>
             <div className='search-item-container'
                  onClick={() => {
-                     window.location.replace(getLinkToItem(translateEntry))
+                     //window.location.replace(getLinkToItem(translateEntry))
 
-                     if (addLastSearch != null) {
-                         addLastSearch(entry)
-                     }
+                     //addLastSearch(entry, recentSearch, setRecentSearch)
+
+                     addRecentSearch(entry)
                  }}>
                 <div className='clr-sc-1'>
                     {
                         /* Create the mui svg component */
-                        React.createElement(Components[searchIcon])
+                        searchIcon
                     }
                 </div>
 
-                <span className='fs-pr-body-1 fw-regular clr-sc-1'>{translateEntry}</span>
+                <span className='fs-pr-body-1 fw-regular clr-sc-1'>{t(entry)}</span>
 
                 <div className='clr-sc-1'>
                     <ArrowForwardIosRoundedIcon id='arrow-forward-icon'/>
                 </div>
             </div>
         </>
-    );
-};
+    )
+}
 
-export default SearchResultItem;
+export default SearchResultItem
