@@ -34,11 +34,10 @@ const SearchResultItem = ({entry, isSearchResult}: SearchItemProps) => {
         <>
             <div className='search-item-container'
                  onClick={() => {
-                     //window.location.replace(getLinkToItem(translateEntry))
-
-                     //addLastSearch(entry, recentSearch, setRecentSearch)
-
+                     /* Add a new item to the store */
                      addRecentSearch(entry)
+
+                     window.location.replace(getLinkToItem(entry))
                  }}>
                 <div className='clr-sc-1'>
                     {
