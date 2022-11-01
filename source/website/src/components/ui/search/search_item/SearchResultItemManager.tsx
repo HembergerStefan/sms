@@ -1,17 +1,20 @@
-import React from 'react';
-import SearchResultItem from './SearchResultItem';
-import {useTranslation} from 'react-i18next';
+import React from 'react'
+
+import {useTranslation} from 'react-i18next'
+
+import SearchResultItem from './SearchResultItem'
+
 import './SearchItem.css'
 
 interface SearchItemProps {
     heading: React.ReactNode
     data: string[]
-    addLastSearch?: Function
+    isSearchResult: boolean
 }
 
-const SearchResultItemManager = ({heading, data, addLastSearch}: SearchItemProps) => {
+const SearchResultItemManager = ({heading, data, isSearchResult}: SearchItemProps) => {
 
-    const {t} = useTranslation();
+    const {t} = useTranslation()
 
     return (
         <>
@@ -22,21 +25,22 @@ const SearchResultItemManager = ({heading, data, addLastSearch}: SearchItemProps
 
                         {
                             data.map((value, index) => (
-                                <SearchResultItem key={index} entry={value} addLastSearch={addLastSearch}/>
+                                <SearchResultItem key={index} entry={value} isSearchResult={isSearchResult}/>
                             ))
                         }
                     </>
                     :
-                    (addLastSearch == null) ?
+                    (data.length === 0 && !isSearchResult) ?
                         <>
                             {heading}
+
                             <span
                                 className='fs-pr-body-1 fw-regular'>{t('Not looking for anything yet? Start your search now!')}</span>
                         </>
                         : null
             }
         </>
-    );
-};
+    )
+}
 
-export default SearchResultItemManager;
+export default SearchResultItemManager
