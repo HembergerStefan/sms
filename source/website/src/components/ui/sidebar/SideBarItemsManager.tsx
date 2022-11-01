@@ -19,7 +19,6 @@ interface SideBarItemsManagerProps {
 }
 
 const SideBarItemsManager = ({startIndex, endIndex}: SideBarItemsManagerProps) => {
-
     const {t} = useTranslation()
 
     /* List of all the svg mui icon components -> the name is mapped to the original component by reference
@@ -34,7 +33,6 @@ const SideBarItemsManager = ({startIndex, endIndex}: SideBarItemsManagerProps) =
         'personIcon': PersonIcon,
         'settingsIcon': SettingsIcon
     }
-
     return (
         <ul>
             {
