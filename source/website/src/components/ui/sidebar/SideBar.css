@@ -9,7 +9,7 @@
 
     padding: 80px 0 48px;
 
-    background-color: var(--nl-clr-2);
+    background-color: var(--nl--nav-clr-1);
 
     transition: width 400ms cubic-bezier(0.165, 0.84, 0.44, 1);
 }
