@@ -16,18 +16,10 @@
 }
 
 .language-icon {
-    width: min(33px, 2vw);
+    width: 30px;
 }
 
 /* Lng Dropdown Section --End */
-
-#language-change:focus-within ~ #language-dropdown-content {
-    visibility: visible;
-    opacity: 1;
-
-    transform: translateY(0);
-}
-
 #language-dropdown-content {
     display: flex;
     flex-direction: column;
@@ -41,11 +33,6 @@
     width: fit-content;
 
     padding: 8px;
-
-    border-radius: var(--br-r-small);
-
-    background-color: white;
-    box-shadow: var(--drp-shadow-dark);
 
     visibility: hidden;
     opacity: 0;
@@ -74,7 +61,7 @@
 }
 
 #language-dropdown-content > li:hover {
-    background-color: hsl(240, 75%, 97%);
+    background-color: var(--li-item-h-clr);
 
     transition: unset;
 }
