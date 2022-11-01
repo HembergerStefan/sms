@@ -1,0 +1,21 @@
+#close-button--container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: fit-content;
+    width: fit-content;
+
+    padding: var(--pd-t-small);
+
+    border-radius: var(--br-r-medium);
+
+    background-color: var(--icon-hover-clr);
+
+    cursor: pointer;
+}
+
+#close-button--container:hover {
+    color: var(--nl-clr-3);
+    background-color: var(--ac-clr-1);
+}
