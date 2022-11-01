@@ -4,11 +4,12 @@ import './Dropdown.css'
 
 interface DropdownContentProps {
     mount: boolean
+    setMount: Function
     setCrItem: Function
     items: string[]
 }
 
-const DropdownContent = ({mount, setCrItem, items}: DropdownContentProps) => {
+const DropdownContent = ({mount, setMount, setCrItem, items}: DropdownContentProps) => {
 
     const mountRef = useRef<HTMLUListElement>(null)
     const node = mountRef.current
@@ -25,25 +26,22 @@ const DropdownContent = ({mount, setCrItem, items}: DropdownContentProps) => {
         }
     }, [mount])
 
+    /* Select the item and unmount this component */
     const selectItem = (cr: string): void => {
         setCrItem(cr)
 
-        if (node !== null) {
-            node.classList.remove('active-dropdown-content')
-        }
+        setMount(() => false)
     }
 
     return (
-        <ul ref={mountRef} id='dropdown-content'>
-            <div id='dropdown-content-scroll-area'>
-                {
-                    items.map((cr) => (
-                        <li onClick={() => selectItem(cr)}>
-                            <span className='fs-pr-body-1 fw-regular'>{cr}</span>
-                        </li>
-                    ))
-                }
-            </div>
+        <ul ref={mountRef} id='dropdown-content' >
+            {
+                items.map((cr) => (
+                    <li onClick={() => selectItem(cr)}>
+                        <span className='fs-pr-body-1 fw-regular'>{cr}</span>
+                    </li>
+                ))
+            }
         </ul>
     )
 }
