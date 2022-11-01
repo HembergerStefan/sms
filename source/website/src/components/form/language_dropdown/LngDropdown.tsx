@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react'
-import ReactDOM from 'react-dom'
 import {useTranslation} from 'react-i18next'
 
 import usa from '../../../data/images/language_dropdown/usa_icon.svg'
@@ -7,17 +6,20 @@ import austria from '../../../data/images/language_dropdown/austria_icon.svg'
 
 import ExpandMoreRoundedIcon from '@mui/icons-material/ExpandMoreRounded'
 
-import Tooltip from '../../ui/tooltip/Tooltip'
-
 import './LngDropdown.css'
+import useOnClickOutside from "../../../hooks/useOnClickOutside";
+import LngDropdownContent from "./LngDropdownContent";
 
 const LngDropdown = () => {
 
     /* Translation Hook */
-    const {t, i18n} = useTranslation();
+    const {i18n} = useTranslation()
 
     const [crLngIcon, setCrLngIcon] = useState(usa)
-    const [renderComponent, setRenderComponent] = useState(false)
+    const [activeDropdown, setActiveDropdown] = useState<boolean>(false)
+
+    /* Always hide the component when clicking outside the component */
+    const [dropdownRef] = useOnClickOutside(() => activeDropdown ? setActiveDropdown(false) : null)
 
     useEffect(() => {
         const crLng = localStorage.getItem('lng')
@@ -31,47 +33,20 @@ const LngDropdown = () => {
     const handleChangeLng = (lng: string) => {
         i18n.changeLanguage(lng)
 
+        lng === 'en' ? setCrLngIcon(usa) : setCrLngIcon(austria)
+
         localStorage.setItem('lng', lng)
     }
 
     return (
-        <>
-            <div id='language-container' className='clr-pr-1'>
-                <button id='language-change'
-                        onMouseOver={() => setRenderComponent(true)}
-                        onMouseLeave={() => setRenderComponent(false)}>
-                    <img className='language-icon' src={crLngIcon} alt='lngIcon'/>
-                    <ExpandMoreRoundedIcon id='expand-more-icon'/>
-                </button>
+        <div ref={dropdownRef} id='language-container' className='clr-pr-1'>
+            <button id='language-change' onClick={() => setActiveDropdown(prev => !prev)}>
+                <img className='language-icon' src={crLngIcon} alt='lngIcon'/>
+                <ExpandMoreRoundedIcon style={{fontSize: 'var(--icon-size-medium)'}}/>
+            </button>
 
-                <ul id='language-dropdown-content'>
-                    <li onClick={() => {
-                        handleChangeLng('en')
-                        setCrLngIcon(usa)
-                    }}>
-                        <img className='language-icon' src={usa} alt='lngIcon'/>
-                        <span className='fs-pr-body-1 fw--semi-bold'>English</span>
-                    </li>
-
-                    <li onClick={() => {
-                        handleChangeLng('de')
-                        setCrLngIcon(austria)
-                    }}>
-                        <img className='language-icon' src={austria} alt='lngIcon'/>
-                        <span className='fs-pr-body-1 fw--semi-bold'>Deutsch</span>
-                    </li>
-                </ul>
-            </div>
-
-            {
-                (renderComponent) ? ReactDOM.createPortal(
-                    <Tooltip content={
-                        <span
-                            className='fw-regular clr-sc-1'>{t('Change language')}</span>
-                    }/>,
-                    document.querySelector('#layout-container')!) : null
-            }
-        </>
+            <LngDropdownContent mount={activeDropdown} setMount={setActiveDropdown} changeLng={handleChangeLng}/>
+        </div>
     )
 }
 
