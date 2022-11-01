@@ -8,9 +8,6 @@
     width: fit-content;
 
     padding: 20px;
-
-    background-color: var(--nl-clr-3);
-    border-radius: var(--br-r-medium);
 }
 
 #kpi-container > div:nth-of-type(1) {
