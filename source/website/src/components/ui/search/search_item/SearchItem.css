@@ -18,12 +18,12 @@
 }
 
 .search-item-container:hover {
-    background-color: var(--li-item-d);
+    background-color: var(--li-item-h-clr);
     transition: unset;
 }
 
 .search-item-container:active {
-    background-color: var(--li-item-h);
+    background-color: var(--li-item-h-clr);
 }
 
 .search-item-container > div {
