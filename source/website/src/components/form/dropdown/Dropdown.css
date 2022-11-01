@@ -3,8 +3,8 @@
     flex-direction: column;
     gap: 10px;
 
-    height: 237px;
-    width: 178px;
+    height: fit-content;
+    width: fit-content;
 }
 
 #dropdown-header-container {
@@ -14,22 +14,18 @@
     gap: 10px;
 
     height: 50px;
-    width: 100%;
+    width: 178px;
 
     padding: 13px 10px;
 
-    /*border: 1px solid hsl(0, 0%, 85%);*/
+    border: 1px solid var(--border-box--color);
     border-radius: var(--br-r-small);
     box-shadow: var(--drp-shadow-dark-rvt);
 
-    background-color: var(--nl-clr-3);
+    background-color: var(--nl-clr-2);
 
     user-select: none;
     cursor: pointer;
-}
-
-#dropdown-header-container > div:hover {
-    background-color: hsl(240, 75%, 96%)
 }
 
 #dropdown-header-container > span {
@@ -48,20 +44,19 @@
 
     border-radius: var(--br-r-small);
 
-    background-color: hsl(218, 40%, 96%);
+    color: var(--pr-clr);
+    background-color: var(--dpn--bg-clr);
+}
+
+#dropdown-header-container > div:hover {
+    background-color: var(--dpn--hover-bg-clr);
 }
 
 /* Dropdown Content Section --Begin */
-.active-dropdown-content {
-    visibility: visible !important;
-    opacity: 1 !important;
-
-    transform: translateY(0) !important;
-}
-
 #dropdown-content {
     display: flex;
     flex-direction: column;
+    gap: 5px;
 
     height: fit-content;
     width: max-content;
@@ -71,11 +66,11 @@
 
     padding: 8px;
 
-    /*border: 1px solid hsl(0, 0%, 85%);*/
+    border: 1px solid var(--border-box--color);
     border-radius: var(--br-r-small);
     box-shadow: var(--drp-shadow-dark-rvt);
 
-    background-color: var(--nl-clr-3);
+    background-color: var(--nl-clr-2);
 
     visibility: hidden;
     opacity: 0;
@@ -84,17 +79,18 @@
 
     transition: opacity 300ms ease-out, transform 300ms ease-out, visibility 300ms ease-out;
 
+    overflow: auto;
+
     user-select: none;
 
     z-index: 1;
 }
 
-#dropdown-content-scroll-area {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
+.active-dropdown-content {
+    visibility: visible !important;
+    opacity: 1 !important;
 
-    overflow: auto;
+    transform: translateY(0) !important;
 }
 
 #dropdown-content li {
@@ -111,13 +107,13 @@
 }
 
 #dropdown-content li:hover {
-    background-color: var(--li-item-d);
+    background-color: var(--li-item-h-clr);
 
     transition: unset;
 }
 
 #dropdown-content li:active {
-    background-color: var(--li-item-h);
+    background-color: var(--li-item-h-clr);
 }
 
 /* Dropdown Content Section --End */
