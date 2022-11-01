@@ -36,9 +36,10 @@ const Dropdown = ({defaultValue, items}: DropdownProps) => {
         'clearRoundedIcon': ClearRoundedIcon
     }
 
+    /* Change the icon when dropdown content render state changes */
     useEffect((): void => {
         if (iconToggleRef.current !== null) {
-            iconToggleRef.current.classList.toggle('active-expand-more-icon')
+            iconToggleRef.current.classList.toggle('active--expand-more--icon')
         }
     }, [activeDropdown])
 
@@ -51,7 +52,7 @@ const Dropdown = ({defaultValue, items}: DropdownProps) => {
 
             /* User deleted selected item, so the default value will be displayed -> arrow down */
             if (iconToggleRef.current !== null) {
-                iconToggleRef.current.classList.remove('active-expand-more-icon')
+                iconToggleRef.current.classList.remove('active--expand-more--icon')
             }
         }
     }, [selectedItem])
@@ -60,6 +61,8 @@ const Dropdown = ({defaultValue, items}: DropdownProps) => {
         if (interactionIcon === 'clearRoundedIcon') {
             ev.stopPropagation()
             setSelectedItem(defaultValue)
+
+            setActiveDropdown(() => false)
         }
     }
 
@@ -75,7 +78,8 @@ const Dropdown = ({defaultValue, items}: DropdownProps) => {
                 </div>
             </div>
 
-            <DropdownContent mount={activeDropdown} setCrItem={setSelectedItem} items={items}/>
+            <DropdownContent mount={activeDropdown} setMount={setActiveDropdown} setCrItem={setSelectedItem}
+                             items={items}/>
         </div>
     )
 }
