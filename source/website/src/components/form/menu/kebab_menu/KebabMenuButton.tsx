@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {memo} from 'react'
 
 import MoreVertRoundedIcon from '@mui/icons-material/MoreVertRounded'
 
@@ -17,4 +17,4 @@ const KebabMenuButton = ({size}: KebabMenuProps) => {
     )
 }
 
-export default KebabMenuButton
+export default memo(KebabMenuButton)

@@ -1,4 +1,4 @@
-import React, {createElement, useEffect, useRef, useState} from 'react'
+import React, {createElement, useEffect, useRef, useState, memo} from 'react'
 import {useTranslation} from 'react-i18next'
 
 import ExpandMoreRoundedIcon from '@mui/icons-material/ExpandMoreRounded'
@@ -84,4 +84,4 @@ const Dropdown = ({defaultValue, items}: DropdownProps) => {
     )
 }
 
-export default Dropdown
+export default memo(Dropdown)
