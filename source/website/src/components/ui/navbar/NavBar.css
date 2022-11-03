@@ -13,7 +13,7 @@
 
     padding: 0 17px;
 
-    background-color: var(--nl-clr-2);
+    background-color: var(--nl--nav-clr-1);
 }
 
 #nav-container div:nth-of-type(2) {
@@ -32,7 +32,7 @@
 }
 
 #nav-logo {
-    width: max(60px, 5vh);
+    width: max(50px, 4.6vh);
 }
 
 /* Nav Logo Section --End */
@@ -41,9 +41,8 @@
 #nav-interaction-container {
     display: flex;
     gap: 25px;
-    margin-right: 3rem;
+    margin-right: 25px;
 }
-
 
 #nav-notification-bell {
     display: flex;
@@ -75,7 +74,7 @@
     gap: 1rem;
 }
 
-#nav-profile-container span:nth-of-type(2) {
+#nav-profile-container span {
     display: inline-block;
 
     height: 50px;
@@ -86,7 +85,7 @@
     background-color: hsl(215, 21%, 28%);
 }
 
-#nav-profile-container span:nth-of-type(2)::after {
+#nav-profile-container span::after {
     content: '';
 
     display: inline-block;

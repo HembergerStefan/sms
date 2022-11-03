@@ -1,6 +1,7 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import Tooltip from './Tooltip';
+import React from 'react'
+import ReactDOM from 'react-dom'
+
+import Tooltip from './Tooltip'
 
 interface TooltipManagerProps {
     content: React.ReactNode
@@ -15,7 +16,7 @@ const TooltipManager = ({content}: TooltipManagerProps) => {
                     document.querySelector('#layout-container')!)
             }
         </>
-    );
-};
+    )
+}
 
-export default TooltipManager;
+export default TooltipManager

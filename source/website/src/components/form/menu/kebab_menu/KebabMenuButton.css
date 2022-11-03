@@ -1,0 +1,14 @@
+#kebab-menu--container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: fit-content;
+    width: fit-content;
+
+    padding: var(--pd-t-small);
+
+    border-radius: 50%;
+
+    cursor: pointer;
+}

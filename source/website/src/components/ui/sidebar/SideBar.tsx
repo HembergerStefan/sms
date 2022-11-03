@@ -1,23 +1,28 @@
-import React, {useRef} from 'react';
-import KeyboardArrowLeftRoundedIcon from '@mui/icons-material/KeyboardArrowLeftRounded';
-import SearchToggle from '../search/search_toggle/SearchToggle';
-import SideBarItemsManager from './SideBarItemsManager';
+import React, {useRef} from 'react'
+
+import KeyboardArrowLeftRoundedIcon from '@mui/icons-material/KeyboardArrowLeftRounded'
+
+import SearchToggle from '../../form/search_toggle/SearchToggle'
+import SideBarItemsManager from './SideBarItemsManager'
+
 import './SideBar.css'
 
 const SideBar = () => {
 
     const sideContainerRef = useRef<HTMLElement>(null)
 
-    const collapseSideBar = () => {
-        const sideBarButton = document.querySelector<Element>('#side-collapse-icon')
-        const sideBarNavContent = document.querySelectorAll<Element>('.side-image--text-wrapper > a > span')
+    const collapseSideBar = (): void => {
+        const sideBarButton = document.querySelector<HTMLElement>('#side-collapse-icon')
+        const sideBarNavContent = document.querySelectorAll<HTMLElement>('.side-image--text-wrapper a span')
 
         if (sideContainerRef.current != null) {
+            /* Set the width to 100px */
             sideContainerRef.current.classList.toggle('active-sidebar-layout')
         }
 
         if (sideBarButton != null) {
-            sideBarButton.classList.toggle('active-sidebar-button-icon')
+            /* Rotate the icon */
+            sideBarButton.classList.toggle('active-sidebar--button-icon')
         }
 
         if (sideBarNavContent != null) {
@@ -25,21 +30,14 @@ const SideBar = () => {
                 /* The content is collapse - show it again */
                 if (cr.classList.contains('active-sidebar--collapse-text')) {
                     setTimeout(() => {
-                        cr.setAttribute('style', 'display: block');
-
-                        /* Display the text with a transition delay */
-                        setTimeout(() => {
-                            cr.classList.toggle('active-sidebar--collapse-text')
-                        }, 150)
-                    }, 150)
+                        cr.classList.remove('active-sidebar--collapse-text')
+                    }, 80)
 
                     /* The content isn't collapsed - collapse it */
                 } else {
-                    cr.classList.toggle('active-sidebar--collapse-text')
-
                     setTimeout(() => {
-                        cr.setAttribute('style', 'display: none');
-                    }, 150)
+                        cr.classList.add('active-sidebar--collapse-text')
+                    }, 40)
                 }
             })
         }
@@ -63,7 +61,7 @@ const SideBar = () => {
                 </nav>
             </div>
         </aside>
-    );
-};
+    )
+}
 
-export default SideBar;
+export default SideBar

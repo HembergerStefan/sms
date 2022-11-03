@@ -1,16 +1,21 @@
-import React, {useEffect, useState} from 'react';
-import {useTranslation} from 'react-i18next';
-import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import MoreVertRoundedIcon from '@mui/icons-material/MoreVertRounded';
-import TooltipManager from '../tooltip/TooltipManager';
-import useHover from '../../../hooks/useHover';
+import React, {useEffect, useState} from 'react'
+import {useTranslation} from 'react-i18next'
+
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
+
+import useHover from '../../../hooks/useHover'
+
+import TooltipManager from '../tooltip/TooltipManager'
+import KebabMenu from '../../form/menu/kebab_menu/KebabMenuButton'
+
 import './Dialog.css'
+import CloseButton from "../../form/menu/close/CloseButton";
 
 interface DialogProps {
     title: string
     unmountComponent: Function
-    body: React.ReactNode;
-    footer?: React.ReactNode;
+    body: React.ReactNode
+    footer?: React.ReactNode
 }
 
 const Dialog = ({title, unmountComponent, body, footer}: DialogProps) => {
@@ -18,43 +23,27 @@ const Dialog = ({title, unmountComponent, body, footer}: DialogProps) => {
     const {t} = useTranslation();
 
     const [shake, setShake] = useState('')
-    const [hoverRef, isHovered] = useHover();
-
-    useEffect(() => {
-        const updateComponentMounting = (ev: { key: string; }) => {
-            if (ev.key === 'Escape') {
-                unmountComponent()
-            }
-        };
-
-        document.addEventListener('keydown', updateComponentMounting)
-
-        return () => {
-            window.removeEventListener('keydown', updateComponentMounting);
-        }
-    }, [])
+    const [hoverRef, isHovered] = useHover()
 
     return (
         <>
-            <div className='blocking-container' onClick={() => {
-                setShake('shake')
+            <div className='blocking-container' onMouseDown={() => {
+                setShake(() => 'shake')
 
                 setTimeout(() => {
                     if (shake === '') {
-                        setShake('')
+                        setShake(() => '')
                     }
                 }, 720)
             }}>
-                <div id='dialog-container' className={shake} onClick={event => event.stopPropagation()}>
-                    <span className='fs-tr-1 fw--semi-bold'>{title}</span>
+                <div id='dialog-container' className={shake} onMouseDown={event => event.stopPropagation()}>
+                    <h1 className='fs-tr-1 fw--semi-bold'>{title}</h1>
                     <div id='dialog-menu-container'>
                         <div ref={hoverRef} id='more-vert-icon-container'>
-                            <MoreVertRoundedIcon id='more-vert-icon'/>
+                            <KebabMenu size='var(--icon-size-medium)'/>
                         </div>
 
-                        <div id='close-icon-container' onClick={() => unmountComponent()}>
-                            <CloseRoundedIcon id='close-icon'/>
-                        </div>
+                        <CloseButton size='28px' closeCallback={unmountComponent}/>
                     </div>
 
                     {body}
@@ -67,10 +56,10 @@ const Dialog = ({title, unmountComponent, body, footer}: DialogProps) => {
 
             {
                 (isHovered) ? <TooltipManager
-                    content={<span className='fs-pr-body-1 fw--semi-bold'>{t('Settings')}</span>}/> : null
+                    content={<span>{t('Settings')}</span>}/> : null
             }
         </>
-    );
-};
+    )
+}
 
-export default Dialog;
+export default Dialog
