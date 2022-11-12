@@ -1,15 +1,10 @@
-import React, {useEffect, useState} from 'react'
+import React, {useState} from 'react'
 import {useTranslation} from 'react-i18next'
 
-import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
-
-import useHover from '../../../hooks/useHover'
-
-import TooltipManager from '../tooltip/TooltipManager'
 import KebabMenu from '../../form/menu/kebab_menu/KebabMenuButton'
+import CloseButton from '../../form/menu/close/CloseButton'
 
 import './Dialog.css'
-import CloseButton from "../../form/menu/close/CloseButton";
 
 interface DialogProps {
     title: string
@@ -20,45 +15,34 @@ interface DialogProps {
 
 const Dialog = ({title, unmountComponent, body, footer}: DialogProps) => {
 
-    const {t} = useTranslation();
+    const {t} = useTranslation()
 
     const [shake, setShake] = useState('')
-    const [hoverRef, isHovered] = useHover()
 
     return (
-        <>
-            <div className='blocking-container' onMouseDown={() => {
-                setShake(() => 'shake')
+        <div className='blocking-container' onMouseDown={() => {
+            setShake(() => 'shake')
 
-                setTimeout(() => {
-                    if (shake === '') {
-                        setShake(() => '')
-                    }
-                }, 720)
-            }}>
-                <div id='dialog-container' className={shake} onMouseDown={event => event.stopPropagation()}>
-                    <h1 className='fs-tr-1 fw--semi-bold'>{title}</h1>
-                    <div id='dialog-menu-container'>
-                        <div ref={hoverRef} id='more-vert-icon-container'>
-                            <KebabMenu size='var(--icon-size-medium)'/>
-                        </div>
+            setTimeout(() => {
+                if (shake === '') {
+                    setShake(() => '')
+                }
+            }, 720)
+        }}>
+            <div id='dialog-container' className={shake} onMouseDown={event => event.stopPropagation()}>
+                <h1 className='fs-tr-1 fw--semi-bold'>{title}</h1>
+                <div id='dialog-menu-container'>
+                    <KebabMenu size='var(--icon-size-medium)'/>
+                    <CloseButton size='28px' closeCallback={unmountComponent}/>
+                </div>
 
-                        <CloseButton size='28px' closeCallback={unmountComponent}/>
-                    </div>
+                {body}
 
-                    {body}
-
-                    <div id='dialog-footer-container'>
-                        {footer}
-                    </div>
+                <div id='dialog-footer-container'>
+                    {footer}
                 </div>
             </div>
-
-            {
-                (isHovered) ? <TooltipManager
-                    content={<span>{t('Settings')}</span>}/> : null
-            }
-        </>
+        </div>
     )
 }
 
