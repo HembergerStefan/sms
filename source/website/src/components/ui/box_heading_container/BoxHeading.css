@@ -1,0 +1,12 @@
+/* Wrap the KebabMenu and the heading */
+#header-menu--wrapper {
+    display: flex;
+    justify-content: space-between;
+
+    width: 100%;
+}
+
+/* The svg icon (of the KebabMenu) */
+#header-menu--wrapper > div {
+    margin-top: -8px;
+}
