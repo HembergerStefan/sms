@@ -20,6 +20,7 @@ public class TokenCleanerThread extends Thread {
     public void run(){
         while(true){
             try{
+                Thread.sleep(10000);
                 if(smsStore != null){
                     ArrayList<TokenInfos> token = smsStore.getTokens();
                     for(TokenInfos tokenInfo : token){
