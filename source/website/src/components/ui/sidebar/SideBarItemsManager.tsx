@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {memo} from 'react'
 import {useTranslation} from 'react-i18next'
 
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded'
@@ -46,4 +46,4 @@ const SideBarItemsManager = ({startIndex, endIndex}: SideBarItemsManagerProps) =
     )
 }
 
-export default SideBarItemsManager
+export default memo(SideBarItemsManager)

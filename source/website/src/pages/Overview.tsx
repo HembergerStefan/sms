@@ -8,6 +8,10 @@ import Dropdown from '../components/form/dropdown/Dropdown'
 import KPIComponent from "../components/ui/kpi_component/KPIComponent"
 import FullSize from "../components/form/menu/full_size/FullSizeButton";
 import KebabMenu from "../components/form/menu/kebab_menu/KebabMenuButton";
+import Checkbox from "../components/form/checkbox/Checkbox";
+import TextListComponent from "../components/ui/text_list_component/TextListComponent";
+import {STATES} from "../components/form/checkbox/CheckboxStates";
+import ChartContainer from "../components/ui/chart/ChartContainer";
 
 const Overview = () => {
 
@@ -44,6 +48,20 @@ const Overview = () => {
         'Steam'
     ]
 
+    const [isChecked, setChecked] = useState<string>(STATES.EMPTY)
+
+    const handleChange = () => {
+        let updatedChecked = STATES.EMPTY
+
+        if (isChecked === STATES.EMPTY) {
+            updatedChecked = STATES.INDETERMINATE
+        } else if (isChecked === STATES.INDETERMINATE) {
+            updatedChecked = STATES.CHECKED
+        }
+
+        setChecked(updatedChecked)
+    }
+
     return (
         <div style={{
             height: '100%',
@@ -59,6 +77,11 @@ const Overview = () => {
             <br/>
             <br/>
 
+            <Checkbox value={isChecked} handleChange={handleChange}/>
+
+            <br/>
+            <br/>
+
             <div ref={cnRef} className='box'
                  style={{height: '80px', width: 'fit-content', display: 'flex', gap: '.5rem', padding: '5px'}}>
                 <FullSize containerRef={cnRef} size='var(--icon-size-small)'/>
@@ -70,6 +93,14 @@ const Overview = () => {
 
             <Dropdown defaultValue='Select Item' items={ITEMS}/>
 
+            <ChartContainer/>
+
+            <br/>
+            <br/>
+
+            <TextListComponent heading='Client-Script Execution'/>
+
+            <br/>
 
             <div style={{display: 'flex', alignItems: ' center', gap: '1rem'}}>
                 <KPIComponent title='Amount of Groups' value={4} icon={<PeopleAltRoundedIcon/>}

@@ -22,4 +22,7 @@
 .active--full-size--ref-container {
     height: 50% !important;
     width: 100% !important;
+
+    max-height: unset;
+    max-width: unset;
 }

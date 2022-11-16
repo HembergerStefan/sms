@@ -1,12 +1,16 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, memo} from 'react'
+
+import {useTranslation} from 'react-i18next'
+
 import TagIcon from '@mui/icons-material/Tag'
 import AccessTimeRoundedIcon from '@mui/icons-material/AccessTimeRounded'
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded'
-import {useTranslation} from 'react-i18next'
-import './SearchItem.css'
 
-import {getLinkToItem} from "../../../../utils/SearchBarHelper"
-import useRecentSearchStore from "../../../../store/recentSearchStore";
+import {getLinkToItem} from '../../../../utils/SearchBarHelper'
+
+import useRecentSearchStore from '../../../../store/recentSearchStore'
+
+import './SearchItem.css'
 
 interface SearchItemProps {
     entry: string
@@ -56,4 +60,4 @@ const SearchResultItem = ({entry, isSearchResult}: SearchItemProps) => {
     )
 }
 
-export default SearchResultItem
+export default memo(SearchResultItem)
