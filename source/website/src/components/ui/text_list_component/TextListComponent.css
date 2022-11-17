@@ -1,0 +1,29 @@
+#text-list--container {
+    display: flex;
+    flex-direction: column;
+
+    gap: .8rem;
+
+    height: fit-content;
+    width: fit-content;
+
+    min-width: 380px;
+
+    padding: var(--pd-t-big);
+}
+
+/* The container of the listing items (TextListItem.tsx) */
+#list-item-container {
+    display: grid;
+    align-items: center;
+
+    gap: 1rem;
+
+    height: fit-content;
+    width: fit-content;
+
+    max-height: 190px;
+    max-width: 500px;
+
+    overflow: auto;
+}

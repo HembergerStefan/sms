@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react'
+import React, {useEffect, useRef, memo} from 'react'
 
 import './Dropdown.css'
 
@@ -46,4 +46,4 @@ const DropdownContent = ({mount, setMount, setCrItem, items}: DropdownContentPro
     )
 }
 
-export default DropdownContent
+export default memo(DropdownContent)

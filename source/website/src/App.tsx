@@ -3,7 +3,7 @@ import {Routes, Route} from 'react-router-dom'
 
 import NavBar from './components/ui/navbar/NavBar'
 import SideBar from './components/ui/sidebar/SideBar'
-import SkeletonLoading from "./components/ui/skeleton_loading/SkeletonLoading";
+import SkeletonLoading from './components/ui/skeleton_loading/SkeletonLoading'
 
 function App() {
 

@@ -1,4 +1,4 @@
-import React, {createElement, FunctionComponent} from 'react'
+import React, {createElement, FunctionComponent, memo} from 'react'
 import {Link, useLocation} from 'react-router-dom'
 
 import useHover from '../../../hooks/useHover'
@@ -43,4 +43,4 @@ const SideBarListItem = ({value}: SideBarListItemProps) => {
     )
 }
 
-export default SideBarListItem
+export default memo(SideBarListItem)

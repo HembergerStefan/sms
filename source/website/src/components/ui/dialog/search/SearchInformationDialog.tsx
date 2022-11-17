@@ -5,13 +5,14 @@ import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded'
 
 import useHover from '../../../../hooks/useHover'
 
+import useSearchStore from '../../../../store/searchResultStore'
+import useRecentSearchStore from '../../../../store/recentSearchStore'
+
 import TooltipManager from '../../tooltip/TooltipManager'
 import SearchBar from '../../../form/searchbar/SearchBar'
 import SearchResultItemManager from '../../search/search_item/SearchResultItemManager'
 
 import './SearchInformationDialog.css'
-import useSearchStore from "../../../../store/searchResultStore";
-import useRecentSearchStore from "../../../../store/recentSearchStore";
 
 const SearchInformationDialog = () => {
 

@@ -1,51 +1,46 @@
 import React, {useEffect, useState} from 'react'
-import {useTranslation} from 'react-i18next'
 
-import usa from '../../../data/images/language_dropdown/usa_icon.svg'
-import austria from '../../../data/images/language_dropdown/austria_icon.svg'
+import {useTranslation} from 'react-i18next'
 
 import ExpandMoreRoundedIcon from '@mui/icons-material/ExpandMoreRounded'
 
+import useLngStore from '../../../store/lngStore'
+
+import useOnClickOutside from '../../../hooks/useOnClickOutside'
+
+import LngDropdownContent from './LngDropdownContent'
+
 import './LngDropdown.css'
-import useOnClickOutside from "../../../hooks/useOnClickOutside";
-import LngDropdownContent from "./LngDropdownContent";
 
 const LngDropdown = () => {
 
     /* Translation Hook */
     const {i18n} = useTranslation()
 
-    const [crLngIcon, setCrLngIcon] = useState(usa)
     const [activeDropdown, setActiveDropdown] = useState<boolean>(false)
 
     /* Always hide the component when clicking outside the component */
     const [dropdownRef] = useOnClickOutside(() => activeDropdown ? setActiveDropdown(false) : null)
 
+    /* Get the lng icon out of the store */
+    const lngCountryIcon = useLngStore((state: { getLngCountryIcon: () => string}) => state.getLngCountryIcon)
+
+    /* Update the lng in the store */
+    const selectedLng = useLngStore((state: { selectedLng: string }) => state.selectedLng)
+
+    /* Set the selected lng when rendering the webpage */
     useEffect(() => {
-        const crLng = localStorage.getItem('lng')
-
-        if (crLng !== null) {
-            (crLng === 'en') ? setCrLngIcon(usa) : setCrLngIcon(austria)
-        }
+        i18n.changeLanguage(selectedLng)
     }, [])
-
-    /* Translation Method */
-    const handleChangeLng = (lng: string) => {
-        i18n.changeLanguage(lng)
-
-        lng === 'en' ? setCrLngIcon(usa) : setCrLngIcon(austria)
-
-        localStorage.setItem('lng', lng)
-    }
 
     return (
         <div ref={dropdownRef} id='language-container' className='clr-pr-1'>
             <button id='language-change' onClick={() => setActiveDropdown(prev => !prev)}>
-                <img className='language-icon' src={crLngIcon} alt='lngIcon'/>
+                <img className='language-icon' src={lngCountryIcon()} alt='lngIcon'/>
                 <ExpandMoreRoundedIcon style={{fontSize: 'var(--icon-size-medium)'}}/>
             </button>
 
-            <LngDropdownContent mount={activeDropdown} setMount={setActiveDropdown} changeLng={handleChangeLng}/>
+            <LngDropdownContent mount={activeDropdown} setMount={setActiveDropdown}/>
         </div>
     )
 }

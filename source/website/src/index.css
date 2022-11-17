@@ -100,6 +100,7 @@
     --fs-sc-body: var(--fs-500);
     --fs-tr-body: var(--fs-400);
     --fs-qr-body: var(--fs-300);
+    --fs-qi-body: var(--fs-200);
 
     --br-r-medium: 15px;
     --br-r-small: 8px;
@@ -109,6 +110,7 @@
     --mg-t-small: 8px;
     --mg-t-extra-small: 5px;
 
+    --pd-t-big: 20px;
     --pd-t-medium: 15px;
     --pd-t-small: 8px;
     --pd-t-extra-small: 5px;
@@ -307,6 +309,10 @@ span {
 
 .fs-qr-body-1 {
     font-size: var(--fs-qr-body);
+}
+
+.fs-qi-body-1 {
+    font-size: var(--fs-qi-body);
 }
 
 .clr-pr-1 {

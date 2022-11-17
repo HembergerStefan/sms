@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react'
+import React, {useEffect, useRef, useState, memo} from 'react'
 
 import OpenInFullRoundedIcon from '@mui/icons-material/OpenInFullRounded'
 import CloseFullscreenRoundedIcon from '@mui/icons-material/CloseFullscreenRounded'
@@ -39,4 +39,4 @@ const FullSizeButton = ({containerRef, size}: FullSizeProps) => {
     )
 }
 
-export default FullSizeButton
+export default memo(FullSizeButton)
