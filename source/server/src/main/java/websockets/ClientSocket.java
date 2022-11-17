@@ -136,27 +136,29 @@ public class ClientSocket {
     public void sendMessage(){
         List<DTOClientSession> clone = (List<DTOClientSession>) clientSessions.clone();
         for(DTOClientSession clientSession : clone){
-            Gson gson = new Gson();
-            String mac_address = clientSession.getMac_address();
-            Session session = clientSession.getSession();
-            ArrayList<Tasks> tasks = smsStore.getTasksByClientID(mac_address);
-            ArrayList<DTOPackage> dtopackages = new ArrayList<>();
-            ArrayList<DTOScript> dtoscripts = new ArrayList<>();
-            for(Tasks task : tasks){
-                if(task.getPackages() != null){
-                    Package package_ = task.getPackages();
-                    DTOPackage dtopackage = new DTOPackage(package_.getId(), package_.getName(), package_.getVersion(), package_.getDate(), package_.getDownloadlink(), package_.getSilentSwitch());
-                    dtopackages.add(dtopackage);
+            if(smsStore.getTasksByClientID(clientSession.getMac_address()) != null){
+                Gson gson = new Gson();
+                String mac_address = clientSession.getMac_address();
+                Session session = clientSession.getSession();
+                ArrayList<Tasks> tasks = smsStore.getTasksByClientID(mac_address);
+                ArrayList<DTOPackage> dtopackages = new ArrayList<>();
+                ArrayList<DTOScript> dtoscripts = new ArrayList<>();
+                for(Tasks task : tasks){
+                    if(task.getPackages() != null){
+                        Package package_ = task.getPackages();
+                        DTOPackage dtopackage = new DTOPackage(package_.getId(), package_.getName(), package_.getVersion(), package_.getDate(), package_.getDownloadlink(), package_.getSilentSwitch());
+                        dtopackages.add(dtopackage);
+                    }
+                    if(task.getScript() != null){
+                        Script script_ = task.getScript();
+                        DTOScript dtoScript = new DTOScript(script_.getId(), script_.getName(), script_.getDescription(), script_.getScript_value());
+                        dtoscripts.add(dtoScript);
+                    }
                 }
-                if(task.getScript() != null){
-                    Script script_ = task.getScript();
-                    DTOScript dtoScript = new DTOScript(script_.getId(), script_.getName(), script_.getDescription(), script_.getScript_value());
-                    dtoscripts.add(dtoScript);
-                }
+                DTOResponse response = new DTOResponse(dtopackages, dtoscripts);
+                String json = gson.toJson(response);
+                session.getAsyncRemote().sendText(json);
             }
-            DTOResponse response = new DTOResponse(dtopackages, dtoscripts);
-            String json = gson.toJson(response);
-            session.getAsyncRemote().sendText(json);
         }
     }
 
