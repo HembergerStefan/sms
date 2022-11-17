@@ -12,6 +12,7 @@ import entity.Package;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import model.*;
+import thread.UserResponseThread;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -37,10 +38,12 @@ public class WebpageSocket {
 
     private ArrayList<DTOUserSession> userSessions = new ArrayList<>();
 
+    private UserResponseThread userResponseThread = new UserResponseThread(this);
     private boolean isAllowedToRun = false;
 
     @PostConstruct
     public void init() {
+        getUserResponseThread().start();
         anno = WebpageControllerUser.class.getAnnotation(Login.class);
     }
 
@@ -85,7 +88,7 @@ public class WebpageSocket {
 
     @OnMessage
     public void onMessage(Session session, String message, @PathParam("token") String token, @PathParam("id") String id) {
-
+        System.err.println(message);
     }
 
     public void sendMessage(){
