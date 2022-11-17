@@ -21,10 +21,7 @@ import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @ServerEndpoint("/client/{mac_address}")
@@ -44,7 +41,7 @@ public class ClientSocket {
     @PostConstruct
     public void init(){
         System.out.println("Thread startet");
-        //clientResponseThread.start();
+        clientResponseThread.start();
     }
     @OnOpen
     public void onOpen(Session session, @PathParam("mac_address") String mac_address) {
@@ -77,11 +74,15 @@ public class ClientSocket {
 
     @OnError
     public void onError(Session session, @PathParam("mac_address") String mac_address, Throwable throwable) {
-        for(DTOClientSession clientSession : clientSessions){
+        DTOClientSession remove = new DTOClientSession(mac_address, session);
+        clientSessions.remove(remove);
+       /* List<DTOClientSession> clone = clientSessions;
+        for(DTOClientSession clientSession : clone){
             if(clientSession.getSession().toString().equals(session.toString())){
                 clientSessions.remove(clientSession);
             }
-        }
+        }*/
+        System.out.println("Groesse der Liste: " + clientSessions.size());
     }
 
     @OnMessage
