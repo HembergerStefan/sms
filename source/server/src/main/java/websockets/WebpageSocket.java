@@ -11,10 +11,7 @@ import entity.*;
 import entity.Package;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import model.DTOPackage;
-import model.DTOResponse;
-import model.DTOScript;
-import model.DTOUserSession;
+import model.*;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -24,6 +21,7 @@ import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @ServerEndpoint("/webpage/{id}/{token}")
@@ -38,6 +36,8 @@ public class WebpageSocket {
     private Login anno = null;
 
     private ArrayList<DTOUserSession> userSessions = new ArrayList<>();
+
+    private boolean isAllowedToRun = false;
 
     @PostConstruct
     public void init() {
@@ -55,12 +55,32 @@ public class WebpageSocket {
 
     @OnClose
     public void onClose(Session session, @PathParam("token") String token, @PathParam("id") String id) {
-
+        List<DTOUserSession> clone = (List<DTOUserSession>) userSessions.clone();
+        for(DTOUserSession userSession : clone){
+            if(userSession.getSession().toString().equals(session.toString())){
+                userSessions.remove(userSession);
+            }
+        }
+        if(userSessions.size() > 0){
+            isAllowedToRun = true;
+        }else{
+            isAllowedToRun = false;
+        }
     }
 
     @OnError
     public void onError(Session session, @PathParam("token") String token, @PathParam("id") String id, Throwable throwable) {
-
+        List<DTOUserSession> clone = (List<DTOUserSession>) userSessions.clone();
+        for(DTOUserSession userSession : clone){
+            if(userSession.getSession().toString().equals(session.toString())){
+                userSessions.remove(userSession);
+            }
+        }
+        if(userSessions.size() > 0){
+            isAllowedToRun = true;
+        }else{
+            isAllowedToRun = false;
+        }
     }
 
     @OnMessage
