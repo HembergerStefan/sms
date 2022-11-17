@@ -33,14 +33,13 @@ public class ClientSocket {
     @Inject
     protected SMSStore smsStore;
 
-    private List<DTOClientSession> clientSessions = Collections.synchronizedList(new ArrayList<DTOClientSession>());
+    private ArrayList<DTOClientSession> clientSessions = new ArrayList<DTOClientSession>();
     private ClientResponseThread clientResponseThread = new ClientResponseThread(this);
 
     private boolean isAllowedToRun = false;
 
     @PostConstruct
     public void init(){
-        System.out.println("Thread startet");
         clientResponseThread.start();
     }
     @OnOpen
@@ -65,30 +64,37 @@ public class ClientSocket {
 
     @OnClose
     public void onClose(Session session, @PathParam("mac_address") String mac_address) {
-        for(DTOClientSession clientSession : clientSessions){
+        List<DTOClientSession> clone = (List<DTOClientSession>) clientSessions.clone();
+        for(DTOClientSession clientSession : clone){
             if(clientSession.getSession().toString().equals(session.toString())){
                 clientSessions.remove(clientSession);
             }
+        }
+        if(clientSessions.size() > 0){
+            isAllowedToRun = true;
+        }else{
+            isAllowedToRun = false;
         }
     }
 
     @OnError
     public void onError(Session session, @PathParam("mac_address") String mac_address, Throwable throwable) {
-        DTOClientSession remove = new DTOClientSession(mac_address, session);
-        clientSessions.remove(remove);
-       /* List<DTOClientSession> clone = clientSessions;
+        List<DTOClientSession> clone = (List<DTOClientSession>) clientSessions.clone();
         for(DTOClientSession clientSession : clone){
             if(clientSession.getSession().toString().equals(session.toString())){
                 clientSessions.remove(clientSession);
             }
-        }*/
-        System.out.println("Groesse der Liste: " + clientSessions.size());
+        }
+        if(clientSessions.size() > 0){
+            isAllowedToRun = true;
+        }else{
+            isAllowedToRun = false;
+        }
     }
 
     @OnMessage
     public void onMessage(Session session, String message, @PathParam("mac_address") String mac_address) {
         ObjectMapper mapper = new ObjectMapper();
-        System.out.println("got Message");
         try {
             Map<String,Object> map = mapper.readValue(message, Map.class);
             if(smsStore.clientIsAvailable(mac_address)){
@@ -128,8 +134,8 @@ public class ClientSocket {
     }
 
     public void sendMessage(){
-        System.out.println("Message sendet");
-        for(DTOClientSession clientSession : clientSessions){
+        List<DTOClientSession> clone = (List<DTOClientSession>) clientSessions.clone();
+        for(DTOClientSession clientSession : clone){
             Gson gson = new Gson();
             String mac_address = clientSession.getMac_address();
             Session session = clientSession.getSession();
