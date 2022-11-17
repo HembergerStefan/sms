@@ -50,6 +50,7 @@ public class WebpageSocket {
 
     @OnOpen
     public void onOpen(Session session, @PathParam("token") String token, @PathParam("id") String id) {
+        System.out.println("Here");
         if (smsStore.isAllowed(token, id, anno)) {
             DTOUserSession userSession = new DTOUserSession(id, session);
             userSessions.add(userSession);
@@ -93,7 +94,7 @@ public class WebpageSocket {
 
     public void sendMessage(){
         for(DTOUserSession userSession : userSessions){
-           // userSession.getSession().getAsyncRemote().sendText()
+            userSession.getSession().getAsyncRemote().sendText("TEST");
         }
     }
 }
