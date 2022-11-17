@@ -15,7 +15,7 @@ class ResponseHandler(Thread):
         self.response = response
 
     def run(self) -> None:
-        for package in self.response['packages']:
+        for package in self.response['dtopackages']:
             if package['id'] not in self.current_packages_ids:
                 self.current_packages_ids.add(package['id'])
 
@@ -25,7 +25,7 @@ class ResponseHandler(Thread):
 
                 Thread(target=install_package).start()
 
-        for script in self.response['scripts']:
+        for script in self.response['dtoScripts']:
             if script['id'] not in self.current_scripts_ids:
                 self.current_scripts_ids.add(script['id'])
 

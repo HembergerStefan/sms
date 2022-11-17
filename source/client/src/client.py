@@ -1,14 +1,18 @@
 import asyncio
 import json
 import logging
+import threading
 import time
 
+import nest_asyncio
 import websockets
 from getmac import get_mac_address
 from websockets.exceptions import WebSocketException
 
 import data
 from response_handler import ResponseHandler
+
+nest_asyncio.apply()
 
 
 class Client:
@@ -23,28 +27,38 @@ class Client:
         websocket_address = f'ws://{self.host}:{self.ws_port}/client/{self.mac_address}'
         async with websockets.connect(websocket_address) as websocket:
             logging.debug(f'Connected to "{websocket_address}"')
-            while True:
-                executed_scripts_ids = ResponseHandler.executed_scripts_ids
-                msg = json.dumps({
-                    'hostname': data.hostname(),
-                    'ip': data.ip(),
-                    'cpuUsage': int(data.cpu_usage(self.interval / 1000)),
-                    'diskUsage': int(data.disk_space_used()),
-                    'installed': ['86e14337-d794-4bc7-906f-ba91d3797d45'],
-                    'executedScripts': [*executed_scripts_ids]
-                })
-                try:
-                    await websocket.send(msg)
-                    ResponseHandler.executed_scripts_ids -= executed_scripts_ids
-                    logging.debug('Sent message to server')
+
+            async def receiving():
+                while True:
+                    print("waiting")
                     response = await websocket.recv()
                     logging.debug('Received message from server')
-
+                    print(response)
                     ResponseHandler(json.loads(response)).start()
+                    await asyncio.sleep(1)
 
-                except WebSocketException:
-                    logging.error('Connection lost')
-                    break
+            async def sending():
+                while True:
+                    executed_scripts_ids = ResponseHandler.executed_scripts_ids
+                    msg = json.dumps({
+                        'hostname': data.hostname(),
+                        'ip': data.ip(),
+                        'cpuUsage': int(data.cpu_usage(self.interval / 1000)),
+                        'diskUsage': int(data.disk_space_used()),
+                        'installed': ['86e14337-d794-4bc7-906f-ba91d3797d45'],
+                        'executedScripts': [*executed_scripts_ids]
+                    })
+                    try:
+                        await websocket.send(msg)
+                        ResponseHandler.executed_scripts_ids -= executed_scripts_ids
+                        logging.debug('Sent message to server')
+
+                    except WebSocketException:
+                        logging.error('Connection lost')
+                        break
+                    await asyncio.sleep(1)
+
+            await asyncio.wait([receiving(), sending()])
 
     def start(self) -> None:
         logging.debug('Client started')

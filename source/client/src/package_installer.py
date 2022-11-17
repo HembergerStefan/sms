@@ -16,8 +16,8 @@ class PackageInstaller:
         self.package = package
 
     def install(self):
-        logging.debug(f'Downloading {self.package["downloadLink"]}')
-        filepath = utils.download_file(self.package['downloadLink'])
+        logging.debug(f'Downloading {self.package["downloadlink"]}')
+        filepath = utils.download_file(self.package['downloadlink'])
         logging.debug(f'Downloaded file at "{filepath}"')
 
         resp = subprocess.run([filepath, self.package['silentSwitch']])
