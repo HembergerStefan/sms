@@ -17,7 +17,7 @@ function App() {
     const Settings = lazy(() => import('./pages/Settings'))
 
     return (
-        <section style={{backgroundColor: 'var(--nl-clr-2)'}} data-theme='moderna-'>
+        <section id='main-section' style={{backgroundColor: 'var(--nl-clr-2)'}} data-theme='moderna-'>
             <div id='layout-container'>
 
                 <NavBar/>

@@ -1,5 +1,4 @@
 import React, {useState} from 'react'
-import {useTranslation} from 'react-i18next'
 
 import KebabMenu from '../../form/menu/kebab_menu/KebabMenuButton'
 import CloseButton from '../../form/menu/close/CloseButton'
@@ -15,21 +14,19 @@ interface DialogProps {
 
 const Dialog = ({title, unmountComponent, body, footer}: DialogProps) => {
 
-    const {t} = useTranslation()
-
-    const [shake, setShake] = useState('')
+    const [shake, setShake] = useState<boolean>(false)
 
     return (
         <div className='blocking-container' onMouseDown={() => {
-            setShake(() => 'shake')
+            setShake(() => true)
 
             setTimeout(() => {
-                if (shake === '') {
-                    setShake(() => '')
+                if (!shake) {
+                    setShake(() => false)
                 }
             }, 720)
         }}>
-            <div id='dialog-container' className={shake} onMouseDown={event => event.stopPropagation()}>
+            <div id='dialog-container' className={shake ? 'shake' : ''} onMouseDown={event => event.stopPropagation()}>
                 <h1 className='fs-tr-1 fw--semi-bold'>{title}</h1>
                 <div id='dialog-menu-container'>
                     <KebabMenu size='var(--icon-size-medium)'/>
