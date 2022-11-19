@@ -1,26 +1,22 @@
 import React, {memo, useRef, useState} from 'react'
 
-import {getDataTheme} from "../../../utils/DetectDataTheme"
+import {useTranslation} from 'react-i18next'
+
+import CodeEditor from '@uiw/react-textarea-code-editor'
+
+import FullSizeButton from '../menu/full_size/FullSizeButton'
+import CodingLanguageSelector from '../coding_language_selector/CodingLanguageSelector'
 
 import './CodeBlockEditor.css'
 
-import CodeEditor from '@uiw/react-textarea-code-editor'
-import FullSizeButton from "../menu/full_size/FullSizeButton"
-import {useTranslation} from "react-i18next"
-import CodingLanguageSelector from "../coding_language_selector/CodingLanguageSelector";
-
 const CodeBlockEditor = () => {
 
-    const {darkMode} = getDataTheme()
+    const {t} = useTranslation()
+    const initialValue = t('Code of the Script')
 
-    const [code, setCode] = useState<string>('')
+    const [code, setCode] = useState<string>(initialValue)
     const [language, setLanguage] = useState<string>('Bash')
     const codeSectionRef = useRef<HTMLElement>(null)
-
-    const {t} = useTranslation()
-
-    const tempCode = '#!/bin/sh\n' +
-        'echo "Hello world"'
 
     return (
         <section ref={codeSectionRef} id='code-section'>
@@ -29,7 +25,6 @@ const CodeBlockEditor = () => {
                 value={code}
                 language={language}
                 wrap='soft'
-                placeholder={t('Code of the Script')}
                 onChange={(evn) => setCode(evn.target.value)}
                 style={{
                     color: 'var(--sc-clr)',
@@ -39,7 +34,8 @@ const CodeBlockEditor = () => {
                     height: '100%',
                     width: '90%',
                     minHeight: '120px',
-                    maxHeight: '500px',
+                    maxHeight: '450px',
+                    maxWidth: '610px',
                     overflow: 'auto'
                 }}
             />

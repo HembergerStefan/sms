@@ -1,13 +1,16 @@
 #code-section {
     display: flex;
-
-    position: relative;
+    justify-content: space-between;
 
     border-radius: var(--br-r-small);
     border: 1px solid var(--ipt--df-border--clr);
 }
 
-#code-section > section > div {
+#code-editor--pref-settings {
+    position: relative;
+}
+
+#code-editor--pref-settings > div {
     position: absolute;
     right: 5px;
     bottom: 5px;
@@ -17,8 +20,4 @@
 
 #code-section:hover > section > div {
     opacity: 1;
-}
-
-#code-editor--pref-settings {
-
 }

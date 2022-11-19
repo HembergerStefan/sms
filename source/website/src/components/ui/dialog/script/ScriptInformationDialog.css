@@ -4,13 +4,3 @@
 
     overflow: auto;
 }
-
-#syntax-highlighter {
-    border: 1px solid var(--ipt--df-border--clr);
-    border-radius: var(--br-r-small);
-    background-color: var(--ipt--bg-clr)!important;
-
-    max-height: 340px;
-
-    overflow: auto;
-}

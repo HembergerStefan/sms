@@ -2,8 +2,9 @@ import React, {memo, useRef} from 'react'
 
 import {useTranslation} from 'react-i18next'
 
+import FullSizeButton from '../menu/full_size/FullSizeButton'
+
 import './TextInput.css'
-import FullSizeButton from "../menu/full_size/FullSizeButton";
 
 interface TextInputProps {
     isHeading?: boolean
@@ -11,11 +12,7 @@ interface TextInputProps {
     customSize?: { height: number, hUnit: string, width: number, wUnit: string }
 }
 
-const TextInput = ({
-                       isHeading = false,
-                       placeholder,
-                       customSize = {height: 100, hUnit: '%', width: 100, wUnit: '%'}
-                   }: TextInputProps) => {
+const TextInput = ({isHeading = false, placeholder, customSize = {height: 100, hUnit: '%', width: 100, wUnit: '%'}}: TextInputProps) => {
 
     const {t} = useTranslation()
 

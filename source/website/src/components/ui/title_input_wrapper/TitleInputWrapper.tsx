@@ -14,10 +14,10 @@ const TitleInputWrapper = ({title, content}: TitleInputWrapperProps) => {
     const {t} = useTranslation()
 
     return (
-        <div id='title-content--wrapper'>
-            <span className='fs-qi-1 fw--semi-bold clr-pr-1'>{t(title)}</span>
+        <section id='title-content--wrapper'>
+            <h2 className='fs-qi-1 fw--semi-bold clr-pr-1'>{t(title)}</h2>
             {content}
-        </div>
+        </section>
     )
 }
 
