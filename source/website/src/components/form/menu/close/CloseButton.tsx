@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, memo} from 'react'
 
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 
@@ -32,4 +32,4 @@ const CloseButton = ({size, closeCallback}: CloseButtonProps) => {
     )
 }
 
-export default CloseButton
+export default memo(CloseButton)
