@@ -6,29 +6,42 @@ import com.google.gson.Gson;
 import data.SMSStore;
 import entity.*;
 import entity.Package;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import model.DTOClientSession;
 import model.DTOPackage;
 import model.DTOResponse;
 import model.DTOScript;
+import thread.ClientResponseThread;
+
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Map;
+import java.util.*;
 
 
 @ServerEndpoint("/client/{mac_address}")
 @ApplicationScoped
 @RequiredArgsConstructor
+@Getter
 public class ClientSocket {
 
     @Inject
     protected SMSStore smsStore;
 
+    private ArrayList<DTOClientSession> clientSessions = new ArrayList<DTOClientSession>();
+    private ClientResponseThread clientResponseThread = new ClientResponseThread(this);
 
+    private boolean isAllowedToRun = false;
+
+    @PostConstruct
+    public void init(){
+        clientResponseThread.start();
+    }
     @OnOpen
     public void onOpen(Session session, @PathParam("mac_address") String mac_address) {
         if (!smsStore.clientIsAvailable(mac_address)) {
@@ -38,22 +51,49 @@ public class ClientSocket {
                 smsStore.insertBase_Client(baseclient);
                 smsStore.insertAvailable_Client(available_client);
             }
+        }else{
+            DTOClientSession clientSession = new DTOClientSession(mac_address, session);
+            clientSessions.add(clientSession);
+        }
+        if(clientSessions.size() > 0){
+            isAllowedToRun = true;
+        }else{
+            isAllowedToRun = false;
         }
     }
 
     @OnClose
     public void onClose(Session session, @PathParam("mac_address") String mac_address) {
-
+        List<DTOClientSession> clone = (List<DTOClientSession>) clientSessions.clone();
+        for(DTOClientSession clientSession : clone){
+            if(clientSession.getSession().toString().equals(session.toString())){
+                clientSessions.remove(clientSession);
+            }
+        }
+        if(clientSessions.size() > 0){
+            isAllowedToRun = true;
+        }else{
+            isAllowedToRun = false;
+        }
     }
 
     @OnError
     public void onError(Session session, @PathParam("mac_address") String mac_address, Throwable throwable) {
-
+        List<DTOClientSession> clone = (List<DTOClientSession>) clientSessions.clone();
+        for(DTOClientSession clientSession : clone){
+            if(clientSession.getSession().toString().equals(session.toString())){
+                clientSessions.remove(clientSession);
+            }
+        }
+        if(clientSessions.size() > 0){
+            isAllowedToRun = true;
+        }else{
+            isAllowedToRun = false;
+        }
     }
 
     @OnMessage
     public void onMessage(Session session, String message, @PathParam("mac_address") String mac_address) {
-        Gson gson = new Gson();
         ObjectMapper mapper = new ObjectMapper();
         try {
             Map<String,Object> map = mapper.readValue(message, Map.class);
@@ -91,24 +131,35 @@ public class ClientSocket {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-        ArrayList<Tasks> tasks = smsStore.getTasksByClientID(mac_address);
-        ArrayList<DTOPackage> dtopackages = new ArrayList<>();
-        ArrayList<DTOScript> dtoscripts = new ArrayList<>();
-        for(Tasks task : tasks){
-            if(task.getPackages() != null){
-                Package package_ = task.getPackages();
-                DTOPackage dtopackage = new DTOPackage(package_.getId(), package_.getName(), package_.getVersion(), package_.getDate(), package_.getDownloadlink(), package_.getSilentSwitch());
-                dtopackages.add(dtopackage);
-            }
-            if(task.getScript() != null){
-                Script script_ = task.getScript();
-                DTOScript dtoScript = new DTOScript(script_.getId(), script_.getName(), script_.getDescription(), script_.getScript_value());
-                dtoscripts.add(dtoScript);
+    }
+
+    public void sendMessage(){
+        List<DTOClientSession> clone = (List<DTOClientSession>) clientSessions.clone();
+        for(DTOClientSession clientSession : clone){
+            if(smsStore.getTasksByClientID(clientSession.getMac_address()) != null){
+                Gson gson = new Gson();
+                String mac_address = clientSession.getMac_address();
+                Session session = clientSession.getSession();
+                ArrayList<Tasks> tasks = smsStore.getTasksByClientID(mac_address);
+                ArrayList<DTOPackage> dtopackages = new ArrayList<>();
+                ArrayList<DTOScript> dtoscripts = new ArrayList<>();
+                for(Tasks task : tasks){
+                    if(task.getPackages() != null){
+                        Package package_ = task.getPackages();
+                        DTOPackage dtopackage = new DTOPackage(package_.getId(), package_.getName(), package_.getVersion(), package_.getDate(), package_.getDownloadlink(), package_.getSilentSwitch());
+                        dtopackages.add(dtopackage);
+                    }
+                    if(task.getScript() != null){
+                        Script script_ = task.getScript();
+                        DTOScript dtoScript = new DTOScript(script_.getId(), script_.getName(), script_.getDescription(), script_.getScript_value());
+                        dtoscripts.add(dtoScript);
+                    }
+                }
+                DTOResponse response = new DTOResponse(dtopackages, dtoscripts);
+                String json = gson.toJson(response);
+                session.getAsyncRemote().sendText(json);
             }
         }
-        DTOResponse response = new DTOResponse(dtopackages, dtoscripts);
-        String json = gson.toJson(response);
-        session.getAsyncRemote().sendText(json);
     }
 
 
