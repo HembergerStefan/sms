@@ -12,7 +12,7 @@ from websockets.exceptions import WebSocketException
 import data
 from response_handler import ResponseHandler
 
-nest_asyncio.apply()
+# nest_asyncio.apply()
 
 
 class Client:
@@ -31,7 +31,7 @@ class Client:
             async def receiving():
                 while True:
                     print("waiting")
-                    response = await websocket.recv()
+                    response = await websocket.recv()  # todo connection closed error websockets.exceptions.ConnectionClosedError: no close frame received or sent
                     logging.debug('Received message from server')
                     print(response)
                     ResponseHandler(json.loads(response)).start()
@@ -45,8 +45,8 @@ class Client:
                         'ip': data.ip(),
                         'cpuUsage': int(data.cpu_usage(self.interval / 1000)),
                         'diskUsage': int(data.disk_space_used()),
-                        'installed': ['86e14337-d794-4bc7-906f-ba91d3797d45'],
-                        'executedScripts': [*executed_scripts_ids]
+                        'installed': ["1"],
+                        'executedScripts': [] # [*executed_scripts_ids]
                     })
                     try:
                         await websocket.send(msg)
