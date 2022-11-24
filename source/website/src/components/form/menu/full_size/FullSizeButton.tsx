@@ -30,7 +30,8 @@ const FullSizeButton = ({containerRef, size}: FullSizeProps) => {
     }
 
     return (
-        <div ref={fullSizeContainerRef} id='full-size--container' className='clr-pr-1 md-menu' onClick={() => setFullSize(prev => !prev)}>
+        <div ref={fullSizeContainerRef} id='full-size--container' className='clr-pr-1 md-menu'
+             onClick={() => setFullSize(prev => !prev)}>
             {
                 fullSize ? <CloseFullscreenRoundedIcon style={{fontSize: size}}/> :
                     <OpenInFullRoundedIcon style={{fontSize: size}}/>

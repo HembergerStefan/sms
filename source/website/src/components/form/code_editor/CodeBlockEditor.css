@@ -1,0 +1,23 @@
+#code-section {
+    display: flex;
+    justify-content: space-between;
+
+    border-radius: var(--br-r-small);
+    border: 1px solid var(--ipt--df-border--clr);
+}
+
+#code-editor--pref-settings {
+    position: relative;
+}
+
+#code-editor--pref-settings > div {
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+
+    opacity: 0;
+}
+
+#code-section:hover > section > div {
+    opacity: 1;
+}

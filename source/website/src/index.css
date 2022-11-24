@@ -323,6 +323,34 @@ span {
     color: var(--sc-clr);
 }
 
+.clr-ac-1 {
+    color: var(--ac-clr-1);
+}
+
+.clr-ac-2 {
+    color: var(--ac-clr-2);
+}
+
+.clr-ac-3 {
+    color: var(--ac-clr-3);
+}
+
+.clr-nl-1 {
+    color: var(--nl-clr-1);
+}
+
+.clr-nl-2 {
+    color: var(--nl-clr-2);
+}
+
+.clr-nl-3 {
+    color: var(--nl-clr-3);
+}
+
+.clr-nl-4 {
+    color: var(--nl-clr-4);
+}
+
 .nv-clr--default {
     color: var(--nv-item-d-clr);
 }
@@ -412,7 +440,7 @@ span {
 /* Modern menu items --Start */
 .md-menu {
     border: 1px solid transparent;
-    transition: background-color 200ms, border-color 200ms, box-shadow 200ms;
+    transition: background-color 200ms, border-color 200ms, box-shadow 200ms, opacity 200ms;
 }
 
 .md-menu:hover {

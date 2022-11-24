@@ -1,0 +1,4 @@
+#title-content--wrapper {
+    display: grid;
+    gap: .625rem;
+}

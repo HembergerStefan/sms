@@ -21,10 +21,7 @@ import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @ServerEndpoint("/client/{mac_address}")
@@ -36,15 +33,14 @@ public class ClientSocket {
     @Inject
     protected SMSStore smsStore;
 
-    private List<DTOClientSession> clientSessions = Collections.synchronizedList(new ArrayList<DTOClientSession>());
+    private ArrayList<DTOClientSession> clientSessions = new ArrayList<DTOClientSession>();
     private ClientResponseThread clientResponseThread = new ClientResponseThread(this);
 
     private boolean isAllowedToRun = false;
 
     @PostConstruct
     public void init(){
-        System.out.println("Thread startet");
-        //clientResponseThread.start();
+        clientResponseThread.start();
     }
     @OnOpen
     public void onOpen(Session session, @PathParam("mac_address") String mac_address) {
@@ -68,26 +64,37 @@ public class ClientSocket {
 
     @OnClose
     public void onClose(Session session, @PathParam("mac_address") String mac_address) {
-        for(DTOClientSession clientSession : clientSessions){
+        List<DTOClientSession> clone = (List<DTOClientSession>) clientSessions.clone();
+        for(DTOClientSession clientSession : clone){
             if(clientSession.getSession().toString().equals(session.toString())){
                 clientSessions.remove(clientSession);
             }
+        }
+        if(clientSessions.size() > 0){
+            isAllowedToRun = true;
+        }else{
+            isAllowedToRun = false;
         }
     }
 
     @OnError
     public void onError(Session session, @PathParam("mac_address") String mac_address, Throwable throwable) {
-        for(DTOClientSession clientSession : clientSessions){
+        List<DTOClientSession> clone = (List<DTOClientSession>) clientSessions.clone();
+        for(DTOClientSession clientSession : clone){
             if(clientSession.getSession().toString().equals(session.toString())){
                 clientSessions.remove(clientSession);
             }
+        }
+        if(clientSessions.size() > 0){
+            isAllowedToRun = true;
+        }else{
+            isAllowedToRun = false;
         }
     }
 
     @OnMessage
     public void onMessage(Session session, String message, @PathParam("mac_address") String mac_address) {
         ObjectMapper mapper = new ObjectMapper();
-        System.out.println("got Message");
         try {
             Map<String,Object> map = mapper.readValue(message, Map.class);
             if(smsStore.clientIsAvailable(mac_address)){
@@ -127,29 +134,31 @@ public class ClientSocket {
     }
 
     public void sendMessage(){
-        System.out.println("Message sendet");
-        for(DTOClientSession clientSession : clientSessions){
-            Gson gson = new Gson();
-            String mac_address = clientSession.getMac_address();
-            Session session = clientSession.getSession();
-            ArrayList<Tasks> tasks = smsStore.getTasksByClientID(mac_address);
-            ArrayList<DTOPackage> dtopackages = new ArrayList<>();
-            ArrayList<DTOScript> dtoscripts = new ArrayList<>();
-            for(Tasks task : tasks){
-                if(task.getPackages() != null){
-                    Package package_ = task.getPackages();
-                    DTOPackage dtopackage = new DTOPackage(package_.getId(), package_.getName(), package_.getVersion(), package_.getDate(), package_.getDownloadlink(), package_.getSilentSwitch());
-                    dtopackages.add(dtopackage);
+        List<DTOClientSession> clone = (List<DTOClientSession>) clientSessions.clone();
+        for(DTOClientSession clientSession : clone){
+            if(smsStore.getTasksByClientID(clientSession.getMac_address()) != null){
+                Gson gson = new Gson();
+                String mac_address = clientSession.getMac_address();
+                Session session = clientSession.getSession();
+                ArrayList<Tasks> tasks = smsStore.getTasksByClientID(mac_address);
+                ArrayList<DTOPackage> dtopackages = new ArrayList<>();
+                ArrayList<DTOScript> dtoscripts = new ArrayList<>();
+                for(Tasks task : tasks){
+                    if(task.getPackages() != null){
+                        Package package_ = task.getPackages();
+                        DTOPackage dtopackage = new DTOPackage(package_.getId(), package_.getName(), package_.getVersion(), package_.getDate(), package_.getDownloadlink(), package_.getSilentSwitch());
+                        dtopackages.add(dtopackage);
+                    }
+                    if(task.getScript() != null){
+                        Script script_ = task.getScript();
+                        DTOScript dtoScript = new DTOScript(script_.getId(), script_.getName(), script_.getDescription(), script_.getScript_value());
+                        dtoscripts.add(dtoScript);
+                    }
                 }
-                if(task.getScript() != null){
-                    Script script_ = task.getScript();
-                    DTOScript dtoScript = new DTOScript(script_.getId(), script_.getName(), script_.getDescription(), script_.getScript_value());
-                    dtoscripts.add(dtoScript);
-                }
+                DTOResponse response = new DTOResponse(dtopackages, dtoscripts);
+                String json = gson.toJson(response);
+                session.getAsyncRemote().sendText(json);
             }
-            DTOResponse response = new DTOResponse(dtopackages, dtoscripts);
-            String json = gson.toJson(response);
-            session.getAsyncRemote().sendText(json);
         }
     }
 

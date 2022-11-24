@@ -16,11 +16,13 @@
 .active--full-size {
     color: var(--nl-clr-3) !important;
     background-color: var(--ac-clr-1) !important;
+
+    opacity: 1 !important;
 }
 
 /* The referenced container will be set to full size */
 .active--full-size--ref-container {
-    height: 50% !important;
+    height: 250px !important;
     width: 100% !important;
 
     max-height: unset;

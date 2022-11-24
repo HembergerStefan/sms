@@ -12,6 +12,8 @@ import Checkbox from "../components/form/checkbox/Checkbox";
 import TextListComponent from "../components/ui/text_list_component/TextListComponent";
 import {STATES} from "../components/form/checkbox/CheckboxStates";
 import ChartContainer from "../components/ui/chart/ChartContainer";
+import DateTimePicker from "../components/form/date_time_picker/DateTimePicker";
+import ScriptDialogToggle from "../components/form/script_dialog_toggle/ScriptDialogToggle";
 
 const Overview = () => {
 
@@ -82,6 +84,16 @@ const Overview = () => {
             <br/>
             <br/>
 
+            <DateTimePicker/>
+
+            <br/>
+            <br/>
+
+            <ScriptDialogToggle/>
+
+            <br/>
+            <br/>
+
             <div ref={cnRef} className='box'
                  style={{height: '80px', width: 'fit-content', display: 'flex', gap: '.5rem', padding: '5px'}}>
                 <FullSize containerRef={cnRef} size='var(--icon-size-small)'/>
@@ -93,7 +105,7 @@ const Overview = () => {
 
             <Dropdown defaultValue='Select Item' items={ITEMS}/>
 
-            <ChartContainer/>
+            {/*<ChartContainer/>*/}
 
             <br/>
             <br/>
