@@ -114,12 +114,12 @@ public class ClientSocket {
                 smsStore.updateClient(client);
                 for(String id : packagesIDs){
                     if(smsStore.getTaskByPackageID(id) != null){
-                        smsStore.removeTaskByPackageID(id);
+                        smsStore.removeTaskByPackageID(id, mac_address);
                     }
                 }
                 for(String id : scriptsIDs){
                     if(smsStore.getTaskByScriptID(id) != null){
-                        smsStore.removeTaskByScriptID(id);
+                        smsStore.removeTaskByScriptID(id, mac_address);
                     }
                 }
             }else if(smsStore.availableclientIsAvailable(mac_address)){
@@ -151,7 +151,7 @@ public class ClientSocket {
                     }
                     if(task.getScript() != null){
                         Script script_ = task.getScript();
-                        DTOScript dtoScript = new DTOScript(script_.getId(), script_.getName(), script_.getDescription(), script_.getScript_value());
+                        DTOScript dtoScript = new DTOScript(script_.getId(), script_.getName(), script_.getDescription(), script_.getScript_value(), script_.getInterpreter(), script_.getFileExtension());
                         dtoscripts.add(dtoScript);
                     }
                 }

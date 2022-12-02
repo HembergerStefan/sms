@@ -18,4 +18,6 @@ public class DTOScript {
     private String name;
     private String description;
     private String script_value;
+    private String interpreter;
+    private String fileExtension;
 }

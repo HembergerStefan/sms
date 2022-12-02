@@ -182,10 +182,11 @@ public class SMSStore implements ISMSStore {
     }
 
     public String decodeToken(String token) {
+        String replacedToken = token.replaceAll("汉", "/");
         SecretKeySpec sk = null;
         for(TokenInfos tokenInfo : tokens){
-            if(tokenInfo.getToken().equals(token)){
-                tokenInfo.setExpireDate(LocalDateTime.now().plusMinutes(15));
+            if(tokenInfo.getToken().equals(replacedToken)){
+                tokenInfo.setExpireDate(LocalDateTime.now().plusMinutes(1511));
                 sk = tokenInfo.getSecretKeySpec();
             }
         }
@@ -193,7 +194,7 @@ public class SMSStore implements ISMSStore {
         try {
             cipher = Cipher.getInstance("AES/ECB/PKCS5PADDING");
             cipher.init(Cipher.DECRYPT_MODE, sk);
-            return new String(cipher.doFinal(Base64.getDecoder().decode(token)));
+            return new String(cipher.doFinal(Base64.getDecoder().decode(replacedToken)));
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
@@ -465,13 +466,13 @@ public class SMSStore implements ISMSStore {
 
 
     @Transactional
-    public void removeTaskByPackageID(String id){
-        tasksRepository.deleteTasksByPackage_ID(id);
+    public void removeTaskByPackageID(String id, String client_id){
+        tasksRepository.deleteTasksByPackage_ID(id, client_id);
     }
 
     @Transactional
-    public void removeTaskByScriptID(String id){
-         tasksRepository.deleteTasksByScript_ID(id);
+    public void removeTaskByScriptID(String id, String client_id){
+         tasksRepository.deleteTasksByScript_ID(id, client_id);
     }
 
 

@@ -37,15 +37,15 @@ public class TasksRepository implements PanacheRepository<Tasks> {
 
 
     @Transactional
-    public void deleteTasksByPackage_ID(String id){
-        delete("Package_ID = ?1", id);
+    public void deleteTasksByPackage_ID(String id, String client_id){
+        delete("Package_ID = ?1 and Client_ID = ?2", id, client_id);
     }
 
 
 
     @Transactional
-    public void deleteTasksByScript_ID(String id){
-        delete("Script_ID = ?1", id);
+    public void deleteTasksByScript_ID(String id, String client_id){
+        delete("Script_ID = ?1 and Client_ID = ?2", id, client_id);
     }
 
 

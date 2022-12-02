@@ -26,6 +26,7 @@ public class WebpageController implements IWebpageResource {
     public DTOLoginResponse loginUser(DTOUser user) {
         String token = smsStore.loginUser(user.getName(), user.getPassword());
         String user_ID = smsStore.getIdByToken(token);
+        token = token.replaceAll("/", "汉");
         DTOLoginResponse response = new DTOLoginResponse(token, user_ID);
         return response;
     }

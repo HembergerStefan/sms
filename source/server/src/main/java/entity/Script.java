@@ -11,7 +11,6 @@ import lombok.*;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -34,6 +33,12 @@ public class Script implements Serializable {
     @Column(name="Script_Value", length = 5000, nullable = false)
     @JsonView(value = {ClientView.Always.class, ScriptView.Always.class, TaskView.Always.class, UserView.Always.class})
     private String script_value;
+    @Column(name="Interpreter", length = 20, nullable = false)
+    @JsonView(value = {ClientView.Always.class, ScriptView.Always.class, TaskView.Always.class, UserView.Always.class})
+    private String interpreter;
+    @Column(name="FileExtension", length = 45, nullable = false)
+    @JsonView(value = {ClientView.Always.class, ScriptView.Always.class, TaskView.Always.class, UserView.Always.class})
+    private String fileExtension;
     @ManyToMany(mappedBy = "script")
     @JsonView(ScriptView.Always.class)
     private List<Client> clients;

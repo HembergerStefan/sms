@@ -13,5 +13,5 @@ import java.time.LocalDateTime;
 public class TokenInfos {
     private String token;
     private SecretKeySpec secretKeySpec;
-    private LocalDateTime expireDate = LocalDateTime.now().plusMinutes(15);
+    private LocalDateTime expireDate = LocalDateTime.now().plusMinutes(1511);
 }

@@ -13,4 +13,5 @@ import javax.websocket.Session;
 public class DTOUserSession {
     private String user_id;
     private Session session;
+    private String token;
 }
