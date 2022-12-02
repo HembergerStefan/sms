@@ -17,4 +17,9 @@ public class Client_PackageRepository implements PanacheRepository<Client_Packag
     public void deleteByPackageID(String id){
         delete("Package_ID = ?1", id);
     }
+
+    @Transactional
+    public void deleteByClientID(String id){
+        delete("Client_ID = ?1", id);
+    }
 }

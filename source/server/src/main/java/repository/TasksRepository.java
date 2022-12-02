@@ -46,6 +46,10 @@ public class TasksRepository implements PanacheRepository<Tasks> {
         delete("Package_ID = ?1", id);
     }
 
+    @Transactional
+    public void deleteTasksByClient_ID(String id){
+        delete("Client_ID = ?1", id);
+    }
 
 
     @Transactional

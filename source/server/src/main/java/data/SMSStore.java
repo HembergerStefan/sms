@@ -49,7 +49,7 @@ public class SMSStore implements ISMSStore {
     private final Available_ClientsRepository available_clientsRepository;
     private final RoleRepository roleRepository;
     private final Base_ClientRepository baseClientRepository;
-
+    private final Client_GroupRepository client_groupRepository;
     private final Client_ScriptRepository client_scriptRepository;
     private final Client_PackageRepository client_packageRepository;
     private ArrayList<TokenInfos> tokens = new ArrayList<>();
@@ -237,22 +237,6 @@ public class SMSStore implements ISMSStore {
         return secretKeySpec;
     }
 
-    public UUID generateUUID(String table) {
-        boolean isAvailable = true;
-        UUID id = null;
-        while (isAvailable) {
-            id = UUID.randomUUID();
-            switch (table) {
-                case "task":
-                    if (tasksRepository.findById(id.toString()) == null) {
-                        isAvailable = false;
-                    }
-                    break;
-            }
-        }
-        return id;
-    }
-
     public ArrayList<Package> getPackagesByIDs(ArrayList<String> ids) {
         ArrayList<Package> packages = new ArrayList<>();
         for (String id : ids) {
@@ -311,7 +295,12 @@ public class SMSStore implements ISMSStore {
     }
 
     public void removeClient(@NotNull String id) {
+        tasksRepository.deleteTasksByClient_ID(id);
+        client_packageRepository.deleteByClientID(id);
+        client_scriptRepository.deleteByClientID(id);
+        client_groupRepository.deleteByClientID(id);
         clientRepository.deleteClientById(id);
+        baseClientRepository.deleteByClientID(id);
     }
 
 
@@ -402,7 +391,7 @@ public class SMSStore implements ISMSStore {
     }
 
     @Transactional
-    public void insertUser(User user) {
+    public void insertUser(User user) {//fehler
         UUID uuid = UUID.randomUUID();
         if(userRepository.findByID(uuid.toString()) == null){
             user.setId(uuid.toString());
@@ -491,22 +480,42 @@ public class SMSStore implements ISMSStore {
     @Transactional
     public void insertTaskWithScript(String client_id, String script_id, String user_id, Adding add, String token) {
         if (isAllowed(token, add) || isAllowedToAdd(token, user_id, client_id)) {
-            UUID id = generateUUID("task");
-            Client client = clientRepository.findById(client_id);
-            Script script = scriptRepository.findById(script_id);
-            Tasks task = new Tasks(id.toString(), client, null, script);
-            tasksRepository.persist(task);
+            UUID uuid = UUID.randomUUID();
+            boolean isUnique = true;
+            for(Tasks task_ : getTasks()){
+                if(task_.getId().equals(uuid.toString())){
+                    isUnique = false;
+                }
+            }
+            if(isUnique){
+                Client client = clientRepository.findById(client_id);
+                Script script = scriptRepository.findById(script_id);
+                Tasks task = new Tasks(uuid.toString(), client, null, script);
+                tasksRepository.persist(task);
+            }else{
+                insertTaskWithScript(client_id, script_id, user_id, add, token);
+            }
         }
     }
 
     @Transactional
     public void insertTaskWithPackage(String client_id, String package_id, String user_id, Adding add, String token) {
         if (isAllowed(token, add) || isAllowedToAdd(token, user_id, client_id)) {
-            UUID id = generateUUID("task");
-            Client client = clientRepository.findById(client_id);
-            Package package_ = packageRepository.findById(package_id);
-            Tasks task = new Tasks(id.toString(), client, package_, null);
-            tasksRepository.persist(task);
+            UUID uuid = UUID.randomUUID();
+            boolean isUnique = true;
+            for(Tasks task_ : getTasks()){
+                if(task_.getId().equals(uuid.toString())){
+                    isUnique = false;
+                }
+            }
+            if(isUnique){
+                Client client = clientRepository.findById(client_id);
+                Package package_ = packageRepository.findById(package_id);
+                Tasks task = new Tasks(uuid.toString(), client, package_, null);
+                tasksRepository.persist(task);
+            }else{
+                insertTaskWithScript(client_id, package_id, user_id, add, token);
+            }
         }
     }
 
