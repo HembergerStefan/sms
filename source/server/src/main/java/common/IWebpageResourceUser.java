@@ -12,6 +12,7 @@ import entity.jsonview.UserView;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
+import java.util.UUID;
 
 @Path("/webpageUser")
 public interface IWebpageResourceUser {
@@ -38,9 +39,9 @@ public interface IWebpageResourceUser {
 
     @PUT
     @Path("/scripts/{token}/{user_id}/{mac_Address}/{script_id}")
-    void addScriptToTask(@PathParam("token") String token, @PathParam("user_id") String user_id, @PathParam("mac_Address") String mac_Address, @PathParam("script_id") String script_id);
+    void addScriptToTask(@PathParam("token") String token, @PathParam("user_id") UUID user_id, @PathParam("mac_Address") String mac_Address, @PathParam("script_id") String script_id);
 
     @PUT
     @Path("/package/{token}/{user_id}/{mac_Address}/{package_id}")
-    void addPackageToTask(@PathParam("token") String token, @PathParam("user_id") String user_id, @PathParam("mac_Address") String mac_Address, @PathParam("package_id") String package_id);
+    void addPackageToTask(@PathParam("token") String token, @PathParam("user_id") UUID user_id, @PathParam("mac_Address") String mac_Address, @PathParam("package_id") String package_id);
 }

@@ -18,6 +18,7 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.ws.rs.Path;
 import java.util.ArrayList;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -69,16 +70,16 @@ public class WebpageControllerUser implements IWebpageResourceUser {
     }
 
     @Override
-    public void addScriptToTask(String token, String user_id, String mac_Address, String script_id) {
+    public void addScriptToTask(String token, UUID user_id, String mac_Address, String script_id) {
         if (smsStore.isAllowed(token, anno)) {
-            smsStore.insertTaskWithScript(mac_Address, script_id, user_id, add, token);
+            smsStore.insertTaskWithScript(mac_Address, script_id, user_id.toString(), add, token);
         }
     }
 
     @Override
-    public void addPackageToTask(String token, String user_id, String mac_Address, String package_id) {
+    public void addPackageToTask(String token, UUID user_id, String mac_Address, String package_id) {
         if (smsStore.isAllowed(token, anno)) {
-            smsStore.insertTaskWithPackage(mac_Address, package_id, user_id, add, token);
+            smsStore.insertTaskWithPackage(mac_Address, package_id, user_id.toString(), add, token);
         }
     }
 }

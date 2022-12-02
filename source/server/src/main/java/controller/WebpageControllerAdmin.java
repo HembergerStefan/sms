@@ -149,6 +149,7 @@ public class WebpageControllerAdmin implements IWebpageResourceAdmin {
     @Override
     public void updatePackage(Package packages, String token) {
         if (smsStore.isAllowed(token, anno)) {
+            smsStore.updatePackage(packages);
         }
 
     }
@@ -157,7 +158,7 @@ public class WebpageControllerAdmin implements IWebpageResourceAdmin {
     @Override
     public void updateScript(Script script, String token) {
         if (smsStore.isAllowed(token, anno)) {
-            smsStore.updateScript(script.getId());
+            smsStore.updateScript(script);
         }
 
     }

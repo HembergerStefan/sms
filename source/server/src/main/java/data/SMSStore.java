@@ -39,7 +39,6 @@ public class SMSStore implements ISMSStore {
     @Resource
     @Inject
     private UserTransaction userTransaction;
-
     private TokenCleanerThread cleaner = new TokenCleanerThread(this);
     private final ClientRepository clientRepository;
     private final GroupRepository groupRepository;
@@ -50,6 +49,9 @@ public class SMSStore implements ISMSStore {
     private final Available_ClientsRepository available_clientsRepository;
     private final RoleRepository roleRepository;
     private final Base_ClientRepository baseClientRepository;
+
+    private final Client_ScriptRepository client_scriptRepository;
+    private final Client_PackageRepository client_packageRepository;
     private ArrayList<TokenInfos> tokens = new ArrayList<>();
     public ArrayList<Client> getClients() {
         return (ArrayList<Client>) clientRepository.findAll().list();
@@ -317,13 +319,17 @@ public class SMSStore implements ISMSStore {
         groupRepository.deleteGroupById(id.toString());
     }
 
-
+    @Transactional
     public void removePackage(@NotNull UUID id) {
+        tasksRepository.deleteTasksByPackage_ID(id.toString());
+        client_packageRepository.deleteByPackageID(id.toString());
         packageRepository.deletePackageById(id.toString());
     }
 
 
     public void removeScript(@NotNull UUID id) {
+        tasksRepository.deleteTasksByScript_ID(id.toString());
+        client_scriptRepository.deleteByScriptID(id.toString());
         scriptRepository.deleteScriptById(id.toString());
     }
 
@@ -353,12 +359,36 @@ public class SMSStore implements ISMSStore {
 
     @Transactional
     public void insertPackage(Package packages) {
-        packageRepository.persist(packages);
+        UUID uuid = UUID.randomUUID();
+        boolean isUnique = true;
+        for(Package package_ : getPackages()){
+            if(package_.getId().equals(uuid.toString())){
+                isUnique = false;
+            }
+        }
+        if(isUnique){
+            packages.setId(uuid.toString());
+            packageRepository.persist(packages);
+        }else{
+            insertPackage(packages);
+        }
     }
 
     @Transactional
     public void insertScript(Script script) {
-        scriptRepository.persist(script);
+        UUID uuid = UUID.randomUUID();
+        boolean isUnique = true;
+        for(Script script_ : getScripts()){
+            if(script_.getId().equals(uuid.toString())){
+                isUnique = false;
+            }
+        }
+        if(isUnique){
+            script.setId(uuid.toString());
+            scriptRepository.persist(script);
+        }else{
+            insertScript(script);
+        }
     }
 
     @Transactional
@@ -373,7 +403,13 @@ public class SMSStore implements ISMSStore {
 
     @Transactional
     public void insertUser(User user) {
-        userRepository.persist(user);
+        UUID uuid = UUID.randomUUID();
+        if(userRepository.findByID(uuid.toString()) == null){
+            user.setId(uuid.toString());
+            userRepository.persist(user);
+        }else{
+            insertUser(user);
+        }
     }
 
     @Transactional
@@ -399,14 +435,24 @@ public class SMSStore implements ISMSStore {
 
     @Transactional
     public void updatePackage(Package packages) {
+        Package package_ = packageRepository.findById(packages.getId());
+        package_.setName(packages.getName());
+        package_.setVersion(packages.getVersion());
+        package_.setDate(packages.getDate());
+        package_.setDownloadlink(packages.getDownloadlink());
+        package_.setSilentSwitch(packages.getSilentSwitch());
+        packageRepository.getEntityManager().merge(package_);
     }
 
     @Transactional
-    public void updateScript(String id) {
-        Script script = scriptRepository.findById(id);
-        script.setName("Success1");
-        scriptRepository.getEntityManager().merge(script);
-        //scriptRepository.persist(script);
+    public void updateScript(Script script) {
+        Script script_ = scriptRepository.findById(script.getId());
+        script_.setName(script.getName());
+        script_.setDescription(script.getDescription());
+        script_.setFileExtension(script.getFileExtension());
+        script_.setInterpreter(script.getInterpreter());
+        script_.setScript_value(script.getScript_value());
+        scriptRepository.getEntityManager().merge(script_);
     }
 
     @Transactional
