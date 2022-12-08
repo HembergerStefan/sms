@@ -1,6 +1,7 @@
 package websockets;
 
 import annotations.Login;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
@@ -8,6 +9,7 @@ import controller.WebpageControllerUser;
 import data.SMSStore;
 import entity.*;
 import entity.Package;
+import entity.jsonview.UserView;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import model.*;
@@ -16,6 +18,7 @@ import thread.UserResponseThread;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
@@ -37,7 +40,7 @@ public class WebSocket {
     private ArrayList<DTOUserSession> userSessions = new ArrayList<>();
 
     private UserResponseThread userResponseThread = new UserResponseThread(this);
-    private boolean isAllowedToRun = false;
+    private boolean isAllowedToRun = true;
 
     @PostConstruct
     public void init() {
@@ -48,23 +51,23 @@ public class WebSocket {
 
     @OnOpen
     public void onOpen(Session session, @PathParam("token") String token, @PathParam("id") String id) {
-        if (smsStore.isAllowed(token, id, anno)) {
-            DTOUserSession userSession = new DTOUserSession(id, session, token);
-            userSessions.add(userSession);
-        }
+        /* if (smsStore.isAllowed(token, id, anno)) {*/
+        DTOUserSession userSession = new DTOUserSession(id, session, token);
+        userSessions.add(userSession);
+        /* }*/
     }
 
     @OnClose
     public void onClose(Session session, @PathParam("token") String token, @PathParam("id") String id) {
         List<DTOUserSession> clone = (List<DTOUserSession>) userSessions.clone();
-        for(DTOUserSession userSession : clone){
-            if(userSession.getSession().toString().equals(session.toString())){
+        for (DTOUserSession userSession : clone) {
+            if (userSession.getSession().toString().equals(session.toString())) {
                 userSessions.remove(userSession);
             }
         }
-        if(userSessions.size() > 0){
+        if (userSessions.size() > 0) {
             isAllowedToRun = true;
-        }else{
+        } else {
             isAllowedToRun = false;
         }
     }
@@ -72,14 +75,14 @@ public class WebSocket {
     @OnError
     public void onError(Session session, @PathParam("token") String token, @PathParam("id") String id, Throwable throwable) {
         List<DTOUserSession> clone = (List<DTOUserSession>) userSessions.clone();
-        for(DTOUserSession userSession : clone){
-            if(userSession.getSession().toString().equals(session.toString())){
+        for (DTOUserSession userSession : clone) {
+            if (userSession.getSession().toString().equals(session.toString())) {
                 userSessions.remove(userSession);
             }
         }
-        if(userSessions.size() > 0){
+        if (userSessions.size() > 0) {
             isAllowedToRun = true;
-        }else{
+        } else {
             isAllowedToRun = false;
         }
     }
@@ -89,13 +92,15 @@ public class WebSocket {
         System.err.println(message);
     }
 
-   public void sendMessage(){
-        for(DTOUserSession userSession : userSessions){
-            if (smsStore.isAllowed(userSession.getToken(), userSession.getUser_id(), anno)) {
-                User user = smsStore.getUserByID(userSession.getUser_id());
-                String json = bulidJson(user);
-                userSession.getSession().getAsyncRemote().sendText(json);
-            }else{
+    @Transactional
+    @JsonView(UserView.Always.class)
+    public void sendMessage() {
+        for (DTOUserSession userSession : userSessions) {
+            //if (smsStore.isAllowed(userSession.getToken(), userSession.getUser_id(), anno)) {
+            String user = smsStore.getUserByID(userSession.getUser_id()).getUsername();
+            String json = bulidJson(userSession.getUser_id());
+            userSession.getSession().getAsyncRemote().sendText(json);
+            /*}else{
                 List<DTOUserSession> clone = (List<DTOUserSession>) userSessions.clone();
                 for(DTOUserSession userSessionClone : clone){
                     if(userSessionClone.getSession().toString().equals(userSession.getSession())){
@@ -107,29 +112,29 @@ public class WebSocket {
                 }else{
                     isAllowedToRun = false;
                 }
-            }
+            }*/
         }
     }
 
-    public String bulidJson(User user) {
-        Role role = user.getRole();
+    public String bulidJson(String userSession) {
+        Role role = smsStore.getUserByID(userSession).getRole();
         DTORole dtoRole = new DTORole(role.getId(), role.getName());
-        DTOResponseUser dtoUser = new DTOResponseUser(user.getId(), user.getUsername(), new ArrayList<>(), dtoRole);
-        ArrayList<SmsGroup> groups = (ArrayList<SmsGroup>) user.getGroups();
+        DTOResponseUser dtoUser = new DTOResponseUser(smsStore.getUserByID(userSession).getId(), smsStore.getUserByID(userSession).getUsername(), new ArrayList<>(), dtoRole);
+        ArrayList<SmsGroup> groups = (ArrayList<SmsGroup>) smsStore.getUserByID(userSession).getGroups();
         ArrayList<DTOSmsGroup> dtoGroups = new ArrayList<>();
-        for(SmsGroup group : groups){
+        for (SmsGroup group : groups) {
             ArrayList<Client> clients = (ArrayList<Client>) group.getClients();
             ArrayList<DTOClient> dtoClients = new ArrayList<>();
-            for(Client client : clients){
+            for (Client client : clients) {
                 ArrayList<Package> packages = (ArrayList<Package>) client.getPackages();
                 ArrayList<DTOPackage> dtoPackages = new ArrayList<>();
                 ArrayList<Script> scripts = (ArrayList<Script>) client.getScript();
                 ArrayList<DTOScript> dtoScripts = new ArrayList<>();
-                for(Package package_ : packages){
+                for (Package package_ : packages) {
                     DTOPackage dtoPackage = new DTOPackage(package_.getId(), package_.getName(), package_.getVersion(), package_.getDate(), package_.getDownloadlink(), package_.getSilentSwitch());
                     dtoPackages.add(dtoPackage);
                 }
-                for(Script script : scripts){
+                for (Script script : scripts) {
                     DTOScript dtoScript = new DTOScript(script.getId(), script.getName(), script.getDescription(), script.getScript_value(), script.getInterpreter(), script.getFileExtension());
                     dtoScripts.add(dtoScript);
                 }

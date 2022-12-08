@@ -12,6 +12,7 @@ import entity.User;
 import entity.jsonview.PackageView;
 import entity.jsonview.ScriptView;
 import lombok.RequiredArgsConstructor;
+import model.DTOInsertUser;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PostConstruct;
@@ -67,6 +68,13 @@ public class WebpageControllerUser implements IWebpageResourceUser {
             return smsStore.getScripts();
         }
         return null;
+    }
+
+    @Override
+    public void updateUser(DTOInsertUser user, String token) {
+        if (smsStore.isAllowed(token, user.getId(), anno)) {
+            smsStore.updateUser(user);
+        }
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import entity.*;
 import entity.Package;
 import entity.jsonview.*;
+import model.DTOInsertUser;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -88,7 +89,7 @@ public interface IWebpageResourceAdmin {
     @Path("/insertUser/{token}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    void insertUser(User user, @PathParam("token") String token);
+    void insertUser(DTOInsertUser user, @PathParam("token") String token);
 
 
     @POST
@@ -114,7 +115,7 @@ public interface IWebpageResourceAdmin {
     @Path("/updateUser/{token}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    void updateUser(User user, @PathParam("token") String token);
+    void updateUser(DTOInsertUser user, @PathParam("token") String token);
 
     @PUT
     @Path("/activateClient/{mac_Address}/{token}")
@@ -134,6 +135,31 @@ public interface IWebpageResourceAdmin {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     void updateClient(Client Client, @PathParam("token") String token);
+
+
+    @PUT
+    @Path("/addClientToGroup/{token}/{group_ID}/{client_ID}")
+    void addClientToGroup(@PathParam("token")String token, @PathParam("group_ID")UUID group_ID, @PathParam("client_ID")String client_ID);
+
+    @PUT
+    @Path("/addUserToGroup/{token}/{group_ID}/{user_ID}")
+    void addUserToGroup(@PathParam("token")String token, @PathParam("group_ID")UUID group_ID, @PathParam("user_ID")UUID user_ID);
+
+
+
+    @DELETE
+    @Path("/removeClientToGroup/{token}/{group_ID}/{client_ID}")
+    void removeClientToGroup(@PathParam("token")String token, @PathParam("group_ID")UUID group_ID, @PathParam("client_ID")String client_ID);
+
+    @DELETE
+    @Path("/removeUserToGroup/{token}/{group_ID}/{user_ID}")
+    void removeUserToGroup(@PathParam("token")String token, @PathParam("group_ID")UUID group_ID, @PathParam("user_ID")UUID user_ID);
+
+    @POST
+    @Path("/changeUserRole/{token}/{user_ID}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    Role changeUserRole(Role role, @PathParam("token") String token, @PathParam("user_ID") String user_ID);
 }
 
 

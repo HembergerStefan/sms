@@ -7,6 +7,7 @@ import entity.Package;
 import entity.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import model.DTOInsertUser;
 import org.jetbrains.annotations.NotNull;
 import repository.*;
 
@@ -24,6 +25,7 @@ import javax.inject.Named;
 import javax.transaction.Transactional;
 import javax.transaction.UserTransaction;
 import java.math.BigInteger;
+import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -52,14 +54,16 @@ public class SMSStore implements ISMSStore {
     private final Client_GroupRepository client_groupRepository;
     private final Client_ScriptRepository client_scriptRepository;
     private final Client_PackageRepository client_packageRepository;
+    private final User_GroupRepository user_groupRepository;
     private ArrayList<TokenInfos> tokens = new ArrayList<>();
+
     public ArrayList<Client> getClients() {
         return (ArrayList<Client>) clientRepository.findAll().list();
     }
 
 
     @PostConstruct
-    public void init(){
+    public void init() {
         cleaner.start();
     }
 
@@ -71,7 +75,7 @@ public class SMSStore implements ISMSStore {
 
     }
 
-    public void deleteToken(TokenInfos tokenInfo){
+    public void deleteToken(TokenInfos tokenInfo) {
         tokens.remove(tokenInfo);
     }
 
@@ -186,8 +190,8 @@ public class SMSStore implements ISMSStore {
     public String decodeToken(String token) {
         String replacedToken = token.replaceAll("汉", "/");
         SecretKeySpec sk = null;
-        for(TokenInfos tokenInfo : tokens){
-            if(tokenInfo.getToken().equals(replacedToken)){
+        for (TokenInfos tokenInfo : tokens) {
+            if (tokenInfo.getToken().equals(replacedToken)) {
                 tokenInfo.setExpireDate(LocalDateTime.now().plusMinutes(1511));
                 sk = tokenInfo.getSecretKeySpec();
             }
@@ -290,6 +294,7 @@ public class SMSStore implements ISMSStore {
         return baseClientRepository.findById(id);
     }
 
+    @Transactional
     public ArrayList<Tasks> getTasks() {
         return (ArrayList<Tasks>) tasksRepository.findAll().list();
     }
@@ -305,8 +310,12 @@ public class SMSStore implements ISMSStore {
 
 
     public void removeGroup(@NotNull UUID id) {
+        user_groupRepository.deleteByGroupID(id.toString());
+        client_groupRepository.deleteByGroupID(id.toString());
         groupRepository.deleteGroupById(id.toString());
     }
+
+
 
     @Transactional
     public void removePackage(@NotNull UUID id) {
@@ -324,6 +333,7 @@ public class SMSStore implements ISMSStore {
 
 
     public void removeUser(@NotNull UUID id) {
+        user_groupRepository.deleteByUserID(id.toString());
         userRepository.deleteUserById(id.toString());
     }
 
@@ -350,15 +360,15 @@ public class SMSStore implements ISMSStore {
     public void insertPackage(Package packages) {
         UUID uuid = UUID.randomUUID();
         boolean isUnique = true;
-        for(Package package_ : getPackages()){
-            if(package_.getId().equals(uuid.toString())){
+        for (Package package_ : getPackages()) {
+            if (package_.getId().equals(uuid.toString())) {
                 isUnique = false;
             }
         }
-        if(isUnique){
+        if (isUnique) {
             packages.setId(uuid.toString());
             packageRepository.persist(packages);
-        }else{
+        } else {
             insertPackage(packages);
         }
     }
@@ -367,22 +377,34 @@ public class SMSStore implements ISMSStore {
     public void insertScript(Script script) {
         UUID uuid = UUID.randomUUID();
         boolean isUnique = true;
-        for(Script script_ : getScripts()){
-            if(script_.getId().equals(uuid.toString())){
+        for (Script script_ : getScripts()) {
+            if (script_.getId().equals(uuid.toString())) {
                 isUnique = false;
             }
         }
-        if(isUnique){
+        if (isUnique) {
             script.setId(uuid.toString());
             scriptRepository.persist(script);
-        }else{
+        } else {
             insertScript(script);
         }
     }
 
     @Transactional
     public void insertSmsGroup(SmsGroup smsGroup) {
-        groupRepository.persist(smsGroup);
+        UUID uuid = UUID.randomUUID();
+        boolean isUnique = true;
+        for (SmsGroup group_ : getGroups()) {
+            if (group_.getId().equals(uuid.toString())) {
+                isUnique = false;
+            }
+        }
+        if (isUnique) {
+            smsGroup.setId(uuid.toString());
+            groupRepository.persist(smsGroup);
+        } else {
+            insertSmsGroup(smsGroup);
+        }
     }
 
     @Transactional
@@ -391,14 +413,38 @@ public class SMSStore implements ISMSStore {
     }
 
     @Transactional
-    public void insertUser(User user) {//fehler
+    public void insertUser(DTOInsertUser user) {
+
         UUID uuid = UUID.randomUUID();
-        if(userRepository.findByID(uuid.toString()) == null){
-            user.setId(uuid.toString());
-            userRepository.persist(user);
-        }else{
+        boolean isUnique = true;
+        for (User user_ : getUsers()) {
+            if (user_.getId().equals(uuid.toString())) {
+                isUnique = false;
+            }
+        }
+        if (isUnique) {
+            String salt = generateSalt();
+            String password = hashPassword(user.getPassword() + salt);
+            User user_ = new User(uuid.toString(), user.getUsername(), password, salt, new ArrayList<>(), user.getRole());
+            userRepository.persist(user_);
+        } else {
             insertUser(user);
         }
+    }
+
+
+    public String generateSalt(){
+        String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        StringBuilder sb = new StringBuilder();
+        Random random = new Random();
+        int length = 4;
+        for(int i = 0; i < length; i++) {
+            int index = random.nextInt(alphabet.length());
+            char randomChar = alphabet.charAt(index);
+            sb.append(randomChar);
+        }
+
+        return sb.toString();
     }
 
     @Transactional
@@ -445,13 +491,19 @@ public class SMSStore implements ISMSStore {
     }
 
     @Transactional
-    public void updateGroup(SmsGroup Group) {
-
+    public void updateGroup(SmsGroup group) {
+        SmsGroup group_ = groupRepository.findById(group.getId());
+        group_.setName(group.getName());
+        groupRepository.getEntityManager().merge(group_);
     }
 
     @Transactional
-    public void updateUser(User user) {
-
+    public void updateUser(DTOInsertUser user) {
+          User user_ = userRepository.findByID(user.getId());
+          String password = hashPassword(user.getPassword() + user_.getSalt());
+          user_.setUsername(user.getUsername());
+          user_.setHash(password);
+          userRepository.getEntityManager().merge(user_);
     }
 
     @Transactional
@@ -482,17 +534,17 @@ public class SMSStore implements ISMSStore {
         if (isAllowed(token, add) || isAllowedToAdd(token, user_id, client_id)) {
             UUID uuid = UUID.randomUUID();
             boolean isUnique = true;
-            for(Tasks task_ : getTasks()){
-                if(task_.getId().equals(uuid.toString())){
+            for (Tasks task_ : getTasks()) {
+                if (task_.getId().equals(uuid.toString())) {
                     isUnique = false;
                 }
             }
-            if(isUnique){
+            if (isUnique) {
                 Client client = clientRepository.findById(client_id);
                 Script script = scriptRepository.findById(script_id);
                 Tasks task = new Tasks(uuid.toString(), client, null, script);
                 tasksRepository.persist(task);
-            }else{
+            } else {
                 insertTaskWithScript(client_id, script_id, user_id, add, token);
             }
         }
@@ -503,17 +555,17 @@ public class SMSStore implements ISMSStore {
         if (isAllowed(token, add) || isAllowedToAdd(token, user_id, client_id)) {
             UUID uuid = UUID.randomUUID();
             boolean isUnique = true;
-            for(Tasks task_ : getTasks()){
-                if(task_.getId().equals(uuid.toString())){
+            for (Tasks task_ : getTasks()) {
+                if (task_.getId().equals(uuid.toString())) {
                     isUnique = false;
                 }
             }
-            if(isUnique){
+            if (isUnique) {
                 Client client = clientRepository.findById(client_id);
                 Package package_ = packageRepository.findById(package_id);
                 Tasks task = new Tasks(uuid.toString(), client, package_, null);
                 tasksRepository.persist(task);
-            }else{
+            } else {
                 insertTaskWithScript(client_id, package_id, user_id, add, token);
             }
         }
@@ -521,21 +573,49 @@ public class SMSStore implements ISMSStore {
 
 
     @Transactional
-    public void removeTaskByPackageID(String id, String client_id){
+    public void removeTaskByPackageID(String id, String client_id) {
         tasksRepository.deleteTasksByPackage_ID(id, client_id);
     }
 
     @Transactional
-    public void removeTaskByScriptID(String id, String client_id){
-         tasksRepository.deleteTasksByScript_ID(id, client_id);
+    public void removeTaskByScriptID(String id, String client_id) {
+        tasksRepository.deleteTasksByScript_ID(id, client_id);
     }
 
 
-    public Tasks getTaskByPackageID(String id){
+    public Tasks getTaskByPackageID(String id) {
         return tasksRepository.findByPackage_ID(id);
     }
 
-    public Tasks getTaskByScriptID(String id){
+    public Tasks getTaskByScriptID(String id) {
         return tasksRepository.findByScript_ID(id);
     }
+
+
+    @Transactional
+    public void addUserToGroup(UUID user_ID, UUID group_ID) {
+        User_Group user_group = new User_Group(user_ID.toString(), group_ID.toString());
+        user_groupRepository.persist(user_group);
+    }
+    @Transactional
+    public void addClientToGroup(String client_ID, UUID group_ID) {
+        Client_Group client_group = new Client_Group(client_ID, group_ID.toString());
+        client_groupRepository.persist(client_group);
+    }
+    @Transactional
+    public void removeUserToGroup(UUID user_ID, UUID group_ID) {
+        user_groupRepository.deleteByGroupIDAndUserID(group_ID.toString(), user_ID.toString());
+    }
+    @Transactional
+    public void removeClientToGroup(String client_ID, UUID group_ID) {
+        client_groupRepository.deleteByGroupIDAndClientID(group_ID.toString(), client_ID);
+    }
+
+    @Transactional
+    public void changeRole(String user_ID, Role role){
+        User user_ = userRepository.findByID(user_ID);
+        user_.setRole(role);
+        userRepository.getEntityManager().merge(user_);
+    }
+
 }

@@ -16,4 +16,14 @@ public class Client_GroupRepository implements PanacheRepository<Client_Group> {
     public void deleteByClientID(String id){
         delete("Client_ID = ?1", id);
     }
+
+    @Transactional
+    public void deleteByGroupID(String id){
+        delete("Group_ID = ?1", id);
+    }
+
+    @Transactional
+    public void deleteByGroupIDAndClientID(String group_ID, String client_ID){
+        delete("Group_ID = ?1 and Client_ID = ?2", group_ID, client_ID);
+    }
 }

@@ -134,9 +134,15 @@ public class ClientSocket {
     }
 
     public void sendMessage(){
-        List<DTOClientSession> clone = (List<DTOClientSession>) clientSessions.clone();
-        for(DTOClientSession clientSession : clone){
-            if(smsStore.getTasksByClientID(clientSession.getMac_address()) != null){
+        for(DTOClientSession clientSession : clientSessions){
+            ArrayList<Tasks> allTasks = smsStore.getTasks();
+            boolean hasNoTask = true;
+            for(Tasks task : allTasks){
+                if(task.getClient().getMacAddress().getMacAddress().equals(clientSession.getMac_address())){
+                    hasNoTask = false;
+                }
+            }
+            if(!hasNoTask){
                 Gson gson = new Gson();
                 String mac_address = clientSession.getMac_address();
                 Session session = clientSession.getSession();

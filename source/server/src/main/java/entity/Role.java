@@ -22,7 +22,7 @@ public class Role {
     @Column(name = "Name", length = 45, nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, orphanRemoval = true)
+  /*  @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
-    private List<User> users;
+    private List<User> users;*/
 }

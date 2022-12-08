@@ -9,6 +9,7 @@ import entity.Package;
 import entity.jsonview.ClientView;
 import entity.jsonview.GroupView;
 import lombok.RequiredArgsConstructor;
+import model.DTOInsertUser;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PostConstruct;
@@ -31,7 +32,7 @@ public class WebpageControllerAdmin implements IWebpageResourceAdmin {
     private Login anno = null;
 
     @PostConstruct
-    public void init(){
+    public void init() {
         anno = WebpageControllerAdmin.class.getAnnotation(Login.class);
     }
 
@@ -62,7 +63,6 @@ public class WebpageControllerAdmin implements IWebpageResourceAdmin {
         }
         return null;
     }
-
 
 
     @Override
@@ -139,7 +139,7 @@ public class WebpageControllerAdmin implements IWebpageResourceAdmin {
     }
 
     @Override
-    public void insertUser(User user, String token) {
+    public void insertUser(DTOInsertUser user, String token) {
         if (smsStore.isAllowed(token, anno)) {
             smsStore.insertUser(user);
         }
@@ -164,17 +164,18 @@ public class WebpageControllerAdmin implements IWebpageResourceAdmin {
     }
 
     @Override
-    public void updateGroup(SmsGroup Group, String token) {
+    public void updateGroup(SmsGroup group, String token) {
         if (smsStore.isAllowed(token, anno)) {
+            smsStore.updateGroup(group);
         }
 
     }
 
     @Override
-    public void updateUser(User user, String token) {
+    public void updateUser(DTOInsertUser user, String token) {
         if (smsStore.isAllowed(token, anno)) {
+            smsStore.updateUser(user);
         }
-
     }
 
     @Override
@@ -205,6 +206,42 @@ public class WebpageControllerAdmin implements IWebpageResourceAdmin {
         if (smsStore.isAllowed(token, anno)) {
             smsStore.updateClient(Client);
         }
+    }
+
+    @Override
+    public void addClientToGroup(String token, UUID group_ID, String client_ID) {
+        if (smsStore.isAllowed(token, anno)) {
+            smsStore.addClientToGroup(client_ID, group_ID);
+        }
+    }
+
+    @Override
+    public void addUserToGroup(String token, UUID group_ID, UUID user_ID) {
+        if (smsStore.isAllowed(token, anno)) {
+            smsStore.addUserToGroup(user_ID, group_ID);
+        }
+    }
+
+    @Override
+    public void removeClientToGroup(String token, UUID group_ID, String client_ID) {
+        if (smsStore.isAllowed(token, anno)) {
+            smsStore.removeClientToGroup(client_ID, group_ID);
+        }
+    }
+
+    @Override
+    public void removeUserToGroup(String token, UUID group_ID, UUID user_ID) {
+        if (smsStore.isAllowed(token, anno)) {
+            smsStore.removeUserToGroup(user_ID, group_ID);
+        }
+    }
+
+    @Override
+    public Role changeUserRole(Role role, String token, String user_ID) {
+        if (smsStore.isAllowed(token, anno)) {
+            smsStore.changeRole(user_ID, role);
+        }
+        return role;
     }
 
 

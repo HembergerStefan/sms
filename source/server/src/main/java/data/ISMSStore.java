@@ -2,6 +2,7 @@ package data;
 
 import entity.Package;
 import entity.*;
+import model.DTOInsertUser;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -54,5 +55,5 @@ public interface ISMSStore{
 
     void insertTask(Tasks task);
 
-    void insertUser(User user);
+    void insertUser(DTOInsertUser user);
 }

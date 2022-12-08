@@ -8,6 +8,7 @@ import entity.User;
 import entity.jsonview.PackageView;
 import entity.jsonview.ScriptView;
 import entity.jsonview.UserView;
+import model.DTOInsertUser;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -35,6 +36,13 @@ public interface IWebpageResourceUser {
     @Produces(MediaType.APPLICATION_JSON)
     @JsonView(ScriptView.Always.class)
     ArrayList<Script> getScripts(@PathParam("token") String token);
+
+    @POST
+    @Path("/updateUser/{token}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    void updateUser(DTOInsertUser user, @PathParam("token") String token);
+
 
 
     @PUT
