@@ -4,7 +4,6 @@ import {Routes, Route} from 'react-router-dom'
 import NavBar from './components/ui/navbar/NavBar'
 import SideBar from './components/ui/sidebar/SideBar'
 import SkeletonLoading from './components/ui/skeleton_loading/SkeletonLoading'
-import io from "socket.io-client";
 
 function App() {
 
@@ -17,12 +16,12 @@ function App() {
     const Profile = lazy(() => import('./pages/Profile'))
     const Settings = lazy(() => import('./pages/Settings'))
 
-    //const socket = io('ws://172.16.101.43:8080/webpage/1923081e-a47e-4446-88ce-27707436afd3/wW2wIjtj4kOHbG/2g2bkAuai2aO+FPjGVd49fm/uiOWBvEsP4yUuQ927pTQEOyQd')
-
-    //const socket = new WebSocket('ws://172.16.101.43:8080/webpage/1923081e-a47e-4446-88ce-27707436afd3/wW2wIjtj4kOHbG/2g2bkAuai2aO+FPjGVd49fm/uiOWBvEsP4yUuQ927pTQEOyQd')
-
     useEffect(() => {
+        /*const socket = new WebSocket('ws://192.168.178.27:8080/webpage/ad77351b-e3b5-4512-99be-bfd429bae4dc/SfRoe1TaF4nALDabtTI7hLnnF汉O8N3UyM82nSsUKJRLUXNl8T2hPGjKFcV3rxkR4')
 
+        socket.onmessage = ev => {
+            console.log(ev.data)
+        }*/
     }, [])
 
     return (
