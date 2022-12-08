@@ -1,6 +1,8 @@
-import React, {memo, useRef, useState} from 'react'
+import React, {memo, useEffect, useRef, useState} from 'react'
 
 import {useTranslation} from 'react-i18next'
+
+import useScriptStore from '../../../store/scriptInformationStore'
 
 import CodeEditor from '@uiw/react-textarea-code-editor'
 
@@ -9,23 +11,36 @@ import CodingLanguageSelector from '../coding_language_selector/CodingLanguageSe
 
 import './CodeBlockEditor.css'
 
-const CodeBlockEditor = () => {
+interface CodeBlockEditorProps {
+    defaultValues?: { code: string, language: string }
+    setStoreValue: Function
+}
+
+const CodeBlockEditor = ({defaultValues, setStoreValue}: CodeBlockEditorProps) => {
 
     const {t} = useTranslation()
-    const initialValue = t('Code of the Script')
+    const {addingScript} = useScriptStore()
 
-    const [code, setCode] = useState<string>(initialValue)
-    const [language, setLanguage] = useState<string>('Bash')
+    const [code, setCode] = useState<string>(defaultValues?.code !== undefined ? defaultValues?.code : '')
+    const [language, setLanguage] = useState<string>(defaultValues?.language !== undefined ? defaultValues?.language : 'Python')
     const codeSectionRef = useRef<HTMLElement>(null)
 
+    useEffect(() => {
+        addingScript.language = language
+    }, [language])
+
     return (
-        <section ref={codeSectionRef} id='code-section'>
+        <section ref={codeSectionRef} id='code-section' className='md-input'>
             <CodeEditor
                 id='code-editor'
                 value={code}
                 language={language}
+                placeholder={t('Code of the Script')}
                 wrap='soft'
-                onChange={(evn) => setCode(evn.target.value)}
+                onChange={(ev) => {
+                    setCode(ev.target.value)
+                    setStoreValue(ev.target.value)
+                }}
                 style={{
                     color: 'var(--sc-clr)',
                     fontSize: 16,
@@ -33,16 +48,18 @@ const CodeBlockEditor = () => {
                     borderRadius: 'var(--br-r-small)',
                     height: '100%',
                     width: '90%',
-                    minHeight: '120px',
+                    minHeight: '220px',
                     maxHeight: '450px',
                     maxWidth: '610px',
-                    overflow: 'auto'
+                    overflow: 'auto',
+                    whiteSpace: 'pre-line'
                 }}
+                required={true}
             />
-            <section id='code-editor--pref-settings'>
+            <div id='code-editor--pref-settings'>
                 <CodingLanguageSelector language={language} setLanguage={setLanguage}/>
                 <FullSizeButton containerRef={codeSectionRef} size='var(--icon-size-small)'/>
-            </section>
+            </div>
         </section>
     )
 }
