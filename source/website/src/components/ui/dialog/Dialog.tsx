@@ -4,6 +4,7 @@ import KebabMenu from '../../form/menu/kebab_menu/KebabMenuButton'
 import CloseButton from '../../form/menu/close/CloseButton'
 
 import './Dialog.css'
+import useScriptStore from "../../../store/scriptInformationStore";
 
 interface DialogProps {
     title: string
@@ -16,8 +17,16 @@ const Dialog = ({title, unmountComponent, body, footer}: DialogProps) => {
 
     const [shake, setShake] = useState<boolean>(false)
 
+    /* Add a new script */
+    const {addingScript, addScript} = useScriptStore()
+
+    const handleSubmit = (e: { preventDefault: () => void }) => {
+        e.preventDefault()
+        addScript(addingScript)
+    }
+
     return (
-        <div className='blocking-container' onMouseDown={() => {
+        <section className='blocking-container' onMouseDown={() => {
             setShake(() => true)
 
             setTimeout(() => {
@@ -26,11 +35,14 @@ const Dialog = ({title, unmountComponent, body, footer}: DialogProps) => {
                 }
             }, 720)
         }}>
-            <div id='dialog-container' className={shake ? 'shake' : ''} onMouseDown={event => event.stopPropagation()}>
-                <h1 className='fs-tr-1 fw--semi-bold'>{title}</h1>
-                <div id='dialog-menu-container'>
-                    <KebabMenu size='var(--icon-size-medium)'/>
-                    <CloseButton size='28px' closeCallback={unmountComponent}/>
+            <form id='dialog-container' className={shake ? 'shake' : ''} onMouseDown={event => event.stopPropagation()}
+                  onSubmit={handleSubmit}>
+                <div>
+                    <h1 className='fs-tr-1 fw--semi-bold'>{title}</h1>
+                    <div id='dialog-menu-container'>
+                        <KebabMenu size='var(--icon-size-medium)'/>
+                        <CloseButton size='28px' closeCallback={unmountComponent}/>
+                    </div>
                 </div>
 
                 {body}
@@ -38,8 +50,8 @@ const Dialog = ({title, unmountComponent, body, footer}: DialogProps) => {
                 <div id='dialog-footer-container'>
                     {footer}
                 </div>
-            </div>
-        </div>
+            </form>
+        </section>
     )
 }
 
