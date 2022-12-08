@@ -31,7 +31,7 @@ const ScriptDialogToggle = () => {
                             body={<ScriptInformationDialog/>}
                             footer={
                                 <>
-                                    <span className='fs-tr-body-1'>Version 0.1.0</span>
+                                    <span className='fs-tr-body-1'>Version 0.4.5</span>
                                     <br/>
                                     <DialogButton placeholder='Save'/>
                                 </>
