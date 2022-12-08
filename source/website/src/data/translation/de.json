@@ -5,6 +5,23 @@
   "Not looking for anything yet? Start your search now!": "Noch nichts gesucht? Beginnen Sie jetzt mit der Suche!",
   "Search for anything ...": "Nach allem suchen ...",
 
+  "Add Script": "Skript hinzufügen",
+  "Update Script Information": "Skriptinformationen bearbeiten",
+  "Title": "Titel",
+  "Description": "Beschreibung",
+  "Script Clarification": "Name",
+  "What makes my script so special ...": "Kurze Beschreibung des Skriptes ...",
+  "Code of the Script": "Code des Skriptes",
+
+  "Good Morning": "Guten Morgen",
+  "Have you had a good start to the day?": "Hatten Sie einen guten Start in den Tag?",
+  "Good Noon": "Guten Mittag",
+  "Lunchtime.": "Zeit für eine Mittagspause.",
+  "Good Afternoon": "Guten Tag",
+  "Did you finish of some task?": "Haben Sie Ihre Aufgaben erledigt?",
+  "Good Evening": "Guten Abend",
+  "Have a restful night.": "Ich wünsche Ihnen eine erholsame Nacht.",
+
   "Overview": "Übersicht",
   "Main": "Hauptübersicht",
   "Devices": "Geräte",
@@ -18,5 +35,9 @@
   "Delete recent searches": "Vergangene Suchanfragen löschen",
   "Change language": "Sprache ändern",
 
-  "Select Item": "Auswählen"
+  "Select Item": "Auswählen",
+
+  "Save": "Speichern",
+  "Delete": "Löschen",
+  "Execute": "Ausführen"
 }
