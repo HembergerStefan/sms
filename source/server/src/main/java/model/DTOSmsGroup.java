@@ -3,12 +3,15 @@ package model;
 
 import lombok.*;
 
+import java.util.ArrayList;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class DTOUser {//Datenübertragungsklasse
+public class DTOSmsGroup {//Datenübertragungsklasse
+    private String id;
     private String name;
-    private String password;
+    private ArrayList<DTOClient> clients;
 }

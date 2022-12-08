@@ -1,3 +1,4 @@
+//Christian Freilinger
 package websockets;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -24,80 +25,69 @@ import java.sql.Timestamp;
 import java.util.*;
 
 
-@ServerEndpoint("/client/{mac_address}")
+@ServerEndpoint("/client/{mac_address}")//Pfad
 @ApplicationScoped
 @RequiredArgsConstructor
 @Getter
 public class ClientSocket {
 
-    @Inject
+    @Inject//Dependency Injection des SMSStores
     protected SMSStore smsStore;
 
-    private ArrayList<DTOClientSession> clientSessions = new ArrayList<DTOClientSession>();
-    private ClientResponseThread clientResponseThread = new ClientResponseThread(this);
+    private final ArrayList<DTOClientSession> clientSessions = new ArrayList<DTOClientSession>();//Liste mit allen Sessions zu den Clients
+    private final ClientResponseThread clientResponseThread = new ClientResponseThread(this);//Thread zum Senden der Nachrichten asynchron an die Clients
 
     private boolean isAllowedToRun = false;
 
-    @PostConstruct
+    @PostConstruct//Post Constructor
     public void init(){
         clientResponseThread.start();
-    }
+    }//Started den Thread
     @OnOpen
-    public void onOpen(Session session, @PathParam("mac_address") String mac_address) {
+    public void onOpen(Session session, @PathParam("mac_address") String mac_address) {//öffnen einer Verbindung
         if (!smsStore.clientIsAvailable(mac_address)) {
-            if (!smsStore.availableclientIsAvailable(mac_address)) {
+            if (!smsStore.availableclientIsAvailable(mac_address)) {//wenn es noch keinen Client oder Available_Client gibt, wird ein neuer erstellt
                 Baseclient baseclient = new Baseclient(mac_address);
                 Available_Clients available_client = new Available_Clients(new Baseclient(mac_address), "unkowen", "0.0.0.0");
                 smsStore.insertBase_Client(baseclient);
                 smsStore.insertAvailable_Client(available_client);
             }
         }else{
-            DTOClientSession clientSession = new DTOClientSession(mac_address, session);
+            DTOClientSession clientSession = new DTOClientSession(mac_address, session);//Client und dazugehörige Session wird gespeichert
             clientSessions.add(clientSession);
         }
-        if(clientSessions.size() > 0){
-            isAllowedToRun = true;
-        }else{
-            isAllowedToRun = false;
-        }
+        //starten und stoppen des Threads um Resourcen zu schonen
+        isAllowedToRun = clientSessions.size() > 0;
     }
 
     @OnClose
-    public void onClose(Session session, @PathParam("mac_address") String mac_address) {
+    public void onClose(Session session, @PathParam("mac_address") String mac_address) {//wird die Verbindung geschlossen wird der Client und die Session entfernt
         List<DTOClientSession> clone = (List<DTOClientSession>) clientSessions.clone();
         for(DTOClientSession clientSession : clone){
             if(clientSession.getSession().toString().equals(session.toString())){
                 clientSessions.remove(clientSession);
             }
         }
-        if(clientSessions.size() > 0){
-            isAllowedToRun = true;
-        }else{
-            isAllowedToRun = false;
-        }
+        isAllowedToRun = clientSessions.size() > 0;
     }
 
     @OnError
-    public void onError(Session session, @PathParam("mac_address") String mac_address, Throwable throwable) {
+    public void onError(Session session, @PathParam("mac_address") String mac_address, Throwable throwable) {//gibt es einen Fehler wird der Client und die Session entfernt
         List<DTOClientSession> clone = (List<DTOClientSession>) clientSessions.clone();
         for(DTOClientSession clientSession : clone){
             if(clientSession.getSession().toString().equals(session.toString())){
                 clientSessions.remove(clientSession);
             }
         }
-        if(clientSessions.size() > 0){
-            isAllowedToRun = true;
-        }else{
-            isAllowedToRun = false;
-        }
+        isAllowedToRun = clientSessions.size() > 0;
     }
 
     @OnMessage
-    public void onMessage(Session session, String message, @PathParam("mac_address") String mac_address) {
+    public void onMessage(Session session, String message, @PathParam("mac_address") String mac_address) {//beim Erhalten einer Nachricht
         ObjectMapper mapper = new ObjectMapper();
         try {
             Map<String,Object> map = mapper.readValue(message, Map.class);
-            if(smsStore.clientIsAvailable(mac_address)){
+            if(smsStore.clientIsAvailable(mac_address)){//infos werden dem Client zugeordnet
                 Client client = smsStore.getClientByID(mac_address);
                 client.setName((String) map.get("hostname"));
                 client.setIp((String) map.get("ip"));
@@ -112,17 +102,17 @@ public class ClientSocket {
                 client.setPackages(packages);
                 client.setScript(scripts);
                 smsStore.updateClient(client);
-                for(String id : packagesIDs){
+                for(String id : packagesIDs){//löscht Tasks
                     if(smsStore.getTaskByPackageID(id) != null){
-                        smsStore.removeTaskByPackageID(id);
+                        smsStore.removeTaskByPackageID(id, mac_address);
                     }
                 }
-                for(String id : scriptsIDs){
+                for(String id : scriptsIDs){//löscht Tasks
                     if(smsStore.getTaskByScriptID(id) != null){
-                        smsStore.removeTaskByScriptID(id);
+                        smsStore.removeTaskByScriptID(id, mac_address);
                     }
                 }
-            }else if(smsStore.availableclientIsAvailable(mac_address)){
+            }else if(smsStore.availableclientIsAvailable(mac_address)){//infos werden dem Available_Client zugeordnet
                 Available_Clients client = smsStore.getAvailableClientById(mac_address);
                 client.setName((String) map.get("hostname"));
                 client.setIp((String) map.get("ip"));
@@ -133,10 +123,17 @@ public class ClientSocket {
         }
     }
 
-    public void sendMessage(){
-        List<DTOClientSession> clone = (List<DTOClientSession>) clientSessions.clone();
-        for(DTOClientSession clientSession : clone){
-            if(smsStore.getTasksByClientID(clientSession.getMac_address()) != null){
+    public void sendMessage(){//sendet eine Nachricht
+        for(DTOClientSession clientSession : clientSessions){
+            ArrayList<Tasks> allTasks = smsStore.getTasks();
+            boolean hasNoTask = true;
+            for(Tasks task : allTasks){
+                if (task.getClient().getMacAddress().getMacAddress().equals(clientSession.getMac_address())) {
+                    hasNoTask = false;
+                    break;
+                }
+            }
+            if(!hasNoTask){
                 Gson gson = new Gson();
                 String mac_address = clientSession.getMac_address();
                 Session session = clientSession.getSession();
@@ -151,7 +148,7 @@ public class ClientSocket {
                     }
                     if(task.getScript() != null){
                         Script script_ = task.getScript();
-                        DTOScript dtoScript = new DTOScript(script_.getId(), script_.getName(), script_.getDescription(), script_.getScript_value());
+                        DTOScript dtoScript = new DTOScript(script_.getId(), script_.getName(), script_.getDescription(), script_.getScript_value(), script_.getInterpreter(), script_.getFileExtension());
                         dtoscripts.add(dtoScript);
                     }
                 }

@@ -1,6 +1,7 @@
 //Christian Freilinger
 package model;
 
+import entity.Role;
 import lombok.*;
 
 @Getter
@@ -8,7 +9,9 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class DTOUser {//Datenübertragungsklasse
-    private String name;
+public class DTOInsertUser {//Datenübertragungsklasse
+    private String id;
+    private String username;
     private String password;
+    private Role role;
 }

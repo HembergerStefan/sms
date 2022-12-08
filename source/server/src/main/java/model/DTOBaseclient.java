@@ -1,7 +1,6 @@
 //Christian Freilinger
 package model;
 
-
 import lombok.*;
 
 @Getter
@@ -9,7 +8,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class DTOLoginResponse {//Datenübertragungsklasse
-    private String token;
-    private String user_ID;
+public class DTOBaseclient {//Datenübertragungsklasse
+    private String macAddress;
 }

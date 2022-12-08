@@ -1,3 +1,4 @@
+//Christian Freilinger
 package model;
 
 import lombok.*;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class DTOResponse {
+public class DTOResponse {//Datenübertragungsklasse
     private ArrayList<DTOPackage> dtopackages;
     private ArrayList<DTOScript> dtoScripts;
 }

@@ -1,14 +1,15 @@
+//Christian Freilinger
 package thread;
 
 import lombok.AllArgsConstructor;
-import websockets.WebpageSocket;
+import websockets.WebSocket;
 
 import javax.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 @AllArgsConstructor
 public class UserResponseThread extends Thread{
-    private WebpageSocket webpageSocket;
+    private WebSocket webpageSocket;
     public void run() {
         while (true) {
             try {
