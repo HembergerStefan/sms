@@ -15,7 +15,7 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class DTOPackage implements Serializable {
+public class DTOPackage implements Serializable {//Datenübertragungsklasse
     private String id;
     private String name;
     private String version;

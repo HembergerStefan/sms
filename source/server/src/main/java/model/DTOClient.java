@@ -9,7 +9,7 @@ import java.util.ArrayList;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class DTOClient {
+public class DTOClient {//Datenübertragungsklasse
     private DTOBaseclient macAddress;
     private String name;
     private String ip;

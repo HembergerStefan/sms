@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class DTOInsertUser {
+public class DTOInsertUser {//Datenübertragungsklasse
     private String id;
     private String username;
     private String password;

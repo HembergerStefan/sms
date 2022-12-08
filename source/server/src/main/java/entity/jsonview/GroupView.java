@@ -1,6 +1,6 @@
 package entity.jsonview;
 
-public class GroupView {
+public class GroupView {//Viewklasse
 
     public interface Always { }
 }

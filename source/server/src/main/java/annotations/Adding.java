@@ -8,5 +8,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Adding {
-    String[] roles();
+    String[] roles();//Liste von Rollen, die erlaubt sind
 }

@@ -7,6 +7,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class DTOBaseclient {
+public class DTOBaseclient {//Datenübertragungsklasse
     private String macAddress;
 }

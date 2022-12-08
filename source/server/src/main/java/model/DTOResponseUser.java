@@ -10,7 +10,7 @@ import java.util.ArrayList;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class DTOResponseUser {
+public class DTOResponseUser {//Datenübertragungsklasse
     private String id;
     private String username;
     private ArrayList<DTOSmsGroup> groups;

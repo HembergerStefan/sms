@@ -9,7 +9,7 @@ import java.util.ArrayList;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class DTOSmsGroup {
+public class DTOSmsGroup {//Datenübertragungsklasse
     private String id;
     private String name;
     private ArrayList<DTOClient> clients;

@@ -1,6 +1,6 @@
 package entity.jsonview;
 
-public class UserView {
+public class UserView {//Viewklasse
 
     public interface Always { }
 }

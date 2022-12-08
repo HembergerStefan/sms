@@ -8,5 +8,5 @@ import javax.enterprise.context.ApplicationScoped;
 
 @Repository
 @ApplicationScoped
-public class RoleRepository implements PanacheRepository<Role> {
+public class RoleRepository implements PanacheRepository<Role> {//Repository einer Rolle
 }

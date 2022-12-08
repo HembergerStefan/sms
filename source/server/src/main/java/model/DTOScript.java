@@ -13,7 +13,7 @@ import javax.persistence.Id;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class DTOScript {
+public class DTOScript {//Datenübertragungsklasse
     private String id;
     private String name;
     private String description;

@@ -1,6 +1,6 @@
 package entity.jsonview;
 
-public class TaskView {
+public class TaskView {//Viewklasse
 
     public interface Always {}
 

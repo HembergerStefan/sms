@@ -2,15 +2,11 @@ package thread;
 
 import data.SMSStore;
 import lombok.*;
-import org.graalvm.nativeimage.Platform;
 import token.TokenInfos;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Map;
 
 @ApplicationScoped
 @AllArgsConstructor
@@ -18,12 +14,12 @@ public class TokenCleanerThread extends Thread {
     private SMSStore smsStore;
 
     public void run(){
-        while(true){
+        while(true){//läuft dauerhaft, wenn er gestartet wurde
             try{
-                Thread.sleep(10000);
+                Thread.sleep(10000);//wartet 10 Sekunden
                 if(smsStore != null){
                     ArrayList<TokenInfos> token = smsStore.getTokens();
-                    for(TokenInfos tokenInfo : token){
+                    for(TokenInfos tokenInfo : token){//löscht alle abgelaufenen Token
                         if(tokenInfo.getExpireDate().isBefore(LocalDateTime.now())){
                             smsStore.deleteToken(tokenInfo);
                         }

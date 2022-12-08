@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class DTOUser {
+public class DTOUser {//Datenübertragungsklasse
     private String name;
     private String password;
 }

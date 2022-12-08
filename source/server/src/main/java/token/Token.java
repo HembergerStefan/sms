@@ -4,7 +4,6 @@ import lombok.*;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
-import java.time.LocalDateTime;
 import java.util.Base64;
 
 @Getter
@@ -12,12 +11,12 @@ import java.util.Base64;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Token {
-    private String userID;
-    private String role;
-    private SecretKeySpec secretKeySpec;
+    private String userID;//speichert die ID des Benutzers
+    private String role;//speichert die Rolle des Benutzers
+    private SecretKeySpec secretKeySpec;//speichert den SecretKeySpec mit dem der Token dieses Nutzers verschlüsselt wurde
 
     @Override
-    public String toString(){
+    public String toString() {//verschlüssel den Token und gibt ihn als String zurück
         String token = userID + "/" + role;
         try {
             Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");

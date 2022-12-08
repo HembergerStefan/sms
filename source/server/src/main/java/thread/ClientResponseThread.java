@@ -11,12 +11,12 @@ public class ClientResponseThread extends Thread {
     private ClientSocket clientSocket;
 
     public void run() {
-        while (true) {
+        while (true) {//läuft dauerhaft, nach dem Starten
             try {
-                Thread.sleep(5000);
-                if (clientSocket.isAllowedToRun()) {
+                Thread.sleep(5000);//wartet 5 Sekunden
+                if (clientSocket.isAllowedToRun()) {//wird nur ausgeführt, wenn es Clients mit Sessions gibt
                     if (clientSocket != null) {
-                        clientSocket.sendMessage();
+                        clientSocket.sendMessage();//schickt Nachrichten
                     }
                 }
             } catch (Exception e) {

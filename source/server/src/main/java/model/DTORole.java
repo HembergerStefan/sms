@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class DTORole {
+public class DTORole {//Datenübertragungsklasse
     private String id;
     private String name;
 }

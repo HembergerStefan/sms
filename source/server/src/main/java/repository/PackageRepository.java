@@ -9,13 +9,13 @@ import javax.transaction.Transactional;
 
 @Repository
 @ApplicationScoped
-public class PackageRepository implements PanacheRepository<Package> {
+public class PackageRepository implements PanacheRepository<Package> {//Repository eines Packages
     @Transactional
-    public void deletePackageById(String id){
+    public void deletePackageById(String id){//löscht ein Package
         delete("ID = ?1", id);
     }
 
-    public Package findById(String id) {
+    public Package findById(String id) {//findet ein Package durch seine ID
         return find("ID", id).firstResult();
     }
 }
