@@ -4,6 +4,12 @@
 
     border-radius: var(--br-r-small);
     border: 1px solid var(--ipt--df-border--clr);
+
+    background-color: var(--ipt--bg-clr);
+}
+
+#code-editor::placeholder {
+    color: var(--sc-clr) !important;
 }
 
 #code-editor--pref-settings {
