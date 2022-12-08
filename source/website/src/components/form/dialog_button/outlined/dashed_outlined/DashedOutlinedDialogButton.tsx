@@ -1,5 +1,9 @@
 import React, {memo} from 'react'
 
+import {useTranslation} from 'react-i18next'
+
+import useScriptStore from '../../../../../store/scriptInformationStore'
+
 import './DashedOutlinedDialogButton.css'
 
 interface DialogButtonProps {
@@ -8,9 +12,13 @@ interface DialogButtonProps {
 
 const DashedOutlinedDialogButton = ({placeholder}: DialogButtonProps) => {
 
+    const {t} = useTranslation()
+
+    const {removeScript} = useScriptStore()
+
     return (
-        <button id='dashed-outlined' onClick={() => alert('saving feature currently not implemented')}>
-            <span className='fs-qi-1 fw--semi-bold clr-nl-3'>{placeholder}</span>
+        <button id='dashed-outlined' type='button' onClick={() => removeScript(10)}>
+            <span className='fs-qi-1 fw--semi-bold clr-nl-3'>{t(placeholder)}</span>
         </button>
     )
 }

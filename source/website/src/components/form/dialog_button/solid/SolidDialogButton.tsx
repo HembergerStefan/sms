@@ -1,5 +1,7 @@
 import React, {memo} from 'react'
 
+import {useTranslation} from 'react-i18next'
+
 import './SolidDialogButton.css'
 
 interface DialogButtonProps {
@@ -8,9 +10,12 @@ interface DialogButtonProps {
 
 const SolidDialogButton = ({placeholder}: DialogButtonProps) => {
 
+    const {t} = useTranslation()
+
     return (
-        <button id='dialog-button' onClick={() => alert('saving feature currently not implemented')}>
-            <span className='fs-qi-1 fw--semi-bold clr-nl-3'>{placeholder}</span></button>
+        <button id='dialog-button' type='submit'>
+            <span className='fs-qi-1 fw--semi-bold clr-nl-3'>{t(placeholder)}</span>
+        </button>
     )
 }
 
