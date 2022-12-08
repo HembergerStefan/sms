@@ -1,3 +1,4 @@
+//Christian Freilinger
 package entity;
 
 import com.fasterxml.jackson.annotation.JsonView;
@@ -6,7 +7,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.UUID;
+
 
 @Getter
 @Setter

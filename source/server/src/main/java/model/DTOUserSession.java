@@ -1,6 +1,6 @@
+//Christian Freilinger
 package model;
 
-import entity.User;
 import lombok.*;
 
 import javax.websocket.Session;

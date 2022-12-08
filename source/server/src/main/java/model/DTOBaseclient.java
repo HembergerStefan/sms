@@ -1,3 +1,4 @@
+//Christian Freilinger
 package model;
 
 import lombok.*;

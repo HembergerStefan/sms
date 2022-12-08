@@ -1,3 +1,4 @@
+//Christian Freilinger
 package common;
 
 import com.fasterxml.jackson.annotation.JsonView;

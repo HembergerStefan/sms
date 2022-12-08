@@ -1,12 +1,10 @@
+//Christian Freilinger
 package model;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import entity.jsonview.ClientView;
-import entity.jsonview.ScriptView;
+
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
+
 
 @Getter
 @Setter

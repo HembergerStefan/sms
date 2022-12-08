@@ -1,3 +1,4 @@
+//Christian Freilinger
 package entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;

@@ -1,3 +1,4 @@
+//Christian Freilinger
 package thread;
 
 import data.SMSStore;
