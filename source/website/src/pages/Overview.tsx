@@ -14,8 +14,17 @@ import {STATES} from "../components/form/checkbox/CheckboxStates";
 import ChartContainer from "../components/ui/chart/ChartContainer";
 import DateTimePicker from "../components/form/date_time_picker/DateTimePicker";
 import ScriptDialogToggle from "../components/form/script_dialog_toggle/ScriptDialogToggle";
+import SolidDialogButton from "../components/form/dialog_button/solid/SolidDialogButton";
+import SolidOutlinedDialogButton
+    from "../components/form/dialog_button/outlined/solid_outlined/SolidOutlinedDialogButton";
+import DashedOutlinedDialogButton
+    from "../components/form/dialog_button/outlined/dashed_outlined/DashedOutlinedDialogButton";
+import ScriptUpdateDialogToggle from "../components/form/script_dialog_toggle/ScriptUpdateDialogToggle";
+import {useTranslation} from "react-i18next";
 
 const Overview = () => {
+
+    const {t} = useTranslation()
 
     const cnRef = useRef<HTMLDivElement>(null)
 
@@ -36,7 +45,7 @@ const Overview = () => {
         } else if (hours > 13 && hours <= 18) {
             setWelcomeMessage({title: 'Good Afternoon', subTitle: 'Did you finish of some task?'})
         } else {
-            setWelcomeMessage({title: 'Good Evening', subTitle: 'Sleeping time.'})
+            setWelcomeMessage({title: 'Good Evening', subTitle: 'Have a restful night.'})
         }
     }
 
@@ -71,10 +80,11 @@ const Overview = () => {
             background: 'var(--nl-clr-1)',
             borderRadius: '25px 0 0 0',
             padding: '40px',
-            gridArea: 'main'
+            gridArea: 'main',
+            overflow: 'auto'
         }}>
-            <h1 className='fs-pr-1 fw--semi-bold'>{welcomeMessage.title}, {userName}!</h1>
-            <span className='fs-pr-body-1 fw-regula'>{welcomeMessage.subTitle}</span>
+            <h1 className='fs-pr-1 fw--semi-bold'>{t(welcomeMessage.title)}, {userName}!</h1>
+            <span className='fs-pr-body-1 fw-regula'>{t(welcomeMessage.subTitle)}</span>
 
             <br/>
             <br/>
@@ -84,12 +94,18 @@ const Overview = () => {
             <br/>
             <br/>
 
-            <DateTimePicker/>
+            <div style={{display: 'flex', gap: '10px'}}>
+                <SolidDialogButton placeholder='Click me'/>
+                <SolidOutlinedDialogButton placeholder='Click me'/>
+                <DashedOutlinedDialogButton placeholder='Click me'/>
+            </div>
 
             <br/>
             <br/>
 
             <ScriptDialogToggle/>
+            <br/>
+            <ScriptUpdateDialogToggle/>
 
             <br/>
             <br/>
