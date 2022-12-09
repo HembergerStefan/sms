@@ -21,6 +21,7 @@ import DashedOutlinedDialogButton
     from "../components/form/dialog_button/outlined/dashed_outlined/DashedOutlinedDialogButton";
 import ScriptUpdateDialogToggle from "../components/form/script_dialog_toggle/ScriptUpdateDialogToggle";
 import {useTranslation} from "react-i18next";
+import BasicTable from "../components/ui/table/BasicTable";
 
 const Overview = () => {
 
@@ -89,6 +90,11 @@ const Overview = () => {
             <br/>
             <br/>
 
+            <BasicTable/>
+
+            <br/>
+            <br/>
+
             <Checkbox value={isChecked} handleChange={handleChange}/>
 
             <br/>
@@ -126,7 +132,7 @@ const Overview = () => {
             <br/>
             <br/>
 
-            <TextListComponent heading='Client-Script Execution'/>
+            <TextListComponent headingContent={<h2 className='fs-qi-1 fw--semi-bold'>{t('Client-Script Execution')}</h2>}/>
 
             <br/>
 
