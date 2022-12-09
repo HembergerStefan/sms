@@ -8,16 +8,16 @@ import TextListItem from './text_list_item/TextListItem'
 import './TextListComponent.css'
 
 interface TextListComponentProps {
-    heading: string
+    headingContent: React.ReactNode
 }
 
-const TextListComponent = ({heading}: TextListComponentProps) => {
+const TextListComponent = ({headingContent}: TextListComponentProps) => {
 
     const {t} = useTranslation()
 
     return (
         <article id='text-list--container' className='box'>
-            <BoxHeading heading={heading}/>
+            <BoxHeading content={headingContent}/>
 
             <div id='list-item-container'>
                 <TextListItem client='Client 1' action='Setup' actionDesc='executed the script' date='3rd August 2022' timeAgo='1 month'/>
