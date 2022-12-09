@@ -35,6 +35,7 @@
     --dpn--bg-clr: hsl(218, 40%, 96%);
     --dpn--hover-bg-clr: hsl(240, 75%, 96%);
 
+    /* Components box style */
     --box-bg: hsl(0, 0%, 100%);
     --box-shadow: 0px 30px 50px hsl(212, 43%, 88%);
     --border-box--color: hsl(213, 100%, 89%); /* The border color of the boxes */
@@ -42,6 +43,10 @@
     /* Custom scrollbar style */
     --scrollbar-thumb--bg-clr: hsl(196, 15%, 86%);
     --scrollbar-thumb--hover-bg-clr: hsl(190, 15%, 70%);
+
+    /* Table style */
+    --table-th--clr: hsl(0, 0%, 51%);
+    --table-td--border-clr: hsl(218, 40%, 96%);
 
     --drp-shadow-light: 0.6px 0.6px 2.2px rgba(0, 0, 0, -0.014),
     1.3px 1.3px 5.3px rgba(0, 0, 0, -0.019),
@@ -106,6 +111,7 @@
     --br-r-small: 8px;
     --br-r-extra-small: 5px;
 
+    --mg-t-big: 10px;
     --mg-t-medium: 15px;
     --mg-t-small: 8px;
     --mg-t-extra-small: 5px;
@@ -240,7 +246,7 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--pr-clr);
 }
 
-span {
+span, label {
     color: var(--sc-clr);
 }
 
@@ -373,6 +379,10 @@ ul {
 
 .fw--extra-bold {
     font-weight: var(--fw--extra-bold);
+}
+
+.mg-t-big {
+    margin-top: var(--mg-t-big);
 }
 
 .mg-t-medium {
