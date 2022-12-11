@@ -24,6 +24,6 @@
     opacity: 0;
 }
 
-#code-section:hover > section > div {
+#code-section:hover > div > div {
     opacity: 1;
 }
