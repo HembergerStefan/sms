@@ -16,6 +16,7 @@
     --nl--nav-clr-1: hsl(0, 0%, 100%);
 
     --nv-item-d-clr: hsl(217, 33%, 17%); /* Navigation items default color */
+    --nv-item--h--bg-clr: hsl(240, 14%, 97%); /* Navigation items hover background color */
 
     --li-item-h-clr: hsl(210, 70%, 96%); /* List item hover */
 
@@ -410,6 +411,9 @@ ul {
 }
 
 .box {
+    height: fit-content;
+    width: fit-content;
+
     border: 1px solid var(--border-box--color);
     border-radius: var(--br-r-medium);
     background-color: var(--box-bg);
