@@ -138,6 +138,7 @@
     --nl--nav-clr-1: hsl(215, 69%, 9%);
 
     --nv-item-d-clr: hsl(0, 0%, 80%); /* Navigation items default color */
+    --nv-item--h--bg-clr: hsl(215, 55%, 13%); /* Navigation items hover background color */
 
     --li-item-d-clr: hsl(240, 75%, 97%); /* List item */
     --li-item-h-clr: hsl(216, 55%, 13%); /* List item hover */
