@@ -16,7 +16,7 @@ const TextListItem = ({client, action, actionDesc, date, timeAgo}: TextListItemP
 
     return (
         <div id='list-item'>
-            <Checkbox value='checked' handleChange={() => null}/>
+            <Checkbox {...{checked: true, readOnly: true}} style={{cursor: 'default'}}/>
             <div id='info-date--wrapper'>
                 <span className='fs-sc-body-1 fw--semi-bold clr-pr-1'>{client}
                     <span className='fs-sc-body-1 fw-regular'> {actionDesc} "
