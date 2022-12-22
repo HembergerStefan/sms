@@ -22,7 +22,7 @@ const KebabMenuButton = ({size}: KebabMenuProps) => {
 
     return (
         <>
-            <div ref={hoverRef} id='kebab-menu--container' className='clr-pr-1 md-menu' onClick={() => alert('menu opened')}>
+            <div ref={hoverRef} id='kebab-menu--container' className='clr-pr-1 md-menu'>
                 <MoreVertRoundedIcon style={{fontSize: size}}/>
             </div>
 
