@@ -21,7 +21,7 @@
 
     z-index: 999;
 
-    animation: show-tooltip 300ms forwards;
+    animation: show-tooltip 300ms 600ms forwards;
 }
 
 #tooltip-container span {

@@ -14,6 +14,7 @@ const SideBar = () => {
     const collapseSideBar = (): void => {
         const sideBarButton = document.querySelector<HTMLElement>('#side-collapse-icon')
         const sideBarNavContent = document.querySelectorAll<HTMLElement>('.side-image--text-wrapper a span')
+        const sideBarNavLinkTag = document.querySelectorAll<HTMLElement>('.side-image--text-wrapper a')
 
         if (sideContainerRef.current != null) {
             /* Set the width to 100px */
@@ -25,6 +26,7 @@ const SideBar = () => {
             sideBarButton.classList.toggle('active-sidebar--button-icon')
         }
 
+        /* Collapsing of the text content */
         if (sideBarNavContent != null) {
             sideBarNavContent.forEach(cr => {
                 /* The content is collapse - show it again */
@@ -37,6 +39,24 @@ const SideBar = () => {
                 } else {
                     setTimeout(() => {
                         cr.classList.add('active-sidebar--collapse-text')
+                    }, 40)
+                }
+            })
+        }
+
+        /* Collapsing of the Link */
+        if (sideBarNavLinkTag != null) {
+            sideBarNavLinkTag.forEach(cr => {
+                /* The content is collapse - show it again */
+                if (sideBarNavContent[0].classList.contains('active-sidebar--collapse-text')) {
+                    setTimeout(() => {
+                        cr.classList.remove('active-sidebar--link')
+                    }, 150)
+
+                    /* The content isn't collapsed - collapse it */
+                } else {
+                    setTimeout(() => {
+                        cr.classList.add('active-sidebar--link')
                     }, 40)
                 }
             })

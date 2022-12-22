@@ -10,8 +10,11 @@ import ScriptInformationDialog from '../../ui/dialog/script/ScriptInformationDia
 import DialogButton from '../dialog_button/solid/SolidDialogButton'
 
 import './ScriptDialogToggle.css'
+import DashedOutlinedDialogButton from "../dialog_button/outlined/dashed_outlined/DashedOutlinedDialogButton";
+import SolidOutlinedDialogButton from "../dialog_button/outlined/solid_outlined/SolidOutlinedDialogButton";
 
-const ScriptDialogToggle = () => {
+/* TODO: WILL BE REMOVED IN THE FUTURE - ONLY FOR TESTING */
+const ScriptUpdateDialogToggle = () => {
 
     const {t} = useTranslation()
 
@@ -20,20 +23,23 @@ const ScriptDialogToggle = () => {
     return (
         <div id='script-information-toggle--container'>
             <button id='script-information-toggle--btn' onClick={() => setRenderComponent(true)}>
-                <span className='fs-pr-body-1'>Add Script</span>
+                <span className='fs-pr-body-1'>Update Script</span>
                 <AddToPhotosRoundedIcon style={{color: 'var(--nl-clr-3)'}}/>
             </button>
 
             {
                 (renderComponent) ? ReactDOM.createPortal(
-                    <Dialog title={t('Add Script')}
+                    <Dialog title={t('Update Script Information')}
                             unmountComponent={setRenderComponent}
-                            body={<ScriptInformationDialog/>}
+                            body={<ScriptInformationDialog id={10} editMode={true}/>}
                             footer={
                                 <>
-                                    <span className='fs-tr-body-1'>Version 0.4.5</span>
-                                    <br/>
-                                    <DialogButton placeholder='Save'/>
+                                    <DashedOutlinedDialogButton placeholder='Delete'/>
+
+                                    <div style={{display: 'flex', gap: '20px'}}>
+                                        <SolidOutlinedDialogButton placeholder='Execute'/>
+                                        <DialogButton placeholder='Save'/>
+                                    </div>
                                 </>
                             }/>,
                     document.querySelector('#layout-container')!) : null
@@ -42,4 +48,4 @@ const ScriptDialogToggle = () => {
     )
 }
 
-export default ScriptDialogToggle
+export default ScriptUpdateDialogToggle

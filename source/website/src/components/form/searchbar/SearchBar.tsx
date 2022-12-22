@@ -19,7 +19,7 @@ const SearchBar = () => {
     const [searchQuery, setQuery] = useState('')
 
     /* Update the search result in the store */
-    const setSearchResult = useSearchStore((state: { setSearchResult: (data: string[]) => void }) => state.setSearchResult)
+    const {setSearchResult} = useSearchStore()
 
     const memorizedSearchFoundData = useMemo(() => {
         let foundWords: string[] = []

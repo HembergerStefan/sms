@@ -69,9 +69,8 @@
 .side-content-nav ul {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
 
-    padding-left: 38px;
+    padding-left: 24.5px;
 
     user-select: none;
 }
@@ -79,7 +78,7 @@
 /* Sidebar nav listing Section --End */
 
 /* Sidebar single item  Section --Begin */
-.side-image--text-wrapper > div {
+.nav-item {
     position: relative;
 }
 
@@ -88,13 +87,24 @@
     align-items: center;
     gap: 1rem;
 
-    width: fit-content;
+    width: 211px;
+
+    padding: 13px;
+    border-radius: var(--br-r-medium);
 
     cursor: pointer;
 }
 
+.side-image--text-wrapper a:hover {
+    background-color: var(--nv-item--h--bg-clr);
+}
+
 .active-sidebar--collapse-text {
     display: none !important;
+}
+
+.active-sidebar--link {
+    width: fit-content !important;
 }
 
 .side-active-nav-item, .side-active-nav-item > a > span {
@@ -109,7 +119,7 @@
     display: inline-block;
     position: absolute;
 
-    top: -30%;
+    top: 10%;
     right: 0;
 
     height: 40px;

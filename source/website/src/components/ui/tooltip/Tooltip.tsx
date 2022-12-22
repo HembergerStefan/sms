@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 
 import useMousePosition from '../../../hooks/useMousePosition'
 import './Tooltip.css'
@@ -12,9 +12,10 @@ const Tooltip = ({content}: TooltipProps) => {
     const mousePosition = useMousePosition()
 
     const tooltipRef = useRef<HTMLDivElement>(null)
+    const [onceRender, setOnceRender] = useState<boolean>(false)
 
     useEffect(() => {
-        if (tooltipRef.current !== null) {
+        if (tooltipRef.current !== null && !onceRender) {
             let offsetX = tooltipRef.current.offsetWidth / 2
             let offsetY = tooltipRef.current.offsetHeight + 20
 
@@ -23,7 +24,7 @@ const Tooltip = ({content}: TooltipProps) => {
             tooltipRef.current.classList.add('tooltip-top')
 
             /* Side Positioning */
-            if (mousePosition.x! < 65) {
+            if (mousePosition.x! < 80) {
                 offsetX = -35
                 offsetY = tooltipRef.current.offsetHeight / 2
 
@@ -42,14 +43,15 @@ const Tooltip = ({content}: TooltipProps) => {
                 tooltipRef.current.classList.add('tooltip-bottom')
             }
 
-            tooltipRef.current.setAttribute('style', `top: ${mousePosition.y! - offsetY}px; left: ${mousePosition.x! - offsetX}px`);
+            tooltipRef.current!.setAttribute('style', `top: ${mousePosition.y! - offsetY}px; left: ${mousePosition.x! - offsetX}px`);
+            setOnceRender(() => true)
         }
     }, [mousePosition])
 
     return (
-        <div ref={tooltipRef} id='tooltip-container'>
+        mousePosition.x !== 0 && mousePosition.y !== 0 ? <div ref={tooltipRef} id='tooltip-container'>
             {content}
-        </div>
+        </div> : null
     )
 }
 

@@ -1,8 +1,8 @@
 #date-time--picker {
+    height: 54px;
     padding: var(--pd-t-small);
 }
 
 #date-time--picker::-webkit-calendar-picker-indicator {
-
     cursor: pointer;
 }

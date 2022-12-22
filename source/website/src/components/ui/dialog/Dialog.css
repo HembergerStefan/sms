@@ -1,9 +1,8 @@
+/* Entire dialog */
 #dialog-container {
     display: flex;
     flex-direction: column;
-    gap: 40px;
-
-    position: relative;
+    gap: 30px;
 
     height: fit-content;
     width: 50vw;
@@ -11,27 +10,32 @@
     max-height: 80vh;
     max-width: 740px;
 
-    padding: 30px 30px 20px 30px;
+    padding: 25px 25px 25px 25px;
 
     border-radius: var(--br-r-medium);
 
     background-color: var(--nl-clr-2);
 }
 
+/* Alignment of the title and the menu buttons */
+#dialog-container > div:first-of-type {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Alignment of the "Close" and "KebabMenu" Button */
 #dialog-menu-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 25px;
-
-    position: absolute;
-    top: 20px;
-    right: 20px;
+    gap: 15px;
 
     height: fit-content;
     width: fit-content;
 }
 
+/* The footer alignment */
 #dialog-footer-container {
     display: flex;
     justify-content: space-between;

@@ -1,9 +1,0 @@
-#dialog-button {
-    height: 50px;
-    width: 140px;
-
-    border-radius: var(--br-r-small);
-    background-color: var(--ac-clr-3);
-
-    cursor: pointer;
-}
