@@ -1,12 +1,13 @@
+//Christian Freilinger
 package data;
 
 import annotations.Adding;
 import annotations.Login;
-import controller.WebpageControllerAdmin;
 import entity.Package;
 import entity.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import model.DTOInsertUser;
 import org.jetbrains.annotations.NotNull;
 import repository.*;
 
@@ -37,43 +38,44 @@ public class SMSStore implements ISMSStore {
 
 
     @Resource
-    @Inject
-    private UserTransaction userTransaction;
+    @Inject//Transaktion
+    protected UserTransaction userTransaction;
+    private final TokenCleanerThread cleaner = new TokenCleanerThread(this);//Thread zu löschen abgelaufener Token
+    private final ClientRepository clientRepository;//Repository
+    private final GroupRepository groupRepository;//Repository
+    private final PackageRepository packageRepository;//Repository
+    private final ScriptRepository scriptRepository;//Repository
+    private final TasksRepository tasksRepository;//Repository
+    private final UserRepository userRepository;//Repository
+    private final Available_ClientsRepository available_clientsRepository;//Repository
+    private final RoleRepository roleRepository;//Repository
+    private final Base_ClientRepository baseClientRepository;//Repository
+    private final Client_GroupRepository client_groupRepository;//Repository
+    private final Client_ScriptRepository client_scriptRepository;//Repository
+    private final Client_PackageRepository client_packageRepository;//Repository
+    private final User_GroupRepository user_groupRepository;//Repository
+    private final ArrayList<TokenInfos> tokens = new ArrayList<>();//Liste mit allen gültigen Token
 
-    private TokenCleanerThread cleaner = new TokenCleanerThread(this);
-    private final ClientRepository clientRepository;
-    private final GroupRepository groupRepository;
-    private final PackageRepository packageRepository;
-    private final ScriptRepository scriptRepository;
-    private final TasksRepository tasksRepository;
-    private final UserRepository userRepository;
-    private final Available_ClientsRepository available_clientsRepository;
-    private final RoleRepository roleRepository;
-    private final Base_ClientRepository baseClientRepository;
-    private ArrayList<TokenInfos> tokens = new ArrayList<>();
+    @Override
     public ArrayList<Client> getClients() {
         return (ArrayList<Client>) clientRepository.findAll().list();
+    }//holt alle Clients
+
+
+    @PostConstruct//Post Constructor
+    public void init() {
+        cleaner.start();//startet den Thread
     }
-
-
-    @PostConstruct
-    public void init(){
-        cleaner.start();
-    }
-
+    @Override
     public Client getClientByID(String mac_Address) {
         return clientRepository.findById(mac_Address);
-    }
-
-    public void insertNewClient(String id, String name) {
-
-    }
-
-    public void deleteToken(TokenInfos tokenInfo){
+    }//holt einen Client durch seine ID
+    @Override
+    public void deleteToken(TokenInfos tokenInfo) {
         tokens.remove(tokenInfo);
-    }
-
-    public boolean isAllowed(String token, String id, @NotNull Login anno) {
+    }//löscht einen Token aus der Liste
+    @Override
+    public boolean isAllowed(String token, String id, @NotNull Login anno) {//überprüft, ob ein Zugriff mit diesem Token erlaubt ist
         if (getIdByToken(token).equals(id)) {
             String[] roles = anno.roles();
             for (String role : roles) {
@@ -84,8 +86,8 @@ public class SMSStore implements ISMSStore {
         }
         return false;
     }
-
-    public boolean isAllowed(String token, @NotNull Login anno) {
+    @Override
+    public boolean isAllowed(String token, @NotNull Login anno) {//überprüft, ob ein Zugriff mit diesem Token erlaubt ist
         String[] roles = anno.roles();
         for (String role : roles) {
             if (role.equals(getRole(token))) {
@@ -94,8 +96,8 @@ public class SMSStore implements ISMSStore {
         }
         return false;
     }
-
-    public boolean isAllowed(String token, @NotNull Adding anno) {
+    @Override
+    public boolean isAllowed(String token, @NotNull Adding anno) {//überprüft, ob ein Zugriff mit diesem Token erlaubt ist
         String[] roles = anno.roles();
         for (String role : roles) {
             if (role.equals(getRole(token))) {
@@ -104,15 +106,15 @@ public class SMSStore implements ISMSStore {
         }
         return false;
     }
-
-    public String getRole(String token) {
+    @Override
+    public String getRole(String token) {//holt alle Rollen
         String decodedToken = decodeToken(token);
         String[] infos = decodedToken.split("/");
         return infos[1];
     }
 
-
-    public boolean clientIsAvailable(String id) {
+    @Override
+    public boolean clientIsAvailable(String id) {//schaut, ob ein Client verfügbar ist
         ArrayList<Client> clients = (ArrayList<Client>) clientRepository.findAll().list();
         for (Client client : clients) {
             if (client.getMacAddress().getMacAddress().equals(id)) {
@@ -121,8 +123,8 @@ public class SMSStore implements ISMSStore {
         }
         return false;
     }
-
-    public boolean availableclientIsAvailable(String id) {
+    @Override
+    public boolean availableclientIsAvailable(String id) {//schaut, ob ein Available_Client verfügbar ist
         ArrayList<Available_Clients> clients = (ArrayList<Available_Clients>) available_clientsRepository.findAll().list();
         for (Available_Clients client : clients) {
             if (client.getMac_Adress().getMacAddress().equals(id)) {
@@ -132,8 +134,8 @@ public class SMSStore implements ISMSStore {
         return false;
     }
 
-
-    public String loginUser(String name, String password) {
+    @Override
+    public String loginUser(String name, String password) {//einloggen eines Benutzers
         String token = "";
         User user = getUserByName(name);
         if (user != null) {
@@ -149,8 +151,8 @@ public class SMSStore implements ISMSStore {
         }
         return token;
     }
-
-    public String hashPassword(String password) {
+    @Override
+    public String hashPassword(String password) {//hashen des Passwortes zum Speichern in der Datenbank
         String ret = "";
         try {
             MessageDigest messagedigest = MessageDigest.getInstance("SHA-1");
@@ -163,14 +165,14 @@ public class SMSStore implements ISMSStore {
         return ret;
     }
 
-
-    public String getIdByToken(String token) {
+    @Override
+    public String getIdByToken(String token) {//holt die ID aus einem Token
         try {
             String id = "";
             String decodedToken = decodeToken(token);
             if (decodedToken != null) {
                 String[] infos = decodedToken.split("/");
-                if (infos != null) {
+                if (infos.length != 0) {
                     id = infos[0];
                 }
             }
@@ -180,12 +182,13 @@ public class SMSStore implements ISMSStore {
         }
         return "";
     }
-
-    public String decodeToken(String token) {
+    @Override
+    public String decodeToken(String token) {//dekodiert einen Token
+        String replacedToken = token.replaceAll("汉", "/");
         SecretKeySpec sk = null;
-        for(TokenInfos tokenInfo : tokens){
-            if(tokenInfo.getToken().equals(token)){
-                tokenInfo.setExpireDate(LocalDateTime.now().plusMinutes(15));
+        for (TokenInfos tokenInfo : tokens) {
+            if (tokenInfo.getToken().equals(replacedToken)) {
+                tokenInfo.setExpireDate(LocalDateTime.now().plusMinutes(1511));
                 sk = tokenInfo.getSecretKeySpec();
             }
         }
@@ -193,14 +196,14 @@ public class SMSStore implements ISMSStore {
         try {
             cipher = Cipher.getInstance("AES/ECB/PKCS5PADDING");
             cipher.init(Cipher.DECRYPT_MODE, sk);
-            return new String(cipher.doFinal(Base64.getDecoder().decode(token)));
+            return new String(cipher.doFinal(Base64.getDecoder().decode(replacedToken)));
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
         return null;
     }
-
-    public String generateToken(User user) {
+    @Override
+    public String generateToken(User user) {//generriert einen Token
         Token t = null;
         try {
             t = new Token();
@@ -215,10 +218,11 @@ public class SMSStore implements ISMSStore {
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
+        assert t != null;
         return t.toString();
     }
-
-    public SecretKeySpec generateKey() {
+    @Override
+    public SecretKeySpec generateKey() {//generriert einen Schlüssel
         SecretKeySpec secretKeySpec = null;
         MessageDigest sha = null;
         try {
@@ -233,150 +237,214 @@ public class SMSStore implements ISMSStore {
         }
         return secretKeySpec;
     }
-
-    public UUID generateUUID(String table) {
-        boolean isAvailable = true;
-        UUID id = null;
-        while (isAvailable) {
-            id = UUID.randomUUID();
-            switch (table) {
-                case "task":
-                    if (tasksRepository.findById(id.toString()) == null) {
-                        isAvailable = false;
-                    }
-                    break;
-            }
-        }
-        return id;
-    }
-
-    public ArrayList<Package> getPackagesByIDs(ArrayList<String> ids) {
+    @Override
+    public ArrayList<Package> getPackagesByIDs(ArrayList<String> ids) {//holt packages durch IDs
         ArrayList<Package> packages = new ArrayList<>();
         for (String id : ids) {
             packages.add(packageRepository.findById(id));
         }
         return packages;
     }
-
-    public ArrayList<Script> getScriptsByIDs(ArrayList<String> ids) {
+    @Override
+    public ArrayList<Script> getScriptsByIDs(ArrayList<String> ids) {//hold scripts durch IDs
         ArrayList<Script> packages = new ArrayList<>();
         for (String id : ids) {
             packages.add(scriptRepository.findById(id));
         }
         return packages;
     }
-
+    @Override
     public ArrayList<Role> getRoles() {
         return (ArrayList<Role>) roleRepository.findAll().list();
-    }
-
-    public Available_Clients getAvailableClientById(String mac_Address) {
+    }//holt alle Rollen
+    @Override
+    public Available_Clients getAvailableClientById(String mac_Address) {//holt einen Available_Client durch eine ID
         return available_clientsRepository.findById(mac_Address);
     }
-
+    @Override
     public ArrayList<SmsGroup> getGroups() {
         return (ArrayList<SmsGroup>) groupRepository.findAll().list();
-    }
-
+    }//holt alle Gruppen
+    @Override
     public ArrayList<Package> getPackages() {
         return (ArrayList<Package>) packageRepository.findAll().list();
-    }
-
+    }//holt alle Packages
+    @Override
     public ArrayList<Script> getScripts() {
         return (ArrayList<Script>) scriptRepository.findAll().list();
-    }
+    }//holt alle Scripts
 
-
+    @Override
     public ArrayList<User> getUsers() {
         return (ArrayList<User>) userRepository.findAll().list();
-    }
-
+    }//holt alle Benutzer
+    @Override
     public User getUserByName(String name) {
         return userRepository.findByName(name);
-    }
-
+    }//holt einen Benutzer durch seinen Namen
+    @Override
     public User getUserByID(String id) {
         return userRepository.findByID(id);
-    }
-
+    }//holt einen Benutzer durch seine ID
+    @Override
     public Baseclient getBaseClientByID(String id) {
         return baseClientRepository.findById(id);
-    }
-
+    }//holt einen BaseClient durch eine ID
+    @Override
+    @Transactional
     public ArrayList<Tasks> getTasks() {
         return (ArrayList<Tasks>) tasksRepository.findAll().list();
-    }
-
-    public void removeClient(@NotNull String id) {
+    }//holt alle Tasks
+    @Override
+    public void removeClient(@NotNull String id) {//löscht einen Client
+        tasksRepository.deleteTasksByClient_ID(id);
+        client_packageRepository.deleteByClientID(id);
+        client_scriptRepository.deleteByClientID(id);
+        client_groupRepository.deleteByClientID(id);
         clientRepository.deleteClientById(id);
+        baseClientRepository.deleteByClientID(id);
     }
 
-
-    public void removeGroup(@NotNull UUID id) {
+    @Override
+    public void removeGroup(@NotNull UUID id) {//löscht eine Gruppe
+        user_groupRepository.deleteByGroupID(id.toString());
+        client_groupRepository.deleteByGroupID(id.toString());
         groupRepository.deleteGroupById(id.toString());
     }
 
 
-    public void removePackage(@NotNull UUID id) {
+    @Override
+    @Transactional
+    public void removePackage(@NotNull UUID id) {//löscht ein Package
+        tasksRepository.deleteTasksByPackage_ID(id.toString());
+        client_packageRepository.deleteByPackageID(id.toString());
         packageRepository.deletePackageById(id.toString());
     }
 
-
-    public void removeScript(@NotNull UUID id) {
+    @Override
+    public void removeScript(@NotNull UUID id) {//löscht ein Script
+        tasksRepository.deleteTasksByScript_ID(id.toString());
+        client_scriptRepository.deleteByScriptID(id.toString());
         scriptRepository.deleteScriptById(id.toString());
     }
 
-
-    public void removeUser(@NotNull UUID id) {
+    @Override
+    public void removeUser(@NotNull UUID id) {//löscht einen Benutzer
+        user_groupRepository.deleteByUserID(id.toString());
         userRepository.deleteUserById(id.toString());
     }
-
-    public void removeAvailableClient(String mac_Address) {
+    @Override
+    public void removeAvailableClient(String mac_Address) {//löscht einen AvailableClient
         available_clientsRepository.deleteAvailableClientById(mac_Address);
     }
-
+    @Override
     @Transactional
-    public void insertAvailable_Client(Available_Clients availableClient) {
+    public void insertAvailable_Client(Available_Clients availableClient) {//fügt einen AvailableClient hinzu
         available_clientsRepository.persist(availableClient);
     }
-
+    @Override
     @Transactional
     public void insertBase_Client(Baseclient baseclient) {
         baseClientRepository.persist(baseclient);
-    }
-
+    }//fügt einen BaseClient hinzu
+    @Override
     @Transactional
     public void insertClient(Client client) {
         clientRepository.persist(client);
+    }//fügt einen Client hinzu
+    @Override
+    @Transactional
+    public void insertPackage(Package packages) {//fügt ein Package hinzu
+        UUID uuid = UUID.randomUUID();
+        boolean isUnique = true;
+        for (Package package_ : getPackages()) {
+            if (package_.getId().equals(uuid.toString())) {
+                isUnique = false;
+                break;
+            }
+        }
+        if (isUnique) {
+            packages.setId(uuid.toString());
+            packageRepository.persist(packages);
+        } else {
+            insertPackage(packages);
+        }
+    }
+    @Override
+    @Transactional
+    public void insertScript(Script script) {//fügt ein Script hinzu
+        UUID uuid = UUID.randomUUID();
+        boolean isUnique = true;
+        for (Script script_ : getScripts()) {
+            if (script_.getId().equals(uuid.toString())) {
+                isUnique = false;
+                break;
+            }
+        }
+        if (isUnique) {
+            script.setId(uuid.toString());
+            scriptRepository.persist(script);
+        } else {
+            insertScript(script);
+        }
+    }
+    @Override
+    @Transactional
+    public void insertSmsGroup(SmsGroup smsGroup) {//fügt eine Gruppe hinzu
+        UUID uuid = UUID.randomUUID();
+        boolean isUnique = true;
+        for (SmsGroup group_ : getGroups()) {
+            if (group_.getId().equals(uuid.toString())) {
+                isUnique = false;
+                break;
+            }
+        }
+        if (isUnique) {
+            smsGroup.setId(uuid.toString());
+            groupRepository.persist(smsGroup);
+        } else {
+            insertSmsGroup(smsGroup);
+        }
+    }
+    @Override
+    @Transactional
+    public void insertUser(DTOInsertUser user) {//fügt einen Benutzer hinzu
+
+        UUID uuid = UUID.randomUUID();
+        boolean isUnique = true;
+        for (User user_ : getUsers()) {
+            if (user_.getId().equals(uuid.toString())) {
+                isUnique = false;
+                break;
+            }
+        }
+        if (isUnique) {
+            String salt = generateSalt();
+            String password = hashPassword(user.getPassword() + salt);
+            User user_ = new User(uuid.toString(), user.getUsername(), password, salt, new ArrayList<>(), user.getRole());
+            userRepository.persist(user_);
+        } else {
+            insertUser(user);
+        }
     }
 
-    @Transactional
-    public void insertPackage(Package packages) {
-        packageRepository.persist(packages);
-    }
+    @Override
+    public String generateSalt(){//generiert ein Salt
+        String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        StringBuilder sb = new StringBuilder();
+        Random random = new Random();
+        int length = 4;
+        for(int i = 0; i < length; i++) {
+            int index = random.nextInt(alphabet.length());
+            char randomChar = alphabet.charAt(index);
+            sb.append(randomChar);
+        }
 
-    @Transactional
-    public void insertScript(Script script) {
-        scriptRepository.persist(script);
+        return sb.toString();
     }
-
+    @Override
     @Transactional
-    public void insertSmsGroup(SmsGroup smsGroup) {
-        groupRepository.persist(smsGroup);
-    }
-
-    @Transactional
-    public void insertTask(Tasks task) {
-        tasksRepository.persist(task);
-    }
-
-    @Transactional
-    public void insertUser(User user) {
-        userRepository.persist(user);
-    }
-
-    @Transactional
-    public void updateClient(@NotNull Client client) {
+    public void updateClient(@NotNull Client client) {//updated einen Client
         Client realClient = clientRepository.findById(client.getMacAddress().getMacAddress());
         realClient.setName(client.getName());
         realClient.setIp(client.getIp());
@@ -387,44 +455,60 @@ public class SMSStore implements ISMSStore {
         realClient.setScript(client.getScript());
         clientRepository.getEntityManager().merge(realClient);
     }
-
+    @Override
     @Transactional
-    public void updateAvailableClient(Available_Clients client) {
+    public void updateAvailableClient(Available_Clients client) {//updated einen AvailableClient
         Available_Clients realClient = available_clientsRepository.findById(client.getMac_Adress().getMacAddress());
         realClient.setName(client.getName());
         realClient.setIp(client.getIp());
         available_clientsRepository.getEntityManager().merge(realClient);
     }
-
+    @Override
     @Transactional
-    public void updatePackage(Package packages) {
+    public void updatePackage(Package packages) {//updated ein Package
+        Package package_ = packageRepository.findById(packages.getId());
+        package_.setName(packages.getName());
+        package_.setVersion(packages.getVersion());
+        package_.setDate(packages.getDate());
+        package_.setDownloadlink(packages.getDownloadlink());
+        package_.setSilentSwitch(packages.getSilentSwitch());
+        packageRepository.getEntityManager().merge(package_);
     }
-
+    @Override
     @Transactional
-    public void updateScript(String id) {
-        Script script = scriptRepository.findById(id);
-        script.setName("Success1");
-        scriptRepository.getEntityManager().merge(script);
-        //scriptRepository.persist(script);
+    public void updateScript(Script script) {//updated ein Script
+        Script script_ = scriptRepository.findById(script.getId());
+        script_.setName(script.getName());
+        script_.setDescription(script.getDescription());
+        script_.setFileExtension(script.getFileExtension());
+        script_.setInterpreter(script.getInterpreter());
+        script_.setScript_value(script.getScript_value());
+        scriptRepository.getEntityManager().merge(script_);
     }
-
+    @Override
     @Transactional
-    public void updateGroup(SmsGroup Group) {
-
+    public void updateGroup(SmsGroup group) {//updated eine Gruppe
+        SmsGroup group_ = groupRepository.findById(group.getId());
+        group_.setName(group.getName());
+        groupRepository.getEntityManager().merge(group_);
     }
-
+    @Override
     @Transactional
-    public void updateUser(User user) {
-
+    public void updateUser(DTOInsertUser user) {//updadted einen User
+          User user_ = userRepository.findByID(user.getId());
+          String password = hashPassword(user.getPassword() + user_.getSalt());
+          user_.setUsername(user.getUsername());
+          user_.setHash(password);
+          userRepository.getEntityManager().merge(user_);
     }
-
+    @Override
     @Transactional
     public ArrayList<Tasks> getTasksByClientID(String id) {
         return tasksRepository.getTastksByClientId(id);
-    }
+    }//holt Tasks durch eine Client-ID
 
-
-    public boolean isAllowedToAdd(String token, String user_id, String client_id) {
+    @Override
+    public boolean isAllowedToAdd(String token, String user_id, String client_id) {//überprüft ob der Token für das hinzufügen gültig ist
         if (getIdByToken(token).contains(user_id)) {
             ArrayList<Client> clients = new ArrayList<>();
             User user = userRepository.findByID(user_id);
@@ -440,46 +524,99 @@ public class SMSStore implements ISMSStore {
         }
         return false;
     }
-
+    @Override
     @Transactional
-    public void insertTaskWithScript(String client_id, String script_id, String user_id, Adding add, String token) {
+    public void insertTaskWithScript(String client_id, String script_id, String user_id, Adding add, String token) {//erstellt einen Task
         if (isAllowed(token, add) || isAllowedToAdd(token, user_id, client_id)) {
-            UUID id = generateUUID("task");
-            Client client = clientRepository.findById(client_id);
-            Script script = scriptRepository.findById(script_id);
-            Tasks task = new Tasks(id.toString(), client, null, script);
-            tasksRepository.persist(task);
+            UUID uuid = UUID.randomUUID();
+            boolean isUnique = true;
+            for (Tasks task_ : getTasks()) {
+                if (task_.getId().equals(uuid.toString())) {
+                    isUnique = false;
+                    break;
+                }
+            }
+            if (isUnique) {
+                Client client = clientRepository.findById(client_id);
+                Script script = scriptRepository.findById(script_id);
+                Tasks task = new Tasks(uuid.toString(), client, null, script);
+                tasksRepository.persist(task);
+            } else {
+                insertTaskWithScript(client_id, script_id, user_id, add, token);
+            }
+        }
+    }
+    @Override
+    @Transactional
+    public void insertTaskWithPackage(String client_id, String package_id, String user_id, Adding add, String token) {//erstellt einen Task
+        if (isAllowed(token, add) || isAllowedToAdd(token, user_id, client_id)) {
+            UUID uuid = UUID.randomUUID();
+            boolean isUnique = true;
+            for (Tasks task_ : getTasks()) {
+                if (task_.getId().equals(uuid.toString())) {
+                    isUnique = false;
+                    break;
+                }
+            }
+            if (isUnique) {
+                Client client = clientRepository.findById(client_id);
+                Package package_ = packageRepository.findById(package_id);
+                Tasks task = new Tasks(uuid.toString(), client, package_, null);
+                tasksRepository.persist(task);
+            } else {
+                insertTaskWithScript(client_id, package_id, user_id, add, token);
+            }
         }
     }
 
+    @Override
     @Transactional
-    public void insertTaskWithPackage(String client_id, String package_id, String user_id, Adding add, String token) {
-        if (isAllowed(token, add) || isAllowedToAdd(token, user_id, client_id)) {
-            UUID id = generateUUID("task");
-            Client client = clientRepository.findById(client_id);
-            Package package_ = packageRepository.findById(package_id);
-            Tasks task = new Tasks(id.toString(), client, package_, null);
-            tasksRepository.persist(task);
-        }
+    public void removeTaskByPackageID(String id, String client_id) {//löscht einen Task
+        tasksRepository.deleteTasksByPackage_ID(id, client_id);
+    }
+    @Override
+    @Transactional
+    public void removeTaskByScriptID(String id, String client_id) {//löscht einen Task
+        tasksRepository.deleteTasksByScript_ID(id, client_id);
     }
 
-
-    @Transactional
-    public void removeTaskByPackageID(String id){
-        tasksRepository.deleteTasksByPackage_ID(id);
-    }
-
-    @Transactional
-    public void removeTaskByScriptID(String id){
-         tasksRepository.deleteTasksByScript_ID(id);
-    }
-
-
-    public Tasks getTaskByPackageID(String id){
+    @Override
+    public Tasks getTaskByPackageID(String id) {
         return tasksRepository.findByPackage_ID(id);
+    }//löscht einen Task
+    @Override
+    public Tasks getTaskByScriptID(String id) {
+        return tasksRepository.findByScript_ID(id);
+    }//löscht einen Task
+
+    @Override
+    @Transactional
+    public void addUserToGroup(UUID user_ID, UUID group_ID) {//fügt einen Benutzer in eine Gruppe hinzu
+        User_Group user_group = new User_Group(user_ID.toString(), group_ID.toString());
+        user_groupRepository.persist(user_group);
+    }
+    @Override
+    @Transactional
+    public void addClientToGroup(String client_ID, UUID group_ID) {//füügt einen Client in eine Gruppe hinzu
+        Client_Group client_group = new Client_Group(client_ID, group_ID.toString());
+        client_groupRepository.persist(client_group);
+    }
+    @Override
+    @Transactional
+    public void removeUserToGroup(UUID user_ID, UUID group_ID) {//löscht einen Benutzer aus einer Gruppe
+        user_groupRepository.deleteByGroupIDAndUserID(group_ID.toString(), user_ID.toString());
+    }
+    @Override
+    @Transactional
+    public void removeClientToGroup(String client_ID, UUID group_ID) {//löscht einen Client aus einer Gruppe
+        client_groupRepository.deleteByGroupIDAndClientID(group_ID.toString(), client_ID);
+    }
+    @Override
+    @Transactional
+    public void changeRole(String user_ID, Role role){//ändert die Rolle eines Benutzers
+        User user_ = userRepository.findByID(user_ID);
+        user_.setRole(role);
+        userRepository.getEntityManager().merge(user_);
     }
 
-    public Tasks getTaskByScriptID(String id){
-        return tasksRepository.findByScript_ID(id);
-    }
 }

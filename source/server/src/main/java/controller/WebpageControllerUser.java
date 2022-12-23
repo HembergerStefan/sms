@@ -1,3 +1,4 @@
+//Christian Freilinger
 package controller;
 
 import annotations.Adding;
@@ -7,25 +8,26 @@ import common.IWebpageResourceUser;
 import data.SMSStore;
 import entity.Package;
 import entity.Script;
-import entity.Tasks;
 import entity.User;
 import entity.jsonview.PackageView;
 import entity.jsonview.ScriptView;
 import lombok.RequiredArgsConstructor;
+import model.DTOInsertUser;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.ws.rs.Path;
 import java.util.ArrayList;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@Login(roles = {"User", "Admin"})
+@Login(roles = {"User", "Admin"})//Rollen mit denen man auf Endpoints zugreifen darf
 @Adding(roles = {"Admin"})
-@Path("/webpageUser")
+@Path("/webpageUser")//Pfad
 public class WebpageControllerUser implements IWebpageResourceUser {
-    @Inject
+    @Inject//Dependency Injection des SMSStores
     protected SMSStore smsStore;
 
 
@@ -33,7 +35,7 @@ public class WebpageControllerUser implements IWebpageResourceUser {
     private Adding add = null;
 
 
-    @PostConstruct
+    @PostConstruct//Post Constructor
     public void init() {
         anno = WebpageControllerUser.class.getAnnotation(Login.class);
         add = WebpageControllerUser.class.getAnnotation(Adding.class);
@@ -41,7 +43,7 @@ public class WebpageControllerUser implements IWebpageResourceUser {
 
 
     @Override
-    public User getUserByID(String id, String token) {
+    public User getUserByID(String id, String token) {//holt einen Benutzer durch seine ID
         if (smsStore.isAllowed(token, id, anno)) {
             return smsStore.getUserByID(id);
         }
@@ -51,7 +53,7 @@ public class WebpageControllerUser implements IWebpageResourceUser {
 
     @Override
     @JsonView(PackageView.Always.class)
-    public ArrayList<Package> getPrograms(String token) {
+    public ArrayList<Package> getPackages(String token) {//holt alle Packages
         if (smsStore.isAllowed(token, anno)) {
             return smsStore.getPackages();
         }
@@ -61,7 +63,7 @@ public class WebpageControllerUser implements IWebpageResourceUser {
 
     @Override
     @JsonView(ScriptView.Always.class)
-    public ArrayList<Script> getScripts(String token) {
+    public ArrayList<Script> getScripts(String token) {//holt alle Scripts
         if (smsStore.isAllowed(token, anno)) {
             return smsStore.getScripts();
         }
@@ -69,16 +71,23 @@ public class WebpageControllerUser implements IWebpageResourceUser {
     }
 
     @Override
-    public void addScriptToTask(String token, String user_id, String mac_Address, String script_id) {
-        if (smsStore.isAllowed(token, anno)) {
-            smsStore.insertTaskWithScript(mac_Address, script_id, user_id, add, token);
+    public void updateUser(DTOInsertUser user, String token) {//holt alle Benutzer
+        if (smsStore.isAllowed(token, user.getId(), anno)) {
+            smsStore.updateUser(user);
         }
     }
 
     @Override
-    public void addPackageToTask(String token, String user_id, String mac_Address, String package_id) {
+    public void addScriptToTask(String token, UUID user_id, String mac_Address, String script_id) {//erstellt einen Task
         if (smsStore.isAllowed(token, anno)) {
-            smsStore.insertTaskWithPackage(mac_Address, package_id, user_id, add, token);
+            smsStore.insertTaskWithScript(mac_Address, script_id, user_id.toString(), add, token);
+        }
+    }
+
+    @Override
+    public void addPackageToTask(String token, UUID user_id, String mac_Address, String package_id) {//erstellt einen Task
+        if (smsStore.isAllowed(token, anno)) {
+            smsStore.insertTaskWithPackage(mac_Address, package_id, user_id.toString(), add, token);
         }
     }
 }

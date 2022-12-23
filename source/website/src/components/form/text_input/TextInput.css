@@ -23,23 +23,6 @@
     opacity: 1;
 }
 
-#numbering {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    height: 42px;
-    width: 42px;
-
-    padding: 10px;
-
-    color: hsl(215, 98%, 56%);
-    border-radius: var(--br-r-small);
-    background-color: hsl(215, 98%, 56%, 30%);
-
-    user-select: none;
-}
-
 #text-input {
     min-height: 100%;
     width: 100%;

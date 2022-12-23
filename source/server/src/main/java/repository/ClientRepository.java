@@ -1,3 +1,4 @@
+//Christian Freilinger
 package repository;
 
 import entity.Client;
@@ -9,14 +10,14 @@ import javax.transaction.Transactional;
 
 @Repository
 @ApplicationScoped
-public class ClientRepository implements PanacheRepository<Client> {
+public class ClientRepository implements PanacheRepository<Client> {//Repository eines Clients
     @Transactional
     public void deleteClientById(String id){
         delete("Mac_Address = ?1", id);
-    }
+    }//löscht einen Client
 
     public Client findById(String id) {
         return find("Mac_Address", id).firstResult();
-    }
+    }//findet einen Client durch seine ID
 
 }

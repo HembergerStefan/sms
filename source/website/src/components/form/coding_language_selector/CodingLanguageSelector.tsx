@@ -1,8 +1,8 @@
-import React, {memo, useEffect, useState} from 'react'
+import React, {memo, useState} from 'react'
 
-import DropdownContent from "../dropdown/DropdownContent"
-import useOnClickOutside from "../../../hooks/useOnClickOutside"
-import ReactDOM from "react-dom"
+import useOnClickOutside from '../../../hooks/useOnClickOutside'
+
+import DropdownContent from '../dropdown/DropdownContent'
 
 import './CodingLanguageSelector.css'
 
@@ -14,16 +14,11 @@ interface CodingLanguageSelectorProps {
 const CodingLanguageSelector = ({language, setLanguage}: CodingLanguageSelectorProps) => {
 
     const [mount, setMount] = useState<boolean>(false)
-    const [domReady, setDomReady] = useState<boolean>(false)
 
-    const LANGUAGE_ITEMS: string[] = ['Bash', 'Python', 'PowerShell', 'CMD'].sort()
+    const LANGUAGE_ITEMS: string[] = ['Bash', 'Python', 'PowerShell'].sort()
 
     /* Always hide the component when clicking outside the component */
     const [dropdownRef] = useOnClickOutside(() => mount ? setMount(false) : null)
-
-    useEffect(() => {
-        setDomReady(() => true)
-    }, [])
 
     return (
         <section id='code-language--section'>

@@ -1,8 +1,10 @@
 /* Label wrapper */
 #checkbox-wrapper {
-    display: inline-block;
+    display: block;
 
     position: relative;
+
+    width: fit-content;
 
     border-radius: var(--br-r-small);
 
@@ -75,7 +77,6 @@ input[type='checkbox']::before {
 [type=checkbox]:checked {
     border-color: transparent;
     background-color: hsl(236, 83%, 68%);
-
     animation: jelly 600ms ease;
 }
 

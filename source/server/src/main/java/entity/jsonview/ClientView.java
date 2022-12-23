@@ -1,6 +1,7 @@
+//Christian Freilinger
 package entity.jsonview;
 
-public class ClientView {
+public class ClientView {//Viewklasse
 
     public interface Always { }
 

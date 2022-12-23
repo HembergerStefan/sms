@@ -22,8 +22,8 @@ const SideBarListItem = ({value}: SideBarListItemProps) => {
 
     return (
         <>
-            <li className={`nv-clr--default side-image--text-wrapper`}>
-                <div className={`${(splitLocation[1] === value.url) ? 'side-active-nav-item' : ''}`}>
+            <li className='nv-clr--default side-image--text-wrapper'>
+                <div className={`nav-item ${(splitLocation[1] === value.url) ? 'side-active-nav-item' : ''}`}>
                     <Link ref={hoverRef} to={`/${value.url}`}>
                         {
                             /* Create the mui svg component */

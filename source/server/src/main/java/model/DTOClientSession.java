@@ -1,3 +1,4 @@
+//Christian Freilinger
 package model;
 
 
@@ -10,7 +11,7 @@ import javax.websocket.Session;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class DTOClientSession {
+public class DTOClientSession {//Datenübertragungsklasse
     private String mac_address;
     private Session session;
 }

@@ -2,5 +2,18 @@
     display: grid;
     gap: 1.75rem;
 
+    padding: 0.25rem;
+
     overflow: auto;
+}
+
+#title-execution--wrapper {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 50px;
+}
+
+/* The heading of the execution date will be right aligned */
+#title-execution--wrapper > section:last-of-type > h2 {
+    text-align: right;
 }

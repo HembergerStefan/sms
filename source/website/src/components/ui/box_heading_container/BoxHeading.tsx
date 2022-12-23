@@ -1,22 +1,18 @@
 import React, {memo} from 'react'
 
-import {useTranslation} from 'react-i18next'
-
 import KebabMenu from '../../form/menu/kebab_menu/KebabMenuButton'
 
 import './BoxHeading.css'
 
 interface BoxHeadingProps {
-    heading: string
+    content: React.ReactNode
 }
 
-const BoxHeading = ({heading}: BoxHeadingProps) => {
-
-    const {t} = useTranslation()
+const BoxHeading = ({content}: BoxHeadingProps) => {
 
     return (
         <header id='header-menu--wrapper'>
-            <span className='fs-qi-1 fw--semi-bold'>{t(heading)}</span>
+            {content}
             <KebabMenu size='var(--icon-size-medium)'/>
         </header>
     )
