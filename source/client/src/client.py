@@ -1,18 +1,14 @@
 import asyncio
 import json
 import logging
-import threading
 import time
 
-import nest_asyncio
 import websockets
 from getmac import get_mac_address
 from websockets.exceptions import WebSocketException
 
 import data
 from response_handler import ResponseHandler
-
-# nest_asyncio.apply()
 
 
 class Client:
@@ -30,27 +26,40 @@ class Client:
 
             async def receiving():
                 while True:
-                    print("waiting")
-                    response = await websocket.recv()  # todo connection closed error websockets.exceptions.ConnectionClosedError: no close frame received or sent
-                    logging.debug('Received message from server')
-                    print(response)
-                    ResponseHandler(json.loads(response)).start()
-                    await asyncio.sleep(1)
+                    try:
+                        print("waiting")
+                        response = await websocket.recv()
+                        logging.debug('Received message from server')
+                        print(response)
+                        ResponseHandler(json.loads(response)).start()
+                        await asyncio.sleep(1)
+                    except WebSocketException:
+                        logging.error('Connection lost')
+                        break
 
             async def sending():
                 while True:
-                    executed_scripts_ids = ResponseHandler.executed_scripts_ids
+                    # executed_scripts_ids = ResponseHandler.executed_scripts_ids
+                    # failed_scripts_ids = ResponseHandler.failed_scripts_ids
+                    # failed_installs_ids = ResponseHandler.failed_installs_ids
                     msg = json.dumps({
                         'hostname': data.hostname(),
                         'ip': data.ip(),
                         'cpuUsage': int(data.cpu_usage(self.interval / 1000)),
                         'diskUsage': int(data.disk_space_used()),
-                        'installed': ["1"],
-                        'executedScripts': [] # [*executed_scripts_ids]
+                        'installed': [],  # ["1"], # todo find a way, to get a list of all installed packages
+                        'failedInstall': [*ResponseHandler.failed_installs_ids],
+                        'executedScripts': [],  # [*executed_scripts_ids]
+                        'failedScripts': [*ResponseHandler.failed_scripts_ids]
                     })
                     try:
                         await websocket.send(msg)
-                        ResponseHandler.executed_scripts_ids -= executed_scripts_ids
+                        # ResponseHandler.executed_scripts_ids -= executed_scripts_ids
+                        # ResponseHandler.failed_scripts_ids -= failed_scripts_ids
+                        # ResponseHandler.failed_installs_ids -= failed_installs_ids
+                        ResponseHandler.executed_scripts_ids.clear()
+                        ResponseHandler.failed_scripts_ids.clear()
+                        ResponseHandler.failed_installs_ids.clear()
                         logging.debug('Sent message to server')
 
                     except WebSocketException:
@@ -65,7 +74,7 @@ class Client:
         while True:
             try:
                 asyncio.get_event_loop().run_until_complete(self.loop())
-            except ConnectionError or WebSocketException:
+            except Exception:  # ConnectionError or WebSocketException or TimeoutError or OSError:
                 logging.error('Could not connect')
             logging.error(f'Reconnecting in {self.reconnect_timeout}ms')
             time.sleep(self.reconnect_timeout / 1000)

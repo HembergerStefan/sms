@@ -9,6 +9,8 @@ class ResponseHandler(Thread):
     current_packages_ids: set[str] = set()
 
     executed_scripts_ids: set[str] = set()
+    failed_scripts_ids: set[str] = set()
+    failed_installs_ids: set[str] = set()
 
     def __init__(self, response: dict):
         super().__init__()
@@ -21,7 +23,12 @@ class ResponseHandler(Thread):
 
                 def install_package():
                     current_package = package  # prevent package from changing
-                    PackageInstaller(current_package).install()
+                    return_code = PackageInstaller(current_package).install()
+                    if return_code == 0:
+                        pass  # todo installed successfully
+                    else:
+                        self.failed_installs_ids.add(current_package['id'])
+                    self.current_packages_ids.remove(current_package['id'])
 
                 Thread(target=install_package).start()
 
@@ -31,7 +38,11 @@ class ResponseHandler(Thread):
 
                 def exec_script():
                     current_script = script  # prevent script from changing
-                    ScriptExecutor(current_script).execute()
-                    self.executed_scripts_ids.add(current_script['id'])
+                    return_code = ScriptExecutor(current_script).execute()
+                    if return_code == 0:
+                        self.executed_scripts_ids.add(current_script['id'])
+                    else:
+                        self.failed_scripts_ids.add(current_script['id'])
+                    self.current_scripts_ids.remove(current_script['id'])
 
                 Thread(target=exec_script).start()
