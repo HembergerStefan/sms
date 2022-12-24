@@ -1,0 +1,27 @@
+/* basic table dropdown content container */
+.bc-tbl--ddn-cnt--cr > li:first-of-type, .bc-tbl--ddn-cnt--cr > li:nth-of-type(2) {
+    height: 41px !important;
+
+    padding: unset !important;
+}
+
+.bc-tbl--ddn-cnt--cr > li > button {
+    height: 100%;
+    width: 100%;
+
+    padding: 8px;
+
+    text-align: start;
+
+    background-color: transparent;
+
+    cursor: pointer;
+}
+
+.bc-tbl--ddn-cnt--cr > li > button:disabled {
+    cursor: not-allowed;
+}
+
+.bc-tbl--ddn-cnt--cr > li > button:disabled > span {
+    color: var(--li-item-dis-clr);
+}
