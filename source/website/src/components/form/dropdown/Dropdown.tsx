@@ -9,6 +9,7 @@ import useOnClickOutside from '../../../hooks/useOnClickOutside'
 import DropdownContent from './DropdownContent'
 
 import './Dropdown.css'
+import ListDropdownContent from "./list_dropdown/ListDropdownContent";
 
 interface DropdownProps {
     defaultValue: string
@@ -78,8 +79,9 @@ const Dropdown = ({defaultValue, items}: DropdownProps) => {
                 </div>
             </div>
 
-            <DropdownContent mount={activeDropdown} setMount={setActiveDropdown} setCrItem={setSelectedItem}
-                             items={items}/>
+            <DropdownContent mount={activeDropdown}
+                             content={<ListDropdownContent setMount={setActiveDropdown} items={items}
+                                                           setCrItem={setSelectedItem}/>}/>
         </div>
     )
 }
