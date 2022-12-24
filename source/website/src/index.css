@@ -19,6 +19,8 @@
     --nv-item--h--bg-clr: hsl(240, 14%, 97%); /* Navigation items hover background color */
 
     --li-item-h-clr: hsl(210, 70%, 96%); /* List item hover */
+    --li-item-ac-clr: hsl(211, 82%, 94%); /* List item active */
+    --li-item-dis-clr: hsl(0, 0%, 85%); /* List item disabled */
 
     /* Custom menu item style */
     --mu-item--hover-bg--clr: hsl(0, 0%, 94%);
