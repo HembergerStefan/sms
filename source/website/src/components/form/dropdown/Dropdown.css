@@ -1,7 +1,8 @@
 #dropdown-container {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+
+    position: relative;
 
     height: fit-content;
     width: fit-content;
@@ -53,10 +54,9 @@
 }
 
 /* Dropdown Content Section --Begin */
-#dropdown-content {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
+#dropdown-content-container {
+    position: absolute;
+    top: 120%;
 
     height: fit-content;
     width: max-content;
@@ -83,7 +83,13 @@
 
     user-select: none;
 
-    z-index: 999;
+    z-index: 999 !important;
+}
+
+#dropdown-content {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }
 
 .active-dropdown-content {
@@ -113,7 +119,7 @@
 }
 
 #dropdown-content li:active {
-    background-color: var(--li-item-h-clr);
+    background-color: var(--li-item-ac-clr);
 }
 
 /* Dropdown Content Section --End */
