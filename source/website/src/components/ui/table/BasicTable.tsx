@@ -223,7 +223,7 @@ const BasicTable = () => {
                 <tr>
                     <td colSpan={columns.length} style={{borderRadius: 'var(--br-r-medium) var(--br-r-medium) 0 0'}}>
                         <BoxHeading content={<h2 className='fs-qr-1 fw--semi-bold'>{t('All Scripts')}</h2>}
-                                    dropdownContent={<BasicTableDropdownContent setMount={setMountDropdown}/>}
+                                    dropdownContent={<BasicTableDropdownContent/>}
                                     mountDropdown={mountDropdown}
                                     setMountDropdown={setMountDropdown}/>
                     </td>
