@@ -1,3 +1,18 @@
+#kebab-container {
+    display: flex;
+    flex-direction: column;
+
+    position: relative;
+
+    height: fit-content;
+    width: fit-content;
+}
+
+/* Let the kebab menu dropdown for the page size overflow */
+#kebab-container > #dropdown-content-container {
+    overflow: unset;
+}
+
 #kebab-menu--container {
     display: flex;
     justify-content: center;
@@ -11,4 +26,8 @@
     border-radius: 50%;
 
     cursor: pointer;
+}
+
+#kebab-container > section:first-of-type {
+    right: 0;
 }
