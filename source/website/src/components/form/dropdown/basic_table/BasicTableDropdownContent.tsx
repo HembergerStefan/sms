@@ -8,26 +8,22 @@ import Dropdown from '../Dropdown'
 
 import './BasicTableDropdownContent.css'
 
-interface DropdownContentProps {
-    setMount: Function
-}
-
-const BasicTableDropdownContent = ({setMount}: DropdownContentProps) => {
+const BasicTableDropdownContent = () => {
 
     const {t} = useTranslation()
 
-    const {nextPage, previousPage, canNextPage, canPreviousPage, getPageSize, setPageSize} = useDataListStore()
+    const {nextPage, previousPage, canNextPage, canPreviousPage, setPageSize, pageSize} = useDataListStore()
 
     const PAGE_SIZE_ITEMS: string[] = ['5', '10', '20', '30', '40', '50']
 
-    /* Select the item and unmount this component */
-    const selectItem = (cr: string): void => {
-
-        setMount(() => false)
+    /* User selected item, so change the table size to it */
+    const handleChange = (cr: number): void => {
+        setPageSize(cr)
     }
 
     return (
         <ul id='dropdown-content' className='bc-tbl--ddn-cnt--cr'>
+            <span className='fs-sc-body-1' style={{marginBottom: '2px'}}>{t('Page Settings')}</span>
             <li>
                 <button onClick={() => previousPage()}
                         disabled={!canPreviousPage()}>
@@ -42,22 +38,12 @@ const BasicTableDropdownContent = ({setMount}: DropdownContentProps) => {
                 </button>
             </li>
 
-            <li>
-                <Dropdown defaultValue='Select Item' items={PAGE_SIZE_ITEMS}/>
-            </li>
-
-            <li>
-                <select
-                    value={getPageSize()}
-                    onChange={event => setPageSize(Number(event.target.value))}
-                >
-                    {[5, 10, 20, 30, 40, 50].map(pageSize => (
-                        <option key={pageSize} value={pageSize}>
-                            Show {pageSize}
-                        </option>
-                    ))}
-                </select>
-            </li>
+            <div>
+                <hr/>
+                <Dropdown prefix='Page Size: ' defaultValue='10' firstSelectedValue={String(pageSize)}
+                          items={PAGE_SIZE_ITEMS}
+                          handleChange={handleChange}/>
+            </div>
         </ul>
     )
 }
