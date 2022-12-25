@@ -1,68 +1,73 @@
 import create from 'zustand'
+import {persist} from 'zustand/middleware'
 
 export interface DataListStore {
     table: any
+    pageSize: number
+    pageIndex: number
+    pageCount: number
+    canNextPage: () => boolean
+    canPreviousPage: () => boolean
     setTable: (table: any) => void
     nextPage: () => void
     previousPage: () => void
-    canNextPage: () => boolean
-    canPreviousPage: () => boolean
-    getPageSize: () => number
     setPageSize: (size: number) => void
-    getPageIndex: () => number
-    getPageCount: () => number
+    setPageIndex: (index: number) => void
+    setPageCount: (size: number) => void
 }
 
-const useDataListStore = create<DataListStore>((set, get) => ({
-    table: null,
-    setTable: (table) => set(prev => ({
-        table: prev.table = table
-    })),
-    nextPage: () => {
-        get().table.nextPage()
-    },
-    previousPage: () => {
-        get().table.previousPage()
-    },
-    canNextPage: () => {
-        if (get().table !== null) {
-            return get().table.getCanNextPage()
-        }
+const useDataListStore = create(
+    persist<DataListStore>((set, get) => ({
+            table: null,
+            pageSize: 10,
+            pageIndex: 0,
+            pageCount: 0,
+            setTable: (table) => set(prev => ({
+                table: prev.table = table
+            })),
+            nextPage: () => {
+                if (get().table !== null) {
+                    get().table.nextPage()
+                }
+            },
+            previousPage: () => {
+                if (get().table !== null) {
+                    get().table.previousPage()
+                }
+            },
+            setPageSize: (size) => set(prev => ({
+                pageSize: prev.pageSize = size
+            })),
+            setPageIndex: (index) => {
+                set(prev => ({
+                    pageIndex: prev.pageIndex = index
+                }))
+            },
+            setPageCount: (size) => {
+                set(prev => ({
+                    pageCount: prev.pageCount = size
+                }))
+            },
+            canPreviousPage: () => {
+                return get().pageIndex > 0
+            },
+            canNextPage: () => {
+                if (get().pageCount === -1) {
+                    return true
+                }
 
-        return false
-    },
-    canPreviousPage: () => {
-        if (get().table !== null) {
-            return get().table.getCanPreviousPage()
-        }
+                if (get().pageCount === 0) {
+                    return false
+                }
 
-        return false
-    },
-    getPageSize: () => {
-        if (get().table !== null) {
-            return get().table.getState().pagination.pageSize
+                return get().pageIndex < get().pageCount - 1
+            },
+        }), {
+            name: 'data-list-store',
+            getStorage: () => sessionStorage
         }
-
-        return 0
-    },
-    setPageSize: (size) => {
-        get().table.setPageSize(size)
-    },
-    getPageIndex: () => {
-        if (get().table !== null) {
-            return get().table.getState().pagination.pageIndex
-        }
-
-        return 0
-    },
-    getPageCount: () => {
-        if (get().table !== null) {
-            return get().table.getPageCount()
-        }
-
-        return 0
-    }
-}))
+    )
+)
 
 
 export default useDataListStore
