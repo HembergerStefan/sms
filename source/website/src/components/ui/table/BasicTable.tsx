@@ -22,13 +22,12 @@ import Checkbox from '../../form/checkbox/Checkbox'
 import Numbering from "../numbering/Numbering";
 import useDataListStore from "../../../store/dataListStore";
 import BasicTableDropdownContent from "../../form/dropdown/basic_table/BasicTableDropdownContent";
-import Dropdown from "../../form/dropdown/Dropdown";
 
 const BasicTable = () => {
 
     const {t} = useTranslation()
 
-    const {setTable, getPageIndex, getPageCount} = useDataListStore()
+    const {setTable, pageSize, setPageIndex, setPageCount} = useDataListStore()
 
     const [sorting, setSorting] = useState<SortingState>([])
     const [mountDropdown, setMountDropdown] = useState<boolean>(false)
@@ -152,6 +151,25 @@ const BasicTable = () => {
         setTable(table)
     }, [])
 
+    /* React to changes on the table page size */
+    useEffect(() => {
+        table.setPageSize(pageSize)
+    }, [pageSize])
+
+    let pageIndex = table.getState().pagination.pageIndex
+
+    /* React to changes on the table page index */
+    useEffect(() => {
+        setPageIndex(pageIndex)
+    }, [pageIndex])
+
+    let pageCount = table.getPageCount()
+
+    /* React to changes on the table page count */
+    useEffect(() => {
+        setPageCount(pageCount)
+    }, [pageCount])
+
     return (
         <>
             <table id='basic-table'>
@@ -191,10 +209,11 @@ const BasicTable = () => {
                         </tr>
                     ))
                 }
-                </thead>
 
                 {/* For the spacing between the thead and the tbody */}
                 <tr style={{height: '10px'}}></tr>
+
+                </thead>
 
                 <tbody id='basic-table--body'>
 
@@ -211,27 +230,37 @@ const BasicTable = () => {
                 </tr>
 
                 {
-                    /* Display the row/cell content */
-                    table.getRowModel().rows.map(row => (
-                        <tr key={row.id}>
-                            {
-                                row.getVisibleCells().map((cell, index) => (
-                                    <td key={cell.id}>
-                                        {
-                                            flexRender(cell.column.columnDef.cell, cell.getContext())
-                                        }
-                                    </td>
-                                ))
-                            }
-                        </tr>
-                    ))
+                    table.getPageCount() === 0 ? <tr>
+                            <td colSpan={columns.length}>
+                                <span className='fw--semi-bold clr-pr-1'>No entries available!</span>
+                            </td>
+                        </tr> :
+                        /* Display the row/cell content */
+                        table.getRowModel().rows.map(row => (
+                            <tr key={row.id}>
+                                {
+                                    row.getVisibleCells().map((cell) => (
+                                        <td key={cell.id}>
+                                            {
+                                                flexRender(cell.column.columnDef.cell, cell.getContext())
+                                            }
+                                        </td>
+                                    ))
+                                }
+                            </tr>
+                        ))
                 }
                 </tbody>
 
                 <tfoot id='basic-table--footer'>
                 <tr>
                     <td colSpan={columns.length}>
-                        <span>{getPageIndex() + 1} of {getPageCount()}</span>
+                        {
+                            table.getPageCount() === 0 ? null :
+                                <span className='fs-sc-body-1'>
+                                    {t('Page')} {table.getState().pagination.pageIndex + 1} {t('of')} {table.getPageCount()}
+                                </span>
+                        }
                     </td>
                 </tr>
                 </tfoot>
