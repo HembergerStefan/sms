@@ -4,12 +4,10 @@ import './Dropdown.css'
 
 interface DropdownContentProps {
     mount: boolean
-    setMount: Function
-    setCrItem: Function
-    items: string[]
+    content: React.ReactNode
 }
 
-const DropdownContent = ({mount, setMount, setCrItem, items}: DropdownContentProps) => {
+const DropdownContent = ({mount, content}: DropdownContentProps) => {
 
     const mountRef = useRef<HTMLUListElement>(null)
     const node = mountRef.current
@@ -26,23 +24,10 @@ const DropdownContent = ({mount, setMount, setCrItem, items}: DropdownContentPro
         }
     }, [mount])
 
-    /* Select the item and unmount this component */
-    const selectItem = (cr: string): void => {
-        setCrItem(cr)
-
-        setMount(() => false)
-    }
-
     return (
-        <ul ref={mountRef} id='dropdown-content' >
-            {
-                items.map((cr) => (
-                    <li onClick={() => selectItem(cr)}>
-                        <span className='fs-pr-body-1 fw-regular'>{cr}</span>
-                    </li>
-                ))
-            }
-        </ul>
+        <section ref={mountRef} id='dropdown-content-container'>
+            {content}
+        </section>
     )
 }
 

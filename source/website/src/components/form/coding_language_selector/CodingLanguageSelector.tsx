@@ -5,6 +5,7 @@ import useOnClickOutside from '../../../hooks/useOnClickOutside'
 import DropdownContent from '../dropdown/DropdownContent'
 
 import './CodingLanguageSelector.css'
+import ListDropdownContent from "../dropdown/list_dropdown/ListDropdownContent";
 
 interface CodingLanguageSelectorProps {
     language: string
@@ -15,7 +16,7 @@ const CodingLanguageSelector = ({language, setLanguage}: CodingLanguageSelectorP
 
     const [mount, setMount] = useState<boolean>(false)
 
-    const LANGUAGE_ITEMS: string[] = ['Bash', 'Python', 'PowerShell'].sort()
+    const LANGUAGE_ITEMS: string[] = ['Bash', 'Python', 'PowerShell', 'CMD'].sort()
 
     /* Always hide the component when clicking outside the component */
     const [dropdownRef] = useOnClickOutside(() => mount ? setMount(false) : null)
@@ -26,7 +27,8 @@ const CodingLanguageSelector = ({language, setLanguage}: CodingLanguageSelectorP
                 <span className='fs-qi-1 fw--semi-bold'>{language}</span>
             </div>
 
-            <DropdownContent mount={mount} setMount={setMount} items={LANGUAGE_ITEMS} setCrItem={setLanguage}/>
+            <DropdownContent mount={mount} content={<ListDropdownContent setMount={setMount} items={LANGUAGE_ITEMS}
+                                                                         setCrItem={setLanguage}/>}/>
         </section>
     )
 }

@@ -1,0 +1,32 @@
+#numbering-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    min-height: 42px;
+    min-width: 42px;
+
+    max-height: 42px;
+    max-width: 42px;
+
+    padding: 10px;
+
+    border-radius: var(--br-r-small);
+
+    user-select: none;
+}
+
+.clr-pk-1 {
+    color: hsl(215, 98%, 56%);
+    background-color: hsl(215, 98%, 56%, 30%);
+}
+
+.clr-pk-2 {
+    color: hsl(357, 77%, 53%);
+    background-color: hsl(357, 77%, 53%, 30%);
+}
+
+.clr-pk-3 {
+    color: hsl(133, 72%, 45%);
+    background-color: hsl(133, 72%, 45%, 30%);
+}

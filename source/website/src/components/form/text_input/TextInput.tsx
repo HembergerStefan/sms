@@ -3,6 +3,7 @@ import React, {memo, useRef} from 'react'
 import {useTranslation} from 'react-i18next'
 
 import FullSizeButton from '../menu/full_size/FullSizeButton'
+import Numbering from '../../ui/numbering/Numbering'
 
 import './TextInput.css'
 
@@ -14,7 +15,13 @@ interface TextInputProps {
     setStoreValue: Function
 }
 
-const TextInput = ({isHeading = false, defaultValue, placeholder, customSize = {height: 100, hUnit: '%', width: 100, wUnit: '%'}, setStoreValue}: TextInputProps) => {
+const TextInput = ({
+                       isHeading = false,
+                       defaultValue,
+                       placeholder,
+                       customSize = {height: 100, hUnit: '%', width: 100, wUnit: '%'},
+                       setStoreValue
+                   }: TextInputProps) => {
 
     const {t} = useTranslation()
 
@@ -25,7 +32,7 @@ const TextInput = ({isHeading = false, defaultValue, placeholder, customSize = {
             {
                 isHeading ?
                     <label id='numbering-input--wrapper' className='md-input'>
-                        <span id='numbering' className='fs-qi-1'>01</span>
+                        <Numbering value={1} fixedColor={true}/>
                         <input id='text-input' type='text'
                                defaultValue={defaultValue}
                                placeholder={t(placeholder)}

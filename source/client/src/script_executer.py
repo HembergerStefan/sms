@@ -8,6 +8,10 @@ class ScriptExecutor:
         self.script = script
 
     def execute(self) -> int:
+        # python, cmd, powershell, bash
+        if self.script['interpreter'] == '':
+            pass
+
         # file = tempfile.TemporaryFile(delete=False, mode='w')
         file = tempfile.NamedTemporaryFile(suffix=f'.{self.script["fileExtension"]}', delete=False, mode='w')
         logging.debug(f'Writing temp file "{file.name}"')

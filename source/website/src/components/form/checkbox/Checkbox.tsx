@@ -1,48 +1,35 @@
-import React, {useRef, memo, useEffect, ChangeEventHandler} from 'react'
+import React, {useRef, memo, useEffect, HTMLProps} from 'react'
 
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded'
 import HorizontalRuleRoundedIcon from '@mui/icons-material/HorizontalRuleRounded'
 
-import {STATES} from './CheckboxStates'
-
 import './Checkbox.css'
 
 interface CheckboxProps {
-    value: string
-    handleChange: ChangeEventHandler<HTMLInputElement>
+    indeterminate?: boolean
 }
 
-const Checkbox = ({value, handleChange}: CheckboxProps) => {
+const Checkbox = ({indeterminate, ...rest}: CheckboxProps & HTMLProps<HTMLInputElement>) => {
 
     const checkboxRef = useRef<HTMLInputElement>(null)
 
     useEffect(() => {
         if (checkboxRef.current !== null) {
-            if (value === STATES.CHECKED) {
-                checkboxRef.current.checked = true
-                checkboxRef.current.indeterminate = false
-            } else if (value === STATES.EMPTY) {
-                checkboxRef.current.checked = false
-                checkboxRef.current.indeterminate = false
-            } else if (value === STATES.INDETERMINATE) {
-                checkboxRef.current.checked = false
-                checkboxRef.current.indeterminate = true
+            if (typeof indeterminate === 'boolean') {
+                checkboxRef.current.indeterminate = !rest.checked && indeterminate
             }
         }
-    }, [value])
+    }, [checkboxRef, indeterminate])
 
     return (
         <label id='checkbox-wrapper'>
-            <input ref={checkboxRef} type='checkbox'
-                   checked={value === STATES.CHECKED}
-                   onChange={handleChange}/>
+            <input ref={checkboxRef} type='checkbox' {...rest}/>
             {
-                value === STATES.CHECKED ? <CheckRoundedIcon id='checkbox-checked--icon'/> : null
+                (rest.checked) ? <CheckRoundedIcon id='checkbox-checked--icon'/> : null
             }
 
             {
-                value === STATES.INDETERMINATE ?
-                    <HorizontalRuleRoundedIcon id='checkbox-indeterminate--icon'/> : null
+                (!rest.checked && indeterminate) ? <HorizontalRuleRoundedIcon id='checkbox-indeterminate--icon'/> : null
             }
         </label>
     )

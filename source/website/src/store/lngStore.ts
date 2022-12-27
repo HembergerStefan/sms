@@ -26,7 +26,7 @@ const useLngStore = create(
                 return usa
             },
             resetLng: () => set(prev => ({
-                selectedLng: prev.selectedLng = 'en'
+                selectedLng: prev.selectedLng = 'de'
             }))
         }),
         {

@@ -9,20 +9,24 @@ import useOnClickOutside from '../../../hooks/useOnClickOutside'
 import DropdownContent from './DropdownContent'
 
 import './Dropdown.css'
+import ListDropdownContent from "./list_dropdown/ListDropdownContent";
 
 interface DropdownProps {
+    prefix?: string
     defaultValue: string
+    firstSelectedValue?: string
     items: string[]
+    handleChange: Function
 }
 
-const Dropdown = ({defaultValue, items}: DropdownProps) => {
+const Dropdown = ({prefix, defaultValue, firstSelectedValue, items, handleChange}: DropdownProps) => {
 
     const {t} = useTranslation()
 
     const iconToggleRef = useRef<HTMLDivElement>(null)
 
     const [activeDropdown, setActiveDropdown] = useState<boolean>(false)
-    const [selectedItem, setSelectedItem] = useState<string>(defaultValue)
+    const [selectedItem, setSelectedItem] = useState<string>(firstSelectedValue !== undefined ? firstSelectedValue : defaultValue)
     const [interactionIcon, setInteractionIcon] = useState<string>('expandMoreRoundedIcon')
 
     /* Always hide the component when clicking outside the component */
@@ -55,8 +59,12 @@ const Dropdown = ({defaultValue, items}: DropdownProps) => {
                 iconToggleRef.current.classList.remove('active--expand-more--icon')
             }
         }
+
+        /* Something changed so call the method */
+        handleChange(selectedItem)
     }, [selectedItem])
 
+    /* TODO: if the item is removed -> handleRemove */
     const resetSelection = (ev: React.MouseEvent<HTMLDivElement>): void => {
         if (interactionIcon === 'clearRoundedIcon') {
             ev.stopPropagation()
@@ -69,7 +77,9 @@ const Dropdown = ({defaultValue, items}: DropdownProps) => {
     return (
         <div ref={dropdownRef} id='dropdown-container'>
             <div id='dropdown-header-container' onClick={() => setActiveDropdown(prev => !prev)}>
-                <span className='fs-pr-body-1 fw-regular'>{t(selectedItem)}</span>
+                <span className='fs-pr-body-1 fw-regular'>
+                    {t(`${prefix !== undefined ? prefix : ''}`)} {t(selectedItem)}
+                </span>
                 <div ref={iconToggleRef} onClick={resetSelection}>
                     {
                         /* Create the mui svg component */
@@ -78,8 +88,9 @@ const Dropdown = ({defaultValue, items}: DropdownProps) => {
                 </div>
             </div>
 
-            <DropdownContent mount={activeDropdown} setMount={setActiveDropdown} setCrItem={setSelectedItem}
-                             items={items}/>
+            <DropdownContent mount={activeDropdown}
+                             content={<ListDropdownContent setMount={setActiveDropdown} items={items}
+                                                           setCrItem={setSelectedItem}/>}/>
         </div>
     )
 }
