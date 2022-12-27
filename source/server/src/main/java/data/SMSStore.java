@@ -188,7 +188,7 @@ public class SMSStore implements ISMSStore {
         SecretKeySpec sk = null;
         for (TokenInfos tokenInfo : tokens) {
             if (tokenInfo.getToken().equals(replacedToken)) {
-                tokenInfo.setExpireDate(LocalDateTime.now().plusMinutes(1511));
+                tokenInfo.setExpireDate(LocalDateTime.now().plusMinutes(1));
                 sk = tokenInfo.getSecretKeySpec();
             }
         }

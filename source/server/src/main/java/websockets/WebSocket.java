@@ -38,7 +38,6 @@ public class WebSocket {
     private Login anno = null;
 
     private ArrayList<DTOUserSession> userSessions = new ArrayList<>();
-    private boolean isAllowedToRun = true;
 
     @PostConstruct
     public void init() {
@@ -62,11 +61,6 @@ public class WebSocket {
                 userSessions.remove(userSession);
             }
         }
-        if (userSessions.size() > 0) {
-            isAllowedToRun = true;
-        } else {
-            isAllowedToRun = false;
-        }
     }
 
     @OnError
@@ -76,11 +70,6 @@ public class WebSocket {
             if (userSession.getSession().toString().equals(session.toString())) {
                 userSessions.remove(userSession);
             }
-        }
-        if (userSessions.size() > 0) {
-            isAllowedToRun = true;
-        } else {
-            isAllowedToRun = false;
         }
     }
 
@@ -105,11 +94,6 @@ public class WebSocket {
                     if(userSessionClone.getSession().toString().equals(userSession.getSession())){
                         userSessions.remove(userSession);
                     }
-                }
-                if(userSessions.size() > 0){
-                    isAllowedToRun = true;
-                }else{
-                    isAllowedToRun = false;
                 }
             }
         }

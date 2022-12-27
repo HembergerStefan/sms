@@ -7,9 +7,11 @@ import lombok.RequiredArgsConstructor;
 import model.DTOLoginResponse;
 import model.DTOUser;
 import org.springframework.web.bind.annotation.RestController;
+import token.TokenInfos;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import java.util.ArrayList;
 
 
 @RestController
@@ -26,6 +28,11 @@ public class WebpageController implements IWebpageResource {
         token = token.replaceAll("/", "汉");//tauscht alle "/" durch ein "汉" aus da sonst Fehler im Pfad entstehen
         DTOLoginResponse response = new DTOLoginResponse(token, user_ID);//DTO Objekt zum Übergeben wird erstellt
         return response;
+    }
+
+    @Override
+    public ArrayList<TokenInfos> getToken() {
+        return smsStore.getTokens();
     }
 
 }
