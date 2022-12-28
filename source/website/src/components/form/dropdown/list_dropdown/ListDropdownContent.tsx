@@ -18,8 +18,8 @@ const DropdownContent = ({setMount, setCrItem, items}: DropdownContentProps) => 
     return (
         <ul id='dropdown-content'>
             {
-                items.map((cr) => (
-                    <li onClick={() => selectItem(cr)}>
+                items.map((cr, index) => (
+                    <li key={`dropdown-list-item-${index}`} onClick={() => selectItem(cr)}>
                         <span className='fs-pr-body-1 fw-regular'>{cr}</span>
                     </li>
                 ))
