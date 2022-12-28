@@ -35,7 +35,6 @@ public class ClientSocket {
     protected SMSStore smsStore;
 
     private final ArrayList<DTOClientSession> clientSessions = new ArrayList<DTOClientSession>();//Liste mit allen Sessions zu den Clients
-    private boolean isAllowedToRun = false;
     @OnOpen
     public void onOpen(Session session, @PathParam("mac_address") String mac_address) {//öffnen einer Verbindung
         if (!smsStore.clientIsAvailable(mac_address)) {
@@ -49,8 +48,6 @@ public class ClientSocket {
             var clientSession = new DTOClientSession(mac_address, session);//Client und dazugehörige Session wird gespeichert
             clientSessions.add(clientSession);
         }
-        //starten und stoppen des Threads um Resourcen zu schonen
-        isAllowedToRun = clientSessions.size() > 0;
     }
 
     @OnClose
@@ -61,7 +58,6 @@ public class ClientSocket {
                 clientSessions.remove(clientSession);
             }
         }
-        isAllowedToRun = clientSessions.size() > 0;
     }
 
     @OnError
@@ -72,7 +68,6 @@ public class ClientSocket {
                 clientSessions.remove(clientSession);
             }
         }
-        isAllowedToRun = clientSessions.size() > 0;
     }
 
     @OnMessage

@@ -19,8 +19,8 @@ public class TokenCleanerThread extends Thread {
             try{
                 Thread.sleep(10000);//wartet 10 Sekunden
                 if(smsStore != null){
-                    ArrayList<TokenInfos> token = smsStore.getTokens();
-                    for(TokenInfos tokenInfo : token){//löscht alle abgelaufenen Token
+                    var token = smsStore.getTokens();
+                    for(var tokenInfo : token){//löscht alle abgelaufenen Token
                         if(tokenInfo.getExpireDate().isBefore(LocalDateTime.now())){
                             smsStore.deleteToken(tokenInfo);
                         }

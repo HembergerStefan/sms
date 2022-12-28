@@ -20,7 +20,7 @@ public class Token {
     public String toString() {//verschlüssel den Token und gibt ihn als String zurück
         String token = userID + "/" + role;
         try {
-            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+            var cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
             cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
             return Base64.getEncoder()
                     .encodeToString(cipher.doFinal(token.getBytes("UTF-8")));
