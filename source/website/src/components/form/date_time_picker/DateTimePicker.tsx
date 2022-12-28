@@ -11,7 +11,8 @@ const DateTimePicker = ({defaultValue, setStoreValue}: DateTimePickerProps) => {
 
     return (
         <input id='date-time--picker' className='md-input'
-               defaultValue={defaultValue ? defaultValue.toString() : undefined} type='datetime-local'
+               defaultValue={defaultValue ? defaultValue.toISOString().slice(0, defaultValue.toISOString().length - 8) : undefined}
+               type='datetime-local'
                onChange={(event) => setStoreValue(new Date(event.target.value))}/>
     )
 }
