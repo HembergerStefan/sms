@@ -3,9 +3,9 @@ import React, {memo, useState} from 'react'
 import useOnClickOutside from '../../../hooks/useOnClickOutside'
 
 import DropdownContent from '../dropdown/DropdownContent'
+import ListDropdownContent from '../dropdown/list_dropdown/ListDropdownContent'
 
 import './CodingLanguageSelector.css'
-import ListDropdownContent from "../dropdown/list_dropdown/ListDropdownContent";
 
 interface CodingLanguageSelectorProps {
     language: string
