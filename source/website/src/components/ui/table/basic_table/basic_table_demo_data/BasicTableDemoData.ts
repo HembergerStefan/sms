@@ -1,106 +1,105 @@
-import {Script, Package} from '../basic_table_types/BasicTableTypes'
+import {Script, Package} from '../../../../../data/data_types'
 
 export const defaultScriptData: Script[] = [
     {
         id: 1,
-        title: 'Setup Windows',
+        name: 'Setup Windows',
         description: 'Install Windows 11 (21H2)',
         language: 'PowerShell',
-        executionDate: '3rd August 2022',
-        status: 'Execution Pending'
+        executionDate: new Date(),
+        code: ''
     },
     {
         id: 2,
-        title: 'AutoClicker',
+        name: 'AutoClicker',
         description: 'More Clicks than ever',
         language: 'Python',
-        executionDate: '5rd December 2022',
-        status: 'Execution Pending'
+        executionDate: new Date(),
+        code: ''
     },
     {
         id: 3,
-        title: 'DWW',
+        name: 'DWW',
         description: 'Disable Windows Watermark',
         language: 'Python',
-        executionDate: '3rd August 2022',
-        status: 'Executed'
+        executionDate: new Date('2023-01-01T19:45:13'),
+        code: ''
     },
     {
         id: 4,
-        title: 'DWW Test',
+        name: 'DWW Test',
         description: 'Disable Windows Watermark Testing tool',
         language: 'Python',
-        executionDate: '3rd August 2022',
-        status: 'Execution Pending'
+        executionDate: new Date(),
+        code: ''
     },
     {
         id: 5,
-        title: 'Remove DWW',
+        name: 'Remove DWW',
         description: 'Disable Windows Watermark deinstaller',
         language: 'Python',
-        executionDate: '3rd August 2022',
-        status: 'Execution Pending'
+        executionDate: new Date(),
+        code: ''
     },
     {
         id: 6,
-        title: 'DWW 2.0',
+        name: 'DWW 2.0',
         description: 'Disable Windows Watermark in Version 2',
         language: 'Python',
-        executionDate: '3rd August 2022',
-        status: 'Executed'
+        executionDate: new Date(),
+        code: ''
     },
     {
         id: 7,
-        title: 'Cleanup Code',
+        name: 'Cleanup Code',
         description: 'Script for clean upping code',
         language: 'Python',
-        executionDate: '3rd August 2022',
-        status: 'Executed'
-
+        executionDate: new Date(),
+        code: ''
     }
 ]
 
 export const defaultPackageData: Package[] = [
     {
         id: 1,
-        title: 'Microsoft Word',
+        name: 'Microsoft Word',
         version: '2208',
-        installationDate: '3rd August 2022',
-        status: 'Installation Pending'
+        url: 'https://www.microsoft.com/de-at',
+        installationDate: new Date(),
     },
     {
         id: 2,
-        title: 'Adobe Illustrator',
+        name: 'Adobe Illustrator',
         version: '26.5',
-        installationDate: '3rd August 2022',
-        status: 'Installed'
+        url: 'https://www.adobe.com/at/products/illustrator.html?gclid=CjwKCAiAkrWdBhBkEiwAZ9cdcDBZSlR8lLjIZXntwvM-XPjPN1tsSHWBxn7mntWqp-j_PHAf9SooWhoCOm4QAvD_BwE&mv=search&sdid=KCJMVLF6&ef_id=CjwKCAiAkrWdBhBkEiwAZ9cdcDBZSlR8lLjIZXntwvM-XPjPN1tsSHWBxn7mntWqp-j_PHAf9SooWhoCOm4QAvD_BwE:G:s&s_kwcid=AL!3085!3!599735500011!e!!g!!adobe%20illustrator!1427319358!62904751144',
+        installationDate: new Date()
     },
     {
         id: 3,
-        title: 'Figma',
+        name: 'Figma',
         version: '1.7.2022',
-        installationDate: '3rd August 2022',
-        status: 'Installation Pending'
+        url: 'https://www.figma.com/de/',
+        installationDate: new Date()
     },
     {
         id: 4,
-        title: 'WebStorm',
+        name: 'WebStorm',
         version: '2022.2.1',
-        installationDate: '3rd August 2022',
-        status: 'Installed'
+        url: 'https://www.jetbrains.com/de-de/webstorm/',
+        installationDate: new Date(),
     },
     {
         id: 5,
-        title: 'Discord',
+        name: 'Discord',
         version: '2022.2.1',
-        installationDate: '3rd August 2022',
-        status: 'Installed'
+        url: 'https://discord.com/',
+        installationDate: new Date(),
     },
     {
         id: 6,
-        title: 'Spotify',
+        name: 'Spotify',
         version: '2022.2.1',
-        installationDate: '3rd August 2022',
-        status: 'Installation Pending'
+        url: 'https://open.spotify.com/',
+        installationDate: new Date(),
     },
 ]
