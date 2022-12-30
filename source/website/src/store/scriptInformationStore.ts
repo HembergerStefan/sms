@@ -1,26 +1,21 @@
 import create from 'zustand'
 
-export type Script = {
-    id: number
-    title: string
-    description: string
-    code: string
-    executionDate: Date
-    language: string
-}
+import {Script} from '../data/data_types'
 
-export interface ScriptSlice {
+interface ScriptSlice {
     scripts: Script[]
+    setScripts: (entries: Script[]) => void
     addingScript: Script
     addScript: (entry: Script) => void
     removeScript: (id: number) => void
     resetScripts: () => void
     getScriptById: (id: number) => Script
+    getScriptStatus: (id: number) => string
 }
 
-export const initialState: Script = {
+export const initialScriptState: Script = {
     id: -1,
-    title: '',
+    name: '',
     description: '',
     code: '',
     executionDate: new Date(),
@@ -31,12 +26,15 @@ const useScriptStore = create<ScriptSlice>((set, get) => ({
     scripts: [],
     addingScript: {
         id: -1,
-        title: '',
+        name: '',
         description: '',
         code: '',
         executionDate: new Date(),
         language: 'Python'
     },
+    setScripts: (entries) => set(state => ({
+        scripts: state.scripts = entries
+    })),
     addScript: (entry) => {
         let scripts = get().scripts
 
@@ -50,7 +48,14 @@ const useScriptStore = create<ScriptSlice>((set, get) => ({
 
         set((state) => ({
             scripts: state.scripts = [...scripts],
-            addingScript: state.addingScript = initialState // Reset, to add new data
+            addingScript: state.addingScript = {
+                id: -1,
+                name: '',
+                description: '',
+                code: '',
+                executionDate: new Date(),
+                language: 'Python'
+            } // Reset, to add new data
         }))
     },
     removeScript: (id) => set((state) => ({
@@ -66,7 +71,18 @@ const useScriptStore = create<ScriptSlice>((set, get) => ({
             return selectedScript
         }
 
-        return initialState
+        return initialScriptState
+    },
+    getScriptStatus: (id) => {
+        const script = get().getScriptById(id)
+
+        if (script.id !== -1) {
+            if (script.executionDate < new Date()) {
+                return 'Executed'
+            }
+        }
+
+        return 'Execution Pending'
     }
 }))
 
