@@ -10,9 +10,10 @@ import {
     useReactTable, ColumnDef,
 } from '@tanstack/react-table'
 
-import {Script, Package} from './basic_table_types/BasicTableTypes'
+import {Script, Package} from '../../../../data/data_types'
 import {defaultScriptData, defaultPackageData} from './basic_table_demo_data/BasicTableDemoData'
 
+import useScriptStore from '../../../../store/scriptInformationStore'
 import useDataListScriptStore from '../../../../store/dataListScriptStore'
 import useDataListPackageStore from '../../../../store/dataListPackageStore'
 
@@ -22,8 +23,11 @@ import BasicTableHeader from './table_parts/BasicTableHeader'
 import BasicTableBody from './table_parts/BasicTableBody'
 import BasicTableFooter from './table_parts/BasicTableFooter'
 
-
 import './BasicTable.css'
+import DialogManager from "../../dialog/DialogManager";
+import {useTranslation} from "react-i18next";
+import usePackageStore from "../../../../store/packageInformationStore";
+import RedirectButton from "../../../form/common_button/redirect_button/RedirectButton";
 
 export enum BasicTableTypes {
     SCRIPT, PACKAGE
@@ -34,6 +38,14 @@ interface BasicTableProps {
 }
 
 const BasicTable = ({tableType}: BasicTableProps) => {
+
+    const {t} = useTranslation()
+
+    /* Get the selected scripts out of the store & the possibility to update the store */
+    const {scripts, setScripts, getScriptStatus} = useScriptStore()
+
+    /* Get the selected packages out of the store & the possibility to update the store */
+    const {_packages, setPackages, getPackageStatus} = usePackageStore()
 
     const {
         setScriptTable,
@@ -51,12 +63,23 @@ const BasicTable = ({tableType}: BasicTableProps) => {
         setPackagePageCount
     } = useDataListPackageStore()
 
+    const [renderDialogComponent, setRenderDialogComponent] = useState<boolean>(false)
+    const [selectedId, setSelectedId] = useState<number>(-1)
     const [sorting, setSorting] = useState<SortingState>([])
-    const [data, setData] = useState(() => tableType === 0 ? [...defaultScriptData] : [...defaultPackageData])
+    const [data, setData] = useState(() => tableType === 0 ? [...scripts] : [..._packages])
+
+    /* Reload/Load table when data was modified (e.g.: added, deleted, ...) */
+    useEffect(() => {
+        if (tableType === 0) {
+            setData(() => scripts)
+        } else {
+            setData(() => _packages)
+        }
+    }, [scripts, _packages])
 
     const columnHelper = createColumnHelper<Script & Package>()
 
-    const scriptColumns: ColumnDef<any, any>[] = [
+    const selectionColumn: ColumnDef<any, any> = (
         {
             id: 'select',
             header: () => (
@@ -75,71 +98,72 @@ const BasicTable = ({tableType}: BasicTableProps) => {
                 />
             ),
             enableSorting: false,
-        },
-        columnHelper.accessor('title', {
-            header: () => <h1>Title</h1>,
-            cell: info => <div style={{display: 'flex', alignItems: 'center', gap: '16px'}}>
+        }
+    )
+
+    const titleColumn: ColumnDef<any, any> = (
+        columnHelper.accessor('name', {
+            header: () => <h1>{t('Name')}</h1>,
+            cell: info => <div onClick={() => {
+                setSelectedId(() => info.row.original.id)
+                setRenderDialogComponent((prevState) => !prevState)
+            }} style={{display: 'flex', alignItems: 'center', gap: '16px', width: 'fit-content', cursor: 'pointer'}}>
                 <Numbering value={info.row.index}/>
                 <span className='fw--semi-bold clr-pr-1'>{info.getValue()}</span>
             </div>,
-        }),
+        })
+    )
+
+    const scriptColumns: ColumnDef<any, any>[] = [
+        selectionColumn,
+        titleColumn,
         columnHelper.accessor('description', {
-            header: () => <h1>Description</h1>,
+            header: () => <h1>{t('Description')}</h1>,
             cell: info => <span>{info.getValue()}</span>,
         }),
         columnHelper.accessor('language', {
-            header: () => <h1>Language</h1>,
+            header: () => <h1>{t('Language')}</h1>,
             cell: info => <span>{info.getValue()}</span>,
         }),
         columnHelper.accessor('executionDate', {
-            header: () => <h1>Execution Date</h1>,
-            cell: info => <span>{info.getValue()}</span>,
+            header: () => <h1>{t('Execution Date')}</h1>,
+            cell: info => <span>
+                {info.getValue().getDate()} {t(info.getValue().toLocaleString('default', {month: 'long'}))} {info.getValue().getFullYear()}, {info.getValue().toLocaleTimeString().slice(0, info.getValue().toLocaleTimeString().length - 3)}
+            </span>,
         }),
-        columnHelper.accessor('status', {
-            header: () => <h1>Status</h1>,
-            cell: info => <span>{info.getValue()}</span>,
-        })
+        {
+            id: 'status',
+            header: () => <h1>{t('Status')}</h1>,
+            cell: info => <span>{getScriptStatus(info.row.original.id)}</span>,
+            accessorFn: originalRow => getScriptStatus(originalRow.id)
+        },
     ]
 
     const packageColumns: ColumnDef<any, any>[] = [
-        {
-            id: 'select',
-            header: () => (
-                <Checkbox {...{
-                    checked: table.getIsAllRowsSelected(),
-                    indeterminate: table.getIsSomeRowsSelected(),
-                    onChange: table.getToggleAllRowsSelectedHandler()
-                }}
-                />
-            ),
-            cell: ({row}: CellContext<Package, string>) => (
-                <Checkbox {...{
-                    checked: row.getIsSelected(),
-                    onChange: row.getToggleSelectedHandler(),
-                }}
-                />
-            ),
-            enableSorting: false,
-        },
-        columnHelper.accessor('title', {
-            header: () => <h1>Title</h1>,
-            cell: info => <div style={{display: 'flex', alignItems: 'center', gap: '16px'}}>
-                <Numbering value={info.row.index}/>
-                <span className='fw--semi-bold clr-pr-1'>{info.getValue()}</span>
-            </div>,
-        }),
+        selectionColumn,
+        titleColumn,
         columnHelper.accessor('version', {
-            header: () => <h1>Version</h1>,
+            header: () => <h1>{t('Version')}</h1>,
             cell: info => <span>{info.getValue()}</span>,
         }),
         columnHelper.accessor('installationDate', {
-            header: () => <h1>Installation Date</h1>,
-            cell: info => <span>{info.getValue()}</span>,
+            header: () => <h1>{t('Installation Date')}</h1>,
+            cell: info => <span>
+                {info.getValue().getDate()} {t(info.getValue().toLocaleString('default', {month: 'long'}))} {info.getValue().getFullYear()}, {info.getValue().toLocaleTimeString().slice(0, info.getValue().toLocaleTimeString().length - 3)}
+            </span>,
         }),
-        columnHelper.accessor('status', {
-            header: () => <h1>Status</h1>,
-            cell: info => <span>{info.getValue()}</span>,
-        })
+        {
+            id: 'status',
+            header: () => <h1>{t('Status')}</h1>,
+            cell: info => <span>{getPackageStatus(info.row.original.id)}</span>,
+            accessorFn: originalRow => getPackageStatus(originalRow.id)
+        },
+        columnHelper.accessor('url', {
+            header: () => <h1>{t('Link')}</h1>,
+            cell: info => <div style={{width: 'fit-content'}}>
+                <RedirectButton content='Got to page' url={info.getValue()} target='_blank'/>
+            </div>
+        }),
     ]
 
     const columns: ColumnDef<any, any>[] = tableType === 0 ? scriptColumns : packageColumns
@@ -153,10 +177,14 @@ const BasicTable = ({tableType}: BasicTableProps) => {
         onSortingChange: setSorting,
         getCoreRowModel: getCoreRowModel(),
         getSortedRowModel: getSortedRowModel(),
-        getPaginationRowModel: getPaginationRowModel()
+        getPaginationRowModel: getPaginationRowModel(),
     })
 
     useEffect(() => {
+        /* TODO: Remove demo data */
+        setScripts(defaultScriptData)
+        setPackages(defaultPackageData)
+
         if (tableType === 0) {
             setScriptTable(table)
             table.setPageIndex(scriptPageIndex)
@@ -198,11 +226,17 @@ const BasicTable = ({tableType}: BasicTableProps) => {
     }, [pageCount])
 
     return (
-        <table id='basic-table'>
-            <BasicTableHeader table={table}/>
-            <BasicTableBody table={table} columns={columns} tableType={tableType}/>
-            <BasicTableFooter table={table} columns={columns}/>
-        </table>
+        <>
+            <DialogManager title='Update Script Information' editMode={true} selectedId={selectedId}
+                           renderComponent={renderDialogComponent}
+                           setRenderComponent={setRenderDialogComponent}/>
+
+            <table id='basic-table'>
+                <BasicTableHeader table={table}/>
+                <BasicTableBody table={table} columns={columns} tableType={tableType}/>
+                <BasicTableFooter table={table} columns={columns}/>
+            </table>
+        </>
     )
 }
 
