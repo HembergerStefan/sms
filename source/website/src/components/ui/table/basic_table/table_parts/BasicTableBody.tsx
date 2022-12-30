@@ -43,7 +43,7 @@ const BasicTableBody = ({table, columns, tableType}: BasicTableBodyProps) => {
         {
             table.getPageCount() === 0 ? <tr>
                     <td colSpan={columns.length}>
-                        <span className='fw--semi-bold clr-pr-1'>No entries available!</span>
+                        <span className='fw--semi-bold clr-pr-1'>{t('No entries available')}!</span>
                     </td>
                 </tr> :
                 /* Display the row/cell content */
