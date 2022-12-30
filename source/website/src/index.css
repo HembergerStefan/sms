@@ -3,7 +3,7 @@
 :root {
     --ac-clr-1: hsl(248, 64%, 56%);
     --ac-clr-2: hsl(342, 99%, 45%);
-    --ac-clr-3: hsl(160, 78%, 47%);
+    --ac-clr-3: hsl(160, 74%, 45%);
 
     --pr-clr: hsl(217, 33%, 17%);
     --sc-clr: hsl(215, 25%, 27%);
@@ -12,6 +12,9 @@
     --nl-clr-2: hsl(0, 0%, 100%);
     --nl-clr-3: hsl(0, 0%, 100%); /* Always the same */
     --nl-clr-4: hsl(0, 0%, 0%); /* Always the same */
+
+    --anchor-d-clr: hsl(233, 59%, 56%);
+    --anchor-h-clr: hsl(233, 52%, 44%);
 
     --nl--nav-clr-1: hsl(0, 0%, 100%);
 
@@ -257,7 +260,6 @@ span, label {
 a {
     color: inherit;
     text-decoration: inherit;
-    cursor: inherit;
 }
 
 ul {
@@ -411,6 +413,14 @@ ul {
 
 .pd-t--extra-small {
     margin-top: var(--pd-t-extra-small);
+}
+
+.anchor-d-clr {
+    color: var(--anchor-d-clr);
+}
+
+.anchor-d-clr:hover {
+    color: var(--anchor-h-clr);
 }
 
 .box {
