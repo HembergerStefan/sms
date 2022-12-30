@@ -6,14 +6,15 @@ import './SolidDialogButton.css'
 
 interface DialogButtonProps {
     placeholder: string
+    onOnClick?: Function
 }
 
-const SolidDialogButton = ({placeholder}: DialogButtonProps) => {
+const SolidDialogButton = ({placeholder, onOnClick}: DialogButtonProps) => {
 
     const {t} = useTranslation()
 
     return (
-        <button id='dialog-button' type='submit'>
+        <button id='dialog-button' type='submit' onClick={() => onOnClick ? onOnClick() : undefined}>
             <span className='fs-qi-1 fw--semi-bold clr-nl-3'>{t(placeholder)}</span>
         </button>
     )
