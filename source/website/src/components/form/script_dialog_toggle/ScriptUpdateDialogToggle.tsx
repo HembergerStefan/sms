@@ -34,11 +34,11 @@ const ScriptUpdateDialogToggle = () => {
                             body={<ScriptInformationDialog id={10} editMode={true}/>}
                             footer={
                                 <>
-                                    <DashedOutlinedDialogButton placeholder='Delete'/>
+                                    <DashedOutlinedDialogButton placeholder='Delete' onOnClick={() => setRenderComponent(false)}/>
 
                                     <div style={{display: 'flex', gap: '20px'}}>
-                                        <SolidOutlinedDialogButton placeholder='Execute'/>
-                                        <DialogButton placeholder='Save'/>
+                                        <SolidOutlinedDialogButton placeholder='Execute' onOnClick={() => {}}/>
+                                        <DialogButton placeholder='Save' onOnClick={() => {}}/>
                                     </div>
                                 </>
                             }/>,
