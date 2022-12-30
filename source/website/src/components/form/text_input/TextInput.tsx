@@ -8,6 +8,7 @@ import Numbering from '../../ui/numbering/Numbering'
 import './TextInput.css'
 
 interface TextInputProps {
+    headingId?: number
     isHeading?: boolean
     defaultValue?: string | undefined
     placeholder: string
@@ -16,6 +17,7 @@ interface TextInputProps {
 }
 
 const TextInput = ({
+                       headingId,
                        isHeading = false,
                        defaultValue,
                        placeholder,
@@ -32,7 +34,7 @@ const TextInput = ({
             {
                 isHeading ?
                     <label id='numbering-input--wrapper' className='md-input'>
-                        <Numbering value={1} fixedColor={true}/>
+                        <Numbering value={headingId ? headingId : 1} fixedColor={true}/>
                         <input id='text-input' type='text'
                                defaultValue={defaultValue}
                                placeholder={t(placeholder)}
