@@ -1,13 +1,13 @@
-import React, {useEffect, useRef, memo} from 'react'
+import React, {useEffect, useRef, memo, HTMLProps} from 'react'
 
 import './Dropdown.css'
 
 interface DropdownContentProps {
     mount: boolean
-    content: React.ReactNode
+    dropdownContent: React.ReactNode
 }
 
-const DropdownContent = ({mount, content}: DropdownContentProps) => {
+const DropdownContent = ({mount, dropdownContent, ...props}: DropdownContentProps & HTMLProps<HTMLElement>) => {
 
     const mountRef = useRef<HTMLUListElement>(null)
     const node = mountRef.current
@@ -25,8 +25,8 @@ const DropdownContent = ({mount, content}: DropdownContentProps) => {
     }, [mount])
 
     return (
-        <section ref={mountRef} id='dropdown-content-container'>
-            {content}
+        <section ref={mountRef} id='dropdown-content-container' {...props}>
+            {dropdownContent}
         </section>
     )
 }
