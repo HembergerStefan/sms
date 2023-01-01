@@ -30,7 +30,6 @@ const BasicPackageTableDropdownContent = () => {
 
     return (
         <ul id='dropdown-content' className='bc-tbl--ddn-cnt--cr'>
-            <span className='fs-sc-body-1' style={{marginBottom: '2px'}}>{t('Page Settings')}</span>
             <li>
                 <button onClick={() => previousPackagePage()}
                         disabled={!canPreviousPackagePage()}>
@@ -46,7 +45,6 @@ const BasicPackageTableDropdownContent = () => {
             </li>
 
             <div>
-                <hr/>
                 <Dropdown prefix='Page Size: ' defaultValue='10' firstSelectedValue={String(packagePageSize)}
                           items={PAGE_SIZE_ITEMS}
                           handleChange={handleChange}/>
