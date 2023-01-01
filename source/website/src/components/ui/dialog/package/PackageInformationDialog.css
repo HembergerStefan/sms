@@ -1,0 +1,12 @@
+#package-information-dialog--container {
+    display: grid;
+    gap: 1.75rem;
+
+    padding: 0.25rem;
+
+    overflow: auto;
+}
+
+#package-information-dialog--container > section:first-of-type > label {
+    width: 425px;
+}
