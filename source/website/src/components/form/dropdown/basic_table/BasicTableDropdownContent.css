@@ -1,11 +1,12 @@
-.bc-tbl--ddn-cnt--cr > div:last-of-type > hr {
-    height: 2px;
-    background-color: hsl(223, 19%, 93%);
-    margin-bottom: 5px;
+.bc-tbl--ddn-cnt--cr > hr {
+    height: 1px;
+    background-color: var(--table-td--border-clr);
+
+    margin: 5px -8px;
 }
 
 /* basic table dropdown content container */
-.bc-tbl--ddn-cnt--cr > li:first-of-type, .bc-tbl--ddn-cnt--cr > li:nth-of-type(2) {
+.bc-tbl--ddn-cnt--cr > li {
     height: 41px !important;
 
     padding: unset !important;
@@ -24,10 +25,26 @@
     cursor: pointer;
 }
 
-.bc-tbl--ddn-cnt--cr > li > button:disabled {
-    cursor: not-allowed;
+.bc-tbl--ddn-cnt--cr > li > button div {
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
-.bc-tbl--ddn-cnt--cr > li > button:disabled > span {
-    color: var(--li-item-dis-clr);
+/* When the button is disabled don't show the list item hover color */
+.bc-tbl--ddn-cnt--cr > li:has(button:disabled) {
+    background-color: unset !important;
+}
+
+.bc-tbl--ddn-cnt--cr > li > button:disabled {
+    cursor: default;
+}
+
+.bc-tbl--ddn-cnt--cr > li > button:disabled span, .bc-tbl--ddn-cnt--cr > li > button:disabled div {
+    color: var(--li-item-dis-clr) !important;
+}
+
+/* Remove border of the dropdown for the table page size */
+.bc-tbl--ddn-cnt--cr > div:last-of-type > div > div {
+    border: unset !important;
 }
