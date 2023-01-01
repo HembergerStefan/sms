@@ -45,14 +45,14 @@ const Dropdown = ({prefix, defaultValue, firstSelectedValue, items, handleChange
         if (items.length > 0) {
             setDropdownItems(() => items.sort((n1, n2) => {
                 if (n1 > n2) {
-                    return 1;
+                    return 1
                 }
 
                 if (n1 < n2) {
-                    return -1;
+                    return -1
                 }
 
-                return 0;
+                return 0
             }))
         }
     }, [items])
