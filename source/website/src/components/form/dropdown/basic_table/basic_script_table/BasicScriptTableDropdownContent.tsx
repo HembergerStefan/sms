@@ -9,7 +9,7 @@ import useScriptStore from '../../../../../store/scriptInformationStore'
 import useDataListScriptStore from '../../../../../store/dataListScriptStore'
 
 import Dropdown from '../../Dropdown'
-import DialogManager from '../../../../ui/dialog/DialogManager'
+import DialogManager, {DialogManagerTypes} from '../../../../ui/dialog/DialogManager'
 
 import '../BasicTableDropdownContent.css'
 
@@ -104,7 +104,8 @@ const BasicScriptTableDropdownContent = ({setMountDropdown}: BasicScriptTableDro
                 </li>
             </ul>
 
-            <DialogManager title='Add Script' editMode={false} renderComponent={renderDialogComponent}
+            <DialogManager dialogTyp={DialogManagerTypes.SCRIPT} title='Add Script' editMode={false}
+                           renderComponent={renderDialogComponent}
                            setRenderComponent={setRenderDialogComponent}/>
         </>
     )
