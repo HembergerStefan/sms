@@ -122,4 +122,9 @@
     background-color: var(--li-item-ac-clr);
 }
 
+.selected--dropdown-item {
+    background-color: var(--li-item-ac-clr) !important;
+    cursor: default !important;
+}
+
 /* Dropdown Content Section --End */
