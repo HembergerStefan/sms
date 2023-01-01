@@ -1,16 +1,21 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import ReactDOM from 'react-dom'
-import Dialog from "./Dialog";
-import ScriptInformationDialog from "./script/ScriptInformationDialog";
-import DashedOutlinedDialogButton
-    from "../../form/dialog_button/outlined/dashed_outlined/DashedOutlinedDialogButton";
-import SolidOutlinedDialogButton from "../../form/dialog_button/outlined/solid_outlined/SolidOutlinedDialogButton";
-import SolidDialogButton from "../../form/dialog_button/solid/SolidDialogButton";
-import {useTranslation} from "react-i18next";
-import useScriptStore from "../../../store/scriptInformationStore";
+import Dialog from "./Dialog"
+import ScriptInformationDialog from "./script/ScriptInformationDialog"
+import DashedOutlinedDialogButton from "../../form/dialog_button/outlined/dashed_outlined/DashedOutlinedDialogButton"
+import SolidOutlinedDialogButton from "../../form/dialog_button/outlined/solid_outlined/SolidOutlinedDialogButton"
+import SolidDialogButton from "../../form/dialog_button/solid/SolidDialogButton"
+import {useTranslation} from "react-i18next"
+import useScriptStore from "../../../store/scriptInformationStore"
+import usePackageStore from "../../../store/packageInformationStore"
+import PackageInformationDialog from "./package/PackageInformationDialog";
 
+export enum DialogManagerTypes {
+    SCRIPT, PACKAGE
+}
 
 interface DialogManagerProps {
+    dialogTyp: DialogManagerTypes
     title: string
     editMode: boolean
     selectedId?: number
@@ -18,33 +23,57 @@ interface DialogManagerProps {
     setRenderComponent: Function
 }
 
-const DialogManager = ({title, editMode, selectedId, renderComponent, setRenderComponent}: DialogManagerProps) => {
+const DialogManager = ({
+                           dialogTyp,
+                           title,
+                           editMode,
+                           selectedId,
+                           renderComponent,
+                           setRenderComponent
+                       }: DialogManagerProps) => {
 
     const {t} = useTranslation()
 
     const {removeScript} = useScriptStore()
+    const {removePackage} = usePackageStore()
+
+    const [dialogContent, setDialogContent] = useState<React.ReactNode>(null)
+
+    useEffect(() => {
+        if (dialogTyp === 0) {
+            setDialogContent(() => <ScriptInformationDialog id={selectedId ? selectedId : undefined}
+                                                            editMode={editMode}/>)
+        } else {
+            setDialogContent(() => <PackageInformationDialog id={selectedId ? selectedId : undefined}
+                                                             editMode={editMode}/>)
+        }
+    }, [selectedId])
 
     const remove = () => {
         if (selectedId) {
-            removeScript(selectedId)
+            if (dialogTyp === 0) {
+                removeScript(selectedId)
+            } else {
+                removePackage(selectedId)
+            }
+
             setRenderComponent(() => false)
         }
     }
 
     return (
         (renderComponent) ? ReactDOM.createPortal(
-            <Dialog title={t(title)}
+            <Dialog dialogType={dialogTyp} title={t(title)}
                     unmountComponent={setRenderComponent}
-                    body={<ScriptInformationDialog id={selectedId ? selectedId : undefined}
-                                                   editMode={editMode}/>}
+                    body={dialogContent}
                     footer={
                         editMode ?
                             <>
                                 <DashedOutlinedDialogButton placeholder='Delete' onOnClick={remove}/>
 
                                 <div style={{display: 'flex', gap: '20px'}}>
-                                    <SolidOutlinedDialogButton placeholder='Execute'
-                                                               onOnClick={() => setRenderComponent(() => false)}/>
+                                    {dialogTyp !== 1 ? <SolidOutlinedDialogButton placeholder='Execute'
+                                                                                  onOnClick={() => setRenderComponent(() => false)}/> : null}
                                     <SolidDialogButton placeholder='Save'/>
                                 </div>
                             </> :
