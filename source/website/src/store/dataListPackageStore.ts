@@ -8,12 +8,14 @@ export interface DataListPackageStore {
     packagePageCount: number
     canNextPackagePage: () => boolean
     canPreviousPackagePage: () => boolean
+    selectionPackageRows: number[]
     setPackageTable: (table: any) => void
     nextPackagePage: () => void
     previousPackagePage: () => void
     setPackagePageSize: (size: number) => void
     setPackagePageIndex: (index: number) => void
     setPackagePageCount: (size: number) => void
+    setSelectionPackageRows: (rows: number[]) => void
 }
 
 const useDataListPackageStore = create(
@@ -22,6 +24,7 @@ const useDataListPackageStore = create(
             packagePageSize: 10,
             packagePageIndex: 0,
             packagePageCount: 0,
+            selectionPackageRows: [],
             setPackageTable: (table) => set(prev => ({
                 table: prev.table = table
             })),
@@ -62,6 +65,9 @@ const useDataListPackageStore = create(
 
                 return get().packagePageIndex < get().packagePageCount - 1
             },
+            setSelectionPackageRows: (rows) => set(prev => ({
+                selectionPackageRows: prev.selectionPackageRows = rows
+            })),
         }), {
             name: 'data-list-package-store',
             getStorage: () => sessionStorage
