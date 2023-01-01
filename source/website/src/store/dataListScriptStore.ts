@@ -8,12 +8,14 @@ export interface DataListScriptStore {
     scriptPageCount: number
     canNextScriptPage: () => boolean
     canPreviousScriptPage: () => boolean
+    selectionScriptRows: number[]
     setScriptTable: (table: any) => void
     nextScriptPage: () => void
     previousScriptPage: () => void
     setScriptPageSize: (size: number) => void
     setScriptPageIndex: (index: number) => void
     setScriptPageCount: (size: number) => void
+    setSelectionScriptRows: (rows: number[]) => void
 }
 
 const useDataListScriptStore = create(
@@ -22,6 +24,7 @@ const useDataListScriptStore = create(
             scriptPageSize: 10,
             scriptPageIndex: 0,
             scriptPageCount: 0,
+            selectionScriptRows: [],
             setScriptTable: (table) => set(prev => ({
                 table: prev.table = table
             })),
@@ -38,16 +41,12 @@ const useDataListScriptStore = create(
             setScriptPageSize: (size) => set(prev => ({
                 scriptPageSize: prev.scriptPageSize = size
             })),
-            setScriptPageIndex: (index) => {
-                set(prev => ({
-                    scriptPageIndex: prev.scriptPageIndex = index
-                }))
-            },
-            setScriptPageCount: (size) => {
-                set(prev => ({
-                    scriptPageCount: prev.scriptPageCount = size
-                }))
-            },
+            setScriptPageIndex: (index) => set(prev => ({
+                scriptPageIndex: prev.scriptPageIndex = index
+            })),
+            setScriptPageCount: (size) => set(prev => ({
+                scriptPageCount: prev.scriptPageCount = size
+            })),
             canPreviousScriptPage: () => {
                 return get().scriptPageIndex > 0
             },
@@ -62,6 +61,9 @@ const useDataListScriptStore = create(
 
                 return get().scriptPageIndex < get().scriptPageCount - 1
             },
+            setSelectionScriptRows: (rows) => set(prev => ({
+                selectionScriptRows: prev.selectionScriptRows = rows
+            })),
         }), {
             name: 'data-list-script-store',
             getStorage: () => sessionStorage
