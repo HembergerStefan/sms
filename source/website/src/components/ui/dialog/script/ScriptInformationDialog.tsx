@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 
 import useScriptStore, {initialScriptState} from '../../../../store/scriptInformationStore'
 import {Script} from '../../../../data/data_types'
@@ -20,15 +20,17 @@ const ScriptInformationDialog = ({id, editMode = false}: ScriptInformationDialog
     /* Get the selected scripts out of the store & the possibility to update the store */
     const {scripts, addingScript, getScriptById} = useScriptStore()
 
-    let selectedScript: Script = initialScriptState
-
-    if (id != null && editMode) {
-        selectedScript = getScriptById(id)
-    }
+    const [selectedScript, setSelectedScript] = useState<Script>(initialScriptState)
 
     useEffect(() => {
         addingScript.id = scripts.length + 1
     }, [])
+
+    useEffect(() => {
+        if (id != null && editMode) {
+            setSelectedScript(() => getScriptById(id))
+        }
+    }, [id])
 
     const setTitle = (content: string) => {
         addingScript.name = content
