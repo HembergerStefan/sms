@@ -27,7 +27,7 @@ const CodingLanguageSelector = ({language, setLanguage}: CodingLanguageSelectorP
                 <span className='fs-qi-1 fw--semi-bold'>{language}</span>
             </div>
 
-            <DropdownContent mount={mount} content={<ListDropdownContent setMount={setMount} items={LANGUAGE_ITEMS}
+            <DropdownContent mount={mount} dropdownContent={<ListDropdownContent setMount={setMount} items={LANGUAGE_ITEMS}
                                                                          setCrItem={setLanguage}/>}/>
         </section>
     )
