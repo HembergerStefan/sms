@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useMemo, useState} from 'react'
 
 import {
     CellContext,
@@ -7,6 +7,7 @@ import {
     getSortedRowModel,
     getPaginationRowModel,
     SortingState,
+    RowSelectionState,
     useReactTable, ColumnDef,
 } from '@tanstack/react-table'
 
@@ -28,6 +29,7 @@ import DialogManager from "../../dialog/DialogManager";
 import {useTranslation} from "react-i18next";
 import usePackageStore from "../../../../store/packageInformationStore";
 import RedirectButton from "../../../form/common_button/redirect_button/RedirectButton";
+import StatusDisplaying from "../status_displaying/StatusDisplaying";
 
 export enum BasicTableTypes {
     SCRIPT, PACKAGE
@@ -52,7 +54,8 @@ const BasicTable = ({tableType}: BasicTableProps) => {
         scriptPageSize,
         scriptPageIndex,
         setScriptPageIndex,
-        setScriptPageCount
+        setScriptPageCount,
+        setSelectionScriptRows
     } = useDataListScriptStore()
 
     const {
@@ -65,11 +68,14 @@ const BasicTable = ({tableType}: BasicTableProps) => {
 
     const [renderDialogComponent, setRenderDialogComponent] = useState<boolean>(false)
     const [selectedId, setSelectedId] = useState<number>(-1)
+    const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
     const [sorting, setSorting] = useState<SortingState>([])
     const [data, setData] = useState(() => tableType === 0 ? [...scripts] : [..._packages])
 
     /* Reload/Load table when data was modified (e.g.: added, deleted, ...) */
     useEffect(() => {
+        setRowSelection(() => ({}))
+
         if (tableType === 0) {
             setData(() => scripts)
         } else {
@@ -108,13 +114,13 @@ const BasicTable = ({tableType}: BasicTableProps) => {
                 setSelectedId(() => info.row.original.id)
                 setRenderDialogComponent((prevState) => !prevState)
             }} style={{display: 'flex', alignItems: 'center', gap: '16px', width: 'fit-content', cursor: 'pointer'}}>
-                <Numbering value={info.row.index}/>
+                <Numbering value={info.row.index + 1}/>
                 <span className='fw--semi-bold clr-pr-1'>{info.getValue()}</span>
             </div>,
         })
     )
 
-    const scriptColumns: ColumnDef<any, any>[] = [
+    const scriptColumns = useMemo<ColumnDef<any, any>[]>(() => [
         selectionColumn,
         titleColumn,
         columnHelper.accessor('description', {
@@ -134,12 +140,13 @@ const BasicTable = ({tableType}: BasicTableProps) => {
         {
             id: 'status',
             header: () => <h1>{t('Status')}</h1>,
-            cell: info => <span>{getScriptStatus(info.row.original.id)}</span>,
+            cell: info => <StatusDisplaying status={getScriptStatus(info.row.original.id)}
+                                            success={getScriptStatus(info.row.original.id).toLowerCase() === 'executed'}/>,
             accessorFn: originalRow => getScriptStatus(originalRow.id)
         },
-    ]
+    ], [])
 
-    const packageColumns: ColumnDef<any, any>[] = [
+    const packageColumns = useMemo<ColumnDef<any, any>[]>(() => [
         selectionColumn,
         titleColumn,
         columnHelper.accessor('version', {
@@ -155,7 +162,8 @@ const BasicTable = ({tableType}: BasicTableProps) => {
         {
             id: 'status',
             header: () => <h1>{t('Status')}</h1>,
-            cell: info => <span>{getPackageStatus(info.row.original.id)}</span>,
+            cell: info => <StatusDisplaying status={getPackageStatus(info.row.original.id)}
+                                            success={getPackageStatus(info.row.original.id).toLowerCase() === 'installed'}/>,
             accessorFn: originalRow => getPackageStatus(originalRow.id)
         },
         columnHelper.accessor('url', {
@@ -164,7 +172,7 @@ const BasicTable = ({tableType}: BasicTableProps) => {
                 <RedirectButton content='Got to page' url={info.getValue()} target='_blank'/>
             </div>
         }),
-    ]
+    ], [])
 
     const columns: ColumnDef<any, any>[] = tableType === 0 ? scriptColumns : packageColumns
 
@@ -172,8 +180,10 @@ const BasicTable = ({tableType}: BasicTableProps) => {
         data,
         columns,
         state: {
-            sorting
+            sorting,
+            rowSelection
         },
+        onRowSelectionChange: setRowSelection,
         onSortingChange: setSorting,
         getCoreRowModel: getCoreRowModel(),
         getSortedRowModel: getSortedRowModel(),
@@ -193,6 +203,19 @@ const BasicTable = ({tableType}: BasicTableProps) => {
             table.setPageIndex(packagePageIndex)
         }
     }, [])
+
+    /* React to changes on the table row selection */
+    useEffect(() => {
+        if (tableType === 0) {
+            const rows: number[] = []
+
+            Object.entries(rowSelection).forEach(([key]) => {
+                rows.push(table.getRow(key).original.id)
+            })
+
+            setSelectionScriptRows(rows)
+        }
+    }, [rowSelection])
 
     /* React to changes on the table page size */
     useEffect(() => {
