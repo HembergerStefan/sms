@@ -23,6 +23,7 @@ const Dialog = ({title, unmountComponent, body, footer}: DialogProps) => {
     const handleSubmit = (e: { preventDefault: () => void }) => {
         e.preventDefault()
         addScript(addingScript)
+        unmountComponent()
     }
 
     return (
@@ -40,7 +41,7 @@ const Dialog = ({title, unmountComponent, body, footer}: DialogProps) => {
                 <div>
                     <h1 className='fs-tr-1 fw--semi-bold'>{title}</h1>
                     <div id='dialog-menu-container'>
-                        <KebabMenu size='var(--icon-size-medium)'/>
+                        {/*<KebabMenu size='var(--icon-size-medium)'/>*/}
                         <CloseButton size='28px' closeCallback={unmountComponent}/>
                     </div>
                 </div>
