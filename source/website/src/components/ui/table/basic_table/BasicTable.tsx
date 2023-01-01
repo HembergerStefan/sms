@@ -2,17 +2,18 @@ import React, {useEffect, useMemo, useState} from 'react'
 
 import {
     CellContext,
+    ColumnDef,
     createColumnHelper,
     getCoreRowModel,
-    getSortedRowModel,
     getPaginationRowModel,
-    SortingState,
+    getSortedRowModel,
     RowSelectionState,
-    useReactTable, ColumnDef,
+    SortingState,
+    useReactTable,
 } from '@tanstack/react-table'
 
-import {Script, Package} from '../../../../data/data_types'
-import {defaultScriptData, defaultPackageData} from './basic_table_demo_data/BasicTableDemoData'
+import {Package, Script} from '../../../../data/data_types'
+import {defaultPackageData, defaultScriptData} from './basic_table_demo_data/BasicTableDemoData'
 
 import useScriptStore from '../../../../store/scriptInformationStore'
 import useDataListScriptStore from '../../../../store/dataListScriptStore'
@@ -25,11 +26,11 @@ import BasicTableBody from './table_parts/BasicTableBody'
 import BasicTableFooter from './table_parts/BasicTableFooter'
 
 import './BasicTable.css'
-import DialogManager from "../../dialog/DialogManager";
-import {useTranslation} from "react-i18next";
-import usePackageStore from "../../../../store/packageInformationStore";
-import RedirectButton from "../../../form/common_button/redirect_button/RedirectButton";
-import StatusDisplaying from "../status_displaying/StatusDisplaying";
+import DialogManager, {DialogManagerTypes} from "../../dialog/DialogManager"
+import {useTranslation} from "react-i18next"
+import usePackageStore from "../../../../store/packageInformationStore"
+import RedirectButton from "../../../form/common_button/redirect_button/RedirectButton"
+import StatusDisplaying from "../status_displaying/StatusDisplaying"
 
 export enum BasicTableTypes {
     SCRIPT, PACKAGE
@@ -63,7 +64,8 @@ const BasicTable = ({tableType}: BasicTableProps) => {
         packagePageSize,
         packagePageIndex,
         setPackagePageIndex,
-        setPackagePageCount
+        setPackagePageCount,
+        setSelectionPackageRows
     } = useDataListPackageStore()
 
     const [renderDialogComponent, setRenderDialogComponent] = useState<boolean>(false)
@@ -206,14 +208,16 @@ const BasicTable = ({tableType}: BasicTableProps) => {
 
     /* React to changes on the table row selection */
     useEffect(() => {
+        const rows: number[] = []
+
+        Object.entries(rowSelection).forEach(([key]) => {
+            rows.push(table.getRow(key).original.id)
+        })
+
         if (tableType === 0) {
-            const rows: number[] = []
-
-            Object.entries(rowSelection).forEach(([key]) => {
-                rows.push(table.getRow(key).original.id)
-            })
-
             setSelectionScriptRows(rows)
+        } else {
+            setSelectionPackageRows(rows)
         }
     }, [rowSelection])
 
@@ -250,7 +254,8 @@ const BasicTable = ({tableType}: BasicTableProps) => {
 
     return (
         <>
-            <DialogManager title='Update Script Information' editMode={true} selectedId={selectedId}
+            <DialogManager dialogTyp={tableType === 0 ? DialogManagerTypes.SCRIPT : DialogManagerTypes.PACKAGE}
+                           title={`Update ${tableType === 0 ? 'Script' : 'Package'} Information`} editMode={true} selectedId={selectedId}
                            renderComponent={renderDialogComponent}
                            setRenderComponent={setRenderDialogComponent}/>
 
