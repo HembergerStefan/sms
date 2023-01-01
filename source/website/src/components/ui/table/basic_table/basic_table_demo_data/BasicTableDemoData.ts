@@ -52,7 +52,7 @@ export const defaultScriptData: Script[] = [
     {
         id: 7,
         name: 'Cleanup Code',
-        description: 'Script for clean upping code',
+        description: 'Script for cleaning up code',
         language: 'Python',
         executionDate: new Date(),
         code: ''
