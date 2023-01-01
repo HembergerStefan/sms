@@ -5,24 +5,38 @@ import CloseButton from '../../form/menu/close/CloseButton'
 
 import './Dialog.css'
 import useScriptStore from "../../../store/scriptInformationStore";
+import usePackageStore from "../../../store/packageInformationStore";
+import {DialogManagerTypes} from "./DialogManager";
 
 interface DialogProps {
+    dialogType?: DialogManagerTypes
     title: string
     unmountComponent: Function
     body: React.ReactNode
     footer?: React.ReactNode
 }
 
-const Dialog = ({title, unmountComponent, body, footer}: DialogProps) => {
+const Dialog = ({dialogType, title, unmountComponent, body, footer}: DialogProps) => {
 
     const [shake, setShake] = useState<boolean>(false)
 
     /* Add a new script */
     const {addingScript, addScript} = useScriptStore()
 
+    /* Add a new package */
+    const {addingPackage, addPackage} = usePackageStore()
+
     const handleSubmit = (e: { preventDefault: () => void }) => {
         e.preventDefault()
-        addScript(addingScript)
+
+        if (dialogType !== undefined) {
+            if (dialogType === 0) {
+                addScript(addingScript)
+            } else {
+                addPackage(addingPackage)
+            }
+        }
+
         unmountComponent()
     }
 
