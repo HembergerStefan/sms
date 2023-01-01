@@ -23,7 +23,7 @@
 
     --li-item-h-clr: hsl(210, 70%, 96%); /* List item hover */
     --li-item-ac-clr: hsl(211, 82%, 94%); /* List item active */
-    --li-item-dis-clr: hsl(0, 0%, 85%); /* List item disabled */
+    --li-item-dis-clr: hsl(214, 16%, 78%); /* List item disabled */
 
     /* Custom menu item style */
     --mu-item--hover-bg--clr: hsl(0, 0%, 94%);
@@ -53,6 +53,10 @@
     /* Table style */
     --table-th--clr: hsl(0, 0%, 51%);
     --table-td--border-clr: hsl(218, 40%, 96%);
+    --table-status--suc-clr: hsl(160, 78%, 47%);
+    --table-status--suc--bg-clr: hsl(160, 78%, 47%, 30%);
+    --table-status--fail-clr: hsl(207, 28%, 69%);
+    --table-status--fail--bg-clr: hsl(207, 28%, 69%, 30%);
 
     --drp-shadow-light: 0.6px 0.6px 2.2px rgba(0, 0, 0, -0.014),
     1.3px 1.3px 5.3px rgba(0, 0, 0, -0.019),
