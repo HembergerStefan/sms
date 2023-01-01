@@ -2,16 +2,15 @@ import React, {memo} from 'react'
 
 interface DropdownContentProps {
     setMount: Function
-    items: string[]
+    items: string[] | number[]
     setCrItem: Function
 }
 
 const DropdownContent = ({setMount, setCrItem, items}: DropdownContentProps) => {
 
     /* Select the item and unmount this component */
-    const selectItem = (cr: string): void => {
+    const selectItem = (cr: string | number): void => {
         setCrItem(cr)
-
         setMount(() => false)
     }
 
