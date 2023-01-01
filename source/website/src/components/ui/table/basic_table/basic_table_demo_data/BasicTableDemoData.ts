@@ -86,7 +86,7 @@ export const defaultPackageData: Package[] = [
         name: 'WebStorm',
         version: '2022.2.1',
         url: 'https://www.jetbrains.com/de-de/webstorm/',
-        installationDate: new Date(),
+        installationDate: new Date('2023-01-01T19:45:13'),
     },
     {
         id: 5,
@@ -100,6 +100,6 @@ export const defaultPackageData: Package[] = [
         name: 'Spotify',
         version: '2022.2.1',
         url: 'https://open.spotify.com/',
-        installationDate: new Date(),
+        installationDate: new Date('2023-01-12T23:45:13'),
     },
 ]
