@@ -12,6 +12,7 @@ import DialogButton from '../dialog_button/solid/SolidDialogButton'
 import './ScriptDialogToggle.css'
 import DashedOutlinedDialogButton from "../dialog_button/outlined/dashed_outlined/DashedOutlinedDialogButton";
 import SolidOutlinedDialogButton from "../dialog_button/outlined/solid_outlined/SolidOutlinedDialogButton";
+import {DialogManagerTypes} from "../../ui/dialog/DialogManager";
 
 /* TODO: WILL BE REMOVED IN THE FUTURE - ONLY FOR TESTING */
 const ScriptUpdateDialogToggle = () => {
@@ -29,7 +30,7 @@ const ScriptUpdateDialogToggle = () => {
 
             {
                 (renderComponent) ? ReactDOM.createPortal(
-                    <Dialog title={t('Update Script Information')}
+                    <Dialog dialogType={DialogManagerTypes.SCRIPT} title={t('Update Script Information')}
                             unmountComponent={setRenderComponent}
                             body={<ScriptInformationDialog id={10} editMode={true}/>}
                             footer={

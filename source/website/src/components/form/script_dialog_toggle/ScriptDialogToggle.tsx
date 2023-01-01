@@ -10,6 +10,7 @@ import ScriptInformationDialog from '../../ui/dialog/script/ScriptInformationDia
 import DialogButton from '../dialog_button/solid/SolidDialogButton'
 
 import './ScriptDialogToggle.css'
+import {DialogManagerTypes} from "../../ui/dialog/DialogManager";
 
 const ScriptDialogToggle = () => {
 
@@ -26,7 +27,7 @@ const ScriptDialogToggle = () => {
 
             {
                 (renderComponent) ? ReactDOM.createPortal(
-                    <Dialog title={t('Add Script')}
+                    <Dialog dialogType={DialogManagerTypes.SCRIPT} title={t('Add Script')}
                             unmountComponent={setRenderComponent}
                             body={<ScriptInformationDialog/>}
                             footer={

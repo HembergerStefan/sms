@@ -34,8 +34,9 @@ const BasicTableBody = ({table, columns, tableType}: BasicTableBodyProps) => {
                 <BoxHeading content={
                     <h2 className='fs-qr-1 fw--semi-bold'>
                         {tableType === 0 ? t('All Scripts') : t('All Packages')}</h2>}
-                            dropdownContent={tableType === 0 ? <BasicScriptTableDropdownContent setMountDropdown={setMountDropdown}/> :
-                                <BasicPackageTableDropdownContent/>}
+                            dropdownContent={tableType === 0 ?
+                                <BasicScriptTableDropdownContent setMountDropdown={setMountDropdown}/> :
+                                <BasicPackageTableDropdownContent setMountDropdown={setMountDropdown}/>}
                             mountDropdown={mountDropdown}
                             setMountDropdown={setMountDropdown}/>
             </td>

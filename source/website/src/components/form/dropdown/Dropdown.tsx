@@ -107,6 +107,7 @@ const Dropdown = ({prefix, defaultValue, firstSelectedValue, items, handleChange
 
             <DropdownContent mount={activeDropdown}
                              dropdownContent={<ListDropdownContent setMount={setActiveDropdown} items={dropdownItems}
+                                                                   crItem={selectedItem}
                                                                    setCrItem={setSelectedItem}/>}/>
         </div>
     )
