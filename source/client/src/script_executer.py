@@ -1,4 +1,5 @@
 import logging
+import os
 import subprocess
 import tempfile
 
@@ -8,9 +9,6 @@ class ScriptExecutor:
         self.script = script
 
     def execute(self) -> int:
-        # python, cmd, powershell, bash
-        if self.script['interpreter'] == '':
-            pass
 
         # file = tempfile.TemporaryFile(delete=False, mode='w')
         file = tempfile.NamedTemporaryFile(suffix=f'.{self.script["fileExtension"]}', delete=False, mode='w')
@@ -23,16 +21,18 @@ class ScriptExecutor:
 
         logging.debug(f"Executing \"{self.script['interpreter']} {file.name}\"")
 
-        resp = subprocess.run([self.script['interpreter'], file.name], shell=True)
-        # resp = subprocess.Popen([file.name], shell=True)
-        # vimport os
-        # vos.system(f'cmd /c {self.script["script_value"]}')
-        # vsubprocess.run(['cmd'])
+        if self.script['interpreter'] == 'python':
+            resp = subprocess.run([self.script['interpreter'], file.name], shell=True)
+        elif self.script['interpreter'] == 'cmd':
+            resp = subprocess.run(file.name, shell=True)
+        else:
+            return -1
+
         if resp.returncode == 0:
-            logging.debug(f'{self.script["name"]} executed successfully')
+            logging.debug(f'{self.script["name"]} executed successfully error code {resp.returncode}')
         else:
             logging.error(f'Error while executing {self.script["name"]} error code {resp.returncode}')
 
-        # os.remove(file.name)
+        os.remove(file.name)
 
-        return 0  # resp.returncode
+        return resp.returncode

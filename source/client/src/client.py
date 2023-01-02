@@ -39,9 +39,7 @@ class Client:
 
             async def sending():
                 while True:
-                    # executed_scripts_ids = ResponseHandler.executed_scripts_ids
-                    # failed_scripts_ids = ResponseHandler.failed_scripts_ids
-                    # failed_installs_ids = ResponseHandler.failed_installs_ids
+
                     msg = json.dumps({
                         'hostname': data.hostname(),
                         'ip': data.ip(),
@@ -49,14 +47,12 @@ class Client:
                         'diskUsage': int(data.disk_space_used()),
                         'installed': [],  # ["1"], # todo find a way, to get a list of all installed packages
                         'failedInstall': [*ResponseHandler.failed_installs_ids],
-                        'executedScripts': [],  # [*executed_scripts_ids]
+                        'executedScripts': [*ResponseHandler.executed_scripts_ids],
                         'failedScripts': [*ResponseHandler.failed_scripts_ids]
                     })
                     try:
                         await websocket.send(msg)
-                        # ResponseHandler.executed_scripts_ids -= executed_scripts_ids
-                        # ResponseHandler.failed_scripts_ids -= failed_scripts_ids
-                        # ResponseHandler.failed_installs_ids -= failed_installs_ids
+
                         ResponseHandler.executed_scripts_ids.clear()
                         ResponseHandler.failed_scripts_ids.clear()
                         ResponseHandler.failed_installs_ids.clear()
