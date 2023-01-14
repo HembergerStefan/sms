@@ -7,6 +7,6 @@
 }
 
 /* The svg icon (of the KebabMenu) */
-#header-menu--wrapper > div {
-    margin-top: -8px;
+#header-menu--wrapper > section {
+    margin-top: -8px !important;
 }
