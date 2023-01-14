@@ -39,7 +39,7 @@ const KebabMenuButton = ({size, dropdownContent, mountDropdown, setMountDropdown
 
             {
                 (isHovered) ? <TooltipManager
-                    content={<span>{t('Settings')}</span>}/> : null
+                    content={<span className='fs-sc-body-1 fw--semi-bold'>{t('Settings')}</span>}/> : null
             }
         </section>
     )
