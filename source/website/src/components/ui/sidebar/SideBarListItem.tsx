@@ -36,7 +36,7 @@ const SideBarListItem = ({value}: SideBarListItemProps) => {
 
             {
                 (isHovered && document.querySelector<Element>('.active-sidebar-layout') !== null) ?
-                    <TooltipManager content={<span>{value.title}</span>}/>
+                    <TooltipManager content={<span className='fs-sc-body-1 fw--semi-bold'>{value.title}</span>}/>
                     : null
             }
         </>
