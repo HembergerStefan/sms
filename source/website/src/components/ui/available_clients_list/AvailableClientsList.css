@@ -1,0 +1,47 @@
+#available-clients--section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    padding: 17px 20px 10px 20px;
+
+    width: fit-content;
+}
+
+#available-clients--container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    max-height: 325px;
+    max-width: 500px;
+
+    overflow: auto;
+}
+
+.available-client {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    width: 300px;
+
+    padding: var(--pd-t-small) var(--pd-t-medium);
+
+    border-radius: var(--br-r-small-medium);
+    background-color: hsl(210, 70%, 96%); /* TODO: add css variable */
+}
+
+.available-client > div > h2 {
+    width: 140px;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+
+    cursor: default;
+}
+
+.available-client > button {
+    margin-left: auto;
+}
