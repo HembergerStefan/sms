@@ -5,11 +5,12 @@ import {useTranslation} from 'react-i18next'
 import NoteAddRoundedIcon from '@mui/icons-material/NoteAddRounded'
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded'
 
+import {DataTypes} from '../../../../../data/data_types'
 import useScriptStore from '../../../../../store/scriptInformationStore'
 import useDataListScriptStore from '../../../../../store/dataListScriptStore'
 
 import Dropdown from '../../Dropdown'
-import DialogManager, {DialogManagerTypes} from '../../../../ui/dialog/DialogManager'
+import DialogManager from '../../../../ui/dialog/DialogManager'
 
 import '../BasicTableDropdownContent.css'
 
@@ -104,7 +105,7 @@ const BasicScriptTableDropdownContent = ({setMountDropdown}: BasicScriptTableDro
                 </li>
             </ul>
 
-            <DialogManager dialogTyp={DialogManagerTypes.SCRIPT} title='Add Script' editMode={false}
+            <DialogManager dialogTyp={DataTypes.SCRIPT} title='Add Script' editMode={false}
                            renderComponent={renderDialogComponent}
                            setRenderComponent={setRenderDialogComponent}/>
         </>
