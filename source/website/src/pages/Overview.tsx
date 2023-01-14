@@ -14,9 +14,12 @@ import SolidOutlinedDialogButton
     from "../components/form/dialog_button/outlined/solid_outlined/SolidOutlinedDialogButton";
 import DashedOutlinedDialogButton
     from "../components/form/dialog_button/outlined/dashed_outlined/DashedOutlinedDialogButton";
-import ScriptUpdateDialogToggle from "../components/form/script_dialog_toggle/ScriptUpdateDialogToggle";
 import {useTranslation} from "react-i18next";
-import BasicTable, {BasicTableTypes} from "../components/ui/table/basic_table/BasicTable";
+import BasicTable from "../components/ui/table/basic_table/BasicTable";
+import {DataTypes} from "../data/data_types";
+import BasicCardList from "../components/ui/card_list/basic_card_list/BasicCardList";
+import BasicCardListManager from "../components/ui/card_list/basic_card_list_manager/BasicCardListManager";
+import AvailableClientsList from "../components/ui/available_clients_list/AvailableClientsList";
 
 const Overview = () => {
 
@@ -71,18 +74,29 @@ const Overview = () => {
             <br/>
             <br/>
 
-            <BasicTable tableType={BasicTableTypes.SCRIPT}/>
-            <br/>
-            <br/>
-            <BasicTable tableType={BasicTableTypes.PACKAGE}/>
+            <AvailableClientsList/>
 
             <br/>
             <br/>
+
+            <BasicCardListManager/>
+            <br/>
+            <br/>
+            <BasicTable tableType={DataTypes.SCRIPT}/>
+            <br/>
+            <br/>
+            <BasicTable tableType={DataTypes.PACKAGE}/>
+            <br/>
+            <br/>
+
 
             <div style={{display: 'flex', gap: '10px'}}>
-                <SolidDialogButton placeholder='Click me' onOnClick={() => {}}/>
-                <SolidOutlinedDialogButton placeholder='Click me' onOnClick={() => {}}/>
-                <DashedOutlinedDialogButton placeholder='Click me' onOnClick={() => {}}/>
+                <SolidDialogButton placeholder='Click me' onOnClick={() => {
+                }}/>
+                <SolidOutlinedDialogButton placeholder='Click me' onOnClick={() => {
+                }}/>
+                <DashedOutlinedDialogButton placeholder='Click me' onOnClick={() => {
+                }}/>
             </div>
 
             <br/>
