@@ -2,14 +2,16 @@ import React, {useState} from 'react'
 
 import {useTranslation} from 'react-i18next'
 
-import usePackageStore from '../../../../../store/packageInformationStore'
-import useDataListPackageStore from '../../../../../store/dataListPackageStore'
-
 import AppsRoundedIcon from '@mui/icons-material/AppsRounded'
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded'
 
+import {DataTypes} from '../../../../../data/data_types'
+
+import usePackageStore from '../../../../../store/packageInformationStore'
+import useDataListPackageStore from '../../../../../store/dataListPackageStore'
+
 import Dropdown from '../../Dropdown'
-import DialogManager, {DialogManagerTypes} from '../../../../ui/dialog/DialogManager'
+import DialogManager from '../../../../ui/dialog/DialogManager'
 
 import '../BasicTableDropdownContent.css'
 
@@ -48,7 +50,7 @@ const BasicPackageTableDropdownContent = ({setMountDropdown}: BasicPackageTableD
         setRenderDialogComponent(() => true)
     }
 
-    /* Remove all selected script entries */
+    /* Remove all selected package entries */
     const remove = () => {
         selectionPackageRows.forEach(id => {
             removePackage(id)
@@ -104,7 +106,7 @@ const BasicPackageTableDropdownContent = ({setMountDropdown}: BasicPackageTableD
                 </li>
             </ul>
 
-            <DialogManager dialogTyp={DialogManagerTypes.PACKAGE} title='Add Package' editMode={false}
+            <DialogManager dialogTyp={DataTypes.PACKAGE} title='Add Package' editMode={false}
                            renderComponent={renderDialogComponent}
                            setRenderComponent={setRenderDialogComponent}/>
         </>
