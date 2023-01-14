@@ -1,5 +1,6 @@
 import React, {useEffect, useMemo, useState} from 'react'
 
+import {useTranslation} from 'react-i18next'
 import {
     CellContext,
     ColumnDef,
@@ -12,32 +13,31 @@ import {
     useReactTable,
 } from '@tanstack/react-table'
 
-import {Package, Script} from '../../../../data/data_types'
-import {defaultPackageData, defaultScriptData} from './basic_table_demo_data/BasicTableDemoData'
+import {Client, DataTypes, Package, Script} from '../../../../data/data_types'
 
+import {defaultPackageData, defaultScriptData} from './basic_table_demo_data/BasicTableDemoData'
+import {defaultClientData} from '../../card_list/basic_card_list/basic_card_list_demo_data/BasicCardListDemoData'
 import useScriptStore from '../../../../store/scriptInformationStore'
 import useDataListScriptStore from '../../../../store/dataListScriptStore'
 import useDataListPackageStore from '../../../../store/dataListPackageStore'
+import usePackageStore from '../../../../store/packageInformationStore'
+import useClientStore from '../../../../store/clientInformationStore'
+import useDataListClientStore from '../../../../store/dataListClientStore'
 
 import Checkbox from '../../../form/checkbox/Checkbox'
 import Numbering from '../../numbering/Numbering'
 import BasicTableHeader from './table_parts/BasicTableHeader'
 import BasicTableBody from './table_parts/BasicTableBody'
 import BasicTableFooter from './table_parts/BasicTableFooter'
+import DialogManager from '../../dialog/DialogManager'
+import RedirectButton from '../../../form/common_button/redirect_button/RedirectButton'
+import StatusDisplaying from '../status_displaying/StatusDisplaying'
+import OnlineStatus from '../../online_status_displaying/OnlineStatus'
 
 import './BasicTable.css'
-import DialogManager, {DialogManagerTypes} from "../../dialog/DialogManager"
-import {useTranslation} from "react-i18next"
-import usePackageStore from "../../../../store/packageInformationStore"
-import RedirectButton from "../../../form/common_button/redirect_button/RedirectButton"
-import StatusDisplaying from "../status_displaying/StatusDisplaying"
-
-export enum BasicTableTypes {
-    SCRIPT, PACKAGE
-}
 
 interface BasicTableProps {
-    tableType: BasicTableTypes
+    tableType: DataTypes
 }
 
 const BasicTable = ({tableType}: BasicTableProps) => {
@@ -49,6 +49,9 @@ const BasicTable = ({tableType}: BasicTableProps) => {
 
     /* Get the selected packages out of the store & the possibility to update the store */
     const {_packages, setPackages, getPackageStatus} = usePackageStore()
+
+    /* Get the selected clients out of the store & the possibility to update the store */
+    const {clients, setClients, getClientOnlineStatus} = useClientStore()
 
     const {
         setScriptTable,
@@ -68,11 +71,20 @@ const BasicTable = ({tableType}: BasicTableProps) => {
         setSelectionPackageRows
     } = useDataListPackageStore()
 
+    const {
+        setClientTable,
+        clientPageSize,
+        clientPageIndex,
+        setClientPageIndex,
+        setClientPageCount,
+        setSelectionClientRows
+    } = useDataListClientStore()
+
     const [renderDialogComponent, setRenderDialogComponent] = useState<boolean>(false)
     const [selectedId, setSelectedId] = useState<number>(-1)
     const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
     const [sorting, setSorting] = useState<SortingState>([])
-    const [data, setData] = useState(() => tableType === 0 ? [...scripts] : [..._packages])
+    const [data, setData] = useState(() => tableType === 0 ? [...scripts] : tableType === 1 ? [..._packages] : [...clients])
 
     /* Reload/Load table when data was modified (e.g.: added, deleted, ...) */
     useEffect(() => {
@@ -80,12 +92,14 @@ const BasicTable = ({tableType}: BasicTableProps) => {
 
         if (tableType === 0) {
             setData(() => scripts)
-        } else {
+        } else if (tableType === 1) {
             setData(() => _packages)
+        } else {
+            setData(() => clients)
         }
-    }, [scripts, _packages])
+    }, [scripts, _packages, clients])
 
-    const columnHelper = createColumnHelper<Script & Package>()
+    const columnHelper = createColumnHelper<Script & Package & Client>()
 
     const selectionColumn: ColumnDef<any, any> = (
         {
@@ -176,7 +190,34 @@ const BasicTable = ({tableType}: BasicTableProps) => {
         }),
     ], [])
 
-    const columns: ColumnDef<any, any>[] = tableType === 0 ? scriptColumns : packageColumns
+    const clientColumns = useMemo<ColumnDef<any, any>[]>(() => [
+        selectionColumn,
+        titleColumn,
+        columnHelper.accessor('ip', {
+            header: () => <h1>{t('Ip')}</h1>,
+            cell: info => <span>{info.getValue()}</span>,
+        }),
+        columnHelper.accessor('usedDiskspace', {
+            header: () => <h1>{t('Used Diskspace')}</h1>,
+            cell: info => <span>{info.getValue()}%</span>,
+        }),
+        columnHelper.accessor('cpuUsage', {
+            header: () => <h1>{t('CPU Usage')}</h1>,
+            cell: info => <span>{info.getValue()}%</span>,
+        }),
+        columnHelper.accessor('groups', {
+            header: () => <h1>{t('Groups')}</h1>,
+            cell: info => <span>{info.getValue().join(', ')}</span>,
+        }),
+        {
+            id: 'lastOnline',
+            header: () => <h1>{t('Online Status')}</h1>,
+            cell: info => <OnlineStatus client={info.row.original}/>,
+            accessorFn: originalRow => getClientOnlineStatus(originalRow.macAddress).status
+        }
+    ], [])
+
+    const columns: ColumnDef<any, any>[] = tableType === 0 ? scriptColumns : tableType === 1 ? packageColumns : clientColumns
 
     const table = useReactTable({
         data,
@@ -196,13 +237,17 @@ const BasicTable = ({tableType}: BasicTableProps) => {
         /* TODO: Remove demo data */
         setScripts(defaultScriptData)
         setPackages(defaultPackageData)
+        setClients(defaultClientData)
 
         if (tableType === 0) {
             setScriptTable(table)
             table.setPageIndex(scriptPageIndex)
-        } else {
+        } else if (tableType === 1) {
             setPackageTable(table)
             table.setPageIndex(packagePageIndex)
+        } else {
+            setClientTable(table)
+            table.setPageIndex(clientPageIndex)
         }
     }, [])
 
@@ -216,8 +261,10 @@ const BasicTable = ({tableType}: BasicTableProps) => {
 
         if (tableType === 0) {
             setSelectionScriptRows(rows)
-        } else {
+        } else if (tableType === 1) {
             setSelectionPackageRows(rows)
+        } else {
+            setSelectionClientRows(rows)
         }
     }, [rowSelection])
 
@@ -225,10 +272,12 @@ const BasicTable = ({tableType}: BasicTableProps) => {
     useEffect(() => {
         if (tableType === 0) {
             table.setPageSize(scriptPageSize)
-        } else {
+        } else if (tableType === 1) {
             table.setPageSize(packagePageSize)
+        } else {
+            table.setPageSize(clientPageSize)
         }
-    }, [scriptPageSize, packagePageSize])
+    }, [scriptPageSize, packagePageSize, clientPageSize])
 
     let index = table.getState().pagination.pageIndex
 
@@ -236,8 +285,10 @@ const BasicTable = ({tableType}: BasicTableProps) => {
     useEffect(() => {
         if (tableType === 0) {
             setScriptPageIndex(index)
-        } else {
+        } else if (tableType === 1) {
             setPackagePageIndex(index)
+        } else {
+            setClientPageIndex(index)
         }
     }, [index])
 
@@ -247,15 +298,18 @@ const BasicTable = ({tableType}: BasicTableProps) => {
     useEffect(() => {
         if (tableType === 0) {
             setScriptPageCount(pageCount)
-        } else {
+        } else if (tableType === 1) {
             setPackagePageCount(pageCount)
+        } else {
+            setClientPageCount(pageCount)
         }
     }, [pageCount])
 
     return (
         <>
-            <DialogManager dialogTyp={tableType === 0 ? DialogManagerTypes.SCRIPT : DialogManagerTypes.PACKAGE}
-                           title={`Update ${tableType === 0 ? 'Script' : 'Package'} Information`} editMode={true} selectedId={selectedId}
+            <DialogManager dialogTyp={tableType === 0 ? DataTypes.SCRIPT : DataTypes.PACKAGE}
+                           title={`Update ${tableType === 0 ? 'Script' : 'Package'} Information`} editMode={true}
+                           selectedId={selectedId}
                            renderComponent={renderDialogComponent}
                            setRenderComponent={setRenderDialogComponent}/>
 
