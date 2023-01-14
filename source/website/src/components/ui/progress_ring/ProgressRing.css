@@ -1,0 +1,49 @@
+.progress {
+    position: relative;
+
+    height: 90px;
+    width: 90px;
+}
+
+.progress > svg {
+    display: block;
+    margin: 0 auto;
+}
+
+.progress > svg > circle {
+    fill: none;
+
+    stroke-width: 10;
+    stroke-dasharray: 440;
+    stroke-linecap: round;
+}
+
+circle:first-of-type {
+    stroke-dashoffset: 0;
+    stroke: var(--pr-th--bg-clr);
+}
+
+.progress circle:nth-child(2) {
+    stroke: var(--ac-clr-2);
+    animation: percent 1.5s ease-out;
+    transition: all 1.5s;
+    transition: color unset;
+}
+
+.number {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.number > h2 > span {
+    color: var(--ac-clr-2);
+}
+
+@keyframes percent {
+    0% {
+        stroke-dashoffset: 0;
+        stroke-width: 0;
+    }
+}
