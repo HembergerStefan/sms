@@ -72,7 +72,7 @@ const SearchInformationDialog = () => {
 
             {
                 (isHovered) ? <TooltipManager content={
-                    <span>{t('Delete recent searches')}</span>
+                    <span className='fs-sc-body-1 fw--semi-bold'>{t('Delete recent searches')}</span>
                 }/> : null
             }
         </>
