@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 
-import {Line} from 'react-chartjs-2'
+import {Bar, Line} from 'react-chartjs-2'
 import type {ChartData, ChartOptions} from 'chart.js'
 import {
     Chart as ChartJS,
@@ -9,15 +9,17 @@ import {
     LinearScale,
     PointElement,
     Legend,
-    Tooltip,
+    Tooltip, BarElement,
 } from 'chart.js'
 
-import './LineChartContainer.css'
+import './ChartContainer.css'
 import {useTranslation} from "react-i18next";
-import {Dataset} from "../../../../store/chartScriptExecutionsStore";
-import BoxHeading from "../../box_heading_container/BoxHeading";
+import {Dataset} from "../../../stores/chartScriptExecutionsStore";
+import BoxHeading from "../box_heading_container/BoxHeading";
+import {ChartTypes} from "../../../data/chart_types";
 
 ChartJS.register(
+    BarElement,
     LineElement,
     CategoryScale,
     LinearScale,
@@ -27,6 +29,7 @@ ChartJS.register(
 )
 
 interface LineChartContainerProps {
+    chartType: ChartTypes
     labels: string[]
     dataSets: Dataset[]
     tickStepSize: number
@@ -34,7 +37,14 @@ interface LineChartContainerProps {
     dropdownContent: React.ReactNode
 }
 
-const LineChartContainer = ({labels, dataSets, tickStepSize, boxHeading, dropdownContent}: LineChartContainerProps) => {
+const ChartContainer = ({
+                            chartType,
+                            labels,
+                            dataSets,
+                            tickStepSize,
+                            boxHeading,
+                            dropdownContent
+                        }: LineChartContainerProps) => {
 
     const {t} = useTranslation()
 
@@ -59,31 +69,33 @@ const LineChartContainer = ({labels, dataSets, tickStepSize, boxHeading, dropdow
         })
     }, [])
 
-    const data: ChartData<'line'> = {
+    const data = {
         labels: labels,
         datasets: [
             {
                 label: t(dataSets.at(0)!.label),
                 data: dataSets.at(0)!.data,
                 borderColor: colors.chtClr1,
-                backgroundColor: 'transparent',
+                backgroundColor: chartType === 0 ? 'transparent' : colors.chtClr1,
                 tension: .5,
                 pointBackgroundColor: colors.chtClr1,
-                pointHoverRadius: 5
+                pointHoverRadius: 5,
+                borderRadius: 10
             },
             {
                 label: t(dataSets.at(1)!.label),
                 data: dataSets.at(1)!.data,
                 borderColor: colors.chtClr2,
-                backgroundColor: 'transparent',
+                backgroundColor: chartType === 0 ? 'transparent' : colors.chtClr2,
                 tension: .5,
                 pointBackgroundColor: colors.chtClr2,
-                pointHoverRadius: 5
+                pointHoverRadius: 5,
+                borderRadius: 10
             }
         ]
     }
 
-    const options: ChartOptions<'line'> = {
+    const lineChartOptions: ChartOptions<'line'> = {
         responsive: true,
         scales: {
             x: {
@@ -141,6 +153,65 @@ const LineChartContainer = ({labels, dataSets, tickStepSize, boxHeading, dropdow
         }
     }
 
+    const barChartOptions: ChartOptions<'bar'> = {
+        responsive: true,
+        scales: {
+            x: {
+                grid: {
+                    display: false
+                }
+            },
+            y: {
+                ticks: {
+                    stepSize: tickStepSize
+                },
+                border: {
+                    dash: [10]
+                }
+            },
+        },
+        interaction: {
+            mode: 'index',
+            intersect: false,
+        },
+        plugins: {
+            legend: {
+                position: 'bottom',
+                align: 'center',
+                labels: {
+                    usePointStyle: true,
+                    pointStyle: 'circle',
+                    textAlign: 'center',
+                    font: {
+                        family: 'Poppins, sans-serif',
+                        size: 13,
+                        weight: '400'
+                    }
+                }
+            },
+            tooltip: {
+                titleAlign: 'left',
+                titleFont: {
+                    family: 'Poppins, sans-serif',
+                    size: 15,
+                    weight: '400'
+                },
+                bodyAlign: 'left',
+                bodyFont: {
+                    family: 'Poppins, sans-serif',
+                    size: 13,
+                    weight: '300'
+                },
+                usePointStyle: true,
+                titleColor: colors.prClr,
+                bodyColor: colors.scClr,
+                backgroundColor: colors.bgClr,
+                borderColor: colors.scClr,
+                borderWidth: .5,
+            }
+        }
+    }
+
     return (
         <article id='charts-container' className='box'>
             <BoxHeading content={
@@ -149,9 +220,12 @@ const LineChartContainer = ({labels, dataSets, tickStepSize, boxHeading, dropdow
                         mountDropdown={mountDropdown}
                         setMountDropdown={setMountDropdown}/>
 
-            <Line data={data} options={options}/>
+            {
+                chartType === 0 ? <Line data={data} options={lineChartOptions}/> :
+                    <Bar data={data} options={barChartOptions}/>
+            }
         </article>
     )
 }
 
-export default LineChartContainer
+export default ChartContainer
