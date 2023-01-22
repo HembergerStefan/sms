@@ -61,6 +61,9 @@
     /* Progress circle style */
     --pr-th--bg-clr: hsl(218, 27%, 92%);
 
+    /* Available client list style */
+    --av-cl--border-clr: hsl(225, 10%, 92%);
+
     /* Chart style */
     --cht-br-clr-1: hsl(248, 57%, 60%);
     --cht-br-clr-2: hsl(217, 85%, 53%);
