@@ -2,8 +2,8 @@ import React, {useState} from 'react'
 
 import {DataTypes} from '../../../data/data_types'
 
-import useScriptStore from '../../../store/scriptInformationStore'
-import usePackageStore from '../../../store/packageInformationStore'
+import useScriptStore from '../../../stores/scriptInformationStore'
+import usePackageStore from '../../../stores/packageInformationStore'
 
 import CloseButton from '../../form/menu/close/CloseButton'
 

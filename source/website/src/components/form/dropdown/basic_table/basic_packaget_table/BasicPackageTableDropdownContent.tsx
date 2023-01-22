@@ -7,8 +7,8 @@ import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded'
 
 import {DataTypes} from '../../../../../data/data_types'
 
-import usePackageStore from '../../../../../store/packageInformationStore'
-import useDataListPackageStore from '../../../../../store/dataListPackageStore'
+import usePackageStore from '../../../../../stores/packageInformationStore'
+import useDataListPackageStore from '../../../../../stores/dataListPackageStore'
 
 import Dropdown from '../../Dropdown'
 import DialogManager from '../../../../ui/dialog/DialogManager'

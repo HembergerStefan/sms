@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 
-import usePackageStore, {initialPackageState} from '../../../../store/packageInformationStore'
+import usePackageStore, {initialPackageState} from '../../../../stores/packageInformationStore'
 import {Package} from '../../../../data/data_types'
 
 import TextInput from '../../../form/text_input/TextInput'

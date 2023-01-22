@@ -4,7 +4,7 @@ import {useTranslation} from 'react-i18next'
 
 import ExpandMoreRoundedIcon from '@mui/icons-material/ExpandMoreRounded'
 
-import useLngStore from '../../../store/lngStore'
+import useLngStore from '../../../stores/lngStore'
 
 import useOnClickOutside from '../../../hooks/useOnClickOutside'
 

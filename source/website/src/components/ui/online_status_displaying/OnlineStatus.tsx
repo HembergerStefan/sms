@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 
 import {useTranslation} from 'react-i18next'
 
-import useClientStore from '../../../store/clientInformationStore'
+import useClientStore from '../../../stores/clientInformationStore'
 import {Client} from '../../../data/data_types'
 
 import useHover from '../../../hooks/useHover'

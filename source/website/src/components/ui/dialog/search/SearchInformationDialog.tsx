@@ -5,8 +5,8 @@ import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded'
 
 import useHover from '../../../../hooks/useHover'
 
-import useSearchStore from '../../../../store/searchResultStore'
-import useRecentSearchStore from '../../../../store/recentSearchStore'
+import useSearchStore from '../../../../stores/searchResultStore'
+import useRecentSearchStore from '../../../../stores/recentSearchStore'
 
 import TooltipManager from '../../tooltip/TooltipManager'
 import SearchBar from '../../../form/searchbar/SearchBar'

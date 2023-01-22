@@ -2,7 +2,7 @@ import React, {memo, useEffect, useState} from 'react'
 
 import {useTranslation} from 'react-i18next'
 
-import useAvailableClientStore from '../../../store/availableClientStore'
+import useAvailableClientStore from '../../../stores/availableClientStore'
 import {defaultAvailableClientData} from './available_clients_demo_data/AvailableClientListDemoData'
 
 import BoxHeading from '../box_heading_container/BoxHeading'

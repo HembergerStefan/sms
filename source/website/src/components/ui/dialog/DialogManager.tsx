@@ -5,8 +5,8 @@ import {useTranslation} from 'react-i18next'
 
 import {DataTypes} from '../../../data/data_types'
 
-import useScriptStore from '../../../store/scriptInformationStore'
-import usePackageStore from '../../../store/packageInformationStore'
+import useScriptStore from '../../../stores/scriptInformationStore'
+import usePackageStore from '../../../stores/packageInformationStore'
 
 import Dialog from './Dialog'
 import ScriptInformationDialog from './script/ScriptInformationDialog'

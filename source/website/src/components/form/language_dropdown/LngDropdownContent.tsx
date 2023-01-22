@@ -4,7 +4,7 @@ import {useTranslation} from 'react-i18next'
 
 import {usa, austria} from '../../../data/images/language_dropdown'
 
-import useLngStore from '../../../store/lngStore'
+import useLngStore from '../../../stores/lngStore'
 
 interface LngDropdownContentProps {
     mount: boolean

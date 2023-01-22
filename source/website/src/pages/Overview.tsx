@@ -17,16 +17,16 @@ import DashedOutlinedDialogButton
 import {useTranslation} from "react-i18next";
 import BasicTable from "../components/ui/table/basic_table/BasicTable";
 import {DataTypes} from "../data/data_types";
-import BasicCardList from "../components/ui/card_list/basic_card_list/BasicCardList";
 import BasicCardListManager from "../components/ui/card_list/basic_card_list_manager/BasicCardListManager";
 import AvailableClientsList from "../components/ui/available_clients_list/AvailableClientsList";
-import LineChartContainer from "../components/ui/chart/line_chart/LineChartContainer";
 import ChartScriptExecutionsDropdownContent
     from "../components/form/dropdown/chart/script_executions/ChartScriptExecutionDropdownContent";
-import useChartScriptExecutionsStore, {Dataset} from "../store/chartScriptExecutionsStore";
-import useChartPackageInstallationsStore from "../store/chartPackageInstallationsStore";
+import useChartScriptExecutionsStore, {Dataset} from "../stores/chartScriptExecutionsStore";
+import useChartPackageInstallationsStore from "../stores/chartPackageInstallationsStore";
 import ChartPackageInstallationsDropdownContent
     from "../components/form/dropdown/chart/package_installations/ChartPackageInstallationsDropdownContent";
+import ChartContainer from "../components/ui/chart/ChartContainer";
+import {ChartTypes} from "../data/chart_types";
 
 const Overview = () => {
 
@@ -120,19 +120,28 @@ const Overview = () => {
             <br/>
             <br/>
 
-            <LineChartContainer boxHeading='Script Executions'
-                                dropdownContent={<ChartScriptExecutionsDropdownContent/>} labels={labels}
-                                dataSets={dataSets}
-                                tickStepSize={tickStepSize}/>
+            <ChartContainer chartType={ChartTypes.LINE} boxHeading='Script Executions'
+                            dropdownContent={<ChartScriptExecutionsDropdownContent/>} labels={labels}
+                            dataSets={dataSets}
+                            tickStepSize={tickStepSize}/>
 
             <br/>
             <br/>
 
-            <LineChartContainer boxHeading='Package Installations'
-                                dropdownContent={<ChartPackageInstallationsDropdownContent/>}
-                                labels={packageInstallationlabels}
-                                dataSets={packageInstallationDataSets}
-                                tickStepSize={packageInstallationTickStepSize}/>
+            <ChartContainer chartType={ChartTypes.LINE} boxHeading='Package Installations'
+                            dropdownContent={<ChartPackageInstallationsDropdownContent/>}
+                            labels={packageInstallationlabels}
+                            dataSets={packageInstallationDataSets}
+                            tickStepSize={packageInstallationTickStepSize}/>
+
+            <br/>
+            <br/>
+
+            <ChartContainer chartType={ChartTypes.BAR} boxHeading='Package Installations'
+                            dropdownContent={<ChartPackageInstallationsDropdownContent/>}
+                            labels={packageInstallationlabels}
+                            dataSets={packageInstallationDataSets}
+                            tickStepSize={packageInstallationTickStepSize}/>
 
             <br/>
             <br/>
@@ -182,7 +191,7 @@ const Overview = () => {
             <Dropdown defaultValue='Select Item' items={ITEMS} handleChange={() => {
             }}/>
 
-            {/*<LineChartContainer/>*/}
+            {/*<ChartContainer/>*/}
 
             <br/>
             <br/>

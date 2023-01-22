@@ -6,8 +6,8 @@ import NoteAddRoundedIcon from '@mui/icons-material/NoteAddRounded'
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded'
 
 import {DataTypes} from '../../../../../data/data_types'
-import useScriptStore from '../../../../../store/scriptInformationStore'
-import useDataListScriptStore from '../../../../../store/dataListScriptStore'
+import useScriptStore from '../../../../../stores/scriptInformationStore'
+import useDataListScriptStore from '../../../../../stores/dataListScriptStore'
 
 import Dropdown from '../../Dropdown'
 import DialogManager from '../../../../ui/dialog/DialogManager'
