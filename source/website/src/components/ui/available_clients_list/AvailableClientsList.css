@@ -11,7 +11,7 @@
 #available-clients--container {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 10px;
 
     max-height: 325px;
     max-width: 500px;
@@ -29,7 +29,13 @@
     padding: var(--pd-t-small) var(--pd-t-medium);
 
     border-radius: var(--br-r-small-medium);
-    background-color: hsl(210, 70%, 96%); /* TODO: add css variable */
+    border: 1px solid var(--av-cl--border-clr);
+
+    transition: transform 200ms;
+}
+
+.available-client:hover {
+    transform: translateY(-2px);
 }
 
 .available-client > div > h2 {
