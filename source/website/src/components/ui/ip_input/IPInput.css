@@ -1,0 +1,33 @@
+#ip-input--container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+
+    padding: 3px 6px;
+
+    width: fit-content;
+
+    border-radius: var(--br-r-extra-small);
+    background-color: hsl(240, 100%, 98%);
+}
+
+#ip-input--container > div {
+    display: flex;
+    align-items: center;
+
+    cursor: pointer;
+}
+
+.success-copied {
+    animation: success-copied 800ms 200ms;
+}
+
+@keyframes success-copied {
+    30% {
+        background-color: hsl(240, 74%, 95%);
+    }
+    100% {
+        background-color: hsl(240, 100%, 98%);
+    }
+}
