@@ -20,6 +20,13 @@ import {DataTypes} from "../data/data_types";
 import BasicCardList from "../components/ui/card_list/basic_card_list/BasicCardList";
 import BasicCardListManager from "../components/ui/card_list/basic_card_list_manager/BasicCardListManager";
 import AvailableClientsList from "../components/ui/available_clients_list/AvailableClientsList";
+import LineChartContainer from "../components/ui/chart/line_chart/LineChartContainer";
+import ChartScriptExecutionsDropdownContent
+    from "../components/form/dropdown/chart/script_executions/ChartScriptExecutionDropdownContent";
+import useChartScriptExecutionsStore, {Dataset} from "../store/chartScriptExecutionsStore";
+import useChartPackageInstallationsStore from "../store/chartPackageInstallationsStore";
+import ChartPackageInstallationsDropdownContent
+    from "../components/form/dropdown/chart/package_installations/ChartPackageInstallationsDropdownContent";
 
 const Overview = () => {
 
@@ -58,6 +65,45 @@ const Overview = () => {
         'Steam'
     ]
 
+    const {labels, dataSets, tickStepSize, setLabels, setDataSets} = useChartScriptExecutionsStore()
+    const {
+        packageInstallationlabels,
+        packageInstallationDataSets,
+        packageInstallationTickStepSize,
+        setPackageInstallationLabels,
+        setPackageInstallationDataSets
+    } = useChartPackageInstallationsStore()
+
+    /* TODO: remove demo data/labels */
+    useEffect(() => {
+        setLabels(['April', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'])
+        setPackageInstallationLabels(['April', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'])
+
+        const data1: Dataset = {
+            label: 'Executed',
+            data: [18, 30, 24, 33, 42, 38, 44, 37, 34]
+        }
+
+        const data2: Dataset = {
+            label: 'Not Executed',
+            data: [28, 19, 34, 21, 28, 20, 25, 20, 24]
+        }
+
+        setDataSets([data1, data2])
+
+        const data3: Dataset = {
+            label: 'Installed',
+            data: [28, 19, 20, 25, 28, 20, 34, 21, 24]
+        }
+
+        const data4: Dataset = {
+            label: 'Not Installed',
+            data: [44, 37, 34, 33, 42, 38, 18, 30, 24,]
+        }
+
+        setPackageInstallationDataSets([data3, data4])
+    }, [])
+
     return (
         <div style={{
             height: '100%',
@@ -70,6 +116,23 @@ const Overview = () => {
         }}>
             <h1 className='fs-pr-1 fw--semi-bold'>{t(welcomeMessage.title)}, {userName}!</h1>
             <span className='fs-pr-body-1 fw-regula'>{t(welcomeMessage.subTitle)}</span>
+
+            <br/>
+            <br/>
+
+            <LineChartContainer boxHeading='Script Executions'
+                                dropdownContent={<ChartScriptExecutionsDropdownContent/>} labels={labels}
+                                dataSets={dataSets}
+                                tickStepSize={tickStepSize}/>
+
+            <br/>
+            <br/>
+
+            <LineChartContainer boxHeading='Package Installations'
+                                dropdownContent={<ChartPackageInstallationsDropdownContent/>}
+                                labels={packageInstallationlabels}
+                                dataSets={packageInstallationDataSets}
+                                tickStepSize={packageInstallationTickStepSize}/>
 
             <br/>
             <br/>
@@ -119,7 +182,7 @@ const Overview = () => {
             <Dropdown defaultValue='Select Item' items={ITEMS} handleChange={() => {
             }}/>
 
-            {/*<ChartContainer/>*/}
+            {/*<LineChartContainer/>*/}
 
             <br/>
             <br/>
