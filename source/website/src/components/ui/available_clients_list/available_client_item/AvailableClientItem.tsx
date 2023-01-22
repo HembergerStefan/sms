@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 
 import DevicesRoundedIcon from '@mui/icons-material/DevicesRounded'
 
@@ -12,10 +12,11 @@ import AdaptButton from '../../../form/common_button/adapt_button/AdaptButton'
 import TooltipManager from '../../tooltip/TooltipManager'
 
 interface AvailableClientItemProps {
+    itemIndex: number
     availableClient: AvailableClient
 }
 
-const AvailableClientItem = ({availableClient}: AvailableClientItemProps) => {
+const AvailableClientItem = ({itemIndex, availableClient}: AvailableClientItemProps) => {
 
     const [hoverRef, isHovered] = useHover()
 
@@ -26,7 +27,7 @@ const AvailableClientItem = ({availableClient}: AvailableClientItemProps) => {
 
     return (
         <div className='available-client'>
-            <Iconing icon={DevicesRoundedIcon}/>
+            <Iconing value={itemIndex} fixedColor={true} icon={DevicesRoundedIcon}/>
             <div>
                 <h2 ref={hoverRef} className='fs-qi-1 fw--semi-bold clr-pr-1'>{availableClient.name}</h2>
                 <IPInput value={availableClient.ip}/>
