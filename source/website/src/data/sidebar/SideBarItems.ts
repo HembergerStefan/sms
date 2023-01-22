@@ -30,11 +30,6 @@ export const SideBarItems = [
         image: 'personIcon'
     },
     {
-        title: 'Profile',
-        url: 'profile',
-        image: 'personIcon'
-    },
-    {
         title: 'Settings',
         url: 'settings',
         image: 'settingsIcon'
