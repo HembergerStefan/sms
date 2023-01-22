@@ -1,0 +1,17 @@
+.status {
+    padding: 4.5px 8px;
+    border-radius: var(--br-r-extra-small);
+
+    user-select: none;
+    cursor: default;
+}
+
+#status-online {
+    color: hsl(137, 66%, 42%);
+    background-color: hsl(137, 66%, 42%, 12%);
+}
+
+#status-offline {
+    color: hsl(217, 8%, 56%);
+    background-color: hsl(217, 8%, 56%, 10%);
+}
