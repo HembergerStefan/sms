@@ -1,0 +1,14 @@
+#chip {
+    height: fit-content;
+    width: fit-content;
+
+    padding: 6px 8px;
+
+    white-space:nowrap;
+
+    color: hsl(217, 77%, 57%) !important;
+    background-color: hsl(217, 77%, 57%, 10%);
+    border-radius: var(--br-r-small-medium);
+
+    user-select: none;
+}
