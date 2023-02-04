@@ -31,11 +31,13 @@
     border-radius: var(--br-r-small-medium);
     border: 1px solid var(--av-cl--border-clr);
 
-    transition: transform 200ms;
+    transition: background-color 200ms;
 }
 
 .available-client:hover {
-    transform: translateY(-2px);
+    background-color: var(--nv-item--h--bg-clr);
+
+    transition: unset;
 }
 
 .available-client > div > h2 {
