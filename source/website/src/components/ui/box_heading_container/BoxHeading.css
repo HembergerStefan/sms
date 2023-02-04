@@ -1,12 +1,10 @@
 /* Wrap the KebabMenu and the heading */
 #header-menu--wrapper {
     display: flex;
+    align-items: center;
     justify-content: space-between;
 
     width: 100%;
-}
 
-/* The svg icon (of the KebabMenu) */
-#header-menu--wrapper > section {
-    margin-top: -8px !important;
+    margin-top: -8px;
 }
