@@ -17,13 +17,11 @@ const SideBarListItem = ({value}: SideBarListItemProps) => {
     const location = useLocation()
     // Destructuring pathname from location
     const {pathname} = location
-    // Javascript split method to get the name of the path in array
-    const splitLocation = pathname.split('/')
 
     return (
         <>
             <li className='nv-clr--default side-image--text-wrapper'>
-                <div className={`nav-item ${(splitLocation[1] === value.url) ? 'side-active-nav-item' : ''}`}>
+                <div className={`nav-item ${(pathname === '/' + value.url) ? 'side-active-nav-item' : ''}`}>
                     <Link ref={hoverRef} to={`/${value.url}`}>
                         {
                             /* Create the mui svg component */
