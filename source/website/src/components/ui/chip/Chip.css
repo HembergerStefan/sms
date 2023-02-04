@@ -9,6 +9,7 @@
     color: hsl(217, 77%, 57%) !important;
     background-color: hsl(217, 77%, 57%, 10%);
     border-radius: var(--br-r-small-medium);
+    border: 1px solid hsl(217, 77%, 57%);
 
     user-select: none;
 }
