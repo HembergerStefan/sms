@@ -71,13 +71,13 @@ const SideBar = () => {
 
             <div id='side-content-container'>
                 <nav className='side-content-nav'>
-                    <SideBarItemsManager startIndex={0} endIndex={6}/>
+                    <SideBarItemsManager startIndex={0} endIndex={5}/>
                 </nav>
 
                 <nav className='side-content-nav'>
                     <SearchToggle/>
 
-                    <SideBarItemsManager startIndex={6} endIndex={8}/>
+                    <SideBarItemsManager startIndex={5} endIndex={6}/>
                 </nav>
             </div>
         </aside>
