@@ -1,33 +1,47 @@
 #ip-input--container {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     gap: 20px;
 
     padding: 3px 6px;
 
     width: fit-content;
-
-    border-radius: var(--br-r-extra-small);
-    background-color: hsl(240, 100%, 98%);
 }
 
 #ip-input--container > div {
     display: flex;
     align-items: center;
+    padding: 5px;
+
+    border-radius: var(--br-r-extra-small);
 
     cursor: pointer;
 }
 
-.success-copied {
-    animation: success-copied 800ms 200ms;
+#ip-input--container > div:hover {
+    color: var(--ac-clr-1);
+    background-color: var(--nl-clr-3);
+    box-shadow: var(--drp-shadow-dark-rvt);
 }
 
-@keyframes success-copied {
-    30% {
-        background-color: hsl(240, 74%, 95%);
+.success-copied {
+    animation: ip-input--shake 720ms cubic-bezier(.36, .07, .19, .97) both;
+}
+
+@keyframes ip-input--shake {
+    10%, 90% {
+        transform: translate3d(-1px, -1px, 0);
     }
-    100% {
-        background-color: hsl(240, 100%, 98%);
+
+    20%, 80% {
+        transform: translate3d(1px, 0, 0);
+    }
+
+    30%, 50%, 70% {
+        transform: translate3d(-1px, 0, 0);
+    }
+
+    40%, 60% {
+        transform: translate3d(1px, 2px, 0);
     }
 }
