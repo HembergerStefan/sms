@@ -6,4 +6,6 @@ export type Client = {
     usedDiskspace: number
     cpuUsage: number
     groups: string[]
+    scripts: number[]
+    packages: number[]
 }
