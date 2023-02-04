@@ -40,7 +40,10 @@ const OnlineStatus = ({client}: OnlineStatusProps) => {
 
     return (
         status.status.toLowerCase() === 'online' ?
-            <span id='status-online' className='status fs-tr-body-1 fw--semi-bold'>{status.status}</span>
+            <div id='status-online' className='status'>
+                <div/>
+                <span className='fs-tr-body-1 fw--semi-bold'>{status.status}</span>
+            </div>
             :
             <>
                 <span ref={hoverRef} id='status-offline' className='status fs-tr-body-1 fw--semi-bold'>
