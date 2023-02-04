@@ -12,6 +12,7 @@ interface ClientSlice {
     removeClient: (macAddress: string) => void
     resetClient: () => void
     getClientByMacAddress: (macAddress: string) => Client
+    getClientByName: (name: string) => Client
     getClientOnlineStatus: (macAddress: string) => { status: 'Online' | 'Offline', lastOnline: string }
 }
 
@@ -22,7 +23,9 @@ export const initialClientState: Client = {
     lastOnline: new Date(),
     usedDiskspace: 0,
     cpuUsage: 0,
-    groups: []
+    groups: [],
+    scripts: [],
+    packages: []
 }
 
 const useClientStore = create<ClientSlice>((set, get) => ({
@@ -34,7 +37,9 @@ const useClientStore = create<ClientSlice>((set, get) => ({
         lastOnline: new Date(),
         usedDiskspace: 0,
         cpuUsage: 0,
-        groups: []
+        groups: [],
+        scripts: [],
+        packages: []
     },
     setClients: (entries) => set(state => ({
         clients: state.clients = entries
@@ -59,7 +64,9 @@ const useClientStore = create<ClientSlice>((set, get) => ({
                 lastOnline: new Date(),
                 usedDiskspace: 0,
                 cpuUsage: 0,
-                groups: []
+                groups: [],
+                scripts: [],
+                packages: []
             } // Reset, to add new data
         }))
     },
@@ -71,6 +78,15 @@ const useClientStore = create<ClientSlice>((set, get) => ({
     })),
     getClientByMacAddress: (macAddress) => {
         const selectedClient = get().clients.find((client) => client.macAddress === macAddress)
+
+        if (selectedClient !== undefined) {
+            return selectedClient
+        }
+
+        return initialClientState
+    },
+    getClientByName: (name) => {
+        const selectedClient = get().clients.find((client) => client.name === name)
 
         if (selectedClient !== undefined) {
             return selectedClient
