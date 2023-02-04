@@ -1,37 +1,32 @@
 export const SideBarItems = [
     {
         title: 'Overview',
-        url: '',
+        url: 'dashboard',
         image: 'homeRoundedIcon'
     },
     {
         title: 'Devices',
-        url: 'devices',
+        url: 'dashboard/devices',
         image: 'devicesRoundedIcon'
     },
     {
         title: 'Groups',
-        url: 'groups',
+        url: 'dashboard/groups',
         image: 'groupsIcon'
     },
     {
         title: 'Scripts',
-        url: 'scripts',
+        url: 'dashboard/scripts',
         image: 'terminalRoundedIcon'
     },
     {
         title: 'Packages',
-        url: 'packages',
+        url: 'dashboard/packages',
         image: 'appsRoundedIcon'
     },
     {
-        title: 'User',
-        url: 'user',
-        image: 'personIcon'
-    },
-    {
         title: 'Settings',
-        url: 'settings',
+        url: 'dashboard/settings',
         image: 'settingsIcon'
     }
 ]
