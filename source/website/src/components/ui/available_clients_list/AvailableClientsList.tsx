@@ -28,7 +28,7 @@ const AvailableClientsList = () => {
         <section id='available-clients--section' className='box'>
             <BoxHeading content={
                 <h2 className='fs-qr-1 fw--semi-bold'>{t('Available')}</h2>}
-                        dropdownContent={<BasicCardListDropdownContent setMountDropdown={setMountDropdown}/>}
+                        dropdownContent={undefined}
                         mountDropdown={mountDropdown}
                         setMountDropdown={setMountDropdown}/>
 
