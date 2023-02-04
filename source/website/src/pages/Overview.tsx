@@ -27,6 +27,17 @@ import ChartPackageInstallationsDropdownContent
     from "../components/form/dropdown/chart/package_installations/ChartPackageInstallationsDropdownContent";
 import ChartContainer from "../components/ui/chart/ChartContainer";
 import {ChartTypes} from "../data/chart_types";
+import FilterTable from "../components/ui/table/filter_table/FilterTable";
+import {
+    defaultClientData
+} from "../components/ui/card_list/basic_card_list/basic_card_list_demo_data/BasicCardListDemoData";
+import useClientStore from "../stores/clientInformationStore";
+import useScriptStore from "../stores/scriptInformationStore";
+import usePackageStore from "../stores/packageInformationStore";
+import {
+    defaultPackageData,
+    defaultScriptData
+} from "../components/ui/table/basic_table/basic_table_demo_data/BasicTableDemoData";
 
 const Overview = () => {
 
@@ -54,16 +65,6 @@ const Overview = () => {
             setWelcomeMessage({title: 'Good Evening', subTitle: 'Have a restful night.'})
         }
     }
-
-    const ITEMS = [
-        'Adobe Illustrator',
-        'WebStorm',
-        'IntelliJ IDEA Ultimate',
-        'Figma',
-        'Spotify',
-        'Windows Explorer',
-        'Steam'
-    ]
 
     const {labels, dataSets, tickStepSize, setLabels, setDataSets} = useChartScriptExecutionsStore()
     const {
@@ -114,101 +115,34 @@ const Overview = () => {
             gridArea: 'main',
             overflow: 'auto'
         }}>
+
+            {/*
             <h1 className='fs-pr-1 fw--semi-bold'>{t(welcomeMessage.title)}, {userName}!</h1>
             <span className='fs-pr-body-1 fw-regula'>{t(welcomeMessage.subTitle)}</span>
 
-            <br/>
-            <br/>
+            <section>
+                <div style={{display: 'flex', alignItems: ' center', gap: '50px', marginTop: '28px'}}>
+                    <KPIComponent title='Amount of Groups' value={4} icon={<PeopleAltRoundedIcon/>}
+                                  theme={getComputedStyle(document.body).getPropertyValue('--ac-clr-2')}/>
+                    <KPIComponent title='Amount of Clients' value={15} icon={<DevicesRoundedIcon/>}
+                                  theme={getComputedStyle(document.body).getPropertyValue('--ac-clr-1')}/>
+                    <KPIComponent title='Scripts executed' value={1} icon={<TerminalRoundedIcon/>}
+                                  theme={getComputedStyle(document.body).getPropertyValue('--ac-clr-3')}/>
+                    <KPIComponent title='Packages installed' value={23} icon={<TerminalRoundedIcon/>}
+                                  theme={getComputedStyle(document.body).getPropertyValue('--ac-clr-2')}/>
+                </div>
 
-            <ChartContainer chartType={ChartTypes.LINE} boxHeading='Script Executions'
-                            dropdownContent={<ChartScriptExecutionsDropdownContent/>} labels={labels}
-                            dataSets={dataSets}
-                            tickStepSize={tickStepSize}/>
+                <div style={{display: 'flex', gap: '50px', margin: '30px 0'}}>
+                    <AvailableClientsList/>
 
-            <br/>
-            <br/>
+                    <TextListComponent headingContent={
+                        <h2 className='fs-qi-1 fw--semi-bold'>{t('Latest Activities')}</h2>
+                    }/>
+                </div>
+            </section>
+            */}
 
-            <ChartContainer chartType={ChartTypes.LINE} boxHeading='Package Installations'
-                            dropdownContent={<ChartPackageInstallationsDropdownContent/>}
-                            labels={packageInstallationlabels}
-                            dataSets={packageInstallationDataSets}
-                            tickStepSize={packageInstallationTickStepSize}/>
-
-            <br/>
-            <br/>
-
-            <ChartContainer chartType={ChartTypes.BAR} boxHeading='Package Installations'
-                            dropdownContent={<ChartPackageInstallationsDropdownContent/>}
-                            labels={packageInstallationlabels}
-                            dataSets={packageInstallationDataSets}
-                            tickStepSize={packageInstallationTickStepSize}/>
-
-            <br/>
-            <br/>
-
-            <AvailableClientsList/>
-
-            <br/>
-            <br/>
-
-            <BasicCardListManager/>
-            <br/>
-            <br/>
-            <BasicTable tableType={DataTypes.SCRIPT}/>
-            <br/>
-            <br/>
-            <BasicTable tableType={DataTypes.PACKAGE}/>
-            <br/>
-            <br/>
-
-
-            <div style={{display: 'flex', gap: '10px'}}>
-                <SolidDialogButton placeholder='Click me' onOnClick={() => {
-                }}/>
-                <SolidOutlinedDialogButton placeholder='Click me' onOnClick={() => {
-                }}/>
-                <DashedOutlinedDialogButton placeholder='Click me' onOnClick={() => {
-                }}/>
-            </div>
-
-            <br/>
-            <br/>
-
-            <ScriptDialogToggle/>
-
-            <br/>
-            <br/>
-
-            <div ref={cnRef} className='box'
-                 style={{height: '80px', width: 'fit-content', display: 'flex', gap: '.5rem', padding: '5px'}}>
-                <FullSize containerRef={cnRef} size='var(--icon-size-small)'/>
-                {/*<KebabMenu size='var(--icon-size-small)'/>*/}
-            </div>
-
-            <br/>
-
-
-            <Dropdown defaultValue='Select Item' items={ITEMS} handleChange={() => {
-            }}/>
-
-            {/*<ChartContainer/>*/}
-
-            <br/>
-            <br/>
-
-            <TextListComponent
-                headingContent={<h2 className='fs-qi-1 fw--semi-bold'>{t('Client-Script Execution')}</h2>}/>
-
-            <br/>
-
-            <div style={{display: 'flex', alignItems: ' center', gap: '1rem'}}>
-                <KPIComponent title='Amount of Groups' value={4} icon={<PeopleAltRoundedIcon/>}
-                              theme={getComputedStyle(document.body).getPropertyValue('--ac-clr-2')}/>
-                <KPIComponent title='Amount of Clients' value={15} icon={<DevicesRoundedIcon/>}
-                              theme={getComputedStyle(document.body).getPropertyValue('--ac-clr-1')}/>
-                <KPIComponent title='Scripts executed' value={1} icon={<TerminalRoundedIcon/>}
-                              theme={getComputedStyle(document.body).getPropertyValue('--ac-clr-3')}/>
-            </div>
+            <FilterTable tableType={DataTypes.SCRIPT}/>
         </div>
     )
 }
