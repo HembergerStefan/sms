@@ -15,19 +15,20 @@ const IpInput = ({value}: IpInputProps) => {
     const copyToClipboard = () => {
         /* TODO: ADD COPY SUCCESS STATE NOTIFICATION IN NOTIFICATION TAB (HEADER) */
         navigator.clipboard.writeText(value).then(text => {
-            console.log(`copied ${value}`)
-
             if (ipInputRef.current !== null) {
                 ipInputRef.current.classList.add('success-copied')
+
+                setTimeout(() => {
+                    ipInputRef.current!.classList.remove('success-copied')
+                }, 720)
             }
-        })
-            .catch(reason => console.log(reason))
+        }).catch(reason => console.log(reason))
     }
 
     return (
-        <div ref={ipInputRef} id='ip-input--container' className='clr-sc-1'>
+        <div id='ip-input--container' className='clr-sc-1'>
             <span className='fs-sc-body-1'>{value}</span>
-            <div onClick={() => copyToClipboard()}>
+            <div ref={ipInputRef} onClick={() => copyToClipboard()}>
                 <ContentCopyRoundedIcon style={{fontSize: 'var(--fs-qi-heading)'}}/>
             </div>
         </div>
