@@ -234,11 +234,6 @@ const BasicTable = ({tableType}: BasicTableProps) => {
     })
 
     useEffect(() => {
-        /* TODO: Remove demo data */
-        setScripts(defaultScriptData)
-        setPackages(defaultPackageData)
-        setClients(defaultClientData)
-
         if (tableType === 0) {
             setScriptTable(table)
             table.setPageIndex(scriptPageIndex)
