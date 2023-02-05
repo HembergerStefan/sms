@@ -4,6 +4,8 @@ import logo from '../../../data/images/project_logo.png'
 
 import NotificationsNoneRoundedIcon from '@mui/icons-material/NotificationsNoneRounded'
 
+import useUserStore from '../../../stores/user_session/userStore'
+
 import useResize from '../../../hooks/useResize'
 
 import LngDropdown from '../../form/language_dropdown/LngDropdown'
@@ -12,8 +14,10 @@ import './NavBar.css'
 
 const NavBar = () => {
 
+    const {username} = useUserStore()
+
     const [productName, setProductName] = useState('Systems Management Server')
-    const [userName, setUserName] = useState('Håkon Wium Lie')
+    const [userName, setUserName] = useState(username)
     const windowSize = useResize()
 
     useEffect(() => {
