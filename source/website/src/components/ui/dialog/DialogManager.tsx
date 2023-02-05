@@ -48,7 +48,7 @@ const DialogManager = ({
             setDialogContent(() => <PackageInformationDialog id={selectedId ? selectedId : undefined}
                                                              editMode={editMode}/>)
         }
-    }, [selectedId])
+    }, [selectedId, dialogTyp])
 
     const remove = () => {
         if (selectedId) {
