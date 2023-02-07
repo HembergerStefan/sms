@@ -16,7 +16,7 @@ const BasicCardList = () => {
 
     const {t} = useTranslation()
 
-    /* Get the selected client out of the stores & the possibility to update the stores */
+    /* Get clients out of the stores */
     const {clients} = useClientStore()
 
     const {clientPageSize, clientPageIndex, clientPageCount, setClientPageCount} = useCardListClientStore()
@@ -48,11 +48,11 @@ const BasicCardList = () => {
                 })}
             </div>
 
-           <div className='mg-t-big'>
+            <div className='mg-t-big'>
                 <span className='fs-sc-body-1'>
                 {t('Page')} {clientPageIndex + 1} {t('of')} {clientPageCount}
             </span>
-           </div>
+            </div>
         </section>
     )
 }
