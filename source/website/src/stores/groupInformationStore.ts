@@ -11,6 +11,9 @@ export interface GroupSlice {
     resetGroup: () => void
     getGroupById: (id: number) => Group
     getGroupByName: (name: string) => Group
+    getGroupsOfClient: (macAddress: string) => Group[]
+    getClientsOfGroups: () => string[]
+    getAverageClientsPerGroup: () => number
 }
 
 export const initialGroupState: Group = {
@@ -73,6 +76,36 @@ const useGroupStore = create<GroupSlice>((set, get) => ({
 
         return initialGroupState
     },
+    getGroupsOfClient: (macAddress) => {
+        const selectedGroups: Group[] = []
+
+        get().groups.forEach(group => {
+            group.clients.forEach(client => {
+                if (client === macAddress) {
+                    selectedGroups.push(group)
+                }
+            })
+        })
+
+        return selectedGroups
+    },
+    getClientsOfGroups: () => {
+        const clients: string[] = []
+
+        get().groups.forEach(group => {
+            group.clients.forEach(client => {
+                if (!clients.includes(client)) {
+                    clients.push(client)
+                }
+            })
+        })
+
+        return clients
+    },
+    getAverageClientsPerGroup: () => {
+        const groupClients: string[] = get().getClientsOfGroups()
+        return Math.round(((groupClients.length / get().groups.length) + Number.EPSILON) * 100) / 100
+    }
 }))
 
 
