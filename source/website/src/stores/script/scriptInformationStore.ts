@@ -1,6 +1,6 @@
 import create from 'zustand'
 
-import {Script} from '../data/data_types'
+import {Script} from '../../data/data_types'
 
 interface ScriptSlice {
     scripts: Script[]
@@ -19,7 +19,8 @@ export const initialScriptState: Script = {
     description: '',
     code: '',
     executionDate: new Date(),
-    language: 'Python'
+    language: 'Python',
+    fileExtension: '.py'
 }
 
 const useScriptStore = create<ScriptSlice>((set, get) => ({
@@ -30,7 +31,8 @@ const useScriptStore = create<ScriptSlice>((set, get) => ({
         description: '',
         code: '',
         executionDate: new Date(),
-        language: 'Python'
+        language: 'Python',
+        fileExtension: '.py'
     },
     setScripts: (entries) => set(state => ({
         scripts: state.scripts = entries
@@ -54,7 +56,8 @@ const useScriptStore = create<ScriptSlice>((set, get) => ({
                 description: '',
                 code: '',
                 executionDate: new Date(),
-                language: 'Python'
+                language: 'Python',
+                fileExtension: '.py'
             } // Reset, to add new data
         }))
     },

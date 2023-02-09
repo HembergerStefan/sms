@@ -1,6 +1,6 @@
 import create from 'zustand'
 
-import {Package} from '../data/data_types'
+import {Package} from '../../data/data_types'
 
 export interface PackageSlice {
     _packages: Package[]
@@ -10,7 +10,6 @@ export interface PackageSlice {
     removePackage: (id: number) => void
     resetPackages: () => void
     getPackageById: (id: number) => Package
-    getPackageStatus: (id: number) => string
 }
 
 export const initialPackageState: Package = {
@@ -18,7 +17,8 @@ export const initialPackageState: Package = {
     name: '',
     version: '',
     url: '',
-    installationDate: new Date(),
+    addingDate: new Date(),
+    silentSwitch: ''
 }
 
 const usePackageStore = create<PackageSlice>((set, get) => ({
@@ -28,7 +28,8 @@ const usePackageStore = create<PackageSlice>((set, get) => ({
         name: '',
         version: '',
         url: '',
-        installationDate: new Date()
+        addingDate: new Date(),
+        silentSwitch: ''
     },
     setPackages: (entries) => set(state => ({
         _packages: state._packages = entries
@@ -51,7 +52,8 @@ const usePackageStore = create<PackageSlice>((set, get) => ({
                 name: '',
                 version: '',
                 url: '',
-                installationDate: new Date()
+                addingDate: new Date(),
+                silentSwitch: ''
             } // Reset, to add new data
         }))
     },
@@ -69,17 +71,6 @@ const usePackageStore = create<PackageSlice>((set, get) => ({
         }
 
         return initialPackageState
-    },
-    getPackageStatus: (id) => {
-        const _package = get().getPackageById(id)
-
-        if (_package.id !== -1) {
-            if (_package.installationDate < new Date()) {
-                return 'Installed'
-            }
-        }
-
-        return 'Installation Pending'
     }
 }))
 
