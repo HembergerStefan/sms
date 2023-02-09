@@ -5,4 +5,5 @@ export type Script = {
     code: string
     executionDate: Date
     language: string
+    fileExtension: string
 }
