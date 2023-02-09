@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {ChartTypes} from "../data/chart_types";
 import ChartPackageInstallationsDropdownContent
     from "../components/form/dropdown/chart/package_installations/ChartPackageInstallationsDropdownContent";
@@ -13,8 +13,13 @@ import DevicesRoundedIcon from "@mui/icons-material/DevicesRounded";
 import TerminalRoundedIcon from "@mui/icons-material/TerminalRounded";
 import {DataTypes} from "../data/data_types";
 import BasicTable from "../components/ui/table/basic_table/BasicTable";
+import {useTranslation} from "react-i18next";
+import TaskButton from "../components/form/common_button/task_button/TaskButton";
+import DialogManager from "../components/ui/dialog/DialogManager";
 
 const Clients = () => {
+
+    const {t} = useTranslation()
 
     const {
         packageInstallationlabels,
@@ -23,6 +28,8 @@ const Clients = () => {
         setPackageInstallationLabels,
         setPackageInstallationDataSets
     } = useChartPackageInstallationsStore()
+
+    const [renderDialogComponent, setRenderDialogComponent] = useState<boolean>(false)
 
     /* TODO: remove demo data/labels */
     useEffect(() => {
@@ -47,7 +54,12 @@ const Clients = () => {
             padding: '40px', gridArea: 'main', overflow: 'auto'
         }}>
 
-            <h1 className='fs-sc-1 fw--semi-bold'>All Packages</h1>
+            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%'}}>
+                <h1 className='fs-tr-1 fw--semi-bold'>Packages</h1>
+                <TaskButton task={() => {
+                    setRenderDialogComponent(() => true)
+                }} taskName='Add Package'/>
+            </div>
 
             <div style={{display: 'flex', alignItems: ' center', gap: '50px', marginTop: '28px'}}>
                 <KPIComponent title='Amount of Packages' value={28} icon={<TerminalRoundedIcon/>}
@@ -76,6 +88,10 @@ const Clients = () => {
 
             <BasicTable tableType={DataTypes.PACKAGE}/>
 
+            <DialogManager dialogTyp={DataTypes.PACKAGE}
+                           title='Add Package' editMode={false}
+                           renderComponent={renderDialogComponent}
+                           setRenderComponent={setRenderDialogComponent}/>
         </div>
     );
 };

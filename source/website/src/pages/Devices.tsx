@@ -1,25 +1,32 @@
-import React from 'react';
-import BasicCardListManager from "../components/ui/card_list/basic_card_list_manager/BasicCardListManager";
-import KPIComponent from "../components/ui/kpi_component/KPIComponent";
-import TerminalRoundedIcon from "@mui/icons-material/TerminalRounded";
-import DevicesRoundedIcon from "@mui/icons-material/DevicesRounded";
-import ChartContainer from "../components/ui/chart/ChartContainer";
-import {ChartTypes} from "../data/chart_types";
-import ChartPackageInstallationsDropdownContent
-    from "../components/form/dropdown/chart/package_installations/ChartPackageInstallationsDropdownContent";
-import BasicTable from "../components/ui/table/basic_table/BasicTable";
-import {DataTypes} from "../data/data_types";
-import TextListComponent from "../components/ui/text_list_component/TextListComponent";
-import AvailableClientsList from "../components/ui/available_clients_list/AvailableClientsList";
+import React, {useState} from 'react'
+import BasicCardListManager from '../components/ui/card_list/basic_card_list_manager/BasicCardListManager'
+import KPIComponent from '../components/ui/kpi_component/KPIComponent'
+import TerminalRoundedIcon from '@mui/icons-material/TerminalRounded'
+import DevicesRoundedIcon from '@mui/icons-material/DevicesRounded'
+import {DataTypes} from '../data/data_types'
+import TextListComponent from '../components/ui/text_list_component/TextListComponent'
+import TaskButton from '../components/form/common_button/task_button/TaskButton'
+import DialogManager from '../components/ui/dialog/DialogManager'
+import {useTranslation} from "react-i18next";
 
-const Main = () => {
+const Devices = () => {
+
+    const {t} = useTranslation()
+
+    const [renderDialogComponent, setRenderDialogComponent] = useState<boolean>(false)
+
     return (
         <div style={{
             height: '100%', width: '100%', background: 'var(--nl-clr-1)', borderRadius: '25px 0 0 0',
             padding: '40px', gridArea: 'main', overflow: 'auto'
         }}>
 
-            <h1 className='fs-sc-1 fw--semi-bold'>All Clients</h1>
+            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%'}}>
+                <h1 className='fs-tr-1 fw--semi-bold'>Clients</h1>
+                <TaskButton task={() => {
+                    setRenderDialogComponent(() => true)
+                }} taskName='Add Client'/>
+            </div>
 
             <div style={{display: 'flex', alignItems: ' center', gap: '50px', margin: '28px 0'}}>
                 <KPIComponent title='Amount of Packages' value={28} icon={<TerminalRoundedIcon/>}
@@ -45,8 +52,14 @@ const Main = () => {
 
                 <BasicCardListManager/>
             </div>
-        </div>
-    );
-};
 
-export default Main;
+
+            <DialogManager dialogTyp={DataTypes.CLIENT}
+                           title='Add Client' editMode={false}
+                           renderComponent={renderDialogComponent}
+                           setRenderComponent={setRenderDialogComponent}/>
+        </div>
+    )
+}
+
+export default Devices

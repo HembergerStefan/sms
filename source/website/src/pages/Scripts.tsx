@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import KPIComponent from "../components/ui/kpi_component/KPIComponent";
 import TerminalRoundedIcon from "@mui/icons-material/TerminalRounded";
 import DevicesRoundedIcon from "@mui/icons-material/DevicesRounded";
@@ -11,10 +11,17 @@ import {DataTypes} from "../data/data_types";
 import useChartScriptExecutionsStore, {Dataset} from "../stores/chartScriptExecutionsStore";
 import ChartScriptExecutionsDropdownContent
     from "../components/form/dropdown/chart/script_executions/ChartScriptExecutionDropdownContent";
+import {useTranslation} from "react-i18next";
+import TaskButton from "../components/form/common_button/task_button/TaskButton";
+import DialogManager from "../components/ui/dialog/DialogManager";
 
 const Clients = () => {
 
+    const {t} = useTranslation()
+
     const {labels, dataSets, tickStepSize, setLabels, setDataSets} = useChartScriptExecutionsStore()
+
+    const [renderDialogComponent, setRenderDialogComponent] = useState<boolean>(false)
 
     /* TODO: remove demo data/labels */
     useEffect(() => {
@@ -38,7 +45,12 @@ const Clients = () => {
             height: '100%', width: '100%', background: 'var(--nl-clr-1)', borderRadius: '25px 0 0 0',
             padding: '40px', gridArea: 'main', overflow: 'auto'
         }}>
-            <h1 className='fs-sc-1 fw--semi-bold'>All Scripts</h1>
+            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%'}}>
+                <h1 className='fs-tr-1 fw--semi-bold'>Scripts</h1>
+                <TaskButton task={() => {
+                    setRenderDialogComponent(() => true)
+                }} taskName='Add Script'/>
+            </div>
 
             <div style={{display: 'flex', alignItems: ' center', gap: '50px', marginTop: '28px'}}>
                 <KPIComponent title='Amount of Packages' value={28} icon={<TerminalRoundedIcon/>}
@@ -59,6 +71,11 @@ const Clients = () => {
             </div>
 
             <BasicTable tableType={DataTypes.SCRIPT}/>
+
+            <DialogManager dialogTyp={DataTypes.SCRIPT}
+                           title='Add Script' editMode={false}
+                           renderComponent={renderDialogComponent}
+                           setRenderComponent={setRenderDialogComponent}/>
         </div>
     );
 };
