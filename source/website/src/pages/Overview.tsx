@@ -1,51 +1,27 @@
-import React, {useEffect, useRef, useState} from 'react'
+import React, {useEffect, useState} from 'react'
 
 import PeopleAltRoundedIcon from '@mui/icons-material/PeopleAltRounded'
 import TerminalRoundedIcon from '@mui/icons-material/TerminalRounded'
 import DevicesRoundedIcon from '@mui/icons-material/DevicesRounded'
 
-import Dropdown from '../components/form/dropdown/Dropdown'
-import KPIComponent from "../components/ui/kpi_component/KPIComponent"
-import FullSize from "../components/form/menu/full_size/FullSizeButton";
-import TextListComponent from "../components/ui/text_list_component/TextListComponent";
-import ScriptDialogToggle from "../components/form/script_dialog_toggle/ScriptDialogToggle";
-import SolidDialogButton from "../components/form/dialog_button/solid/SolidDialogButton";
-import SolidOutlinedDialogButton
-    from "../components/form/dialog_button/outlined/solid_outlined/SolidOutlinedDialogButton";
-import DashedOutlinedDialogButton
-    from "../components/form/dialog_button/outlined/dashed_outlined/DashedOutlinedDialogButton";
-import {useTranslation} from "react-i18next";
-import BasicTable from "../components/ui/table/basic_table/BasicTable";
-import {DataTypes} from "../data/data_types";
-import BasicCardListManager from "../components/ui/card_list/basic_card_list_manager/BasicCardListManager";
-import AvailableClientsList from "../components/ui/available_clients_list/AvailableClientsList";
-import ChartScriptExecutionsDropdownContent
-    from "../components/form/dropdown/chart/script_executions/ChartScriptExecutionDropdownContent";
-import useChartScriptExecutionsStore, {Dataset} from "../stores/chartScriptExecutionsStore";
-import useChartPackageInstallationsStore from "../stores/chartPackageInstallationsStore";
-import ChartPackageInstallationsDropdownContent
-    from "../components/form/dropdown/chart/package_installations/ChartPackageInstallationsDropdownContent";
-import ChartContainer from "../components/ui/chart/ChartContainer";
-import {ChartTypes} from "../data/chart_types";
-import FilterTable from "../components/ui/table/filter_table/FilterTable";
-import {
-    defaultClientData
-} from "../components/ui/card_list/basic_card_list/basic_card_list_demo_data/BasicCardListDemoData";
-import useClientStore from "../stores/clientInformationStore";
-import useScriptStore from "../stores/scriptInformationStore";
-import usePackageStore from "../stores/packageInformationStore";
-import {
-    defaultPackageData,
-    defaultScriptData
-} from "../components/ui/table/basic_table/basic_table_demo_data/BasicTableDemoData";
+import KPIComponent from '../components/ui/kpi_component/KPIComponent'
+import TextListComponent from '../components/ui/text_list_component/TextListComponent'
+import {useTranslation} from 'react-i18next'
+import {DataTypes} from '../data/data_types'
+import AvailableClientsList from '../components/ui/available_clients_list/AvailableClientsList'
+import useChartScriptExecutionsStore, {Dataset} from '../stores/chartScriptExecutionsStore'
+import useChartPackageInstallationsStore from '../stores/chartPackageInstallationsStore'
+import FilterTable from '../components/ui/table/filter_table/FilterTable'
+import useUserStore from '../stores/user_session/userStore'
+
+import './Layout.css'
 
 const Overview = () => {
 
     const {t} = useTranslation()
 
-    const cnRef = useRef<HTMLDivElement>(null)
+    const {username} = useUserStore()
 
-    const [userName, setUserName] = useState('Håkon Wium Lie')
     const [welcomeMessage, setWelcomeMessage] = useState({title: 'Welcome', subTitle: 'How are you feeling today?'})
 
     const hours: number = new Date().getHours()
@@ -58,7 +34,7 @@ const Overview = () => {
         if (hours < 11) {
             setWelcomeMessage({title: 'Good Morning', subTitle: 'Have you had a good start to the day?'})
         } else if (hours >= 11 && hours <= 12) {
-            setWelcomeMessage({title: 'Good Noon', subTitle: 'Lunchtime.'})
+            setWelcomeMessage({title: 'Good Noon', subTitle: 'Get some brake.'})
         } else if (hours > 12 && hours <= 18) {
             setWelcomeMessage({title: 'Good Afternoon', subTitle: 'Did you finish of some task?'})
         } else {
@@ -66,11 +42,8 @@ const Overview = () => {
         }
     }
 
-    const {labels, dataSets, tickStepSize, setLabels, setDataSets} = useChartScriptExecutionsStore()
+    const {setLabels, setDataSets} = useChartScriptExecutionsStore()
     const {
-        packageInstallationlabels,
-        packageInstallationDataSets,
-        packageInstallationTickStepSize,
         setPackageInstallationLabels,
         setPackageInstallationDataSets
     } = useChartPackageInstallationsStore()
@@ -106,44 +79,33 @@ const Overview = () => {
     }, [])
 
     return (
-        <div style={{
-            height: '100%',
-            width: '100%',
-            background: 'var(--nl-clr-1)',
-            borderRadius: '25px 0 0 0',
-            padding: '40px',
-            gridArea: 'main',
-            overflow: 'auto'
-        }}>
+        <section id='dashboard-layout--container'>
+            <div>
+                <h1 className='fs-pr-1 fw--semi-bold'>{t(welcomeMessage.title)}, {username}!</h1>
+                <span className='fs-pr-body-1 fw-regula'>{t(welcomeMessage.subTitle)}</span>
+            </div>
 
-            {/*
-            <h1 className='fs-pr-1 fw--semi-bold'>{t(welcomeMessage.title)}, {userName}!</h1>
-            <span className='fs-pr-body-1 fw-regula'>{t(welcomeMessage.subTitle)}</span>
+            <div style={{display: 'flex', alignItems: ' center', gap: '30px'}}>
+                <KPIComponent title='Amount of Groups' value={4} icon={<PeopleAltRoundedIcon/>}
+                              theme={getComputedStyle(document.body).getPropertyValue('--ac-clr-2')}/>
+                <KPIComponent title='Amount of Clients' value={15} icon={<DevicesRoundedIcon/>}
+                              theme={getComputedStyle(document.body).getPropertyValue('--ac-clr-1')}/>
+                <KPIComponent title='Scripts executed' value={1} icon={<TerminalRoundedIcon/>}
+                              theme={getComputedStyle(document.body).getPropertyValue('--ac-clr-3')}/>
+                <KPIComponent title='Packages installed' value={23} icon={<TerminalRoundedIcon/>}
+                              theme={getComputedStyle(document.body).getPropertyValue('--ac-clr-2')}/>
+            </div>
 
-            <section>
-                <div style={{display: 'flex', alignItems: ' center', gap: '50px', marginTop: '28px'}}>
-                    <KPIComponent title='Amount of Groups' value={4} icon={<PeopleAltRoundedIcon/>}
-                                  theme={getComputedStyle(document.body).getPropertyValue('--ac-clr-2')}/>
-                    <KPIComponent title='Amount of Clients' value={15} icon={<DevicesRoundedIcon/>}
-                                  theme={getComputedStyle(document.body).getPropertyValue('--ac-clr-1')}/>
-                    <KPIComponent title='Scripts executed' value={1} icon={<TerminalRoundedIcon/>}
-                                  theme={getComputedStyle(document.body).getPropertyValue('--ac-clr-3')}/>
-                    <KPIComponent title='Packages installed' value={23} icon={<TerminalRoundedIcon/>}
-                                  theme={getComputedStyle(document.body).getPropertyValue('--ac-clr-2')}/>
-                </div>
+            <div style={{display: 'flex', gap: '30px'}}>
+                <AvailableClientsList/>
 
-                <div style={{display: 'flex', gap: '50px', margin: '30px 0'}}>
-                    <AvailableClientsList/>
-
-                    <TextListComponent headingContent={
-                        <h2 className='fs-qi-1 fw--semi-bold'>{t('Latest Activities')}</h2>
-                    }/>
-                </div>
-            </section>
-            */}
+                <TextListComponent headingContent={
+                    <h2 className='fs-qi-1 fw--semi-bold'>{t('Latest Activities')}</h2>
+                }/>
+            </div>
 
             <FilterTable tableType={DataTypes.SCRIPT}/>
-        </div>
+        </section>
     )
 }
 
