@@ -30,9 +30,5 @@ public class WebpageController implements IWebpageResource {
         return response;
     }
 
-    @Override
-    public ArrayList<TokenInfos> getToken() {
-        return smsStore.getTokens();
-    }
 
 }

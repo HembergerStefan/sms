@@ -13,6 +13,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import model.*;
 import org.jboss.logging.Logger;
+import token.TokenInfos;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -47,10 +48,8 @@ public class WebSocket {
 
     @OnOpen
     public void onOpen(Session session, @PathParam("token") String token, @PathParam("id") String id) {
-        if (smsStore.isAllowed(token, id, anno)) {
         var userSession = new DTOUserSession(id, session, token);
         userSessions.add(userSession);
-         }
     }
 
     @OnClose
@@ -83,7 +82,10 @@ public class WebSocket {
     public void sendMessage() {
         for (DTOUserSession userSession : userSessions) {
             Log.info( "sending...");
-            if (smsStore.isAllowed(userSession.getToken(), userSession.getUser_id(), anno)) {
+            String token = userSession.getToken();
+            String replacedToken = token.replaceAll("汉", "/");
+            replacedToken = replacedToken.replaceAll("%E6%B1%89", "/");
+            if (smsStore.isAllowed(replacedToken, userSession.getUser_id(), anno)) {
             var user = smsStore.getUserByID(userSession.getUser_id());
             var json = bulidJson(user);
             userSession.getSession().getAsyncRemote().sendText(json);

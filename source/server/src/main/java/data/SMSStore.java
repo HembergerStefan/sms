@@ -108,9 +108,14 @@ public class SMSStore implements ISMSStore {
     }
     @Override
     public String getRole(String token) {//holt alle Rollen
-        String decodedToken = decodeToken(token);
-        String[] infos = decodedToken.split("/");
-        return infos[1];
+        try{
+            String decodedToken = decodeToken(token);
+            String[] infos = decodedToken.split("/");
+            return infos[1];
+        }catch(Exception e){
+            System.err.println(e.getMessage());
+        }
+        return null;
     }
 
     @Override
@@ -169,7 +174,9 @@ public class SMSStore implements ISMSStore {
     public String getIdByToken(String token) {//holt die ID aus einem Token
         try {
             String id = "";
-            String decodedToken = decodeToken(token);
+            String replacedToken = token.replaceAll("汉", "/");
+            replacedToken = replacedToken.replaceAll("%E6%B1%89", "/");
+            String decodedToken = decodeToken(replacedToken);
             if (decodedToken != null) {
                 String[] infos = decodedToken.split("/");
                 if (infos.length != 0) {
@@ -188,7 +195,7 @@ public class SMSStore implements ISMSStore {
         SecretKeySpec sk = null;
         for (TokenInfos tokenInfo : tokens) {
             if (tokenInfo.getToken().equals(replacedToken)) {
-                tokenInfo.setExpireDate(LocalDateTime.now().plusMinutes(1));
+                tokenInfo.setExpireDate(LocalDateTime.now().plusMinutes(15));
                 sk = tokenInfo.getSecretKeySpec();
             }
         }
@@ -260,6 +267,10 @@ public class SMSStore implements ISMSStore {
     @Override
     public Available_Clients getAvailableClientById(String mac_Address) {//holt einen Available_Client durch eine ID
         return available_clientsRepository.findById(mac_Address);
+    }
+
+    public ArrayList<Available_Clients> getAvailableClients(){
+        return (ArrayList<Available_Clients>) available_clientsRepository.findAll().list();
     }
     @Override
     public ArrayList<SmsGroup> getGroups() {

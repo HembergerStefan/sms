@@ -10,6 +10,7 @@ import model.DTOInsertUser;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Path("/webpageAdmin")//Pfad
@@ -39,6 +40,13 @@ public interface IWebpageResourceAdmin {
     @Produces(MediaType.APPLICATION_JSON)
     @JsonView(UserView.Always.class)
     ArrayList<User> getUsers(@PathParam("token") String token);//holt alle Benutzer
+
+
+    @GET
+    @Path("/availableClients/{token}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @JsonView(UserView.Always.class)
+    ArrayList<Available_Clients> getAvailable_Clients(@PathParam("token") String token);//holt alle Available_Clients
 
 
     @DELETE

@@ -19,10 +19,6 @@ public interface IWebpageResource {
     @Consumes(MediaType.APPLICATION_JSON)
     DTOLoginResponse loginUser(DTOUser user);//Methode zum Einloggen eines Benutzers
 
-    @GET
-    @Path("/tokens")
-    @Produces(MediaType.APPLICATION_JSON)
-    ArrayList<TokenInfos> getToken();
 
 
 

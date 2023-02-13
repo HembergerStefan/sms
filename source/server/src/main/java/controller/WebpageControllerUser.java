@@ -44,10 +44,11 @@ public class WebpageControllerUser implements IWebpageResourceUser {
 
     @Override
     public User getUserByID(String id, String token) {//holt einen Benutzer durch seine ID
-        if (smsStore.isAllowed(token, id, anno)) {
+        System.out.println("Hello");
+        //if (smsStore.isAllowed(token, id, anno)) {
             return smsStore.getUserByID(id);
-        }
-        return null;
+        //}
+       // return null;
     }
 
 

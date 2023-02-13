@@ -18,6 +18,7 @@ import javax.inject.Inject;
 import javax.ws.rs.Path;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -70,6 +71,14 @@ public class WebpageControllerAdmin implements IWebpageResourceAdmin {
     public ArrayList<User> getUsers(String token) {//holt alle Benutzer
         if (smsStore.isAllowed(token, anno)) {
             return smsStore.getUsers();
+        }
+        return null;
+    }
+
+    @Override
+    public ArrayList<Available_Clients> getAvailable_Clients(String token) {
+        if (smsStore.isAllowed(token, anno)) {
+            return smsStore.getAvailableClients();
         }
         return null;
     }
