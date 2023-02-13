@@ -1,6 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react'
 
 import useMousePosition from '../../../hooks/useMousePosition'
+
 import './Tooltip.css'
 
 interface TooltipProps {

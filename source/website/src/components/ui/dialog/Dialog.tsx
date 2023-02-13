@@ -1,28 +1,44 @@
 import React, {useState} from 'react'
 
-import KebabMenu from '../../form/menu/kebab_menu/KebabMenuButton'
+import {DataTypes} from '../../../data/data_types'
+
+import useScriptStore from '../../../stores/scriptInformationStore'
+import usePackageStore from '../../../stores/packageInformationStore'
+
 import CloseButton from '../../form/menu/close/CloseButton'
 
 import './Dialog.css'
-import useScriptStore from "../../../store/scriptInformationStore";
 
 interface DialogProps {
+    dialogType?: DataTypes
     title: string
     unmountComponent: Function
     body: React.ReactNode
     footer?: React.ReactNode
 }
 
-const Dialog = ({title, unmountComponent, body, footer}: DialogProps) => {
+const Dialog = ({dialogType, title, unmountComponent, body, footer}: DialogProps) => {
 
     const [shake, setShake] = useState<boolean>(false)
 
     /* Add a new script */
     const {addingScript, addScript} = useScriptStore()
 
+    /* Add a new package */
+    const {addingPackage, addPackage} = usePackageStore()
+
     const handleSubmit = (e: { preventDefault: () => void }) => {
         e.preventDefault()
-        addScript(addingScript)
+
+        if (dialogType !== undefined) {
+            if (dialogType === 0) {
+                addScript(addingScript)
+            } else {
+                addPackage(addingPackage)
+            }
+        }
+
+        unmountComponent()
     }
 
     return (
@@ -40,7 +56,7 @@ const Dialog = ({title, unmountComponent, body, footer}: DialogProps) => {
                 <div>
                     <h1 className='fs-tr-1 fw--semi-bold'>{title}</h1>
                     <div id='dialog-menu-container'>
-                        <KebabMenu size='var(--icon-size-medium)'/>
+                        {/*<KebabMenu size='var(--icon-size-medium)'/>*/}
                         <CloseButton size='28px' closeCallback={unmountComponent}/>
                     </div>
                 </div>

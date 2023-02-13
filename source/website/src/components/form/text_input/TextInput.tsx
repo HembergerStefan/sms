@@ -8,6 +8,7 @@ import Numbering from '../../ui/numbering/Numbering'
 import './TextInput.css'
 
 interface TextInputProps {
+    headingId?: number
     isHeading?: boolean
     defaultValue?: string | undefined
     placeholder: string
@@ -16,6 +17,7 @@ interface TextInputProps {
 }
 
 const TextInput = ({
+                       headingId,
                        isHeading = false,
                        defaultValue,
                        placeholder,
@@ -28,20 +30,18 @@ const TextInput = ({
     const labelRef = useRef<HTMLLabelElement>(null)
 
     return (
-        <>
-            {
-                isHeading ?
-                    <label id='numbering-input--wrapper' className='md-input'>
-                        <Numbering value={1} fixedColor={true}/>
-                        <input id='text-input' type='text'
-                               defaultValue={defaultValue}
-                               placeholder={t(placeholder)}
-                               onChange={(event) => setStoreValue(event.target.value)}
-                               required={true}
-                               autoComplete='off'/>
-                    </label>
-                    :
-                    <label ref={labelRef} id='numbering-input--wrapper' className='md-input'>
+        isHeading ?
+            <label id='numbering-input--wrapper' className='md-input'>
+                <Numbering value={headingId ? headingId : 1} fixedColor={true}/>
+                <input id='text-input' type='text'
+                       defaultValue={defaultValue}
+                       placeholder={t(placeholder)}
+                       onChange={(event) => setStoreValue(event.target.value)}
+                       required={true}
+                       autoComplete='off'/>
+            </label>
+            :
+            <label ref={labelRef} id='numbering-input--wrapper' className='md-input'>
                         <textarea id='text-input'
                                   defaultValue={defaultValue}
                                   placeholder={t(placeholder)}
@@ -54,10 +54,8 @@ const TextInput = ({
                                   required={true}
                                   autoComplete='off'/>
 
-                        <FullSizeButton containerRef={labelRef} size='var(--icon-size-small)'/>
-                    </label>
-            }
-        </>
+                <FullSizeButton containerRef={labelRef} size='var(--icon-size-small)'/>
+            </label>
     )
 }
 

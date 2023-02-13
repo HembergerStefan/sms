@@ -1,0 +1,9 @@
+#task-button {
+    padding: 10px 20px;
+
+    border: unset;
+    border-radius: var(--br-r-small-medium);
+    background-color: var(--ac-clr-1);
+
+    cursor: pointer;
+}

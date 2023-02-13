@@ -9,6 +9,11 @@
   "Update Script Information": "Skriptinformationen bearbeiten",
   "Title": "Titel",
   "Description": "Beschreibung",
+  "Execution Date": "Ausführungsdatum",
+  "Installation Date": "Installationsdatum",
+  "Language": "Sprache",
+  "Version": "Version",
+  "Status": "Status",
   "Script Clarification": "Name",
   "What makes my script so special ...": "Kurze Beschreibung des Skriptes ...",
   "Code of the Script": "Code des Skriptes",
@@ -27,7 +32,7 @@
   "Devices": "Geräte",
   "Groups": "Gruppen",
   "Scripts": "Skripte",
-  "Packages": "Packete",
+  "Packages": "Pakete",
   "User": "Benutzer",
   "Profile": "Profil",
   "Settings": "Einstellungen",
@@ -36,8 +41,34 @@
   "Change language": "Sprache ändern",
 
   "Select Item": "Auswählen",
+  "Page Size": "Seitengröße",
 
+  "Add": "Hinzufügen",
   "Save": "Speichern",
   "Delete": "Löschen",
-  "Execute": "Ausführen"
+  "Remove": "Löschen",
+  "Execute": "Ausführen",
+
+
+  "All Scripts": "Alle Skripte",
+  "All Packages": "Alle Programme",
+
+
+  "January": "Januar",
+  "February": "Februar",
+  "März": "March",
+  "April": "April",
+  "Mai": "May",
+  "Juni": "June",
+  "Juli": "July",
+  "August": "August",
+  "September": "September",
+  "Oktober": "October",
+  "November": "November",
+  "December": "Dezember",
+
+
+  "No entries available": "Keine Datensätze vorhanden",
+  "Previous Page": "Vorherige Seite",
+  "Next Page": "Nächste Seite"
 }

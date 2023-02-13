@@ -1,8 +1,12 @@
 import React, {useEffect, useState} from 'react'
+import {useQuery} from 'react-query'
+import axios from 'axios'
 
 import logo from '../../../data/images/project_logo.png'
 
-import NotificationsNoneRoundedIcon from '@mui/icons-material/NotificationsNoneRounded'
+import {ApiConfig} from '../../../data/api_data/ApiConfig'
+import useUserStore from '../../../stores/user_session/userStore'
+import useRoleStore from '../../../stores/role/roleInformationStore'
 
 import useResize from '../../../hooks/useResize'
 
@@ -12,9 +16,16 @@ import './NavBar.css'
 
 const NavBar = () => {
 
+    const {id, username, token, roleId, setUserRole} = useUserStore()
+    const {getRoleById} = useRoleStore()
+
     const [productName, setProductName] = useState('Systems Management Server')
-    const [userName, setUserName] = useState('Håkon Wium Lie')
     const windowSize = useResize()
+
+    const {data, isSuccess} = useQuery(['users'], () =>
+        axios.get(`${ApiConfig.baseUrl}:${ApiConfig.port}/webpageAdmin/users/${token}`)
+            .then((res) => res.data)
+    )
 
     useEffect(() => {
         if (windowSize.width <= 842) {
@@ -23,6 +34,16 @@ const NavBar = () => {
             setProductName('Systems Management Server')
         }
     }, [windowSize])
+
+    useEffect(() => {
+        if (isSuccess) {
+            data.forEach((entry: { id: string; role: { name: string } }) => {
+                if (entry.id === id) {
+                    setUserRole(entry.role.name)
+                }
+            })
+        }
+    }, [data])
 
     return (
         <nav id='nav-container'>
@@ -33,17 +54,15 @@ const NavBar = () => {
 
             <div>
                 <div id='nav-interaction-container'>
-                    <div id='nav-notification-bell' className='clr-pr-1'>
-                        <NotificationsNoneRoundedIcon style={{fontSize: '30px'}}/>
-                        <span/>
-                    </div>
-
                     <LngDropdown/>
                 </div>
 
                 <div id='nav-profile-container'>
-                    <h1 className='fw--semi-bold'>{userName}</h1>
                     <span/>
+                    <div>
+                        <h1 className='fw--extra-bold'>{username}</h1>
+                        <h1 className='fw--semi-bold'>{getRoleById(roleId).name}</h1>
+                    </div>
                 </div>
             </div>
         </nav>

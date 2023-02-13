@@ -7,15 +7,15 @@ import ClearRoundedIcon from '@mui/icons-material/ClearRounded'
 import useOnClickOutside from '../../../hooks/useOnClickOutside'
 
 import DropdownContent from './DropdownContent'
+import ListDropdownContent from './list_dropdown/ListDropdownContent'
 
 import './Dropdown.css'
-import ListDropdownContent from "./list_dropdown/ListDropdownContent";
 
 interface DropdownProps {
     prefix?: string
-    defaultValue: string
-    firstSelectedValue?: string
-    items: string[]
+    defaultValue: string | number
+    firstSelectedValue?: string | number
+    items: string[] | number[]
     handleChange: Function
 }
 
@@ -26,7 +26,8 @@ const Dropdown = ({prefix, defaultValue, firstSelectedValue, items, handleChange
     const iconToggleRef = useRef<HTMLDivElement>(null)
 
     const [activeDropdown, setActiveDropdown] = useState<boolean>(false)
-    const [selectedItem, setSelectedItem] = useState<string>(firstSelectedValue !== undefined ? firstSelectedValue : defaultValue)
+    const [dropdownItems, setDropdownItems] = useState<string[] | number[]>([])
+    const [selectedItem, setSelectedItem] = useState<string | number>(firstSelectedValue !== undefined ? firstSelectedValue : defaultValue)
     const [interactionIcon, setInteractionIcon] = useState<string>('expandMoreRoundedIcon')
 
     /* Always hide the component when clicking outside the component */
@@ -39,6 +40,22 @@ const Dropdown = ({prefix, defaultValue, firstSelectedValue, items, handleChange
         'expandMoreRoundedIcon': ExpandMoreRoundedIcon,
         'clearRoundedIcon': ClearRoundedIcon
     }
+
+    useEffect(() => {
+        if (items.length > 0) {
+            setDropdownItems(() => items.sort((n1, n2) => {
+                if (n1 > n2) {
+                    return 1
+                }
+
+                if (n1 < n2) {
+                    return -1
+                }
+
+                return 0
+            }))
+        }
+    }, [items])
 
     /* Change the icon when dropdown content render state changes */
     useEffect((): void => {
@@ -78,7 +95,7 @@ const Dropdown = ({prefix, defaultValue, firstSelectedValue, items, handleChange
         <div ref={dropdownRef} id='dropdown-container'>
             <div id='dropdown-header-container' onClick={() => setActiveDropdown(prev => !prev)}>
                 <span className='fs-pr-body-1 fw-regular'>
-                    {t(`${prefix !== undefined ? prefix : ''}`)} {t(selectedItem)}
+                    {prefix ? `${t(prefix)}: ` : ''} {typeof selectedItem === 'string' ? t(selectedItem) : selectedItem}
                 </span>
                 <div ref={iconToggleRef} onClick={resetSelection}>
                     {
@@ -89,8 +106,9 @@ const Dropdown = ({prefix, defaultValue, firstSelectedValue, items, handleChange
             </div>
 
             <DropdownContent mount={activeDropdown}
-                             content={<ListDropdownContent setMount={setActiveDropdown} items={items}
-                                                           setCrItem={setSelectedItem}/>}/>
+                             dropdownContent={<ListDropdownContent setMount={setActiveDropdown} items={dropdownItems}
+                                                                   crItem={selectedItem}
+                                                                   setCrItem={setSelectedItem}/>}/>
         </div>
     )
 }

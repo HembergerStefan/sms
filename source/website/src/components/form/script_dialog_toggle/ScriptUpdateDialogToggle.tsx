@@ -5,13 +5,15 @@ import {useTranslation} from 'react-i18next'
 
 import AddToPhotosRoundedIcon from '@mui/icons-material/AddToPhotosRounded'
 
+import {DataTypes} from '../../../data/data_types'
+
 import Dialog from '../../../components/ui/dialog/Dialog'
 import ScriptInformationDialog from '../../ui/dialog/script/ScriptInformationDialog'
 import DialogButton from '../dialog_button/solid/SolidDialogButton'
+import DashedOutlinedDialogButton from '../dialog_button/outlined/dashed_outlined/DashedOutlinedDialogButton'
+import SolidOutlinedDialogButton from '../dialog_button/outlined/solid_outlined/SolidOutlinedDialogButton'
 
 import './ScriptDialogToggle.css'
-import DashedOutlinedDialogButton from "../dialog_button/outlined/dashed_outlined/DashedOutlinedDialogButton";
-import SolidOutlinedDialogButton from "../dialog_button/outlined/solid_outlined/SolidOutlinedDialogButton";
 
 /* TODO: WILL BE REMOVED IN THE FUTURE - ONLY FOR TESTING */
 const ScriptUpdateDialogToggle = () => {
@@ -29,16 +31,16 @@ const ScriptUpdateDialogToggle = () => {
 
             {
                 (renderComponent) ? ReactDOM.createPortal(
-                    <Dialog title={t('Update Script Information')}
+                    <Dialog dialogType={DataTypes.SCRIPT} title={t('Update Script Information')}
                             unmountComponent={setRenderComponent}
                             body={<ScriptInformationDialog id={10} editMode={true}/>}
                             footer={
                                 <>
-                                    <DashedOutlinedDialogButton placeholder='Delete'/>
+                                    <DashedOutlinedDialogButton placeholder='Delete' onOnClick={() => setRenderComponent(false)}/>
 
                                     <div style={{display: 'flex', gap: '20px'}}>
-                                        <SolidOutlinedDialogButton placeholder='Execute'/>
-                                        <DialogButton placeholder='Save'/>
+                                        <SolidOutlinedDialogButton placeholder='Execute' onOnClick={() => {}}/>
+                                        <DialogButton placeholder='Save' onOnClick={() => {}}/>
                                     </div>
                                 </>
                             }/>,

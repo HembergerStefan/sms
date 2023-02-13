@@ -1,0 +1,14 @@
+#table--status-displaying {
+    padding: 6px 10px;
+    border-radius: var(--br-r-small);
+}
+
+.status-success {
+    color: var(--table-status--suc-clr);
+    background-color: var(--table-status--suc--bg-clr);
+}
+
+.status-fail {
+    color: var(--table-status--fail-clr);
+    background-color: var(--table-status--fail--bg-clr);
+}

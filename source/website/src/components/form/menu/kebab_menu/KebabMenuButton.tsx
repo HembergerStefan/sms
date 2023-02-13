@@ -1,4 +1,4 @@
-import React, {memo, useState} from 'react'
+import React, {memo} from 'react'
 
 import {useTranslation} from 'react-i18next'
 
@@ -35,11 +35,11 @@ const KebabMenuButton = ({size, dropdownContent, mountDropdown, setMountDropdown
                 <MoreVertRoundedIcon style={{fontSize: size}}/>
             </div>
 
-            <DropdownContent mount={mountDropdown} content={dropdownContent}/>
+            <DropdownContent mount={mountDropdown} dropdownContent={dropdownContent} style={{maxHeight: 'unset'}}/>
 
             {
                 (isHovered) ? <TooltipManager
-                    content={<span>{t('Settings')}</span>}/> : null
+                    content={<span className='fs-sc-body-1 fw--semi-bold'>{t('Settings')}</span>}/> : null
             }
         </section>
     )

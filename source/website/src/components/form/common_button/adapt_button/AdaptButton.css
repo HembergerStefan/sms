@@ -1,0 +1,28 @@
+#adapt-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+
+    padding: var(--pd-t-extra-small) var(--pd-t-small);
+
+    border-radius: var(--br-r-small);
+    background-color: transparent;
+    border: 1px solid var(--ac-clr-1);
+
+    cursor: pointer;
+
+    transition: all 200ms;
+}
+
+#adapt-button:hover {
+    background-color: var(--ac-clr-1);
+}
+
+#adapt-button:hover > span {
+    color: var(--nl-clr-3);
+}
+
+#adapt-button > span {
+    color: var(--ac-clr-1);
+}

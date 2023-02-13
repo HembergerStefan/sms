@@ -1,22 +1,14 @@
 {
-  "Dashboard Search": "Dashboard Search",
-  "Recent Searches": "Recent Searches",
-  "Highest Conformity": "Highest Conformity",
-  "Not looking for anything yet? Start your search now!": "Not looking for anything yet? Start your search now!",
-  "Search for anything ...": "Search for anything ...",
-
-  "Overview": "Overview",
-  "Main": "Main",
-  "Devices": "Devices",
-  "Groups": "Groups",
-  "Scripts": "Scripts",
-  "Packages": "Packages",
-  "User": "User",
-  "Profile": "Profile",
-  "Settings": "Settings",
-
-  "Delete recent searches": "Delete recent searches",
-  "Change language": "Change language",
-
-  "Select Item": "Select Item"
+  "Januar": "January",
+  "Februar": "February",
+  "März": "March",
+  "April": "April",
+  "Mai": "May",
+  "Juni": "June",
+  "Juli": "July",
+  "August": "August",
+  "September": "September",
+  "Oktober": "October",
+  "November": "November",
+  "Dezember": "December"
 }

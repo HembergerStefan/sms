@@ -5,6 +5,8 @@ import {useTranslation} from 'react-i18next'
 
 import AddToPhotosRoundedIcon from '@mui/icons-material/AddToPhotosRounded'
 
+import {DataTypes} from '../../../data/data_types'
+
 import Dialog from '../../../components/ui/dialog/Dialog'
 import ScriptInformationDialog from '../../ui/dialog/script/ScriptInformationDialog'
 import DialogButton from '../dialog_button/solid/SolidDialogButton'
@@ -26,7 +28,7 @@ const ScriptDialogToggle = () => {
 
             {
                 (renderComponent) ? ReactDOM.createPortal(
-                    <Dialog title={t('Add Script')}
+                    <Dialog dialogType={DataTypes.SCRIPT} title={t('Add Script')}
                             unmountComponent={setRenderComponent}
                             body={<ScriptInformationDialog/>}
                             footer={

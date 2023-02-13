@@ -1,0 +1,49 @@
+#link-input--wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    position: relative;
+    padding: 10px;
+
+    height: 54px;
+}
+
+#link-input--wrapper > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 4px;
+
+    border-radius: var(--br-r-small);
+
+    color: var(--pr-clr);
+    background-color: var(--dpn--bg-clr);
+
+    cursor: pointer;
+
+    visibility: hidden;
+}
+
+#link-input--wrapper > div:hover {
+    background-color: var(--dpn--hover-bg-clr);
+}
+
+.active--remove-button {
+    visibility: visible !important;
+}
+
+#link-input {
+    min-height: 100%;
+    width: 100%;
+
+    color: var(--sc-clr);
+    background-color: var(--ipt--bg-clr);
+
+    resize: none;
+}
+
+#link-input::placeholder {
+    color: var(--sc-clr);
+}

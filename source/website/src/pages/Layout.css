@@ -1,0 +1,16 @@
+#dashboard-layout--container {
+    grid-area: main;
+
+    display: grid;
+    gap: 30px;
+
+    height: 100%;
+    width: 100%;
+
+    padding: 40px;
+
+    border-radius: 25px 0 0 0;
+    background: var(--nl-clr-1);
+
+    overflow: auto
+}

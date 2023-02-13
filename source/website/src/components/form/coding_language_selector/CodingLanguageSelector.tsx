@@ -3,9 +3,9 @@ import React, {memo, useState} from 'react'
 import useOnClickOutside from '../../../hooks/useOnClickOutside'
 
 import DropdownContent from '../dropdown/DropdownContent'
+import ListDropdownContent from '../dropdown/list_dropdown/ListDropdownContent'
 
 import './CodingLanguageSelector.css'
-import ListDropdownContent from "../dropdown/list_dropdown/ListDropdownContent";
 
 interface CodingLanguageSelectorProps {
     language: string
@@ -27,8 +27,9 @@ const CodingLanguageSelector = ({language, setLanguage}: CodingLanguageSelectorP
                 <span className='fs-qi-1 fw--semi-bold'>{language}</span>
             </div>
 
-            <DropdownContent mount={mount} content={<ListDropdownContent setMount={setMount} items={LANGUAGE_ITEMS}
-                                                                         setCrItem={setLanguage}/>}/>
+            <DropdownContent mount={mount}
+                             dropdownContent={<ListDropdownContent setMount={setMount} items={LANGUAGE_ITEMS}
+                                                                   crItem={language} setCrItem={setLanguage}/>}/>
         </section>
     )
 }

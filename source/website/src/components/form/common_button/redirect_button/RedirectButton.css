@@ -1,0 +1,8 @@
+#redirect-button--container {
+    transition: color 200ms;
+}
+
+#redirect-button--container > span {
+    display: flex;
+    align-items: center;
+}
