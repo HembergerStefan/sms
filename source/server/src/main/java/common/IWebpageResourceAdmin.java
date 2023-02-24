@@ -23,11 +23,6 @@ public interface IWebpageResourceAdmin {
 
 
     @GET
-    @Path("/roles/{token}")
-    @Produces(MediaType.APPLICATION_JSON)
-    ArrayList<Role> getRoles(@PathParam("token") String token);//holt alle Rollen
-
-    @GET
     @Path("/groups/{token}")
     @Produces(MediaType.APPLICATION_JSON)
     @JsonView(GroupView.Always.class)

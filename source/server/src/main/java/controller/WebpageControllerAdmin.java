@@ -48,13 +48,7 @@ public class WebpageControllerAdmin implements IWebpageResourceAdmin {
         return null;
     }
 
-    @Override
-    public ArrayList<Role> getRoles(String token) {//holt alle Rollen
-        if (smsStore.isAllowed(token, anno)) {
-            return smsStore.getRoles();
-        }
-        return null;
-    }
+
 
 
     @Override

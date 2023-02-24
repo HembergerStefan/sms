@@ -25,6 +25,11 @@ public interface IWebpageResourceUser {
     @JsonView(UserView.Always.class)
     User getUserByID(@PathParam("ID") String id, @PathParam("token") String token);//holt einen Benutzer durch seine ID
 
+
+    @GET
+    @Path("/roles/{token}")
+    @Produces(MediaType.APPLICATION_JSON)
+    ArrayList<Role> getRoles(@PathParam("token") String token);//holt alle Rollen
     @GET
     @Path("/RoleByUser/{ID}/{token}")
     @Produces(MediaType.APPLICATION_JSON)
