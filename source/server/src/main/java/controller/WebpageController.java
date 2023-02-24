@@ -3,6 +3,8 @@ package controller;
 
 import common.IWebpageResource;
 import data.SMSStore;
+import entity.Role;
+import entity.User;
 import lombok.RequiredArgsConstructor;
 import model.DTOLoginResponse;
 import model.DTOUser;
@@ -29,6 +31,8 @@ public class WebpageController implements IWebpageResource {
         DTOLoginResponse response = new DTOLoginResponse(token, user_ID);//DTO Objekt zum Übergeben wird erstellt
         return response;
     }
+
+
 
 
 }

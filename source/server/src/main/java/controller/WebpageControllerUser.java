@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import common.IWebpageResourceUser;
 import data.SMSStore;
 import entity.Package;
+import entity.Role;
 import entity.Script;
 import entity.User;
 import entity.jsonview.PackageView;
@@ -44,11 +45,18 @@ public class WebpageControllerUser implements IWebpageResourceUser {
 
     @Override
     public User getUserByID(String id, String token) {//holt einen Benutzer durch seine ID
-        System.out.println("Hello");
-        //if (smsStore.isAllowed(token, id, anno)) {
+        if (smsStore.isAllowed(token, id, anno)) {
             return smsStore.getUserByID(id);
-        //}
-       // return null;
+        }
+        return null;
+    }
+
+    @Override
+    public Role getRoleByUser(String id, String token) {//holt einen Benutzer durch seine ID
+        if (smsStore.isAllowed(token, id, anno)) {
+            return smsStore.getUserByID(id).getRole();
+        }
+        return null;
     }
 
 

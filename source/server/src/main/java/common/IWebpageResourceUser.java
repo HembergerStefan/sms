@@ -3,6 +3,7 @@ package common;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import entity.Package;
+import entity.Role;
 import entity.Script;
 import entity.User;
 import entity.jsonview.PackageView;
@@ -23,6 +24,12 @@ public interface IWebpageResourceUser {
     @Produces(MediaType.APPLICATION_JSON)
     @JsonView(UserView.Always.class)
     User getUserByID(@PathParam("ID") String id, @PathParam("token") String token);//holt einen Benutzer durch seine ID
+
+    @GET
+    @Path("/RoleByUser/{ID}/{token}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @JsonView(UserView.Always.class)
+    Role getRoleByUser(@PathParam("ID") String id, @PathParam("token") String token);
 
     @GET
     @Path("/programs/{token}")
