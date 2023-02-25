@@ -38,8 +38,6 @@ public class WebSocket {
     Logger log;
     private Login anno = null;
 
-    private String lastJson = "";
-
     private ArrayList<DTOUserSession> userSessions = new ArrayList<>();
 
     @PostConstruct
@@ -50,7 +48,7 @@ public class WebSocket {
 
     @OnOpen
     public void onOpen(Session session, @PathParam("token") String token, @PathParam("id") String id) {
-        var userSession = new DTOUserSession(id, session, token);
+        var userSession = new DTOUserSession(id, session, token, "");
         userSessions.add(userSession);
     }
 
@@ -90,9 +88,9 @@ public class WebSocket {
             if (smsStore.isAllowed(replacedToken, userSession.getUser_id(), anno)) {
             var user = smsStore.getUserByID(userSession.getUser_id());
             var json = bulidJson(user);
-            if(!lastJson.equals(json)){
+            if(!userSession.getLastJson().equals(json)){
                 userSession.getSession().getAsyncRemote().sendText(json);
-                lastJson = json;
+                userSession.setLastJson(json);
             }
             Log.info(json);
             }else{
