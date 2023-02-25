@@ -149,10 +149,10 @@ public class SMSStore implements ISMSStore {
             if (user.getHash().equals(hashedPassword)) {
                 token = generateToken(user);
             } else {
-                token = "Wrong Username or Password!";
+                token = "";
             }
         } else {
-            token = "Wrong Username or Password!";
+            token = "";
         }
         return token;
     }
