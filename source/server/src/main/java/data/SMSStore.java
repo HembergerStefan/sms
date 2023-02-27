@@ -54,6 +54,8 @@ public class SMSStore implements ISMSStore {
     private final Client_ScriptRepository client_scriptRepository;//Repository
     private final Client_PackageRepository client_packageRepository;//Repository
     private final User_GroupRepository user_groupRepository;//Repository
+
+    private final Task_Protocol_Repository task_protocol_repository;
     private final ArrayList<TokenInfos> tokens = new ArrayList<>();//Liste mit allen gültigen Token
 
     @Override
@@ -306,6 +308,13 @@ public class SMSStore implements ISMSStore {
     public ArrayList<Tasks> getTasks() {
         return (ArrayList<Tasks>) tasksRepository.findAll().list();
     }//holt alle Tasks
+
+
+    @Override
+    @Transactional
+    public ArrayList<Task_Protocol> getTaskProtocols() {
+        return (ArrayList<Task_Protocol>) task_protocol_repository.findAll().list();
+    }
     @Override
     public void removeClient(@NotNull String id) {//löscht einen Client
         tasksRepository.deleteTasksByClient_ID(id);
@@ -575,10 +584,64 @@ public class SMSStore implements ISMSStore {
                 Tasks task = new Tasks(uuid.toString(), client, package_, null);
                 tasksRepository.persist(task);
             } else {
-                insertTaskWithScript(client_id, package_id, user_id, add, token);
+                insertTaskWithPackage(client_id, package_id, user_id, add, token);
             }
         }
     }
+
+
+
+
+
+
+    @Override
+    @Transactional
+    public void insertTaskProtocolWithScript(String client_id, String script_id) {//erstellt einen Task
+            UUID uuid = UUID.randomUUID();
+            boolean isUnique = true;
+            for (Task_Protocol task_protocol : getTaskProtocols()) {
+                if (task_protocol.getId().equals(uuid.toString())) {
+                    isUnique = false;
+                    break;
+                }
+            }
+            if (isUnique) {
+                Client client = clientRepository.findById(client_id);
+                Script script = scriptRepository.findById(script_id);
+                Task_Protocol task_protocol = new Task_Protocol(uuid.toString(), client, null, script);
+                task_protocol_repository.persist(task_protocol);
+            } else {
+                insertTaskProtocolWithScript(client_id, script_id);
+            }
+    }
+    @Override
+    @Transactional
+    public void insertTaskProtocolWithPackage(String client_id, String package_id) {//erstellt einen Task
+            UUID uuid = UUID.randomUUID();
+            boolean isUnique = true;
+            for (Task_Protocol task_protocol : getTaskProtocols()) {
+                if (task_protocol.getId().equals(uuid.toString())) {
+                    isUnique = false;
+                    break;
+                }
+            }
+            if (isUnique) {
+                Client client = clientRepository.findById(client_id);
+                Package package_ = packageRepository.findById(package_id);
+                Task_Protocol task_protocol = new Task_Protocol(uuid.toString(), client, package_, null);
+                task_protocol_repository.persist(task_protocol);
+            } else {
+                insertTaskProtocolWithPackage(client_id, package_id);
+            }
+    }
+
+
+
+
+
+
+
+
 
     @Override
     @Transactional

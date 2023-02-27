@@ -56,6 +56,8 @@ public interface ISMSStore{
 
     User getUserByID(String id);
 
+    ArrayList<Task_Protocol> getTaskProtocols();
+
     Baseclient getBaseClientByID(String id);
 
     ArrayList<Tasks> getTasks();
@@ -88,6 +90,10 @@ public interface ISMSStore{
     void insertTaskWithScript(String client_id, String script_id, String user_id, Adding add, String token);
 
     void insertTaskWithPackage(String client_id, String package_id, String user_id, Adding add, String token);
+
+    void insertTaskProtocolWithScript(String client_id, String script_id);
+
+    void insertTaskProtocolWithPackage(String client_id, String package_id);
 
     void removeTaskByPackageID(String id, String client_id);
 

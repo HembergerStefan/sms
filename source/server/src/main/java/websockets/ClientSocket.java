@@ -93,11 +93,13 @@ public class ClientSocket {
                 smsStore.updateClient(client);
                 for (var id : packagesIDs) {//löscht Tasks
                     if (smsStore.getTaskByPackageID(id) != null) {
+                        smsStore.insertTaskProtocolWithPackage(mac_address, id);
                         smsStore.removeTaskByPackageID(id, mac_address);
                     }
                 }
                 for (var id : scriptsIDs) {//löscht Tasks
                     if (smsStore.getTaskByScriptID(id) != null) {
+                        smsStore.insertTaskProtocolWithScript(mac_address, id);
                         smsStore.removeTaskByScriptID(id, mac_address);
                     }
                 }
