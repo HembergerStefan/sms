@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import data.SMSStore;
 import entity.*;
 import entity.Package;
+import io.quarkus.logging.Log;
 import io.quarkus.scheduler.Scheduled;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import model.DTOClientSession;
 import model.DTOPackage;
 import model.DTOResponse;
 import model.DTOScript;
+import org.jboss.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -34,6 +36,8 @@ public class ClientSocket {
     @Inject//Dependency Injection des SMSStores
     protected SMSStore smsStore;
 
+    @Inject
+    Logger log;
     private final ArrayList<DTOClientSession> clientSessions = new ArrayList<DTOClientSession>();//Liste mit allen Sessions zu den Clients
 
     @OnOpen
@@ -115,7 +119,7 @@ public class ClientSocket {
     }
 
     @Transactional
-    @Scheduled(every = "5s")
+    @Scheduled(every = "15s")
     public void sendMessage() {//sendet eine Nachricht
         try {
             if (clientSessions != null && clientSessions.size() != 0) {
@@ -149,6 +153,7 @@ public class ClientSocket {
                         }
                         var response = new DTOResponse(dtopackages, dtoscripts);
                         var json = gson.toJson(response);
+                        Log.info(json);
                         session.getAsyncRemote().sendText(json);
                     }
                 }
