@@ -1,0 +1,53 @@
+#filter--menu-items {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    margin-left: auto;
+    margin-right: 25px;
+}
+
+#filter--menu-items > button {
+    padding: 4px 10px;
+
+    border-radius: var(--br-r-small);
+    background-color: hsl(0, 0%, 99%);
+
+    cursor: pointer;
+}
+
+#filter--menu-items > button:last-of-type {
+    margin-right: 10px;
+}
+
+#filter--menu-items > button > span {
+    color: hsl(236, 7%, 54%);
+}
+
+.active--filter-button {
+    background-color: hsl(0, 0%, 89%) !important;
+}
+
+.active--filter-button > span {
+    color: var(--pr-clr) !important;
+}
+
+/* Remove border of the dropdown for the table page size */
+#filter--menu-items > div > div {
+    height: 42px;
+    width: 149px;
+
+    border: unset !important;
+}
+
+/* Change dropdown delete sizing */
+#filter--menu-items > div > div > div {
+    height: 28px;
+    width: 28px;
+}
+
+/* Change dropdown text size */
+#filter--menu-items > div > div > span {
+    font-size: var(--fs-500);
+}

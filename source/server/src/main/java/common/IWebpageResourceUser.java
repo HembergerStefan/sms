@@ -2,9 +2,6 @@
 package common;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import entity.Package;
-import entity.Script;
-import entity.User;
 import entity.jsonview.PackageView;
 import entity.jsonview.ScriptView;
 import entity.jsonview.UserView;
@@ -12,7 +9,7 @@ import model.DTOInsertUser;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.ArrayList;
+import javax.ws.rs.core.Response;
 import java.util.UUID;
 
 @Path("/webpageUser")//Pfad
@@ -22,20 +19,31 @@ public interface IWebpageResourceUser {
     @Path("/UserById/{ID}/{token}")
     @Produces(MediaType.APPLICATION_JSON)
     @JsonView(UserView.Always.class)
-    User getUserByID(@PathParam("ID") String id, @PathParam("token") String token);//holt einen Benutzer durch seine ID
+    Response getUserByID(@PathParam("ID") String id, @PathParam("token") String token);//holt einen Benutzer durch seine ID
+
+
+    @GET
+    @Path("/roles/{token}")
+    @Produces(MediaType.APPLICATION_JSON)
+    Response getRoles(@PathParam("token") String token);//holt alle Rollen
+    @GET
+    @Path("/RoleByUser/{ID}/{token}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @JsonView(UserView.Always.class)
+    Response getRoleByUser(@PathParam("ID") String id, @PathParam("token") String token);
 
     @GET
     @Path("/programs/{token}")
     @Produces(MediaType.APPLICATION_JSON)
     @JsonView(PackageView.Always.class)
-    ArrayList<Package> getPackages(@PathParam("token") String token);//holt alle Packages
+    Response getPackages(@PathParam("token") String token);//holt alle Packages
 
 
     @GET
     @Path("/scripts/{token}")
     @Produces(MediaType.APPLICATION_JSON)
     @JsonView(ScriptView.Always.class)
-    ArrayList<Script> getScripts(@PathParam("token") String token);//holt alle Scripts
+    Response getScripts(@PathParam("token") String token);//holt alle Scripts
 
     @POST
     @Path("/updateUser/{token}")

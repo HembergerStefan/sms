@@ -7,11 +7,11 @@ import lombok.RequiredArgsConstructor;
 import model.DTOLoginResponse;
 import model.DTOUser;
 import org.springframework.web.bind.annotation.RestController;
-import token.TokenInfos;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
-import java.util.ArrayList;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 
 @RestController
@@ -22,17 +22,24 @@ public class WebpageController implements IWebpageResource {
     protected SMSStore smsStore;
 
     @Override
-    public DTOLoginResponse loginUser(DTOUser user) {//einlogen eines Benutzers
+    public Response loginUser(DTOUser user) {//einlogen eines Benutzers
         String token = smsStore.loginUser(user.getName(), user.getPassword());//erstellt einen Token
         String user_ID = smsStore.getIdByToken(token);//holt die Benutzerid zu einem Token
         token = token.replaceAll("/", "汉");//tauscht alle "/" durch ein "汉" aus da sonst Fehler im Pfad entstehen
         DTOLoginResponse response = new DTOLoginResponse(token, user_ID);//DTO Objekt zum Übergeben wird erstellt
-        return response;
+        if(token.equals("")){
+            return Response.status(500)
+                    .type(MediaType.TEXT_PLAIN_TYPE)
+                    .entity("Wrong User or Password")
+                    .build();
+        }
+        return Response.status(200)
+                .type(MediaType.APPLICATION_JSON)
+                .entity(response)
+                .build();
     }
 
-    @Override
-    public ArrayList<TokenInfos> getToken() {
-        return smsStore.getTokens();
-    }
+
+
 
 }

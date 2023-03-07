@@ -1,4 +1,4 @@
-#nav-container, #nav-logo-container, #nav-profile-container {
+#nav-container, #nav-logo-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -44,48 +44,29 @@
     margin-right: 25px;
 }
 
-#nav-notification-bell {
-    display: flex;
-    align-items: center;
-
-    position: relative;
-
-    cursor: pointer;
-}
-
-#nav-notification-bell > span {
-    position: absolute;
-
-    top: -4%;
-    left: 52%;
-
-    height: 14px;
-    width: 14px;
-
-    border-radius: 50%;
-
-    background-color: hsl(206, 100%, 50%);
-
-    border: 3px solid var(--nl-clr-3);
-}
-
 /* Nav Profile Section --Begin */
 #nav-profile-container {
-    gap: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    border-radius: var(--br-r-small-medium);
+
+    line-height: 22px;
 }
 
-#nav-profile-container span {
+#nav-profile-container span:last-of-type {
     display: inline-block;
 
-    height: 50px;
-    width: 50px;
+    height: 45px;
+    width: 45px;
 
     border-radius: 50%;
 
     background-color: hsl(215, 21%, 28%);
 }
 
-#nav-profile-container span::after {
+#nav-profile-container span:last-of-type::after {
     content: '';
 
     display: inline-block;

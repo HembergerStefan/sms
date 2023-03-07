@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import data.SMSStore;
 import entity.*;
 import entity.Package;
+import io.quarkus.logging.Log;
 import io.quarkus.scheduler.Scheduled;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import model.DTOClientSession;
 import model.DTOPackage;
 import model.DTOResponse;
 import model.DTOScript;
+import org.jboss.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -34,7 +36,10 @@ public class ClientSocket {
     @Inject//Dependency Injection des SMSStores
     protected SMSStore smsStore;
 
+    @Inject
+    Logger log;
     private final ArrayList<DTOClientSession> clientSessions = new ArrayList<DTOClientSession>();//Liste mit allen Sessions zu den Clients
+
     @OnOpen
     public void onOpen(Session session, @PathParam("mac_address") String mac_address) {//öffnen einer Verbindung
         if (!smsStore.clientIsAvailable(mac_address)) {
@@ -44,7 +49,7 @@ public class ClientSocket {
                 smsStore.insertBase_Client(baseclient);
                 smsStore.insertAvailable_Client(available_client);
             }
-        }else{
+        } else {
             var clientSession = new DTOClientSession(mac_address, session);//Client und dazugehörige Session wird gespeichert
             clientSessions.add(clientSession);
         }
@@ -53,8 +58,8 @@ public class ClientSocket {
     @OnClose
     public void onClose(Session session, @PathParam("mac_address") String mac_address) {//wird die Verbindung geschlossen wird der Client und die Session entfernt
         var clone = (List<DTOClientSession>) clientSessions.clone();
-        for(var clientSession : clone){
-            if(clientSession.getSession().toString().equals(session.toString())){
+        for (var clientSession : clone) {
+            if (clientSession.getSession().toString().equals(session.toString())) {
                 clientSessions.remove(clientSession);
             }
         }
@@ -63,8 +68,8 @@ public class ClientSocket {
     @OnError
     public void onError(Session session, @PathParam("mac_address") String mac_address, Throwable throwable) {//gibt es einen Fehler wird der Client und die Session entfernt
         var clone = (List<DTOClientSession>) clientSessions.clone();
-        for(var clientSession : clone){
-            if(clientSession.getSession().toString().equals(session.toString())){
+        for (var clientSession : clone) {
+            if (clientSession.getSession().toString().equals(session.toString())) {
                 clientSessions.remove(clientSession);
             }
         }
@@ -74,8 +79,8 @@ public class ClientSocket {
     public void onMessage(Session session, String message, @PathParam("mac_address") String mac_address) {//beim Erhalten einer Nachricht
         var mapper = new ObjectMapper();
         try {
-            Map<String,Object> map = mapper.readValue(message, Map.class);
-            if(smsStore.clientIsAvailable(mac_address)){//infos werden dem Client zugeordnet
+            Map<String, Object> map = mapper.readValue(message, Map.class);
+            if (smsStore.clientIsAvailable(mac_address)) {//infos werden dem Client zugeordnet
                 var client = smsStore.getClientByID(mac_address);
                 client.setName((String) map.get("hostname"));
                 client.setIp((String) map.get("ip"));
@@ -90,17 +95,19 @@ public class ClientSocket {
                 client.setPackages(packages);
                 client.setScript(scripts);
                 smsStore.updateClient(client);
-                for(var id : packagesIDs){//löscht Tasks
-                    if(smsStore.getTaskByPackageID(id) != null){
+                for (var id : packagesIDs) {//löscht Tasks
+                    if (smsStore.getTaskByPackageID(id) != null) {
+                        smsStore.insertTaskProtocolWithPackage(mac_address, id);
                         smsStore.removeTaskByPackageID(id, mac_address);
                     }
                 }
-                for(var id : scriptsIDs){//löscht Tasks
-                    if(smsStore.getTaskByScriptID(id) != null){
+                for (var id : scriptsIDs) {//löscht Tasks
+                    if (smsStore.getTaskByScriptID(id) != null) {
+                        smsStore.insertTaskProtocolWithScript(mac_address, id);
                         smsStore.removeTaskByScriptID(id, mac_address);
                     }
                 }
-            }else if(smsStore.availableclientIsAvailable(mac_address)){//infos werden dem Available_Client zugeordnet
+            } else if (smsStore.availableclientIsAvailable(mac_address)) {//infos werden dem Available_Client zugeordnet
                 var client = smsStore.getAvailableClientById(mac_address);
                 client.setName((String) map.get("hostname"));
                 client.setIp((String) map.get("ip"));
@@ -110,41 +117,49 @@ public class ClientSocket {
             throw new RuntimeException(e);
         }
     }
+
     @Transactional
-    @Scheduled(every="5s")
-    public void sendMessage(){//sendet eine Nachricht
-        for(var clientSession : clientSessions){
-            var allTasks = smsStore.getTasks();
-            boolean hasNoTask = true;
-            for(var task : allTasks){
-                if (task.getClient().getMacAddress().getMacAddress().equals(clientSession.getMac_address())) {
-                    hasNoTask = false;
-                    break;
+    @Scheduled(every = "15s")
+    public void sendMessage() {//sendet eine Nachricht
+        try {
+            if (clientSessions != null && clientSessions.size() != 0) {
+                for (var clientSession : clientSessions) {
+                    var allTasks = smsStore.getTasks();
+                    boolean hasNoTask = true;
+                    for (var task : allTasks) {
+                        if (task.getClient().getMacAddress().getMacAddress().equals(clientSession.getMac_address())) {
+                            hasNoTask = false;
+                            break;
+                        }
+                    }
+                    if (!hasNoTask) {
+                        var gson = new Gson();
+                        var mac_address = clientSession.getMac_address();
+                        var session = clientSession.getSession();
+                        var tasks = smsStore.getTasksByClientID(mac_address);
+                        var dtopackages = new ArrayList<DTOPackage>();
+                        var dtoscripts = new ArrayList<DTOScript>();
+                        for (var task : tasks) {
+                            if (task.getPackages() != null) {
+                                var package_ = task.getPackages();
+                                var dtopackage = new DTOPackage(package_.getId(), package_.getName(), package_.getVersion(), package_.getDate(), package_.getDownloadlink(), package_.getSilentSwitch());
+                                dtopackages.add(dtopackage);
+                            }
+                            if (task.getScript() != null) {
+                                var script_ = task.getScript();
+                                DTOScript dtoScript = new DTOScript(script_.getId(), script_.getName(), script_.getDescription(), script_.getScript_value(), script_.getInterpreter(), script_.getFileExtension());
+                                dtoscripts.add(dtoScript);
+                            }
+                        }
+                        var response = new DTOResponse(dtopackages, dtoscripts);
+                        var json = gson.toJson(response);
+                        Log.info(json);
+                        session.getAsyncRemote().sendText(json);
+                    }
                 }
             }
-            if(!hasNoTask){
-                var gson = new Gson();
-                var mac_address = clientSession.getMac_address();
-                var session = clientSession.getSession();
-                var tasks = smsStore.getTasksByClientID(mac_address);
-                var dtopackages = new ArrayList<DTOPackage>();
-                var dtoscripts = new ArrayList<DTOScript>();
-                for(var task : tasks){
-                    if(task.getPackages() != null){
-                        var package_ = task.getPackages();
-                        var dtopackage = new DTOPackage(package_.getId(), package_.getName(), package_.getVersion(), package_.getDate(), package_.getDownloadlink(), package_.getSilentSwitch());
-                        dtopackages.add(dtopackage);
-                    }
-                    if(task.getScript() != null){
-                        var script_ = task.getScript();
-                        DTOScript dtoScript = new DTOScript(script_.getId(), script_.getName(), script_.getDescription(), script_.getScript_value(), script_.getInterpreter(), script_.getFileExtension());
-                        dtoscripts.add(dtoScript);
-                    }
-                }
-                var response = new DTOResponse(dtopackages, dtoscripts);
-                var json = gson.toJson(response);
-                session.getAsyncRemote().sendText(json);
-            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
         }
     }
 

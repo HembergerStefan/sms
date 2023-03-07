@@ -43,7 +43,7 @@
 
     /* Components box style */
     --box-bg: hsl(0, 0%, 100%);
-    --box-shadow: 0px 30px 50px hsl(212, 43%, 88%);
+    --box-shadow: 0px 10px 50px hsl(212, 43%, 88%);
     --border-box--color: hsl(213, 100%, 89%); /* The border color of the boxes */
 
     /* Custom scrollbar style */
@@ -57,6 +57,16 @@
     --table-status--suc--bg-clr: hsl(160, 78%, 47%, 30%);
     --table-status--fail-clr: hsl(207, 28%, 69%);
     --table-status--fail--bg-clr: hsl(207, 28%, 69%, 30%);
+
+    /* Progress circle style */
+    --pr-th--bg-clr: hsl(218, 27%, 92%);
+
+    /* Available client list style */
+    --av-cl--border-clr: hsl(225, 10%, 92%);
+
+    /* Chart style */
+    --cht-br-clr-1: hsl(248, 57%, 60%);
+    --cht-br-clr-2: hsl(217, 85%, 53%);
 
     --drp-shadow-light: 0.6px 0.6px 2.2px rgba(0, 0, 0, -0.014),
     1.3px 1.3px 5.3px rgba(0, 0, 0, -0.019),
@@ -107,7 +117,7 @@
 
     --fs-pr-heading: var(--fs-4000);
     --fs-sc-heading: var(--fs-3400);
-    --fs-tr-heading: var(--fs-2800);
+    --fs-tr-heading: var(--fs-2400);
     --fs-qr-heading: var(--fs-2000);
     --fs-qi-heading: var(--fs-800);
 
@@ -118,11 +128,12 @@
     --fs-qi-body: var(--fs-200);
 
     --br-r-medium: 15px;
+    --br-r-small-medium: 10px;
     --br-r-small: 8px;
     --br-r-extra-small: 5px;
 
-    --mg-t-big: 10px;
-    --mg-t-medium: 15px;
+    --mg-t-big: 15px;
+    --mg-t-medium: 10px;
     --mg-t-small: 8px;
     --mg-t-extra-small: 5px;
 
@@ -428,15 +439,10 @@ ul {
 }
 
 .box {
-    height: fit-content;
-    width: fit-content;
-
     border: 1px solid var(--border-box--color);
     border-radius: var(--br-r-medium);
     background-color: var(--box-bg);
     box-shadow: var(--box-shadow);
-
-    overflow: hidden;
 }
 
 /* Modern input --Start */
@@ -532,8 +538,6 @@ ul {
                          'sidebar main';
 
     grid-template-rows: max(65px, 6vh) 1fr;
-    /*grid-template-columns: max(245px, 10vw) 1fr;
-    grid-template-rows: 80px 1fr;*/
     grid-template-columns: min-content 1fr;
 
     height: 100vh

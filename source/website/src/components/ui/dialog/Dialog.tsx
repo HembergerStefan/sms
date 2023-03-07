@@ -1,15 +1,16 @@
 import React, {useState} from 'react'
 
-import KebabMenu from '../../form/menu/kebab_menu/KebabMenuButton'
+import {DataTypes} from '../../../data/data_types'
+
+import useScriptStore from '../../../stores/scriptInformationStore'
+import usePackageStore from '../../../stores/packageInformationStore'
+
 import CloseButton from '../../form/menu/close/CloseButton'
 
 import './Dialog.css'
-import useScriptStore from "../../../store/scriptInformationStore";
-import usePackageStore from "../../../store/packageInformationStore";
-import {DialogManagerTypes} from "./DialogManager";
 
 interface DialogProps {
-    dialogType?: DialogManagerTypes
+    dialogType?: DataTypes
     title: string
     unmountComponent: Function
     body: React.ReactNode

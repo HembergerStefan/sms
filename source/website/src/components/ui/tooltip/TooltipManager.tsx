@@ -8,6 +8,7 @@ interface TooltipManagerProps {
 }
 
 const TooltipManager = ({content}: TooltipManagerProps) => {
+
     return (
         <>
             {

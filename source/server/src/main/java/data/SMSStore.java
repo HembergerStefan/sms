@@ -54,6 +54,8 @@ public class SMSStore implements ISMSStore {
     private final Client_ScriptRepository client_scriptRepository;//Repository
     private final Client_PackageRepository client_packageRepository;//Repository
     private final User_GroupRepository user_groupRepository;//Repository
+
+    private final Task_Protocol_Repository task_protocol_repository;
     private final ArrayList<TokenInfos> tokens = new ArrayList<>();//Liste mit allen gültigen Token
 
     @Override
@@ -108,9 +110,14 @@ public class SMSStore implements ISMSStore {
     }
     @Override
     public String getRole(String token) {//holt alle Rollen
-        String decodedToken = decodeToken(token);
-        String[] infos = decodedToken.split("/");
-        return infos[1];
+        try{
+            String decodedToken = decodeToken(token);
+            String[] infos = decodedToken.split("/");
+            return infos[1];
+        }catch(Exception e){
+            System.err.println(e.getMessage());
+        }
+        return null;
     }
 
     @Override
@@ -144,10 +151,10 @@ public class SMSStore implements ISMSStore {
             if (user.getHash().equals(hashedPassword)) {
                 token = generateToken(user);
             } else {
-                token = "Wrong Username or Password!";
+                token = "";
             }
         } else {
-            token = "Wrong Username or Password!";
+            token = "";
         }
         return token;
     }
@@ -169,7 +176,9 @@ public class SMSStore implements ISMSStore {
     public String getIdByToken(String token) {//holt die ID aus einem Token
         try {
             String id = "";
-            String decodedToken = decodeToken(token);
+            String replacedToken = token.replaceAll("汉", "/");
+            replacedToken = replacedToken.replaceAll("%E6%B1%89", "/");
+            String decodedToken = decodeToken(replacedToken);
             if (decodedToken != null) {
                 String[] infos = decodedToken.split("/");
                 if (infos.length != 0) {
@@ -188,7 +197,7 @@ public class SMSStore implements ISMSStore {
         SecretKeySpec sk = null;
         for (TokenInfos tokenInfo : tokens) {
             if (tokenInfo.getToken().equals(replacedToken)) {
-                tokenInfo.setExpireDate(LocalDateTime.now().plusMinutes(1));
+                tokenInfo.setExpireDate(LocalDateTime.now().plusMinutes(15));
                 sk = tokenInfo.getSecretKeySpec();
             }
         }
@@ -261,6 +270,10 @@ public class SMSStore implements ISMSStore {
     public Available_Clients getAvailableClientById(String mac_Address) {//holt einen Available_Client durch eine ID
         return available_clientsRepository.findById(mac_Address);
     }
+
+    public ArrayList<Available_Clients> getAvailableClients(){
+        return (ArrayList<Available_Clients>) available_clientsRepository.findAll().list();
+    }
     @Override
     public ArrayList<SmsGroup> getGroups() {
         return (ArrayList<SmsGroup>) groupRepository.findAll().list();
@@ -295,6 +308,13 @@ public class SMSStore implements ISMSStore {
     public ArrayList<Tasks> getTasks() {
         return (ArrayList<Tasks>) tasksRepository.findAll().list();
     }//holt alle Tasks
+
+
+    @Override
+    @Transactional
+    public ArrayList<Task_Protocol> getTaskProtocols() {
+        return (ArrayList<Task_Protocol>) task_protocol_repository.findAll().list();
+    }
     @Override
     public void removeClient(@NotNull String id) {//löscht einen Client
         tasksRepository.deleteTasksByClient_ID(id);
@@ -564,10 +584,64 @@ public class SMSStore implements ISMSStore {
                 Tasks task = new Tasks(uuid.toString(), client, package_, null);
                 tasksRepository.persist(task);
             } else {
-                insertTaskWithScript(client_id, package_id, user_id, add, token);
+                insertTaskWithPackage(client_id, package_id, user_id, add, token);
             }
         }
     }
+
+
+
+
+
+
+    @Override
+    @Transactional
+    public void insertTaskProtocolWithScript(String client_id, String script_id) {//erstellt einen Task
+            UUID uuid = UUID.randomUUID();
+            boolean isUnique = true;
+            for (Task_Protocol task_protocol : getTaskProtocols()) {
+                if (task_protocol.getId().equals(uuid.toString())) {
+                    isUnique = false;
+                    break;
+                }
+            }
+            if (isUnique) {
+                Client client = clientRepository.findById(client_id);
+                Script script = scriptRepository.findById(script_id);
+                Task_Protocol task_protocol = new Task_Protocol(uuid.toString(), client, null, script);
+                task_protocol_repository.persist(task_protocol);
+            } else {
+                insertTaskProtocolWithScript(client_id, script_id);
+            }
+    }
+    @Override
+    @Transactional
+    public void insertTaskProtocolWithPackage(String client_id, String package_id) {//erstellt einen Task
+            UUID uuid = UUID.randomUUID();
+            boolean isUnique = true;
+            for (Task_Protocol task_protocol : getTaskProtocols()) {
+                if (task_protocol.getId().equals(uuid.toString())) {
+                    isUnique = false;
+                    break;
+                }
+            }
+            if (isUnique) {
+                Client client = clientRepository.findById(client_id);
+                Package package_ = packageRepository.findById(package_id);
+                Task_Protocol task_protocol = new Task_Protocol(uuid.toString(), client, package_, null);
+                task_protocol_repository.persist(task_protocol);
+            } else {
+                insertTaskProtocolWithPackage(client_id, package_id);
+            }
+    }
+
+
+
+
+
+
+
+
 
     @Override
     @Transactional

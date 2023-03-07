@@ -5,7 +5,7 @@ import SearchRoundedIcon from '@mui/icons-material/SearchRounded'
 
 import {KeyWords} from '../../../data/searchbar/SearchKeyWords'
 
-import useSearchStore from '../../../store/searchResultStore'
+import useSearchStore from '../../../stores/searchResultStore'
 
 import DiceCoefficient from '../../../data/algorithm/DiceCoefficient'
 

@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.ws.rs.Path;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.UUID;
@@ -40,38 +42,64 @@ public class WebpageControllerAdmin implements IWebpageResourceAdmin {
 
     @Override
     @JsonView(ClientView.Always.class)
-    public ArrayList<Client> getClients(String token) {//holt alle Clients
+    public Response getClients(String token) {//holt alle Clients
         if (smsStore.isAllowed(token, anno)) {
-            return smsStore.getClients();
+            return javax.ws.rs.core.Response.status(200)
+                    .type(MediaType.APPLICATION_JSON)
+                    .entity(smsStore.getClients())
+                    .build();
         }
-        return null;
+        return javax.ws.rs.core.Response.status(500)
+                .type(MediaType.TEXT_PLAIN_TYPE)
+                .entity("Invalid Token")
+                .build();
     }
 
-    @Override
-    public ArrayList<Role> getRoles(String token) {//holt alle Rollen
-        if (smsStore.isAllowed(token, anno)) {
-            return smsStore.getRoles();
-        }
-        return null;
-    }
+
 
 
     @Override
     @JsonView(GroupView.Always.class)
-    public ArrayList<SmsGroup> getGroups(String token) {//holt alle Gruppen
+    public Response getGroups(String token) {//holt alle Gruppen
         if (smsStore.isAllowed(token, anno)) {
-            return smsStore.getGroups();
+            return javax.ws.rs.core.Response.status(200)
+                    .type(MediaType.APPLICATION_JSON)
+                    .entity(smsStore.getGroups())
+                    .build();
         }
-        return null;
+        return javax.ws.rs.core.Response.status(500)
+                .type(MediaType.TEXT_PLAIN_TYPE)
+                .entity("Invalid Token")
+                .build();
     }
 
 
     @Override
-    public ArrayList<User> getUsers(String token) {//holt alle Benutzer
+    public Response getUsers(String token) {//holt alle Benutzer
         if (smsStore.isAllowed(token, anno)) {
-            return smsStore.getUsers();
+            return javax.ws.rs.core.Response.status(200)
+                    .type(MediaType.APPLICATION_JSON)
+                    .entity(smsStore.getUsers())
+                    .build();
         }
-        return null;
+        return javax.ws.rs.core.Response.status(500)
+                .type(MediaType.TEXT_PLAIN_TYPE)
+                .entity("Invalid Token")
+                .build();
+    }
+
+    @Override
+    public Response getAvailable_Clients(String token) {
+        if (smsStore.isAllowed(token, anno)) {
+            return javax.ws.rs.core.Response.status(200)
+                    .type(MediaType.APPLICATION_JSON)
+                    .entity(smsStore.getAvailableClients())
+                    .build();
+        }
+        return javax.ws.rs.core.Response.status(500)
+                .type(MediaType.TEXT_PLAIN_TYPE)
+                .entity("Invalid Token")
+                .build();
     }
 
 
@@ -238,16 +266,32 @@ public class WebpageControllerAdmin implements IWebpageResourceAdmin {
     }
 
     @Override
-    public Role changeUserRole(Role role, String token, String user_ID) {//ändert die Rolle eines Benutzers
+    public Response changeUserRole(Role role, String token, String user_ID) {//ändert die Rolle eines Benutzers
         if (smsStore.isAllowed(token, anno)) {
             smsStore.changeRole(user_ID, role);
+            return javax.ws.rs.core.Response.status(200)
+                    .type(MediaType.APPLICATION_JSON)
+                    .entity(role)
+                    .build();
         }
-        return role;
+        return javax.ws.rs.core.Response.status(500)
+                .type(MediaType.TEXT_PLAIN_TYPE)
+                .entity("Invalid Token, User_ID or Role")
+                .build();
     }
 
 
     @Override
-    public ArrayList<Tasks> getTasks(String token) {
-        return smsStore.getTasks();
+    public Response getTasks(String token) {
+        if (smsStore.isAllowed(token, anno)) {
+            return javax.ws.rs.core.Response.status(200)
+                    .type(MediaType.APPLICATION_JSON)
+                    .entity(smsStore.getTasks())
+                    .build();
+        }
+        return javax.ws.rs.core.Response.status(500)
+                .type(MediaType.TEXT_PLAIN_TYPE)
+                .entity("Invalid Token")
+                .build();
     }//holt alle Tasks
 }

@@ -8,7 +8,7 @@ import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRound
 
 import {getLinkToItem} from '../../../../utils/SearchBarHelper'
 
-import useRecentSearchStore from '../../../../store/recentSearchStore'
+import useRecentSearchStore from '../../../../stores/recentSearchStore'
 
 import './SearchItem.css'
 

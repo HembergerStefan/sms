@@ -9,7 +9,7 @@ import model.DTOInsertUser;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.ArrayList;
+import javax.ws.rs.core.Response;
 import java.util.UUID;
 
 @Path("/webpageAdmin")//Pfad
@@ -18,19 +18,14 @@ public interface IWebpageResourceAdmin {
     @Path("/clients/{token}")
     @Produces(MediaType.APPLICATION_JSON)
     @JsonView(ClientView.Always.class)
-    ArrayList<Client> getClients(@PathParam("token") String token);//holt alle Clients
+    Response getClients(@PathParam("token") String token);//holt alle Clients
 
-
-    @GET
-    @Path("/roles/{token}")
-    @Produces(MediaType.APPLICATION_JSON)
-    ArrayList<Role> getRoles(@PathParam("token") String token);//holt alle Rollen
 
     @GET
     @Path("/groups/{token}")
     @Produces(MediaType.APPLICATION_JSON)
     @JsonView(GroupView.Always.class)
-    ArrayList<SmsGroup> getGroups(@PathParam("token") String token);//holt alle Gruppen
+    Response getGroups(@PathParam("token") String token);//holt alle Gruppen
 
 
 
@@ -38,7 +33,14 @@ public interface IWebpageResourceAdmin {
     @Path("/users/{token}")
     @Produces(MediaType.APPLICATION_JSON)
     @JsonView(UserView.Always.class)
-    ArrayList<User> getUsers(@PathParam("token") String token);//holt alle Benutzer
+    Response getUsers(@PathParam("token") String token);//holt alle Benutzer
+
+
+    @GET
+    @Path("/availableClients/{token}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @JsonView(UserView.Always.class)
+    Response getAvailable_Clients(@PathParam("token") String token);//holt alle Available_Clients
 
 
     @DELETE
@@ -128,7 +130,7 @@ public interface IWebpageResourceAdmin {
     @Path("/tasks/{token}")
     @Produces(MediaType.APPLICATION_JSON)
     @JsonView(TaskView.Always.class)
-    ArrayList<Tasks> getTasks(@PathParam("token") String token);//holt alle tasks
+    Response getTasks(@PathParam("token") String token);//holt alle tasks
 
 
     @POST
@@ -160,7 +162,7 @@ public interface IWebpageResourceAdmin {
     @Path("/changeUserRole/{token}/{user_ID}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    Role changeUserRole(Role role, @PathParam("token") String token, @PathParam("user_ID") String user_ID);//wechselt die Rolle eines Benutzers
+    Response changeUserRole(Role role, @PathParam("token") String token, @PathParam("user_ID") String user_ID);//wechselt die Rolle eines Benutzers
 }
 
 

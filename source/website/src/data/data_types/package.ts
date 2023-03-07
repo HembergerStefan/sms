@@ -3,5 +3,6 @@ export type Package = {
     name: string
     version: string
     url: string
-    installationDate: Date
+    addingDate: Date
+    silentSwitch: string
 }

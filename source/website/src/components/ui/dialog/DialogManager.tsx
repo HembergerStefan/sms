@@ -1,21 +1,22 @@
 import React, {useEffect, useState} from 'react'
 import ReactDOM from 'react-dom'
-import Dialog from "./Dialog"
-import ScriptInformationDialog from "./script/ScriptInformationDialog"
-import DashedOutlinedDialogButton from "../../form/dialog_button/outlined/dashed_outlined/DashedOutlinedDialogButton"
-import SolidOutlinedDialogButton from "../../form/dialog_button/outlined/solid_outlined/SolidOutlinedDialogButton"
-import SolidDialogButton from "../../form/dialog_button/solid/SolidDialogButton"
-import {useTranslation} from "react-i18next"
-import useScriptStore from "../../../store/scriptInformationStore"
-import usePackageStore from "../../../store/packageInformationStore"
-import PackageInformationDialog from "./package/PackageInformationDialog";
 
-export enum DialogManagerTypes {
-    SCRIPT, PACKAGE
-}
+import {useTranslation} from 'react-i18next'
+
+import {DataTypes} from '../../../data/data_types'
+
+import useScriptStore from '../../../stores/scriptInformationStore'
+import usePackageStore from '../../../stores/packageInformationStore'
+
+import Dialog from './Dialog'
+import ScriptInformationDialog from './script/ScriptInformationDialog'
+import PackageInformationDialog from './package/PackageInformationDialog'
+import SolidDialogButton from '../../form/dialog_button/solid/SolidDialogButton'
+import DashedOutlinedDialogButton from '../../form/dialog_button/outlined/dashed_outlined/DashedOutlinedDialogButton'
+import SolidOutlinedDialogButton from '../../form/dialog_button/outlined/solid_outlined/SolidOutlinedDialogButton'
 
 interface DialogManagerProps {
-    dialogTyp: DialogManagerTypes
+    dialogTyp: DataTypes
     title: string
     editMode: boolean
     selectedId?: number
@@ -47,7 +48,7 @@ const DialogManager = ({
             setDialogContent(() => <PackageInformationDialog id={selectedId ? selectedId : undefined}
                                                              editMode={editMode}/>)
         }
-    }, [selectedId])
+    }, [selectedId, dialogTyp])
 
     const remove = () => {
         if (selectedId) {

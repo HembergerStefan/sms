@@ -4,11 +4,9 @@ package controller;
 import annotations.Adding;
 import annotations.Login;
 import com.fasterxml.jackson.annotation.JsonView;
+import com.google.gson.Gson;
 import common.IWebpageResourceUser;
 import data.SMSStore;
-import entity.Package;
-import entity.Script;
-import entity.User;
 import entity.jsonview.PackageView;
 import entity.jsonview.ScriptView;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.ws.rs.Path;
-import java.util.ArrayList;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.UUID;
 
 @RestController
@@ -30,7 +29,7 @@ public class WebpageControllerUser implements IWebpageResourceUser {
     @Inject//Dependency Injection des SMSStores
     protected SMSStore smsStore;
 
-
+    protected Gson gson = new Gson();
     private Login anno = null;
     private Adding add = null;
 
@@ -43,31 +42,78 @@ public class WebpageControllerUser implements IWebpageResourceUser {
 
 
     @Override
-    public User getUserByID(String id, String token) {//holt einen Benutzer durch seine ID
+    public Response getUserByID(String id, String token) {//holt einen Benutzer durch seine ID
         if (smsStore.isAllowed(token, id, anno)) {
-            return smsStore.getUserByID(id);
+            return Response.status(200)
+                    .type(MediaType.APPLICATION_JSON)
+                    .entity(smsStore.getUserByID(id))
+                    .build();
         }
-        return null;
+
+        return Response.status(500)
+                .type(MediaType.TEXT_PLAIN_TYPE)
+                .entity("Invalid Token or ID")
+                .build();
+    }
+
+    @Override
+    public Response getRoleByUser(String id, String token) {//holt einen Benutzer durch seine ID
+        if (smsStore.isAllowed(token, id, anno)) {
+            return Response.status(200)
+                    .type(MediaType.APPLICATION_JSON)
+                    .entity(smsStore.getUserByID(id).getRole())
+                    .build();
+        }
+        return Response.status(500)
+                .type(MediaType.TEXT_PLAIN_TYPE)
+                .entity("Invalid Token or ID")
+                .build();
+    }
+
+    @Override
+    public Response getRoles(String token) {//holt alle Rollen
+        if (smsStore.isAllowed(token, anno)) {
+            return Response.status(200)
+                    .type(MediaType.APPLICATION_JSON)
+                    .entity(smsStore.getRoles())
+                    .build();
+        }
+        return Response.status(500)
+                .type(MediaType.TEXT_PLAIN_TYPE)
+                .entity("Invalid Token")
+                .build();
     }
 
 
     @Override
     @JsonView(PackageView.Always.class)
-    public ArrayList<Package> getPackages(String token) {//holt alle Packages
+    public Response getPackages(String token) {//holt alle Packages
         if (smsStore.isAllowed(token, anno)) {
-            return smsStore.getPackages();
+            return Response.status(200)
+                    .type(MediaType.APPLICATION_JSON)
+                    .entity(smsStore.getPackages())
+                    .build();
         }
-        return null;
+        return Response.status(500)
+                .type(MediaType.TEXT_PLAIN_TYPE)
+                .entity("Invalid Token")
+                .build();
     }
 
 
     @Override
     @JsonView(ScriptView.Always.class)
-    public ArrayList<Script> getScripts(String token) {//holt alle Scripts
+    public Response getScripts(String token) {//holt alle Scripts
         if (smsStore.isAllowed(token, anno)) {
-            return smsStore.getScripts();
+            return Response.status(200)
+                    .type(MediaType.APPLICATION_JSON)
+                    .entity(smsStore.getScripts())
+                    .build();
         }
-        return null;
+        return Response.status(500)
+                .type(MediaType.TEXT_PLAIN_TYPE)
+                .entity("Invalid Token")
+                .build();
     }
 
     @Override

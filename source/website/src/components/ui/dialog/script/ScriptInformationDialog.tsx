@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 
-import useScriptStore, {initialScriptState} from '../../../../store/scriptInformationStore'
+import useScriptStore, {initialScriptState} from '../../../../stores/script/scriptInformationStore'
 import {Script} from '../../../../data/data_types'
 
 import TitleInputWrapper from '../../title_input_wrapper/TitleInputWrapper'

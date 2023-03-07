@@ -2,7 +2,7 @@ import React, {memo, useEffect, useRef, useState} from 'react'
 
 import {useTranslation} from 'react-i18next'
 
-import useScriptStore from '../../../store/scriptInformationStore'
+import useScriptStore from '../../../stores/scriptInformationStore'
 
 import CodeEditor from '@uiw/react-textarea-code-editor'
 
