@@ -9,7 +9,7 @@ def init_logger(_format: str, filepath: str, level: int):
     log_formatter = logging.Formatter(_format)
     root_logger = logging.getLogger()
 
-    file_handler = logging.FileHandler(filepath)
+    file_handler = logging.FileHandler(filepath, mode='a', encoding=None, delay=False)
     file_handler.setFormatter(log_formatter)
     root_logger.addHandler(file_handler)
 

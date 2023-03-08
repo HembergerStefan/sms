@@ -18,7 +18,14 @@ class Client:
         self.ws_port = ws_port
         self.interval = interval
         self.reconnect_timeout = reconnect_timeout
-        self.mac_address = get_mac_address()
+        self.mac_address = None
+
+    def init_mac_address(self):
+        # data.ip()
+        try:
+            self.mac_address = get_mac_address()
+        except Exception:
+            pass
 
     async def loop(self) -> None:
         websocket_address = f'ws://{self.host}:{self.ws_port}/client/{self.mac_address}'
@@ -72,6 +79,12 @@ class Client:
 
     def start(self) -> None:
         logging.debug('Client started')
+
+        while self.mac_address is None:
+            logging.error(f'Waiting for client to get a mac address!')
+            self.init_mac_address()
+            time.sleep(5)
+
         while True:
             try:
                 asyncio.get_event_loop().run_until_complete(self.loop())
