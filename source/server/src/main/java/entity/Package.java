@@ -18,7 +18,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Entity
 @Table(name = "package", schema = "sms_data")
 public class Package implements Serializable {

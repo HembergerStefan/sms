@@ -14,7 +14,6 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Entity
 @Table(name = "user_group", schema = "sms_data")
 public class User_Group implements Serializable {

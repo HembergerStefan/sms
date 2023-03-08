@@ -13,7 +13,6 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Entity
 @Table(name = "task", schema = "sms_data")
 public class Tasks implements Serializable {

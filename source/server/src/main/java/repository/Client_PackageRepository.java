@@ -22,4 +22,11 @@ public class Client_PackageRepository implements PanacheRepository<Client_Packag
     public void deleteByClientID(String id){
         delete("Client_ID = ?1", id);
     }//löscht ein Client_Package
+
+
+
+    public Client_Package findById(String client_id, String package_id){
+        return (Client_Package) find("Client_ID = ?1 and Package_ID = ?2", client_id, package_id);
+    }
+
 }

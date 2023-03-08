@@ -16,6 +16,6 @@ public class DTOPackage implements Serializable {//Datenübertragungsklasse
     private String name;
     private String version;
     private Timestamp date;
-    private String downloadlink;
+    private String downloadLink;
     private String silentSwitch;
 }

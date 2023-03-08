@@ -92,9 +92,25 @@ public class ClientSocket {
                 var scriptsIDs = (ArrayList<String>) map.get("executedScripts");
                 var packages = smsStore.getPackagesByIDs(packagesIDs);
                 var scripts = smsStore.getScriptsByIDs(scriptsIDs);
-                client.setPackages(packages);
-                client.setScript(scripts);
                 smsStore.updateClient(client);
+                for(Package package_ : packages){
+                    var client_package = new Client_Package(package_.getId(), mac_address);
+                    try{
+                        if(!smsStore.isInstalled(mac_address, package_.getId())){
+                            smsStore.insertClient_Package(client_package);
+                        }
+                    }catch (Exception e){
+
+                    }
+                }
+                for(Script script_ : scripts){
+                    var client_script = new Client_Script(script_.getId(), mac_address, new Timestamp(System.currentTimeMillis()));
+                    try{
+                        smsStore.insertClient_Script(client_script);
+                    }catch (Exception e){
+
+                    }
+                }
                 for (var id : packagesIDs) {//löscht Tasks
                     if (smsStore.getTaskByPackageID(id) != null) {
                         smsStore.insertTaskProtocolWithPackage(mac_address, id);
