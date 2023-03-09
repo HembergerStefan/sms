@@ -214,7 +214,7 @@ public class WebpageControllerAdmin implements IWebpageResourceAdmin {
                 Available_Clients available_Client = smsStore.getAvailableClientById(mac_Address);
                 Timestamp time = new Timestamp(System.currentTimeMillis());
                 Baseclient baseclient = smsStore.getBaseClientByID(mac_Address);
-                Client client = new Client(baseclient, available_Client.getName(), available_Client.getIp(), time, 0, 0, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+                Client client = new Client(baseclient, available_Client.getName(), available_Client.getIp(), time, 0, 0, 0, "", new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
                 try {
                     smsStore.getUserTransaction().begin();
                     smsStore.insertClient(client);

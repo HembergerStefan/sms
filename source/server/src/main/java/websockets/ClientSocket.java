@@ -88,6 +88,8 @@ public class ClientSocket {
                 client.setLastOnline(timestamp);
                 client.setCpuUsage((Integer) map.get("cpuUsage"));
                 client.setUsedDiskspace((Integer) map.get("diskUsage"));
+                client.setRamUsage((Integer) map.get("ramUsage"));
+                client.setOs((String) map.get("os"));
                 var packagesIDs = (ArrayList<String>) map.get("installed");
                 var scriptsIDs = (ArrayList<String>) map.get("executedScripts");
                 var packages = smsStore.getPackagesByIDs(packagesIDs);
@@ -143,14 +145,14 @@ public class ClientSocket {
                     var allTasks = smsStore.getTasks();
                     boolean hasNoTask = true;
                     for (var task : allTasks) {
-                        if (task.getClient().getMacAddress().getMacAddress().equals(clientSession.getMac_address())) {
+                        if (task.getClient().getMacAddress().getMacAddress().equals(clientSession.getMacAddress())) {
                             hasNoTask = false;
                             break;
                         }
                     }
                     if (!hasNoTask) {
                         var gson = new Gson();
-                        var mac_address = clientSession.getMac_address();
+                        var mac_address = clientSession.getMacAddress();
                         var session = clientSession.getSession();
                         var tasks = smsStore.getTasksByClientID(mac_address);
                         var dtopackages = new ArrayList<DTOPackage>();
@@ -158,12 +160,12 @@ public class ClientSocket {
                         for (var task : tasks) {
                             if (task.getPackages() != null) {
                                 var package_ = task.getPackages();
-                                var dtopackage = new DTOPackage(package_.getId(), package_.getName(), package_.getVersion(), package_.getDate(), package_.getDownloadlink(), package_.getSilentSwitch());
+                                var dtopackage = new DTOPackage(package_.getId(), package_.getName(), package_.getVersion(), package_.getDate(), package_.getDownloadLink(), package_.getSilentSwitch());
                                 dtopackages.add(dtopackage);
                             }
                             if (task.getScript() != null) {
                                 var script_ = task.getScript();
-                                DTOScript dtoScript = new DTOScript(script_.getId(), script_.getName(), script_.getDescription(), script_.getScript_value(), script_.getInterpreter(), script_.getFileExtension());
+                                DTOScript dtoScript = new DTOScript(script_.getId(), script_.getName(), script_.getDescription(), script_.getScriptValue(), script_.getInterpreter(), script_.getFileExtension());
                                 dtoscripts.add(dtoScript);
                             }
                         }

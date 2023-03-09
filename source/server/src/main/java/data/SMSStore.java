@@ -141,7 +141,7 @@ public class SMSStore implements ISMSStore {
     public boolean availableclientIsAvailable(String id) {//schaut, ob ein Available_Client verfügbar ist
         ArrayList<Available_Clients> clients = (ArrayList<Available_Clients>) available_clientsRepository.findAll().list();
         for (Available_Clients client : clients) {
-            if (client.getMac_Adress().getMacAddress().equals(id)) {
+            if (client.getMacAddress().getMacAddress().equals(id)) {
                 return true;
             }
         }
@@ -206,17 +206,19 @@ public class SMSStore implements ISMSStore {
         SecretKeySpec sk = null;
         for (TokenInfos tokenInfo : tokens) {
             if (tokenInfo.getToken().equals(replacedToken)) {
-                tokenInfo.setExpireDate(LocalDateTime.now().plusMinutes(15));
+                tokenInfo.setExpireDate(LocalDateTime.now().plusMinutes(20));
                 sk = tokenInfo.getSecretKeySpec();
             }
         }
-        Cipher cipher;
-        try {
-            cipher = Cipher.getInstance("AES/ECB/PKCS5PADDING");
-            cipher.init(Cipher.DECRYPT_MODE, sk);
-            return new String(cipher.doFinal(Base64.getDecoder().decode(replacedToken)));
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
+        if(sk != null){
+            Cipher cipher;
+            try {
+                cipher = Cipher.getInstance("AES/ECB/PKCS5PADDING");
+                cipher.init(Cipher.DECRYPT_MODE, sk);
+                return new String(cipher.doFinal(Base64.getDecoder().decode(replacedToken)));
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
+            }
         }
         return null;
     }
@@ -535,7 +537,7 @@ public class SMSStore implements ISMSStore {
     @Override
     @Transactional
     public void updateAvailableClient(Available_Clients client) {//updated einen AvailableClient
-        Available_Clients realClient = available_clientsRepository.findById(client.getMac_Adress().getMacAddress());
+        Available_Clients realClient = available_clientsRepository.findById(client.getMacAddress().getMacAddress());
         realClient.setName(client.getName());
         realClient.setIp(client.getIp());
         available_clientsRepository.getEntityManager().merge(realClient);
@@ -548,7 +550,7 @@ public class SMSStore implements ISMSStore {
         package_.setName(packages.getName());
         package_.setVersion(packages.getVersion());
         package_.setDate(packages.getDate());
-        package_.setDownloadlink(packages.getDownloadlink());
+        package_.setDownloadLink(packages.getDownloadLink());
         package_.setSilentSwitch(packages.getSilentSwitch());
         packageRepository.getEntityManager().merge(package_);
     }
@@ -561,7 +563,7 @@ public class SMSStore implements ISMSStore {
         script_.setDescription(script.getDescription());
         script_.setFileExtension(script.getFileExtension());
         script_.setInterpreter(script.getInterpreter());
-        script_.setScript_value(script.getScript_value());
+        script_.setScriptValue(script.getScriptValue());
         scriptRepository.getEntityManager().merge(script_);
     }
 

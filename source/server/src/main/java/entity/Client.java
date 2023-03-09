@@ -38,6 +38,13 @@ public class Client implements Serializable {
     @Column(name="CPU_Usage", nullable = false)
     @JsonView(value = {ClientView.Always.class, PackageView.Always.class, ScriptView.Always.class, GroupView.Always.class,TaskView.Always.class, UserView.Always.class})
     private int cpuUsage;
+    @Column(name="RAM_Usage", nullable = false)
+    @JsonView(value = {ClientView.Always.class, PackageView.Always.class, ScriptView.Always.class, GroupView.Always.class,TaskView.Always.class, UserView.Always.class})
+    private int ramUsage;
+    @Column(name="OS", nullable = false)
+    @JsonView(value = {ClientView.Always.class, PackageView.Always.class, ScriptView.Always.class, GroupView.Always.class,TaskView.Always.class, UserView.Always.class})
+    private String os;
+
 
     @ManyToMany
     @JoinTable(name = "client_package", joinColumns = @JoinColumn(name = "Client_ID"), inverseJoinColumns = @JoinColumn(name = "Package_ID"))

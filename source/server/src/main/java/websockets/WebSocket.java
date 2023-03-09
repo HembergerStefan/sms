@@ -6,14 +6,12 @@ import com.google.gson.Gson;
 import controller.WebpageControllerUser;
 import data.SMSStore;
 import entity.*;
-import entity.Package;
 import io.quarkus.logging.Log;
 import io.quarkus.scheduler.Scheduled;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import model.*;
 import org.jboss.logging.Logger;
-import token.TokenInfos;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -119,15 +117,15 @@ public class WebSocket {
                 var scripts =  client.getScript();
                 var dtoScripts = new ArrayList<DTOScript>();
                 for (var package_ : packages) {
-                    var dtoPackage = new DTOPackage(package_.getId(), package_.getName(), package_.getVersion(), package_.getDate(), package_.getDownloadlink(), package_.getSilentSwitch());
+                    var dtoPackage = new DTOPackage(package_.getId(), package_.getName(), package_.getVersion(), package_.getDate(), package_.getDownloadLink(), package_.getSilentSwitch());
                     dtoPackages.add(dtoPackage);
                 }
                 for (var script : scripts) {
-                    var dtoScript = new DTOScript(script.getId(), script.getName(), script.getDescription(), script.getScript_value(), script.getInterpreter(), script.getFileExtension());
+                    var dtoScript = new DTOScript(script.getId(), script.getName(), script.getDescription(), script.getScriptValue(), script.getInterpreter(), script.getFileExtension());
                     dtoScripts.add(dtoScript);
                 }
                 var dtoBaseclient = new DTOBaseclient(client.getMacAddress().getMacAddress());
-                var dtoClient = new DTOClient(dtoBaseclient, client.getName(), client.getIp(), client.getLastOnline(), client.getUsedDiskspace(), client.getCpuUsage(), dtoPackages, dtoScripts);
+                var dtoClient = new DTOClient(dtoBaseclient, client.getName(), client.getIp(), client.getLastOnline(), client.getUsedDiskspace(), client.getCpuUsage(),client.getRamUsage(), client.getOs(), dtoPackages, dtoScripts);
                 dtoClients.add(dtoClient);
             }
             var dtoSmsGroup = new DTOSmsGroup(group.getId(), group.getName(), dtoClients);

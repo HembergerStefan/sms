@@ -11,6 +11,6 @@ import java.util.ArrayList;
 @AllArgsConstructor
 @ToString
 public class DTOResponse {//Datenübertragungsklasse
-    private ArrayList<DTOPackage> dtopackages;
+    private ArrayList<DTOPackage> dtoPackages;
     private ArrayList<DTOScript> dtoScripts;
 }

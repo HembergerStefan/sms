@@ -17,6 +17,8 @@ public class DTOClient {//Datenübertragungsklasse
     private Timestamp lastOnline;
     private int usedDiskspace;
     private int cpuUsage;
+    private int ramUsage;
+    private String os;
     private ArrayList<DTOPackage> packages;
     private ArrayList<DTOScript> scripts;
 }
