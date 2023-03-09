@@ -26,7 +26,7 @@ public class Client_PackageRepository implements PanacheRepository<Client_Packag
 
 
     public Client_Package findById(String client_id, String package_id){
-        return (Client_Package) find("Client_ID = ?1 and Package_ID = ?2", client_id, package_id);
+        return (Client_Package) find("Client_ID = ?1 and Package_ID = ?2", client_id, package_id).firstResult();
     }
 
 }

@@ -24,6 +24,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.transaction.Transactional;
 import javax.transaction.UserTransaction;
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.time.LocalDateTime;
@@ -34,7 +35,7 @@ import java.util.*;
 @ApplicationScoped
 @RequiredArgsConstructor
 @Getter
-public class SMSStore implements ISMSStore {
+public class SMSStore implements ISMSStore, Serializable {
 
 
     @Resource
@@ -127,6 +128,16 @@ public class SMSStore implements ISMSStore {
     }
 
     @Override
+    public List<Client_Script> getClientScriptsByClient(String client_ID){
+        try{
+            return client_scriptRepository.findById(client_ID);
+        }catch(Exception e){
+            System.err.println(e.getMessage());
+        }
+        return null;
+    }
+
+    @Override
     public boolean clientIsAvailable(String id) {//schaut, ob ein Client verfügbar ist
         ArrayList<Client> clients = (ArrayList<Client>) clientRepository.findAll().list();
         for (Client client : clients) {
@@ -210,7 +221,7 @@ public class SMSStore implements ISMSStore {
                 sk = tokenInfo.getSecretKeySpec();
             }
         }
-        if(sk != null){
+        if (sk != null) {
             Cipher cipher;
             try {
                 cipher = Cipher.getInstance("AES/ECB/PKCS5PADDING");
@@ -581,7 +592,9 @@ public class SMSStore implements ISMSStore {
         User user_ = userRepository.findByID(user.getId());
         String password = hashPassword(user.getPassword() + user_.getSalt());
         user_.setUsername(user.getUsername());
-        user_.setHash(password);
+        if (user.getPassword() != null && user.getPassword() != "") {
+            user_.setHash(password);
+        }
         userRepository.getEntityManager().merge(user_);
     }
 

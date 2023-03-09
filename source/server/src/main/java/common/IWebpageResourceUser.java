@@ -45,6 +45,12 @@ public interface IWebpageResourceUser {
     @JsonView(ScriptView.Always.class)
     Response getScripts(@PathParam("token") String token);//holt alle Scripts
 
+    @GET
+    @Path("/clientScripts/{token}/{mac_Address}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @JsonView(ScriptView.Always.class)
+    Response getClientScriptsByClientID(@PathParam("token") String token, @PathParam("mac_Address") String client_ID);
+
     @POST
     @Path("/updateUser/{token}")
     @Produces(MediaType.APPLICATION_JSON)
