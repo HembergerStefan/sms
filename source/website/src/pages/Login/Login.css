@@ -1,3 +1,5 @@
+
+
 #login--content-container {
     display: flex;
     justify-content: center;
@@ -7,12 +9,16 @@
     height: 576px;
     width: 1145px;
 
-    background-color: var(--nl-clr-3);
+    background-color: hsl(0, 0%, 100%) !important;
     border-radius: var(--br-r-medium);
 
-    border: 2px solid black; /* TODO: CHANGE */
+    border: 2px solid black;
 
     overflow: hidden;
+}
+
+#login--content-container span, #login--content-container h1 {
+    color: hsl(217, 33%, 17%);
 }
 
 #media-container {
@@ -78,6 +84,9 @@
 #username-container, #password-container {
     position: relative;
     height: fit-content;
+
+    border: 1px solid hsl(207, 14%, 85%) !important;
+    background-color: hsl(0, 0%, 100%) !important;
 }
 
 #username-container > input, #password-container > input {
@@ -100,7 +109,8 @@
     padding: 6px;
     border-radius: var(--br-r-small);
 
-    background-color: hsl(250, 40%, 94%);
+    color: hsl(217, 33%, 17%) !important;
+    background-color: hsl(250, 40%, 94%) !important;
 
     z-index: 999;
 }
@@ -116,4 +126,8 @@
     background-color: hsl(248, 64%, 56%);
 
     cursor: pointer;
+}
+
+#submit-button span {
+    color: hsl(0, 0%, 100%) !important;
 }
