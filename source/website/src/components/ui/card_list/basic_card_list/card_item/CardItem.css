@@ -22,6 +22,10 @@
     align-items: center;
 }
 
+.card-item--heading-wrapper > span:first-of-type {
+    cursor: pointer;
+}
+
 .card-item--ipgro-wrapper {
     display: grid;
     grid-template-columns: 1fr 1.5fr;
@@ -30,6 +34,10 @@
 
 .card-item--ipgro-wrapper > #title-content--wrapper {
     height: 100%;
+}
+
+.card-item--ipgro-wrapper > section:first-of-type > div > span {
+    max-width: unset !important;
 }
 
 /* Group on the right outer side */

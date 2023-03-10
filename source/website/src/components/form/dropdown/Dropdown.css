@@ -122,6 +122,14 @@
     background-color: var(--li-item-ac-clr);
 }
 
+#dropdown-content li > span {
+    max-width: 160px;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
 .selected--dropdown-item {
     background-color: var(--li-item-ac-clr) !important;
     cursor: default !important;
