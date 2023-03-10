@@ -1,12 +1,12 @@
-import React, {useEffect, useState} from 'react'
-import {useQuery} from 'react-query'
-import axios from 'axios'
+import React, {useEffect, useState, memo} from 'react'
 
 import logo from '../../../data/images/project_logo.png'
+import logoWhite from '../../../data/images/project_logo_white.png'
 
-import {ApiConfig} from '../../../data/api_data/ApiConfig'
 import useUserStore from '../../../stores/user_session/userStore'
-import useRoleStore from '../../../stores/role/roleInformationStore'
+import useWebsiteStore from '../../../stores/website/websiteStore'
+
+import {useGetUserRoleQuery} from '../../../utils/api/ApiService'
 
 import useResize from '../../../hooks/useResize'
 
@@ -16,16 +16,14 @@ import './NavBar.css'
 
 const NavBar = () => {
 
-    const {id, username, token, roleId, setUserRole} = useUserStore()
-    const {getRoleById} = useRoleStore()
+    const {interfaceStyle} = useWebsiteStore()
+    const {username, roleName, setUserRole, setUserRoleName} = useUserStore()
 
-    const [productName, setProductName] = useState('Systems Management Server')
+    const [productName, setProductName] = useState<string>('Systems Management Server')
+
     const windowSize = useResize()
 
-    const {data, isSuccess} = useQuery(['users'], () =>
-        axios.get(`${ApiConfig.baseUrl}:${ApiConfig.port}/webpageAdmin/users/${token}`)
-            .then((res) => res.data)
-    )
+    const userRoleGetQuery = useGetUserRoleQuery()
 
     useEffect(() => {
         if (windowSize.width <= 842) {
@@ -36,19 +34,18 @@ const NavBar = () => {
     }, [windowSize])
 
     useEffect(() => {
-        if (isSuccess) {
-            data.forEach((entry: { id: string; role: { name: string } }) => {
-                if (entry.id === id) {
-                    setUserRole(entry.role.name)
-                }
-            })
+        if (userRoleGetQuery.isSuccess) {
+            setUserRole(userRoleGetQuery.data.id)
+            setUserRoleName(userRoleGetQuery.data.name)
         }
-    }, [data])
+    }, [userRoleGetQuery.data])
 
     return (
         <nav id='nav-container'>
             <div id='nav-logo-container'>
-                <img id='nav-logo' src={logo} alt='logo'/>
+                {
+                    interfaceStyle === 'moderna-light' ? <img id='nav-logo' src={logo} alt='logo'/> : <img id='nav-logo' src={logoWhite} alt='logo'/>
+                }
                 <h1 className='fs-qr-1 fw--semi-bold'>{productName}</h1>
             </div>
 
@@ -61,7 +58,7 @@ const NavBar = () => {
                     <span/>
                     <div>
                         <h1 className='fw--extra-bold'>{username}</h1>
-                        <h1 className='fw--semi-bold'>{getRoleById(roleId).name}</h1>
+                        <h1 className='fw--semi-bold'>{roleName}</h1>
                     </div>
                 </div>
             </div>
@@ -69,4 +66,4 @@ const NavBar = () => {
     )
 }
 
-export default NavBar
+export default memo(NavBar)
