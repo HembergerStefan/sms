@@ -13,3 +13,12 @@
 #dialog-button:active:focus-within {
     box-shadow: 0 0 0 0.2rem hsl(161, 48%, 76%);
 }
+
+#dialog-button:disabled {
+    background-color: var(--ipt--disabled-bg--clr);
+    cursor: default;
+}
+
+#dialog-button:disabled > span {
+    color: var(--ipt--disabled-text--clr);
+}
