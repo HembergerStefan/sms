@@ -1,9 +1,20 @@
 #task-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+
     padding: 10px 20px;
+
+    color: var(--nl-clr-3);
 
     border: unset;
     border-radius: var(--br-r-small-medium);
     background-color: var(--ac-clr-1);
 
     cursor: pointer;
+}
+
+#task-button:hover {
+    background-color: var(--ac-clr-1--darker) !important;
 }
