@@ -1,8 +1,8 @@
-import React, {memo, useEffect, useRef, useState} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 
 import {useTranslation} from 'react-i18next'
 
-import useScriptStore from '../../../stores/scriptInformationStore'
+import useScriptStore from '../../../stores/script/scriptInformationStore'
 
 import CodeEditor from '@uiw/react-textarea-code-editor'
 
@@ -19,15 +19,25 @@ interface CodeBlockEditorProps {
 const CodeBlockEditor = ({defaultValues, setStoreValue}: CodeBlockEditorProps) => {
 
     const {t} = useTranslation()
+
     const {addingScript} = useScriptStore()
+
+    const codeSectionRef = useRef<HTMLElement>(null)
 
     const [code, setCode] = useState<string>(defaultValues?.code !== undefined ? defaultValues?.code : '')
     const [language, setLanguage] = useState<string>(defaultValues?.language !== undefined ? defaultValues?.language : 'Python')
-    const codeSectionRef = useRef<HTMLElement>(null)
 
     useEffect(() => {
         addingScript.language = language
+        addingScript.fileExtension = language.toLowerCase() === 'bash' ? 'sh' : language.toLowerCase() === 'cmd' ? 'bat' : 'py'
     }, [language])
+
+    useEffect(() => {
+        if (defaultValues !== undefined) {
+            setCode(() => defaultValues.code)
+            setLanguage(() => defaultValues.language)
+        }
+    }, [defaultValues])
 
     return (
         <section ref={codeSectionRef} id='code-section' className='md-input'>
@@ -64,4 +74,4 @@ const CodeBlockEditor = ({defaultValues, setStoreValue}: CodeBlockEditorProps) =
     )
 }
 
-export default memo(CodeBlockEditor)
+export default CodeBlockEditor
