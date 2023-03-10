@@ -6,31 +6,45 @@ import {Script} from '../../../../data/data_types'
 import TitleInputWrapper from '../../title_input_wrapper/TitleInputWrapper'
 import TextInput from '../../../form/text_input/TextInput'
 import CodeBlock from '../../../form/code_editor/CodeBlockEditor'
-import DateTimePicker from '../../../form/date_time_picker/DateTimePicker'
 
 import './ScriptInformationDialog.css'
 
 interface ScriptInformationDialogProps {
-    id?: number
+    id?: string
+    displayId: number
     editMode?: boolean
 }
 
-const ScriptInformationDialog = ({id, editMode = false}: ScriptInformationDialogProps) => {
+const ScriptInformationDialog = ({id, displayId, editMode = false}: ScriptInformationDialogProps) => {
 
     /* Get the selected scripts out of the store & the possibility to update the store */
     const {scripts, addingScript, getScriptById} = useScriptStore()
 
     const [selectedScript, setSelectedScript] = useState<Script>(initialScriptState)
-
-    useEffect(() => {
-        addingScript.id = scripts.length + 1
-    }, [])
+    const [codeBlockValues, setCodeBlockValues] = useState<{ code: string, language: string }>({
+        code: '',
+        language: 'Python'
+    })
 
     useEffect(() => {
         if (id != null && editMode) {
-            setSelectedScript(() => getScriptById(id))
+            setSelectedScript(() => getScriptById(id) !== undefined ? getScriptById(id)! : initialScriptState)
         }
     }, [id])
+
+    useEffect(() => {
+        addingScript.id = selectedScript.id
+        addingScript.name = selectedScript.name
+        addingScript.code = selectedScript.code
+        addingScript.description = selectedScript.description
+        addingScript.executionDate = selectedScript.executionDate
+        addingScript.fileExtension = selectedScript.fileExtension
+        addingScript.language = selectedScript.language
+    }, [selectedScript])
+
+    useEffect(() => {
+        setCodeBlockValues({code: selectedScript.code, language: selectedScript.language})
+    }, [selectedScript.code, selectedScript.language])
 
     const setTitle = (content: string) => {
         addingScript.name = content
@@ -38,10 +52,6 @@ const ScriptInformationDialog = ({id, editMode = false}: ScriptInformationDialog
 
     const setDesc = (content: string) => {
         addingScript.description = content
-    }
-
-    const setExecDate = (content: Date) => {
-        addingScript.executionDate = content
     }
 
     const setCode = (content: string) => {
@@ -53,14 +63,11 @@ const ScriptInformationDialog = ({id, editMode = false}: ScriptInformationDialog
             <section id='title-execution--wrapper'>
                 <TitleInputWrapper title='Title'
                                    content={<TextInput
-                                       headingId={selectedScript.id !== -1 ? selectedScript.id : scripts.length + 1}
+                                       headingId={selectedScript.id !== '' ? displayId : scripts.length + 1}
                                        isHeading={true}
                                        defaultValue={editMode ? selectedScript.name : undefined}
                                        placeholder='Script Clarification'
                                        setStoreValue={setTitle}/>}/>
-                <TitleInputWrapper title='Execution Date' content={
-                    <DateTimePicker defaultValue={editMode ? selectedScript.executionDate : undefined}
-                                    setStoreValue={setExecDate}/>}/>
             </section>
 
             <TitleInputWrapper title='Description' content={
@@ -75,10 +82,8 @@ const ScriptInformationDialog = ({id, editMode = false}: ScriptInformationDialog
                     }}
                     setStoreValue={setDesc}/>}/>
             <TitleInputWrapper title='Code'
-                               content={<CodeBlock defaultValues={editMode ? {
-                                   code: selectedScript.code,
-                                   language: selectedScript.language
-                               } : undefined} setStoreValue={setCode}/>}/>
+                               content={<CodeBlock defaultValues={editMode ? codeBlockValues : undefined}
+                                                   setStoreValue={setCode}/>}/>
         </article>
     )
 }
