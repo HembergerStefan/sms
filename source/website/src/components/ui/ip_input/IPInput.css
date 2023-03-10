@@ -6,6 +6,14 @@
     width: fit-content;
 }
 
+#ip-input--container > span {
+    max-width: 80px;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
 #ip-input--container > div {
     display: flex;
     align-items: center;
