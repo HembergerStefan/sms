@@ -42,6 +42,10 @@ const Dropdown = ({prefix, defaultValue, firstSelectedValue, items, handleChange
     }
 
     useEffect(() => {
+        setSelectedItem(() => defaultValue)
+    }, [defaultValue])
+
+    useEffect(() => {
         if (items.length > 0) {
             setDropdownItems(() => items.sort((n1, n2) => {
                 if (n1 > n2) {
@@ -81,7 +85,6 @@ const Dropdown = ({prefix, defaultValue, firstSelectedValue, items, handleChange
         handleChange(selectedItem)
     }, [selectedItem])
 
-    /* TODO: if the item is removed -> handleRemove */
     const resetSelection = (ev: React.MouseEvent<HTMLDivElement>): void => {
         if (interactionIcon === 'clearRoundedIcon') {
             ev.stopPropagation()
@@ -95,7 +98,7 @@ const Dropdown = ({prefix, defaultValue, firstSelectedValue, items, handleChange
         <div ref={dropdownRef} id='dropdown-container'>
             <div id='dropdown-header-container' onClick={() => setActiveDropdown(prev => !prev)}>
                 <span className='fs-pr-body-1 fw-regular'>
-                    {prefix ? `${t(prefix)}: ` : ''} {typeof selectedItem === 'string' ? t(selectedItem) : selectedItem}
+                    {prefix ? t(prefix) : ''} {selectedItem}
                 </span>
                 <div ref={iconToggleRef} onClick={resetSelection}>
                     {
