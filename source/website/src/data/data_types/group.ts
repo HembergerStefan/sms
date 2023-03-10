@@ -1,5 +1,6 @@
 export type Group = {
-    id: number
+    id: string
     name: string
     clients: string[]
+    users: string[]
 }
