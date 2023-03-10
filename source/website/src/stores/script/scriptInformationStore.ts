@@ -1,4 +1,4 @@
-import create from 'zustand'
+import {create} from 'zustand'
 
 import {Script} from '../../data/data_types'
 
@@ -7,14 +7,17 @@ interface ScriptSlice {
     setScripts: (entries: Script[]) => void
     addingScript: Script
     addScript: (entry: Script) => void
-    removeScript: (id: number) => void
+    removeScript: (id: string) => void
     resetScripts: () => void
-    getScriptById: (id: number) => Script
-    getScriptStatus: (id: number) => string
+    resetAddingScript: () => void
+    getScriptById: (id: string) => Script | undefined
+    getScriptStatus: (id: string) => string
+    getExecutedScripts: () => Script[]
+    getNotExecutedScripts: () => Script[]
 }
 
 export const initialScriptState: Script = {
-    id: -1,
+    id: '',
     name: '',
     description: '',
     code: '',
@@ -24,34 +27,52 @@ export const initialScriptState: Script = {
 }
 
 const useScriptStore = create<ScriptSlice>((set, get) => ({
-    scripts: [],
-    addingScript: {
-        id: -1,
-        name: '',
-        description: '',
-        code: '',
-        executionDate: new Date(),
-        language: 'Python',
-        fileExtension: '.py'
-    },
-    setScripts: (entries) => set(state => ({
-        scripts: state.scripts = entries
-    })),
-    addScript: (entry) => {
-        let scripts = get().scripts
+        scripts: [],
+        addingScript: {
+            id: '',
+            name: '',
+            description: '',
+            code: '',
+            executionDate: new Date(),
+            language: 'Python',
+            fileExtension: '.py'
+        },
+        setScripts: (entries) => set(state => ({
+            scripts: state.scripts = entries
+        })),
+        addScript: (entry) => {
+            let scripts = get().scripts
 
-        scripts.forEach(script => {
-            if (script.id === entry.id) {
-                scripts = scripts.filter((script) => script.id !== entry.id)
-            }
-        })
+            scripts.forEach(script => {
+                if (script.id === entry.id) {
+                    scripts = scripts.filter((script) => script.id !== entry.id)
+                }
+            })
 
-        scripts.push(entry)
+            scripts.push(entry)
 
-        set((state) => ({
-            scripts: state.scripts = [...scripts],
+            set((state) => ({
+                scripts: state.scripts = [...scripts],
+                addingScript: state.addingScript = {
+                    id: '',
+                    name: '',
+                    description: '',
+                    code: '',
+                    executionDate: new Date(),
+                    language: 'Python',
+                    fileExtension: '.py'
+                } // Reset, to add new data
+            }))
+        },
+        removeScript: (id) => set((state) => ({
+            scripts: state.scripts.filter((script) => script.id !== id)
+        })),
+        resetScripts: () => set(state => ({
+            scripts: state.scripts = []
+        })),
+        resetAddingScript: () => set(state => ({
             addingScript: state.addingScript = {
-                id: -1,
+                id: '',
                 name: '',
                 description: '',
                 code: '',
@@ -59,34 +80,54 @@ const useScriptStore = create<ScriptSlice>((set, get) => ({
                 language: 'Python',
                 fileExtension: '.py'
             } // Reset, to add new data
-        }))
-    },
-    removeScript: (id) => set((state) => ({
-        scripts: state.scripts.filter((script) => script.id !== id)
-    })),
-    resetScripts: () => set(state => ({
-        scripts: state.scripts = []
-    })),
-    getScriptById: (id) => {
-        const selectedScript = get().scripts.find((script) => script.id === id)
+        })),
+        getScriptById: (id) => {
+            const selectedScript = get().scripts.find((script) => script.id === id)
 
-        if (selectedScript !== undefined) {
-            return selectedScript
-        }
-
-        return initialScriptState
-    },
-    getScriptStatus: (id) => {
-        const script = get().getScriptById(id)
-
-        if (script.id !== -1) {
-            if (script.executionDate < new Date()) {
-                return 'Executed'
+            if (selectedScript !== undefined) {
+                return selectedScript
             }
-        }
 
-        return 'Execution Pending'
-    }
-}))
+            return undefined
+        },
+        getScriptStatus: (id) => {
+            const script = get().getScriptById(id)
+
+            if (script !== undefined) {
+                if (script.id !== '') {
+                    if (new Date(script.executionDate) < new Date()) {
+                        return 'Executed'
+                    }
+                }
+
+            }
+
+            return 'Execution Pending'
+        },
+        getExecutedScripts: () => {
+            const executedScripts: Script[] = []
+
+            get().scripts.forEach(script => {
+                if (get().getScriptStatus(script.id).toLowerCase() === 'executed') {
+                    executedScripts.push(script)
+                }
+            })
+
+            return executedScripts
+        },
+        getNotExecutedScripts: () => {
+            const notExecutedScripts: Script[] = []
+
+            get().scripts.forEach(script => {
+                if (get().getScriptStatus(script.id).toLowerCase() === 'execution pending') {
+                    notExecutedScripts.push(script)
+                }
+            })
+
+            return notExecutedScripts
+        }
+    })
+)
+
 
 export default useScriptStore
