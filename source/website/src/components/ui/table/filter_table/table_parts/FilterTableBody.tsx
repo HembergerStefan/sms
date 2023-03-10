@@ -3,50 +3,73 @@ import React, {useEffect, useState} from 'react'
 import {useTranslation} from 'react-i18next'
 import {ColumnDef, flexRender, Table} from '@tanstack/react-table'
 
-import {Client, DataTypes} from '../../../../../data/data_types'
+import {DataTypes} from '../../../../../data/data_types'
 
 import BoxHeading from '../../../box_heading_container/BoxHeading'
-import BasicScriptTableDropdownContent
-    from '../../../../form/dropdown/basic_table/basic_script_table/BasicScriptTableDropdownContent'
-import BasicPackageTableDropdownContent
-    from '../../../../form/dropdown/basic_table/basic_packaget_table/BasicPackageTableDropdownContent'
-import useClientStore, {initialClientState} from "../../../../../stores/clientInformationStore"
-import Dropdown from "../../../../form/dropdown/Dropdown"
-import useFilterDataListStore from "../../../../../stores/filterDataListStore";
+import useClientStore, {initialClientState} from '../../../../../stores/clientInformationStore'
+import Dropdown from '../../../../form/dropdown/Dropdown'
+import useFilterDataListStore from '../../../../../stores/filterDataListStore'
+import FilterClientTableDropdownContent
+    from '../../../../form/dropdown/filter_table/filter_client_table/FilterClientTableDropdownContent'
+import useGroupStore, {initialGroupState} from '../../../../../stores/groupInformationStore'
+import FilterGroupTableDropdownContent
+    from '../../../../form/dropdown/filter_table/filter_group_table/FilterGroupTableDropdownContent'
 
 interface FilterTableBodyProps {
     table: Table<any>
     columns: ColumnDef<any, any>[]
     tableType: DataTypes
+    setForTableType: Function
 }
 
-const FilterTableBody = ({table, columns, tableType}: FilterTableBodyProps) => {
+const FilterTableBody = ({table, columns, tableType, setForTableType}: FilterTableBodyProps) => {
 
     const {t} = useTranslation()
 
     /* Get the selected clients out of the store & the possibility to update the store */
     const {clients, getClientByName} = useClientStore()
 
-    const {forClient, setForDataType, setForClient} = useFilterDataListStore()
+    /* Get the selected groups out of the store & the possibility to update the store */
+    const {groups, getGroupByName} = useGroupStore()
 
-    const defaultClient = clients.at(0) ?? initialClientState
+    const {forClient, forGroup, setForClient, setForGroup} = useFilterDataListStore()
+
+    let defaultClient = clients.at(0) ?? initialClientState
+    let defaultGroup = groups.at(0) ?? initialGroupState
+
     const [mountDropdown, setMountDropdown] = useState<boolean>(false)
+    const [clientNameItems, setClientNameItems] = useState<string[]>(clients.map(client => client.name))
+    const [groupNameItems, setGroupNameItems] = useState<string[]>(groups.map(group => group.name))
 
-    const CLIENT_NAME_ITEMS: string[] = clients.map(client => client.name)
+    useEffect(() => {
+        setClientNameItems(clients.map(client => client.name))
+    }, [clients])
 
-    /* User selected item, so change the table size to it */
+    useEffect(() => {
+        setGroupNameItems(groups.map(group => group.name))
+        /* If client was added to group -> set selectedGroup to default so the component will rerender */
+        setForGroup(defaultGroup)
+    }, [groups])
+
+    /* User selected item, so change the client/group */
     const handleChange = (cr: string): void => {
-        setForClient(getClientByName(cr))
+        if (tableType === 0 || tableType === 1) {
+            setForClient(getClientByName(cr) !== undefined ? getClientByName(cr)! : initialClientState)
+            setForTableType({type: tableType, client: forClient, group: forGroup})
+        } else if (tableType === 3) {
+            setForGroup(getGroupByName(cr))
+            setForTableType({type: tableType, client: forClient, group: forGroup})
+        }
     }
 
     const scriptFilter = (): void => {
         setForClient(forClient)
-        setForDataType(DataTypes.SCRIPT)
+        setForTableType({type: DataTypes.SCRIPT, client: forClient, group: forGroup})
     }
 
     const packageFilter = (): void => {
         setForClient(forClient)
-        setForDataType(DataTypes.PACKAGE)
+        setForTableType({type: DataTypes.PACKAGE, client: forClient, group: forGroup})
     }
 
     return (
@@ -60,26 +83,33 @@ const FilterTableBody = ({table, columns, tableType}: FilterTableBodyProps) => {
                 <BoxHeading content={
                     <>
                         <h2 className='fs-qr-1 fw--semi-bold'>
-                            {tableType === 0 ? t('Executed Scripts') : t('Installed Packages')}</h2>
+                            {tableType === 0 ? t('Executed Scripts') : tableType === 1 ? t('Installed Packages') : t('Clients in Group')}</h2>
 
                         <div id='filter--menu-items'>
-                            <button className={tableType === 0 ? 'active--filter-button' : undefined}
-                                    onClick={() => scriptFilter()}>
-                                <span className='fw--semi-bold clr-sc-1 fs-tr-body-1'>{t('Scripts')}</span>
-                            </button>
+                            {
+                                tableType !== 3 ?
+                                    <>
+                                        <button className={tableType === 0 ? 'active--filter-button' : undefined}
+                                                onClick={() => scriptFilter()}>
+                                            <span className='fw--semi-bold clr-sc-1 fs-tr-body-1'>{t('Scripts')}</span>
+                                        </button>
 
-                            <button className={tableType === 1 ? 'active--filter-button' : undefined}
-                                    onClick={() => packageFilter()}>
-                                <span className='fw--semi-bold clr-sc-1 fs-tr-body-1'>{t('Packages')}</span>
-                            </button>
+                                        <button className={tableType === 1 ? 'active--filter-button' : undefined}
+                                                onClick={() => packageFilter()}>
+                                            <span className='fw--semi-bold clr-sc-1 fs-tr-body-1'>{t('Packages')}</span>
+                                        </button>
+                                    </>
+                                    : null
+                            }
 
-                            <Dropdown defaultValue={defaultClient.name} items={CLIENT_NAME_ITEMS}
+                            <Dropdown defaultValue={tableType !== 3 ? defaultClient.name : defaultGroup.name}
+                                      items={tableType !== 3 ? clientNameItems : groupNameItems}
                                       handleChange={handleChange}/>
                         </div>
                     </>
-                } dropdownContent={tableType === 0 ?
-                    <BasicScriptTableDropdownContent setMountDropdown={setMountDropdown}/> :
-                    <BasicPackageTableDropdownContent setMountDropdown={setMountDropdown}/>}
+                } dropdownContent={tableType === 0 || tableType === 1 ?
+                    <FilterClientTableDropdownContent setMountDropdown={setMountDropdown}/> : tableType === 3 ?
+                        <FilterGroupTableDropdownContent setMountDropdown={setMountDropdown}/> : null}
                             mountDropdown={mountDropdown} setMountDropdown={setMountDropdown}/>
             </td>
         </tr>
