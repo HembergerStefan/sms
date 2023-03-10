@@ -5,8 +5,8 @@ export const SideBarItems = [
         image: 'homeRoundedIcon'
     },
     {
-        title: 'Devices',
-        url: 'dashboard/devices',
+        title: 'Clients',
+        url: 'dashboard/clients',
         image: 'devicesRoundedIcon'
     },
     {
@@ -23,6 +23,11 @@ export const SideBarItems = [
         title: 'Packages',
         url: 'dashboard/packages',
         image: 'appsRoundedIcon'
+    },
+    {
+        title: 'Users',
+        url: 'dashboard/users',
+        image: 'personIcon'
     },
     {
         title: 'Settings',
