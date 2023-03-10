@@ -38,14 +38,18 @@ const BasicCardList = () => {
                         setMountDropdown={setMountDropdown}/>
 
             <div id='basic-card-list'>
-                {/* TODO: ADD FILTERING */}
-                {clients.map((client, index) => {
-                    if (index >= clientPageSize * clientPageIndex && index <= clientPageIndex * clientPageSize + (clientPageSize - 1)) {
-                        return <CardItem key={`cardItem${index}`} item={client}/>
-                    } else {
-                        return null
-                    }
-                })}
+                {
+                    clients.length !== 0 ?
+                        clients.map((client, index) => {
+                            if (index >= clientPageSize * clientPageIndex && index <= clientPageIndex * clientPageSize + (clientPageSize - 1)) {
+                                return <CardItem key={`cardItem${index}`} item={client} cardItemIndex={index}/>
+                            } else {
+                                return null
+                            }
+                        })
+                        :
+                        <span className='fw--semi-bold clr-pr-1'>{t('No entries available')}!</span>
+                }
             </div>
 
             <div className='mg-t-big'>
