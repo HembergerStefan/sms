@@ -1,5 +1,5 @@
-import create from 'zustand'
-import {persist} from 'zustand/middleware'
+import { create } from 'zustand'
+import {createJSONStorage, persist} from 'zustand/middleware'
 
 export interface RecentSearchStore {
     recentSearches: string[]
@@ -30,7 +30,7 @@ const useRecentSearchStore = create(
         }),
         {
             name: 'recent-search-store',
-            getStorage: () => localStorage
+            storage: createJSONStorage(() => localStorage)
         }
     )
 )

@@ -1,5 +1,5 @@
-import create from 'zustand'
-import {persist} from 'zustand/middleware'
+import { create } from 'zustand'
+import {createJSONStorage, persist} from 'zustand/middleware'
 
 export interface DataListPackageStore {
     table: any
@@ -8,14 +8,14 @@ export interface DataListPackageStore {
     packagePageCount: number
     canNextPackagePage: () => boolean
     canPreviousPackagePage: () => boolean
-    selectionPackageRows: number[]
+    selectionPackageRows: string[]
     setPackageTable: (table: any) => void
     nextPackagePage: () => void
     previousPackagePage: () => void
     setPackagePageSize: (size: number) => void
     setPackagePageIndex: (index: number) => void
     setPackagePageCount: (size: number) => void
-    setSelectionPackageRows: (rows: number[]) => void
+    setSelectionPackageRows: (rows: string[]) => void
 }
 
 const useDataListPackageStore = create(
@@ -70,7 +70,7 @@ const useDataListPackageStore = create(
             })),
         }), {
             name: 'data-list-package-store',
-            getStorage: () => sessionStorage
+            storage: createJSONStorage(() => sessionStorage)
         }
     )
 )

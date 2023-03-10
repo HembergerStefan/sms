@@ -1,5 +1,5 @@
-import create from 'zustand'
-import {persist} from 'zustand/middleware'
+import { create } from 'zustand'
+import {createJSONStorage, persist} from 'zustand/middleware'
 
 export interface DataListClientStore {
     table: any
@@ -8,14 +8,14 @@ export interface DataListClientStore {
     clientPageCount: number
     canNextClientPage: () => boolean
     canPreviousClientPage: () => boolean
-    selectionClientRows: number[]
+    selectionClientRows: string[]
     setClientTable: (table: any) => void
     nextClientPage: () => void
     previousClientPage: () => void
     setClientPageSize: (size: number) => void
     setClientPageIndex: (index: number) => void
     setClientPageCount: (size: number) => void
-    setSelectionClientRows: (rows: number[]) => void
+    setSelectionClientRows: (rows: string[]) => void
 }
 
 const useDataListClientStore = create(
@@ -66,7 +66,7 @@ const useDataListClientStore = create(
             }))
         }), {
             name: 'data-list-client-store',
-            getStorage: () => sessionStorage
+            storage: createJSONStorage(() => sessionStorage)
         }
     )
 )
