@@ -2,13 +2,15 @@ import React from 'react'
 
 import {useTranslation} from 'react-i18next'
 
+import {KeyWord} from '../../../../data/searchbar/SearchKeyWords'
+
 import SearchResultItem from './SearchResultItem'
 
 import './SearchItem.css'
 
 interface SearchItemProps {
     heading: React.ReactNode
-    data: string[]
+    data: KeyWord[]
     isSearchResult: boolean
 }
 
