@@ -48,14 +48,14 @@ const CardItem = ({item, cardItemIndex}: CardItemProps) => {
                         <IPInput value={item.ip}/>
                     }/>
 
-                <TitleInputWrapper title={`${t('Groups')} (${item.groups.length})`} content={
-                    <div ref={hoverRef} id='group-container'>
-                        {item.groups.map((group, index) => (
-                            <Chip key={`chip${index}`} value={group}/>
-                        ))}
-                    </div>
-                }/>
-            </div>
+                    <TitleInputWrapper title={`${t('Groups')} (${clientGroups.length})`} content={
+                        <div ref={hoverRef} id='group-container'>
+                            {clientGroups.map((group, index) => (
+                                <Chip key={`chip${index}`} value={group.name}/>
+                            ))}
+                        </div>
+                    }/>
+                </div>
 
                 <TitleInputWrapper title='Usages' content={
                     <div className='card-item--usage-wrapper'>
