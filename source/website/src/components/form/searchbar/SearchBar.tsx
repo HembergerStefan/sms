@@ -38,14 +38,20 @@ const SearchBar = () => {
         return foundWords
     }, [searchQuery])
 
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+    }
+
     return (
         <div id='search-bar--container'>
-            <input id='search-bar--text-input' className='fs-sc-body-1 fw-regular md-input' type='text'
-                   placeholder={t('Search for anything ...')}
-                   onChange={event => setQuery(() => event.target.value)}
-                   onKeyUp={() => setSearchResult(memorizedSearchFoundData)}
-                   autoComplete='off'
-                   autoFocus/>
+            <form onSubmit={handleSubmit}>
+                <input id='search-bar--text-input' className='fs-sc-body-1 fw-regular md-input' type='text'
+                       placeholder={t('Search for anything ...')}
+                       onChange={event => setQuery(() => event.target.value)}
+                       onKeyUp={() => setSearchResult(memorizedSearchFoundData)}
+                       autoComplete='off'
+                       autoFocus/>
+            </form>
 
             <div id='search-bar--icon-container'>
                 <SearchRoundedIcon/>
