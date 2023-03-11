@@ -101,7 +101,7 @@ const useClientStore = create<ClientSlice>((set, get) => ({
             return undefined
         },
         getClientOnlineStatus: (macAddress, selectedLng) => {
-            const client = get().getClientByMacAddress(macAddress)
+            const client: Client | undefined = get().getClientByMacAddress(macAddress)
 
             if (client === undefined) {
                 return {status: 'Offline', lastOnline: new Date().toLocaleString()}
@@ -111,7 +111,7 @@ const useClientStore = create<ClientSlice>((set, get) => ({
 
             // Last five minutes
             if (timeDiff <= 300_000) {
-                return {status: 'Online', lastOnline: String(timeDiff)}
+                return {status: 'Online', lastOnline: new Date(client.lastOnline).toLocaleTimeString()}
             }
 
             return {
