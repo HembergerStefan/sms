@@ -12,6 +12,8 @@ import BasicPackageTableDropdownContent
     from '../../../../form/dropdown/basic_table/basic_packaget_table/BasicPackageTableDropdownContent'
 import BasicClientTableDropdownContent
     from '../../../../form/dropdown/basic_table/basic_client_table/BasicClientTableDropdownContent'
+import BasicUserTableDropdownContent
+    from '../../../../form/dropdown/basic_table/basic_user_table/BasicUserTableDropdownContent'
 
 interface BasicTableBodyProps {
     table: Table<any>
@@ -35,12 +37,14 @@ const BasicTableBody = ({table, columns, tableType}: BasicTableBodyProps) => {
             <td colSpan={columns.length} style={{borderRadius: 'var(--br-r-medium) var(--br-r-medium) 0 0'}}>
                 <BoxHeading content={
                     <h2 className='fs-qr-1 fw--semi-bold'>
-                        {tableType === 0 ? t('All Scripts') : tableType === 1 ? t('All Packages') : t('All Clients')}</h2>}
+                        {tableType === 0 ? t('All Scripts') : tableType === 1 ? t('All Packages') : tableType === 2 ? t('All Clients') : t('All Users')}</h2>}
                             dropdownContent={tableType === 0 ?
                                 <BasicScriptTableDropdownContent setMountDropdown={setMountDropdown}/> :
                                 tableType === 1 ?
                                     <BasicPackageTableDropdownContent setMountDropdown={setMountDropdown}/> :
-                                    <BasicClientTableDropdownContent setMountDropdown={setMountDropdown}/>
+                                    tableType === 2 ?
+                                        <BasicClientTableDropdownContent setMountDropdown={setMountDropdown}/> :
+                                        <BasicUserTableDropdownContent setMountDropdown={setMountDropdown}/>
                             }
                             mountDropdown={mountDropdown}
                             setMountDropdown={setMountDropdown}/>
