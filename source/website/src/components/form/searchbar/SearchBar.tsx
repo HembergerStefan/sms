@@ -3,7 +3,7 @@ import {useTranslation} from 'react-i18next'
 
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded'
 
-import {KeyWords} from '../../../data/searchbar/SearchKeyWords'
+import {KeyWord, KeyWords} from '../../../data/searchbar/SearchKeyWords'
 
 import useSearchStore from '../../../stores/searchResultStore'
 
@@ -22,7 +22,7 @@ const SearchBar = () => {
     const {setSearchResult} = useSearchStore()
 
     const memorizedSearchFoundData = useMemo(() => {
-        let foundWords: string[] = []
+        let foundWords: KeyWord[] = []
 
         if (searchQuery !== '') {
             KeyWords.forEach(keyWord => {
@@ -30,7 +30,7 @@ const SearchBar = () => {
 
                 // Filter if the item should be added or not
                 if (s >= 0.21) {
-                    foundWords.push(keyWord.name)
+                    foundWords.push(keyWord)
                 }
             })
         }
