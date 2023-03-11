@@ -1,9 +1,11 @@
 import { create } from 'zustand'
 import {createJSONStorage, persist} from 'zustand/middleware'
 
+import {KeyWord} from '../data/searchbar/SearchKeyWords'
+
 export interface RecentSearchStore {
-    recentSearches: string[]
-    addRecentSearch: (entry: string) => void
+    recentSearches: KeyWord[]
+    addRecentSearch: (entry: KeyWord) => void
     resetRecentSearch: () => void
 }
 
