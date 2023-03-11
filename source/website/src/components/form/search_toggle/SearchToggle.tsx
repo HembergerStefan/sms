@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import ReactDOM from 'react-dom'
 
 import {useTranslation} from 'react-i18next'
@@ -6,12 +6,13 @@ import {useTranslation} from 'react-i18next'
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded'
 
 import useSearchStore from '../../../stores/searchResultStore'
+import useRecentSearchStore from '../../../stores/recentSearchStore'
+import {DataTypes} from '../../../data/data_types'
 
 import Dialog from '../../../components/ui/dialog/Dialog'
 import SearchInformationDialog from '../../../components/ui/dialog/search/SearchInformationDialog'
 
 import './SearchToggle.css'
-import {DataTypes} from "../../../data/data_types";
 
 const SearchToggle = () => {
 
@@ -19,8 +20,13 @@ const SearchToggle = () => {
 
     /* Get the search result out of the store */
     const {searchResult} = useSearchStore()
+    const {recentSearches} = useRecentSearchStore()
 
     const [renderComponent, setRenderComponent] = useState(false)
+
+    useEffect(() => {
+        setRenderComponent(() => false)
+    }, [recentSearches])
 
     return (
         <div id='search-toggle--container'>
