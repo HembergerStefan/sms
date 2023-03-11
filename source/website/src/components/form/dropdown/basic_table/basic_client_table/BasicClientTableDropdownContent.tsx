@@ -1,19 +1,17 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 
 import {useTranslation} from 'react-i18next'
 
 import useDataListClientStore from '../../../../../stores/dataListClientStore'
+import useCardListClientStore from '../../../../../stores/cardListClientStore'
+import {useRemoveClientMutation, useUserPermittedQuery} from '../../../../../utils/api/ApiService'
 
 import GridViewRoundedIcon from '@mui/icons-material/GridViewRounded'
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded'
 
 import Dropdown from '../../Dropdown'
-import DialogManager from '../../../../ui/dialog/DialogManager'
 
 import '../BasicTableDropdownContent.css'
-import {DataTypes} from "../../../../../data/data_types";
-import useCardListClientStore from "../../../../../stores/cardListClientStore";
-import useClientStore from "../../../../../stores/clientInformationStore";
 
 interface BasicClientTableDropdownContentProps {
     setMountDropdown: Function
@@ -23,7 +21,6 @@ const BasicClientTableDropdownContent = ({setMountDropdown}: BasicClientTableDro
 
     const {t} = useTranslation()
 
-    const {removeClient} = useClientStore()
     const {setClientDisplayMode} = useCardListClientStore()
 
     const {
@@ -36,9 +33,18 @@ const BasicClientTableDropdownContent = ({setMountDropdown}: BasicClientTableDro
         selectionClientRows
     } = useDataListClientStore()
 
-    const [renderDialogComponent, setRenderDialogComponent] = useState<boolean>(false)
+    const [userPermitted, setUserPermitted] = useState<boolean>(false)
 
+    const userPermittedQuery = useUserPermittedQuery()
+
+    const clientRemoveMutation = useRemoveClientMutation()
     const PAGE_SIZE_ITEMS: number[] = [5, 10, 20, 30, 40, 50]
+
+    useEffect(() => {
+        if (userPermittedQuery.isSuccess && userPermittedQuery.data.name === 'Admin') {
+            setUserPermitted(() => true)
+        }
+    }, [userPermittedQuery.data])
 
     /* User selected item, so change the table size to it */
     const handleChange = (cr: number): void => {
@@ -47,9 +53,11 @@ const BasicClientTableDropdownContent = ({setMountDropdown}: BasicClientTableDro
 
     /* Remove all selected clients entries */
     const remove = () => {
-        /*selectionClientRows.forEach(id => {
-            removeClient(id)
-        })*/
+        selectionClientRows.forEach(id => {
+            clientRemoveMutation.mutate(id)
+        })
+
+        setMountDropdown(() => false)
     }
 
     return (
@@ -89,24 +97,24 @@ const BasicClientTableDropdownContent = ({setMountDropdown}: BasicClientTableDro
                               handleChange={handleChange}/>
                 </div>
 
-                <hr/>
+                {
+                    userPermitted ?
+                        <>
+                            <hr/>
 
-                <li>
-                    <button onClick={() => {
-                    }}
-                            disabled={selectionClientRows.length === 0}>
-                        <div style={{color: 'var(--ac-clr-2)'}}>
-                            <DeleteRoundedIcon/>
-                            <span
-                                style={{color: 'var(--ac-clr-2)'}}>{t('Remove')} {selectionClientRows.length !== 0 ? `(${selectionClientRows.length})` : ''}</span>
-                        </div>
-                    </button>
-                </li>
+                            <li>
+                                <button onClick={() => remove()}
+                                        disabled={selectionClientRows.length === 0}>
+                                    <div style={{color: 'var(--ac-clr-2)'}}>
+                                        <DeleteRoundedIcon/>
+                                        <span
+                                            style={{color: 'var(--ac-clr-2)'}}>{t('Remove')} {selectionClientRows.length !== 0 ? `(${selectionClientRows.length})` : ''}</span>
+                                    </div>
+                                </button>
+                            </li>
+                        </> : null
+                }
             </ul>
-
-            {/*<DialogManager dialogTyp={DataTypes.PACKAGE} title='Add Package' editMode={false}
-                           renderComponent={renderDialogComponent}
-                           setRenderComponent={setRenderDialogComponent}/>*/}
         </>
     )
 }
