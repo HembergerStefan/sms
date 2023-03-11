@@ -49,12 +49,12 @@ const CardItem = ({item, cardItemIndex}: CardItemProps) => {
                 }/>
             </div>
 
-            <TitleInputWrapper title='Usages' content={
-                <div className='card-item--usage-wrapper'>
-                    <div>
-                        <h3 className='fs-tr-body-1 fw--semi-bold'>CPU</h3>
-                        <ProgressRing value={item.cpuUsage}/>
-                    </div>
+                <TitleInputWrapper title='Usages' content={
+                    <div className='card-item--usage-wrapper'>
+                        <div>
+                            <h3 className='fs-tr-body-1 fw--semi-bold'>{t('CPU')}</h3>
+                            <ProgressRing value={item.cpuUsage}/>
+                        </div>
 
                     <div>
                         <h3 className='fs-tr-body-1 fw--semi-bold'>Memory</h3>
