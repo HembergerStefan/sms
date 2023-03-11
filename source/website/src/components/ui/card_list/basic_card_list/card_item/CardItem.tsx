@@ -1,8 +1,9 @@
-import React, {memo} from 'react'
+import React, {memo, useState} from 'react'
 
 import {useTranslation} from 'react-i18next'
 
-import {Client} from '../../../../../data/data_types'
+import useGroupStore from '../../../../../stores/groupInformationStore'
+import {Client, DataTypes, Group} from '../../../../../data/data_types'
 
 import useHover from '../../../../../hooks/useHover'
 
@@ -11,15 +12,17 @@ import OnlineStatus from '../../../online_status_displaying/OnlineStatus'
 import TitleInputWrapper from '../../../title_input_wrapper/TitleInputWrapper'
 import ProgressRing from '../../../progress_ring/ProgressRing'
 import Chip from '../../../chip/Chip'
+import IPInput from '../../../ip_input/IPInput'
+import DialogManager from '../../../dialog/DialogManager'
 
 import './CardItem.css'
-import IPInput from "../../../ip_input/IPInput";
 
 interface CardItemProps {
     item: Client
+    cardItemIndex: number
 }
 
-const CardItem = ({item}: CardItemProps) => {
+const CardItem = ({item, cardItemIndex}: CardItemProps) => {
 
     const {t} = useTranslation()
 
@@ -32,10 +35,10 @@ const CardItem = ({item}: CardItemProps) => {
                 <OnlineStatus client={item}/>
             </div>
 
-            <div className='card-item--ipgro-wrapper'>
-                <TitleInputWrapper title='IP' content={
-                    <IPInput value={item.ip}/>
-                }/>
+                <div className='card-item--ipgro-wrapper'>
+                    <TitleInputWrapper title='IP' content={
+                        <IPInput value={item.ip}/>
+                    }/>
 
                 <TitleInputWrapper title={`${t('Groups')} (${item.groups.length})`} content={
                     <div ref={hoverRef} id='group-container'>
