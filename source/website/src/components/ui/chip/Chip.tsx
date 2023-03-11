@@ -3,7 +3,7 @@ import React, {memo} from 'react'
 import './Chip.css'
 
 interface ChipProps {
-    value: string
+    value: string | number
 }
 
 const Chip = ({value}: ChipProps) => {
