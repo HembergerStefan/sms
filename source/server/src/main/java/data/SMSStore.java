@@ -532,6 +532,8 @@ public class SMSStore implements ISMSStore, Serializable {
         realClient.setLastOnline(client.getLastOnline());
         realClient.setCpuUsage(client.getCpuUsage());
         realClient.setUsedDiskspace(client.getUsedDiskspace());
+        realClient.setRamUsage(client.getRamUsage());
+        realClient.setOs(client.getOs());
        /* realClient.setPackages(client.getPackages());
         realClient.setScript(client.getScript());*/
         clientRepository.getEntityManager().merge(realClient);
