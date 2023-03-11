@@ -15,6 +15,7 @@ import useGroupStore from '../stores/groupInformationStore'
 import useClientStore from '../stores/clientInformationStore'
 import useScriptStore from '../stores/script/scriptInformationStore'
 import useTaskStore from '../stores/task/taskInformationStore'
+import useUserInfoStore from '../stores/user/userInformationStore'
 import {WebsocketConfig} from '../data/api_data/ApiConfig'
 import {Client, DataTypes, Group} from '../data/data_types'
 
@@ -29,7 +30,6 @@ import TaskButton from '../components/form/common_button/task_button/TaskButton'
 import TaskInformationDialog from '../components/ui/dialog/task/TaskInformationDialog'
 
 import './Layout.css'
-import useUserInfoStore from "../stores/user/userInformationStore";
 
 const Overview = () => {
 
