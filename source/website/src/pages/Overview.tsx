@@ -17,7 +17,8 @@ import useScriptStore from '../stores/script/scriptInformationStore'
 import useTaskStore from '../stores/task/taskInformationStore'
 import useUserInfoStore from '../stores/user/userInformationStore'
 import {WebsocketConfig} from '../data/api_data/ApiConfig'
-import {Client, DataTypes, Group} from '../data/data_types'
+import {DataTypes} from '../data/data_types'
+import WebsocketService from '../utils/websocket/WebsocketService'
 
 import {useUserPermittedQuery} from '../utils/api/ApiService'
 
@@ -57,95 +58,10 @@ const Overview = () => {
 
     useEffect(() => {
         if (token !== undefined && id !== '' && roleName === 'User' && location.pathname.includes('dashboard')) {
-            const socket = new WebSocket(`ws://${WebsocketConfig.baseUrl}:${WebsocketConfig.port}/webpage/${id}/${token}`)
-
-            socket.onmessage = (event) => {
-                const json = JSON.parse(event.data)
-
-                try {
-                    if ((json.event = 'data')) {
-                        /* Set user data */
-                        setWebsocketUserData(json)
-                        /* Set group data */
-                        setWebsocketGroupData(json.groups)
-                    }
-                } catch (err) {
-                    console.log(`websocket exception: ${err}`)
-                }
-            }
+            const socketService = new WebsocketService(new WebSocket(`ws://${WebsocketConfig.baseUrl}:${WebsocketConfig.port}/webpage/${id}/${token}`))
+            socketService.initWebsocket(setUsers, setGroups, setClients)   // start socket.onmessage function
         }
     }, [])
-
-    const setWebsocketUserData = (json: any) => {
-        setUsers([{
-            id: json.id,
-            username: json.username,
-            password: '',
-            role: json.role.id
-        }])
-    }
-
-    const setWebsocketGroupData = (json: any) => {
-        const groupsTemp: Group[] = []
-        let clientsTempList: Client[] = []
-
-        json.forEach((entry: any) => {
-            const clientsTemp: string[] = []
-
-            entry.clients.forEach((client: { macAddress: { macAddress: string } }) => {
-                clientsTemp.push(client.macAddress.macAddress)
-
-                /* Set client data */
-                setWebsocketClientData(client, clientsTempList)
-            })
-
-            groupsTemp.push({
-                id: entry.id,
-                name: entry.name,
-                clients: clientsTemp,
-                users: []
-            })
-        })
-
-        clientsTempList = clientsTempList.filter((value, index, self) =>
-                index === self.findIndex((t) => (
-                    t.macAddress === value.macAddress
-                ))
-        )
-
-        setGroups(groupsTemp)
-        setClients(clientsTempList)
-    }
-
-    const setWebsocketClientData = (entry: any, clientsTemp: Client[]) => {
-        const scriptsTemp: string[] = []
-        const packagesTemp: string[] = []
-
-        if (entry.scripts.length !== 0) {
-            entry.scripts.forEach((scriptEntry: { id: string }) => {
-                scriptsTemp.push(scriptEntry.id)
-            })
-        }
-
-        if (entry.packages.length !== 0) {
-            entry.packages.forEach((_package: { id: string }) => {
-                packagesTemp.push(_package.id)
-            })
-        }
-
-        clientsTemp.push({
-            macAddress: entry.macAddress.macAddress,
-            name: entry.name,
-            ip: entry.ip,
-            os: entry.os,
-            lastOnline: new Date(entry.lastOnline),
-            usedDiskspace: Number(entry.usedDiskspace),
-            cpuUsage: Number(entry.cpuUsage),
-            ramUsage: Number(entry.ramUsage),
-            packages: packagesTemp,
-            scripts: scriptsTemp
-        })
-    }
 
     return (
         <section id='dashboard-layout--container'>
