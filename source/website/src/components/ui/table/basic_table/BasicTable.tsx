@@ -200,7 +200,7 @@ const BasicTable = ({tableType}: BasicTableProps) => {
         columnHelper.accessor('url', {
             header: () => <h1>{t('Link')}</h1>,
             cell: info => <div style={{width: 'fit-content'}}>
-                <RedirectButton content='Got to page' url={info.getValue()} target='_blank'/>
+                <RedirectButton content='Go to page' url={info.getValue()} target='_blank'/>
             </div>
         }),
     ], [])
