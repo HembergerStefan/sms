@@ -35,11 +35,13 @@ const CardItem = ({item, cardItemIndex}: CardItemProps) => {
     const clientGroups: Group[] = getGroupsOfClient(item.macAddress)
 
     return (
-        <article className='card-item'>
-            <div className='card-item--heading-wrapper'>
-                <span className='fs-qi-1 fw--semi-bold clr-pr-1'>{item.name}</span>
-                <OnlineStatus client={item}/>
-            </div>
+        <>
+            <article className='card-item'>
+                <div className='card-item--heading-wrapper'>
+                    <span className='fs-qi-1 fw--semi-bold clr-pr-1'
+                          onClick={() => setRenderDialogComponent(() => true)}>{item.name}</span>
+                    <OnlineStatus client={item}/>
+                </div>
 
                 <div className='card-item--ipgro-wrapper'>
                     <TitleInputWrapper title='IP' content={
@@ -74,20 +76,30 @@ const CardItem = ({item, cardItemIndex}: CardItemProps) => {
                     </div>
                 }/>
 
-            {
-                (isHovered) ? <TooltipManager
-                    content={
-                        <div id='card-groups--tooltip'>
-                            <span className='fs-pr-body-1 fw--semi-bold'>In Groups</span>
-                            <div id='group-container'>
-                                {item.groups.map((group, index) => (
-                                    <Chip key={`chip${index}`} value={group}/>
-                                ))}
+                {
+                    (isHovered) ? <TooltipManager
+                        content={
+                            <div id='card-groups--tooltip'>
+                                <span className='fs-pr-body-1 fw--semi-bold'>{t('In Groups')}</span>
+                                <div id='group-container'>
+                                    {clientGroups.map((group, index) => (
+                                        <Chip key={`chip${index}`} value={group.name}/>
+                                    ))}
+                                </div>
                             </div>
-                        </div>
-                    }/> : null
-            }
-        </article>
+                        }/> : null
+                }
+            </article>
+
+            <DialogManager
+                dialogTyp={DataTypes.CLIENT}
+                title='Update Client Information'
+                editMode={true}
+                selectedId={item.macAddress}
+                displayId={cardItemIndex + 1}
+                renderComponent={renderDialogComponent}
+                setRenderComponent={setRenderDialogComponent}/>
+        </>
     )
 }
 
