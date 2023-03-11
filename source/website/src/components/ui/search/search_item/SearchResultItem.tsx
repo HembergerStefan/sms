@@ -1,6 +1,7 @@
 import React, {useEffect, useState, memo} from 'react'
 
 import {useTranslation} from 'react-i18next'
+import {useNavigate} from 'react-router-dom'
 
 import TagIcon from '@mui/icons-material/Tag'
 import AccessTimeRoundedIcon from '@mui/icons-material/AccessTimeRounded'
@@ -20,11 +21,12 @@ interface SearchItemProps {
 const SearchResultItem = ({entry, isSearchResult}: SearchItemProps) => {
 
     const {t} = useTranslation()
+    const navigate = useNavigate()
 
     const [searchIcon, setSearchIcon] = useState<JSX.Element>(<TagIcon/>)
 
     /* Update the recent searches in the store */
-    const addRecentSearch = useRecentSearchStore((state: { addRecentSearch: (entry: string) => void }) => state.addRecentSearch)
+    const {addRecentSearch} = useRecentSearchStore()
 
     useEffect(() => {
         if (isSearchResult) {
@@ -41,7 +43,7 @@ const SearchResultItem = ({entry, isSearchResult}: SearchItemProps) => {
                      /* Add a new item to the store */
                      addRecentSearch(entry)
 
-                     window.location.replace(getLinkToItem(entry))
+                     navigate(`dashboard${getLinkToItem(entry) !== '/' ? getLinkToItem(entry) : ''}`)
                  }}>
                 <div className='clr-sc-1'>
                     {
