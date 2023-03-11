@@ -193,19 +193,16 @@ const BasicTable = ({tableType}: BasicTableProps) => {
             header: () => <h1>{t('Version')}</h1>,
             cell: info => <span>{info.getValue()}</span>,
         }),
-        columnHelper.accessor('installationDate', {
-            header: () => <h1>{t('Installation Date')}</h1>,
-            cell: info => <span>
-                {info.getValue().getDate()} {t(info.getValue().toLocaleString('default', {month: 'long'}))} {info.getValue().getFullYear()}, {info.getValue().toLocaleTimeString().slice(0, info.getValue().toLocaleTimeString().length - 3)}
-            </span>,
+        columnHelper.accessor('addingDate', {
+            header: () => <h1>{t('Add Date')}</h1>,
+            cell: info => {
+                const date = new Date(info.getValue())
+
+                return <span>
+                {date.getDate()} {t(date.toLocaleString('default', {month: 'long'}))} {date.getFullYear()}, {date.toLocaleTimeString().slice(0, date.toLocaleTimeString().length - 3)}
+            </span>
+            },
         }),
-        {
-            id: 'status',
-            header: () => <h1>{t('Status')}</h1>,
-            cell: info => <StatusDisplaying status={getPackageStatus(info.row.original.id)}
-                                            success={getPackageStatus(info.row.original.id).toLowerCase() === 'installed'}/>,
-            accessorFn: originalRow => getPackageStatus(originalRow.id)
-        },
         columnHelper.accessor('url', {
             header: () => <h1>{t('Link')}</h1>,
             cell: info => <div style={{width: 'fit-content'}}>
