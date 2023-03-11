@@ -45,7 +45,7 @@ public class ClientSocket {
         if (!smsStore.clientIsAvailable(mac_address)) {
             if (!smsStore.availableclientIsAvailable(mac_address)) {//wenn es noch keinen Client oder Available_Client gibt, wird ein neuer erstellt
                 var baseclient = new Baseclient(mac_address);
-                var available_client = new Available_Clients(new Baseclient(mac_address), "unkowen", "0.0.0.0");
+                var available_client = new Available_Clients(new Baseclient(mac_address), "unknown", "0.0.0.0");
                 smsStore.insertBase_Client(baseclient);
                 smsStore.insertAvailable_Client(available_client);
             }
