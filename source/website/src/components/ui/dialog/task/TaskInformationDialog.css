@@ -1,0 +1,118 @@
+#task-information-dialog--container {
+    display: grid;
+    gap: 1.75rem;
+
+    padding: 0.25rem;
+
+    overflow: auto;
+}
+
+/* Placeholder options --Begin */
+.placeholder--option-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 100px;
+
+    padding: var(--pd-t-small) var(--pd-t-medium);
+
+    border-radius: var(--br-r-small-medium);
+    border: 1px solid var(--av-cl--border-clr);
+
+    transition: background-color 200ms;
+
+    cursor: pointer;
+}
+
+.placeholder--option-item:hover {
+    background-color: var(--nv-item--h--bg-clr);
+
+    transition: unset;
+}
+
+.disabled-placeholder--option-item {
+    cursor: not-allowed !important;
+}
+
+.disabled-placeholder--option-item:hover {
+    background-color: unset !important;
+}
+
+/* Placeholder options --End */
+
+/* Target options --Begin */
+.target--options-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    position: relative;
+
+    height: 100px;
+
+    padding: var(--pd-t-small) var(--pd-t-medium);
+
+    border-radius: var(--br-r-small-medium);
+    border: 1px solid var(--av-cl--border-clr);
+    transition: background-color 200ms;
+}
+
+.target--options-item:hover {
+    background-color: var(--nv-item--h--bg-clr);
+
+    transition: unset;
+}
+
+.target--options-item > div > div > span {
+    max-width: unset !important;
+}
+
+.target--options-item > div > h2 {
+    width: fit-content;
+
+    cursor: default;
+}
+
+/* Target options --End */
+
+/* Task type options --Begin */
+.task-type--options-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    position: relative;
+
+    height: 100px;
+
+    padding: var(--pd-t-small) var(--pd-t-medium);
+
+    border-radius: var(--br-r-small-medium);
+    border: 1px solid var(--av-cl--border-clr);
+    transition: background-color 200ms;
+}
+
+.task-type--options-item:hover {
+    background-color: var(--nv-item--h--bg-clr);
+
+    transition: unset;
+}
+
+.task-type--options-item > div > div > span {
+    max-width: 520px !important;
+}
+
+.task-type--options-item > div > h2 {
+    width: fit-content;
+
+    cursor: default;
+}
+
+/* Task type options --End */
+
+.task-type--options-item > div:first-of-type, .target--options-item > div:first-of-type {
+    position: absolute;
+    top: 0;
+    right: 0;
+}

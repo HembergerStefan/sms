@@ -1,0 +1,32 @@
+.group-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    padding: var(--pd-t-small) var(--pd-t-medium);
+
+    border-radius: var(--br-r-small-medium);
+    border: 1px solid var(--av-cl--border-clr);
+
+    transition: background-color 200ms;
+}
+
+.group-item:hover {
+    background-color: var(--nv-item--h--bg-clr);
+
+    transition: unset;
+}
+
+.group-item > div > h2 {
+    width: 140px;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+
+    cursor: default;
+}
+
+.group-item > button {
+    margin-left: auto;
+}
