@@ -13,16 +13,17 @@ import {
     useReactTable,
 } from '@tanstack/react-table'
 
-import {Client, DataTypes, Package, Script} from '../../../../data/data_types'
+import {Client, DataTypes, Package, Script, User} from '../../../../data/data_types'
 
-import {defaultPackageData, defaultScriptData} from './basic_table_demo_data/BasicTableDemoData'
-import {defaultClientData} from '../../card_list/basic_card_list/basic_card_list_demo_data/BasicCardListDemoData'
-import useScriptStore from '../../../../stores/scriptInformationStore'
+import useScriptStore from '../../../../stores/script/scriptInformationStore'
 import useDataListScriptStore from '../../../../stores/dataListScriptStore'
 import useDataListPackageStore from '../../../../stores/dataListPackageStore'
-import usePackageStore from '../../../../stores/packageInformationStore'
+import usePackageStore from '../../../../stores/package/packageInformationStore'
 import useClientStore from '../../../../stores/clientInformationStore'
+import useUserInfoStore from '../../../../stores/user/userInformationStore'
+import useRoleStore from '../../../../stores/role/roleInformationStore'
 import useDataListClientStore from '../../../../stores/dataListClientStore'
+import useDataListUserStore from '../../../../stores/dataListUserStore'
 
 import Checkbox from '../../../form/checkbox/Checkbox'
 import Numbering from '../../numbering/Numbering'
@@ -48,10 +49,16 @@ const BasicTable = ({tableType}: BasicTableProps) => {
     const {scripts, setScripts, getScriptStatus} = useScriptStore()
 
     /* Get the selected packages out of the store & the possibility to update the store */
-    const {_packages, setPackages, getPackageStatus} = usePackageStore()
+    const {_packages} = usePackageStore()
+
+    /* Get the selected users out of the store & the possibility to update the store */
+    const {users} = useUserInfoStore()
 
     /* Get the selected clients out of the store & the possibility to update the store */
-    const {clients, setClients, getClientOnlineStatus} = useClientStore()
+    const {clients, getClientOnlineStatus} = useClientStore()
+
+    /* Get the roles out of the store */
+    const {getRoleById} = useRoleStore()
 
     const {
         setScriptTable,
@@ -80,8 +87,18 @@ const BasicTable = ({tableType}: BasicTableProps) => {
         setSelectionClientRows
     } = useDataListClientStore()
 
+    const {
+        setUserTable,
+        userPageSize,
+        userPageIndex,
+        setUserPageIndex,
+        setUserPageCount,
+        setSelectionUserRows
+    } = useDataListUserStore()
+
     const [renderDialogComponent, setRenderDialogComponent] = useState<boolean>(false)
-    const [selectedId, setSelectedId] = useState<number>(-1)
+    const [selectedId, setSelectedId] = useState<string>('')
+    const [selectedRow, setSelectedRow] = useState<number>(-1)
     const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
     const [sorting, setSorting] = useState<SortingState>([])
     const [data, setData] = useState(() => tableType === 0 ? [...scripts] : tableType === 1 ? [..._packages] : [...clients])
@@ -94,12 +111,14 @@ const BasicTable = ({tableType}: BasicTableProps) => {
             setData(() => scripts)
         } else if (tableType === 1) {
             setData(() => _packages)
-        } else {
+        } else if (tableType === 2) {
             setData(() => clients)
+        } else if (tableType === 4) {
+            setData(() => users)
         }
-    }, [scripts, _packages, clients])
+    }, [scripts, _packages, clients, users])
 
-    const columnHelper = createColumnHelper<Script & Package & Client>()
+    const columnHelper = createColumnHelper<Script & Package & Client & User>()
 
     const selectionColumn: ColumnDef<any, any> = (
         {
@@ -127,7 +146,12 @@ const BasicTable = ({tableType}: BasicTableProps) => {
         columnHelper.accessor('name', {
             header: () => <h1>{t('Name')}</h1>,
             cell: info => <div onClick={() => {
-                setSelectedId(() => info.row.original.id)
+                if (tableType === 2) {
+                    setSelectedId(() => info.row.original.macAddress)
+                } else {
+                    setSelectedId(() => info.row.original.id)
+                }
+                setSelectedRow(() => info.row.index)
                 setRenderDialogComponent((prevState) => !prevState)
             }} style={{display: 'flex', alignItems: 'center', gap: '16px', width: 'fit-content', cursor: 'pointer'}}>
                 <Numbering value={info.row.index + 1}/>
@@ -217,7 +241,28 @@ const BasicTable = ({tableType}: BasicTableProps) => {
         }
     ], [])
 
-    const columns: ColumnDef<any, any>[] = tableType === 0 ? scriptColumns : tableType === 1 ? packageColumns : clientColumns
+    const userColumns = useMemo<ColumnDef<any, any>[]>(() => [
+        selectionColumn,
+        columnHelper.accessor('username', {
+            header: () => <h1>{t('Username')}</h1>,
+            cell: info => <div onClick={() => {
+                setSelectedId(() => info.row.original.id)
+                setSelectedRow(() => info.row.index)
+                setRenderDialogComponent((prevState) => !prevState)
+            }} style={{display: 'flex', alignItems: 'center', gap: '16px', width: 'fit-content', cursor: 'pointer'}}>
+                <Numbering value={info.row.index + 1}/>
+                <span className='fw--semi-bold clr-pr-1'>{info.getValue()}</span>
+            </div>,
+        }),
+        {
+            id: 'role',
+            header: () => <h1>{t('Role')}</h1>,
+            cell: info => <span>{getRoleById(info.row.original.role).name}</span>,
+            accessorFn: originalRow => getRoleById(originalRow.role).name
+        }
+    ], [])
+
+    const columns: ColumnDef<any, any>[] = tableType === 0 ? scriptColumns : tableType === 1 ? packageColumns : tableType === 2 ? clientColumns : userColumns
 
     const table = useReactTable({
         data,
@@ -240,26 +285,35 @@ const BasicTable = ({tableType}: BasicTableProps) => {
         } else if (tableType === 1) {
             setPackageTable(table)
             table.setPageIndex(packagePageIndex)
-        } else {
+        } else if (tableType === 2) {
             setClientTable(table)
             table.setPageIndex(clientPageIndex)
+        } else if (tableType === 4) {
+            setUserTable(table)
+            table.setPageIndex(userPageIndex)
         }
     }, [])
 
     /* React to changes on the table row selection */
     useEffect(() => {
-        const rows: number[] = []
+        const rows: string[] = []
 
         Object.entries(rowSelection).forEach(([key]) => {
-            rows.push(table.getRow(key).original.id)
+            if (tableType !== 2) {
+                rows.push(table.getRow(key).original.id)
+            } else {
+                rows.push(table.getRow(key).original.macAddress)
+            }
         })
 
         if (tableType === 0) {
             setSelectionScriptRows(rows)
         } else if (tableType === 1) {
             setSelectionPackageRows(rows)
-        } else {
+        } else if (tableType === 2) {
             setSelectionClientRows(rows)
+        } else if (tableType === 4) {
+            setSelectionUserRows(rows)
         }
     }, [rowSelection])
 
@@ -269,10 +323,12 @@ const BasicTable = ({tableType}: BasicTableProps) => {
             table.setPageSize(scriptPageSize)
         } else if (tableType === 1) {
             table.setPageSize(packagePageSize)
-        } else {
+        } else if (tableType === 2) {
             table.setPageSize(clientPageSize)
+        } else if (tableType === 4) {
+            table.setPageSize(userPageSize)
         }
-    }, [scriptPageSize, packagePageSize, clientPageSize])
+    }, [scriptPageSize, packagePageSize, clientPageSize, userPageSize])
 
     let index = table.getState().pagination.pageIndex
 
@@ -282,8 +338,10 @@ const BasicTable = ({tableType}: BasicTableProps) => {
             setScriptPageIndex(index)
         } else if (tableType === 1) {
             setPackagePageIndex(index)
-        } else {
+        } else if (tableType === 2) {
             setClientPageIndex(index)
+        } else if (tableType === 4) {
+            setUserPageIndex(index)
         }
     }, [index])
 
@@ -295,18 +353,23 @@ const BasicTable = ({tableType}: BasicTableProps) => {
             setScriptPageCount(pageCount)
         } else if (tableType === 1) {
             setPackagePageCount(pageCount)
-        } else {
+        } else if (tableType === 2) {
             setClientPageCount(pageCount)
+        } else if (tableType === 4) {
+            setUserPageCount(pageCount)
         }
     }, [pageCount])
 
     return (
         <>
-            <DialogManager dialogTyp={tableType === 0 ? DataTypes.SCRIPT : DataTypes.PACKAGE}
-                           title={`Update ${tableType === 0 ? 'Script' : 'Package'} Information`} editMode={true}
-                           selectedId={selectedId}
-                           renderComponent={renderDialogComponent}
-                           setRenderComponent={setRenderDialogComponent}/>
+            <DialogManager
+                dialogTyp={tableType === 0 ? DataTypes.SCRIPT : tableType === 1 ? DataTypes.PACKAGE : tableType === 2 ? DataTypes.CLIENT : DataTypes.USER}
+                title={`Update ${tableType === 0 ? 'Script' : tableType === 1 ? 'Package' : tableType === 2 ? 'Client' : 'User'} Information`}
+                editMode={true}
+                selectedId={selectedId}
+                displayId={selectedRow + 1}
+                renderComponent={renderDialogComponent}
+                setRenderComponent={setRenderDialogComponent}/>
 
             <table id='basic-table'>
                 <BasicTableHeader table={table}/>
