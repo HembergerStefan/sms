@@ -10,11 +10,12 @@ import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRound
 import {getLinkToItem} from '../../../../utils/SearchBarHelper'
 
 import useRecentSearchStore from '../../../../stores/recentSearchStore'
+import {KeyWord} from '../../../../data/searchbar/SearchKeyWords'
 
 import './SearchItem.css'
 
 interface SearchItemProps {
-    entry: string
+    entry: KeyWord
     isSearchResult: boolean
 }
 
@@ -43,7 +44,21 @@ const SearchResultItem = ({entry, isSearchResult}: SearchItemProps) => {
                      /* Add a new item to the store */
                      addRecentSearch(entry)
 
-                     navigate(`dashboard${getLinkToItem(entry) !== '/' ? getLinkToItem(entry) : ''}`)
+                     navigate(`dashboard${getLinkToItem(entry.name) !== '/' ? getLinkToItem(entry.name) : ''}`)
+
+                     setTimeout(() => {
+                         if (entry.componentClassName) {
+                             const elements = document.getElementById(entry.componentClassName)
+
+                             if (elements !== null) {
+                                 elements.classList.add('active--search-item')
+
+                                 setTimeout(() => {
+                                     elements.classList.remove('active--search-item')
+                                 }, 4_000)
+                             }
+                         }
+                     }, 100)
                  }}>
                 <div className='clr-sc-1'>
                     {
@@ -52,7 +67,7 @@ const SearchResultItem = ({entry, isSearchResult}: SearchItemProps) => {
                     }
                 </div>
 
-                <span className='fs-pr-body-1 fw-regular clr-sc-1'>{t(entry)}</span>
+                <span className='fs-pr-body-1 fw-regular clr-sc-1'>{entry.componentClassName && entry.page ? `${t(entry.page)} > ${t(entry.name)}` : t(entry.name)}</span>
 
                 <div className='clr-sc-1'>
                     <ArrowForwardIosRoundedIcon id='arrow-forward-icon'/>
