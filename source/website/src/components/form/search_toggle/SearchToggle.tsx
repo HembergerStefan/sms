@@ -25,7 +25,9 @@ const SearchToggle = () => {
     const [renderComponent, setRenderComponent] = useState(false)
 
     useEffect(() => {
-        setRenderComponent(() => false)
+        if (recentSearches.length !== 0) {
+            setRenderComponent(() => false)
+        }
     }, [recentSearches])
 
     return (
