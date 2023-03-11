@@ -1,7 +1,7 @@
 import {useMutation, useQuery, useQueryClient} from 'react-query'
 import axios from 'axios'
 
-import {ApiConfig} from '../../data/api_data/ApiConfig'
+import {ApiConfig, RoleSystemConfig} from '../../data/api_data/ApiConfig'
 import useUserStore from '../../stores/user_session/userStore'
 import useRoleStore from '../../stores/role/roleInformationStore'
 
@@ -14,7 +14,7 @@ export const useGetClientsQuery = () => {
     return useQuery(['clients'], () =>
             axios.get(`${ApiConfig.baseUrl}:${ApiConfig.port}/webpageAdmin/clients/${token}`)
                 .then((res) => res.data), {
-            enabled: token !== undefined && getRoleById(roleId).name === 'Admin',
+            enabled: token !== undefined && getRoleById(roleId).name === RoleSystemConfig.adminRoleName,
             refetchOnWindowFocus: false,
             refetchInterval: 15_000,
             onError: () => setUserToken(undefined)
@@ -57,7 +57,7 @@ export const useGetUsersQuery = () => {
     return useQuery(['users'], () =>
             axios.get(`${ApiConfig.baseUrl}:${ApiConfig.port}/webpageAdmin/users/${token}`)
                 .then((res) => res.data), {
-            enabled: roles.length !== 0 && token !== undefined && getRoleById(roleId).name === 'Admin',
+            enabled: roles.length !== 0 && token !== undefined && getRoleById(roleId).name === RoleSystemConfig.adminRoleName,
             refetchOnWindowFocus: false,
             refetchInterval: 15_000,
             onError: () => setUserToken(undefined)
@@ -86,7 +86,7 @@ export const useGetGroupsQuery = () => {
     return useQuery(['groups'], () =>
             axios.get(`${ApiConfig.baseUrl}:${ApiConfig.port}/webpageAdmin/groups/${token}`)
                 .then((res) => res.data), {
-            enabled: token !== undefined && getRoleById(roleId).name === 'Admin',
+            enabled: token !== undefined && getRoleById(roleId).name === RoleSystemConfig.adminRoleName,
             refetchOnWindowFocus: false,
             refetchInterval: 15_000,
             onError: () => setUserToken(undefined)
@@ -101,7 +101,7 @@ export const useGetAvailableClientsQuery = () => {
     return useQuery(['availableClients'], () =>
             axios.get(`${ApiConfig.baseUrl}:${ApiConfig.port}/webpageAdmin/availableClients/${token}`)
                 .then((res) => res.data), {
-            enabled: token !== undefined && getRoleById(roleId).name === 'Admin',
+            enabled: token !== undefined && getRoleById(roleId).name === RoleSystemConfig.adminRoleName,
             refetchOnWindowFocus: false,
             refetchInterval: 15_000,
             onError: () => setUserToken(undefined)
@@ -128,7 +128,7 @@ export const useGetTaskQuery = () => {
     return useQuery(['tasks'], () =>
         axios.get(`${ApiConfig.baseUrl}:${ApiConfig.port}/webpageAdmin/tasks/${token}`)
             .then(res => res.data), {
-        enabled: token !== undefined && getRoleById(roleId).name === 'Admin',
+        enabled: token !== undefined && getRoleById(roleId).name === RoleSystemConfig.adminRoleName,
         refetchOnWindowFocus: false,
         refetchInterval: 15_000,
         onError: () => setUserToken(undefined)

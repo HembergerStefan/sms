@@ -16,7 +16,7 @@ import useClientStore from '../stores/clientInformationStore'
 import useScriptStore from '../stores/script/scriptInformationStore'
 import useTaskStore from '../stores/task/taskInformationStore'
 import useUserInfoStore from '../stores/user/userInformationStore'
-import {WebsocketConfig} from '../data/api_data/ApiConfig'
+import {RoleSystemConfig, WebsocketConfig} from '../data/api_data/ApiConfig'
 import {DataTypes} from '../data/data_types'
 import WebsocketService from '../utils/websocket/WebsocketService'
 
@@ -51,13 +51,13 @@ const Overview = () => {
     const userPermittedQuery = useUserPermittedQuery()
 
     useEffect(() => {
-        if (userPermittedQuery.isSuccess && userPermittedQuery.data.name === 'Admin') {
+        if (userPermittedQuery.isSuccess && userPermittedQuery.data.name === RoleSystemConfig.adminRoleName) {
             setUserPermitted(() => true)
         }
     }, [userPermittedQuery.data])
 
     useEffect(() => {
-        if (token !== undefined && id !== '' && roleName === 'User' && location.pathname.includes('dashboard')) {
+        if (token !== undefined && id !== '' && roleName === RoleSystemConfig.userRoleName && location.pathname.includes('dashboard')) {
             const socketService = new WebsocketService(new WebSocket(`ws://${WebsocketConfig.baseUrl}:${WebsocketConfig.port}/webpage/${id}/${token}`))
             socketService.initWebsocket(setUsers, setGroups, setClients)   // start socket.onmessage function
         }
