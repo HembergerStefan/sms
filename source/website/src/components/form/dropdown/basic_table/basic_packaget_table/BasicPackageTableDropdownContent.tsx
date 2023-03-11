@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 
 import {useTranslation} from 'react-i18next'
 
@@ -6,8 +6,8 @@ import AppsRoundedIcon from '@mui/icons-material/AppsRounded'
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded'
 
 import {DataTypes} from '../../../../../data/data_types'
-
-import usePackageStore from '../../../../../stores/packageInformationStore'
+import {useRemovePackageMutation, useUserPermittedQuery} from '../../../../../utils/api/ApiService'
+import usePackageStore from '../../../../../stores/package/packageInformationStore'
 import useDataListPackageStore from '../../../../../stores/dataListPackageStore'
 
 import Dropdown from '../../Dropdown'
@@ -33,11 +33,21 @@ const BasicPackageTableDropdownContent = ({setMountDropdown}: BasicPackageTableD
         selectionPackageRows
     } = useDataListPackageStore()
 
-    const {removePackage} = usePackageStore()
+    const {_packages} = usePackageStore()
 
     const [renderDialogComponent, setRenderDialogComponent] = useState<boolean>(false)
+    const [userPermitted, setUserPermitted] = useState<boolean>(false)
 
+    const userPermittedQuery = useUserPermittedQuery()
+
+    const mutation = useRemovePackageMutation()
     const PAGE_SIZE_ITEMS: number[] = [5, 10, 20, 30, 40, 50]
+
+    useEffect(() => {
+        if (userPermittedQuery.isSuccess && userPermittedQuery.data.name === 'Admin') {
+            setUserPermitted(() => true)
+        }
+    }, [userPermittedQuery.data])
 
     /* User selected item, so change the table size to it */
     const handleChange = (cr: number): void => {
@@ -53,8 +63,10 @@ const BasicPackageTableDropdownContent = ({setMountDropdown}: BasicPackageTableD
     /* Remove all selected package entries */
     const remove = () => {
         selectionPackageRows.forEach(id => {
-            removePackage(id)
+            mutation.mutate(id)
         })
+
+        setMountDropdown(() => false)
     }
 
     return (
@@ -83,30 +95,36 @@ const BasicPackageTableDropdownContent = ({setMountDropdown}: BasicPackageTableD
                               handleChange={handleChange}/>
                 </div>
 
-                <hr/>
+                {
+                    userPermitted ?
+                        <>
+                            <hr/>
 
-                <li>
-                    <button onClick={() => add()}>
-                        <div style={{color: 'var(--sc-clr)'}}>
-                            <AppsRoundedIcon/>
-                            <span>{t('Add')}</span>
-                        </div>
-                    </button>
-                </li>
+                            <li>
+                                <button onClick={() => add()}>
+                                    <div style={{color: 'var(--sc-clr)'}}>
+                                        <AppsRoundedIcon/>
+                                        <span>{t('Add')}</span>
+                                    </div>
+                                </button>
+                            </li>
 
-                <li>
-                    <button onClick={() => remove()}
-                            disabled={selectionPackageRows.length === 0}>
-                        <div style={{color: 'var(--ac-clr-2)'}}>
-                            <DeleteRoundedIcon/>
-                            <span
-                                style={{color: 'var(--ac-clr-2)'}}>{t('Remove')} {selectionPackageRows.length !== 0 ? `(${selectionPackageRows.length})` : ''}</span>
-                        </div>
-                    </button>
-                </li>
+                            <li>
+                                <button onClick={() => remove()}
+                                        disabled={selectionPackageRows.length === 0}>
+                                    <div style={{color: 'var(--ac-clr-2)'}}>
+                                        <DeleteRoundedIcon/>
+                                        <span
+                                            style={{color: 'var(--ac-clr-2)'}}>{t('Remove')} {selectionPackageRows.length !== 0 ? `(${selectionPackageRows.length})` : ''}</span>
+                                    </div>
+                                </button>
+                            </li>
+                        </> : null
+                }
             </ul>
 
             <DialogManager dialogTyp={DataTypes.PACKAGE} title='Add Package' editMode={false}
+                           displayId={_packages.length}
                            renderComponent={renderDialogComponent}
                            setRenderComponent={setRenderDialogComponent}/>
         </>
