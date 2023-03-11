@@ -20,9 +20,19 @@ const IpInput = ({value}: IpInputProps) => {
 
                     setTimeout(() => {
                         ipInputRef.current!.classList.remove('success-copied')
-                    }, 720)
+                    }, 1_500)
                 }
-            }).catch(reason => console.log(reason))
+            }).catch(reason => {
+                console.log(reason)
+
+                if(ipInputRef.current !== null) {
+                    ipInputRef.current.classList.add('error-copied')
+
+                    setTimeout(() => {
+                        ipInputRef.current!.classList.remove('error-copied')
+                    }, 1_500)
+                }
+            })
             /* case when navigator clipboard is not available */
         } else {
             // text area method
@@ -49,7 +59,7 @@ const IpInput = ({value}: IpInputProps) => {
 
                     setTimeout(() => {
                         ipInputRef.current!.classList.remove('success-copied')
-                    }, 720)
+                    }, 1_500)
                 }
             })
         }
