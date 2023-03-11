@@ -1,0 +1,19 @@
+#remove--container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: fit-content;
+    width: fit-content;
+
+    padding: var(--pd-t-small);
+
+    border-radius: var(--br-r-small);
+
+    cursor: pointer;
+}
+
+#remove--container:hover {
+    color: var(--nl-clr-3) !important;
+    background-color: var(--ac-clr-1) !important;
+}
