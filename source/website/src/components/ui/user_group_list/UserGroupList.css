@@ -1,0 +1,98 @@
+#user-group--section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    padding: 17px 20px 10px 20px;
+
+    width: fit-content;
+
+    min-width: 364px;
+    min-height: 404px;
+}
+
+#user-group--section > header > section {
+    visibility: hidden;
+}
+
+#group-users--container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    max-height: 325px;
+    max-width: 500px;
+
+    overflow: auto;
+}
+
+.group-users--heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    position: sticky;
+    top: 0;
+
+    padding-top: 5px;
+
+    color: var(--pr-clr);
+    background-color: var(--nl-clr-2);
+}
+
+.group-users--heading > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 5px;
+
+    border-radius: 50%;
+
+    margin-right: 5px;
+
+    cursor: pointer;
+}
+
+.user-group--item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    width: fit-content;
+
+    padding: var(--pd-t-small) var(--pd-t-medium);
+
+    border-radius: var(--br-r-small-medium);
+    border: 1px solid var(--av-cl--border-clr);
+
+    transition: background-color 200ms;
+}
+
+.user-group--item:hover {
+    background-color: var(--nv-item--h--bg-clr);
+
+    transition: unset;
+}
+
+.user-group--item > div > h2 {
+    width: 120px;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+
+    cursor: default;
+}
+
+.user-group--item > button {
+    margin-left: auto;
+}
+
+#no-groups {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 404px;
+}
