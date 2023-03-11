@@ -26,7 +26,13 @@ const CardItem = ({item, cardItemIndex}: CardItemProps) => {
 
     const {t} = useTranslation()
 
+    const {getGroupsOfClient} = useGroupStore()
+
     const [hoverRef, isHovered] = useHover()
+
+    const [renderDialogComponent, setRenderDialogComponent] = useState<boolean>(false)
+
+    const clientGroups: Group[] = getGroupsOfClient(item.macAddress)
 
     return (
         <article className='card-item'>
