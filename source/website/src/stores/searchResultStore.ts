@@ -1,8 +1,9 @@
 import { create } from 'zustand'
+import {KeyWord} from '../data/searchbar/SearchKeyWords'
 
 export interface SearchSlice {
-    searchResult: string[]
-    setSearchResult: (data: string[]) => void
+    searchResult: KeyWord[]
+    setSearchResult: (data: KeyWord[]) => void
     resetSearchResult: () => void
 }
 
