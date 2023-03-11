@@ -587,6 +587,20 @@ ul {
 
 /* Delete icon section --End */
 
+.active--search-item {
+    animation: active-search 1.5s linear infinite forwards !important;
+}
+
+@keyframes active-search {
+    0%, 100% {
+        border: 3px solid var(--border-box--color);
+    }
+
+    50% {
+        border: 3px solid var(--ac-clr-1);
+    }
+}
+
 .shake {
     animation: shake 720ms cubic-bezier(.36, .07, .19, .97) both;
 }
