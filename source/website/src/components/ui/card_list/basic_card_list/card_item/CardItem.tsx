@@ -56,12 +56,17 @@ const CardItem = ({item, cardItemIndex}: CardItemProps) => {
                             <ProgressRing value={item.cpuUsage}/>
                         </div>
 
-                    <div>
-                        <h3 className='fs-tr-body-1 fw--semi-bold'>Memory</h3>
-                        <ProgressRing value={item.usedDiskspace}/>
+                        <div>
+                            <h3 className='fs-tr-body-1 fw--semi-bold'>{t('Ram')}</h3>
+                            <ProgressRing value={item.ramUsage}/>
+                        </div>
+
+                        <div>
+                            <h3 className='fs-tr-body-1 fw--semi-bold'>{t('Memory')}</h3>
+                            <ProgressRing value={item.usedDiskspace}/>
+                        </div>
                     </div>
-                </div>
-            }/>
+                }/>
 
             {
                 (isHovered) ? <TooltipManager
