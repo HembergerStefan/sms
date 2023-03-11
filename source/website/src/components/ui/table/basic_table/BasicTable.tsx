@@ -171,12 +171,6 @@ const BasicTable = ({tableType}: BasicTableProps) => {
             header: () => <h1>{t('Language')}</h1>,
             cell: info => <span>{info.getValue()}</span>,
         }),
-        columnHelper.accessor('executionDate', {
-            header: () => <h1>{t('Execution Date')}</h1>,
-            cell: info => <span>
-                {info.getValue().getDate()} {t(info.getValue().toLocaleString('default', {month: 'long'}))} {info.getValue().getFullYear()}, {info.getValue().toLocaleTimeString().slice(0, info.getValue().toLocaleTimeString().length - 3)}
-            </span>,
-        }),
         {
             id: 'status',
             header: () => <h1>{t('Status')}</h1>,
