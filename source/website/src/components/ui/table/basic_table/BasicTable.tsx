@@ -208,21 +208,29 @@ const BasicTable = ({tableType}: BasicTableProps) => {
     const clientColumns = useMemo<ColumnDef<any, any>[]>(() => [
         selectionColumn,
         titleColumn,
+        columnHelper.accessor('macAddress', {
+            header: () => <h1>{t('MacAddress')}</h1>,
+            cell: info => <span>{info.getValue()}</span>,
+        }),
         columnHelper.accessor('ip', {
             header: () => <h1>{t('Ip')}</h1>,
             cell: info => <span>{info.getValue()}</span>,
         }),
         columnHelper.accessor('usedDiskspace', {
-            header: () => <h1>{t('Used Diskspace')}</h1>,
+            header: () => <h1>{t('Memory')}</h1>,
             cell: info => <span>{info.getValue()}%</span>,
         }),
         columnHelper.accessor('cpuUsage', {
-            header: () => <h1>{t('CPU Usage')}</h1>,
+            header: () => <h1>{t('CPU')}</h1>,
             cell: info => <span>{info.getValue()}%</span>,
         }),
-        columnHelper.accessor('groups', {
-            header: () => <h1>{t('Groups')}</h1>,
-            cell: info => <span>{info.getValue().join(', ')}</span>,
+        columnHelper.accessor('ramUsage', {
+            header: () => <h1>{t('Ram')}</h1>,
+            cell: info => <span>{info.getValue()}%</span>,
+        }),
+        columnHelper.accessor('os', {
+            header: () => <h1>{t('OS')}</h1>,
+            cell: info => <span>{info.getValue()}</span>,
         }),
         {
             id: 'lastOnline',
