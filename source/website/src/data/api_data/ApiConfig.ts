@@ -7,3 +7,8 @@ export const WebsocketConfig = {
     baseUrl: 'localhost',
     port: 8080,
 }
+
+export const RoleSystemConfig = {
+    adminRoleName: 'Admin',
+    userRoleName: 'User'
+}
