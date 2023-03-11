@@ -46,7 +46,7 @@ const BasicTable = ({tableType}: BasicTableProps) => {
     const {t} = useTranslation()
 
     /* Get the selected scripts out of the store & the possibility to update the store */
-    const {scripts, setScripts, getScriptStatus} = useScriptStore()
+    const {scripts, getScriptStatus} = useScriptStore()
 
     /* Get the selected packages out of the store & the possibility to update the store */
     const {_packages} = usePackageStore()
@@ -101,7 +101,7 @@ const BasicTable = ({tableType}: BasicTableProps) => {
     const [selectedRow, setSelectedRow] = useState<number>(-1)
     const [rowSelection, setRowSelection] = useState<RowSelectionState>({})
     const [sorting, setSorting] = useState<SortingState>([])
-    const [data, setData] = useState(() => tableType === 0 ? [...scripts] : tableType === 1 ? [..._packages] : [...clients])
+    const [data, setData] = useState(() => tableType === 0 ? [...scripts] : tableType === 1 ? [..._packages] : tableType === 2 ? [...clients] : [...users])
 
     /* Reload/Load table when data was modified (e.g.: added, deleted, ...) */
     useEffect(() => {
