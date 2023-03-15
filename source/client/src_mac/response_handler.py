@@ -1,6 +1,5 @@
 from threading import Thread
 
-from package_installer import PackageInstaller
 from script_executer import ScriptExecutor
 
 
@@ -23,20 +22,6 @@ class ResponseHandler(Thread):
         self.response = response
 
     def run(self) -> None:
-        for package in self.response['dtopackages']:
-            if package['id'] not in self.current_packages_ids:
-                self.current_packages_ids.add(package['id'])
-
-                def install_package():
-                    current_package = package  # prevent package from changing
-                    return_code = PackageInstaller(current_package).install()
-                    if return_code == 0:
-                        self.installed_packages_ids.add(current_package['id'])
-                    else:
-                        self.failed_installs_ids.add(current_package['id'])
-                    self.current_packages_ids.remove(current_package['id'])
-
-                Thread(target=install_package).start()
 
         for script in self.response['dtoScripts']:
             if script['id'] not in self.current_scripts_ids:

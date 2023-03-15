@@ -52,11 +52,12 @@ class Client:
                         'ip': data.ip(),
                         'os': sys.platform,
                         'cpuUsage': int(data.cpu_usage(self.interval / 1000)),
+                        'ramUsage': int(data.ram_usage()),
                         'diskUsage': int(data.disk_space_used()),
-                        'installed': ResponseHandler.installed_packages_ids,
-                        'failedInstall': ResponseHandler.failed_installs_ids,
-                        'executedScripts': ResponseHandler.executed_scripts_ids,
-                        'failedScripts': ResponseHandler.failed_scripts_ids
+                        'installed': [*ResponseHandler.installed_packages_ids],
+                        'failedInstall': [*ResponseHandler.failed_installs_ids],
+                        'executedScripts': [*ResponseHandler.executed_scripts_ids],
+                        'failedScripts': [*ResponseHandler.failed_scripts_ids]
                     })
 
                     try:

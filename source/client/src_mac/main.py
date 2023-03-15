@@ -20,7 +20,7 @@ def init_logger(_format: str, filepath: str, level: int):
 
 
 def main():
-    app_dir = r"C:\Program Files\SMS"
+    app_dir = r"./"
     config = configparser.ConfigParser()
     config.read(os.path.join(app_dir, 'config.ini'))
 
