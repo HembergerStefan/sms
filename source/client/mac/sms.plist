@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC -//Apple Computer//DTD PLIST 1.0//EN http://www.apple.com/DTDs/PropertyList-1.0.dtd >
+<plist version="1.0">
+  <dict>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>Label</key>
+    <string>sms</string>
+    <key>ProgramArguments</key>
+    <array>
+	    <string>/usr/bin/python3</string>
+	    <string>/etc/sms/main.py</string>
+    </array>
+    <key>KeepAlive</key>
+    <true/>
+    <key>StandardErrorPath</key>
+    <string>/tmp/sms_client.err</string>    
+    <key>StandardOutPath</key>
+    <string>/tmp/sms_client.out</string>
+  </dict>
+</plist>
+

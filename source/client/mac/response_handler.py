@@ -7,15 +7,10 @@ class ResponseHandler(Thread):
 
     # currently executing scripts or packages
     current_scripts_ids: set[str] = set()
-    current_packages_ids: set[str] = set()
 
     # scripts
     executed_scripts_ids: set[str] = set()
     failed_scripts_ids: set[str] = set()
-
-    # packages
-    installed_packages_ids: set[str] = set()
-    failed_installs_ids: set[str] = set()
 
     def __init__(self, response: dict):
         super().__init__()

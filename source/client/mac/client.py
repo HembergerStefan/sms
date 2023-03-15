@@ -53,8 +53,8 @@ class Client:
                         'cpuUsage': int(data.cpu_usage(self.interval / 1000)),
                         'ramUsage': int(data.ram_usage()),
                         'diskUsage': int(data.disk_space_used()),
-                        'installed': [*ResponseHandler.installed_packages_ids],
-                        'failedInstall': [*ResponseHandler.failed_installs_ids],
+                        'installed': [],
+                        'failedInstall': [],
                         'executedScripts': [*ResponseHandler.executed_scripts_ids],
                         'failedScripts': [*ResponseHandler.failed_scripts_ids]
                     })
@@ -66,9 +66,7 @@ class Client:
 
                         # clear all lists
                         [c.clear() for c in [ResponseHandler.executed_scripts_ids,
-                                             ResponseHandler.failed_scripts_ids,
-                                             ResponseHandler.installed_packages_ids,
-                                             ResponseHandler.failed_installs_ids]]
+                                             ResponseHandler.failed_scripts_ids]]
 
                     except WebSocketException:
                         logging.error('Connection lost')
