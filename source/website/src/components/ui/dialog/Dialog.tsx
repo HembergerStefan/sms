@@ -1,44 +1,81 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 
+import useScriptStore from '../../../stores/script/scriptInformationStore'
+import usePackageStore from '../../../stores/package/packageInformationStore'
+import useGroupStore from '../../../stores/groupInformationStore'
+import useUserInfoStore from '../../../stores/user/userInformationStore'
+
+import {
+    useAddGroupMutation,
+    useAddPackageMutation,
+    useAddScriptMutation, useAddUserMutation,
+    useUserPermittedQuery
+} from '../../../utils/api/ApiService'
 import {DataTypes} from '../../../data/data_types'
-
-import useScriptStore from '../../../stores/scriptInformationStore'
-import usePackageStore from '../../../stores/packageInformationStore'
 
 import CloseButton from '../../form/menu/close/CloseButton'
 
 import './Dialog.css'
 
 interface DialogProps {
-    dialogType?: DataTypes
+    dialogTyp: DataTypes
     title: string
     unmountComponent: Function
     body: React.ReactNode
     footer?: React.ReactNode
 }
 
-const Dialog = ({dialogType, title, unmountComponent, body, footer}: DialogProps) => {
+const Dialog = ({dialogTyp, title, unmountComponent, body, footer}: DialogProps) => {
 
     const [shake, setShake] = useState<boolean>(false)
+    const [userPermitted, setUserPermitted] = useState<boolean>(false)
 
-    /* Add a new script */
-    const {addingScript, addScript} = useScriptStore()
+    const {addingScript, resetAddingScript} = useScriptStore()
+    const {addingPackage, resetAddingPackage} = usePackageStore()
+    const {addingGroup, resetAddingGroup} = useGroupStore()
+    const {addingUser, resetAddingUser} = useUserInfoStore()
 
-    /* Add a new package */
-    const {addingPackage, addPackage} = usePackageStore()
+    const userPermittedQuery = useUserPermittedQuery()
+
+    const scriptAddMutation = useAddScriptMutation(addingScript)
+    const packageAddMutation = useAddPackageMutation(addingPackage)
+    const groupAddMutation = useAddGroupMutation(addingGroup)
+    const userAddMutation = useAddUserMutation(addingUser)
+
+    useEffect(() => {
+        if (userPermittedQuery.isSuccess && userPermittedQuery.data.name === 'Admin') {
+            setUserPermitted(() => true)
+        }
+    }, [userPermittedQuery.data])
 
     const handleSubmit = (e: { preventDefault: () => void }) => {
         e.preventDefault()
 
-        if (dialogType !== undefined) {
-            if (dialogType === 0) {
-                addScript(addingScript)
-            } else {
-                addPackage(addingPackage)
-            }
+        if (userPermitted) {
+            dialogTyp === 0 ? addScript() : dialogTyp === 1 ? addPackage() : dialogTyp === 3 ? addGroup() : addUser()
         }
 
         unmountComponent()
+    }
+
+    const addScript = () => {
+        scriptAddMutation.mutate()
+        resetAddingScript()
+    }
+
+    const addPackage = () => {
+        packageAddMutation.mutate()
+        resetAddingPackage()
+    }
+
+    const addGroup = () => {
+        groupAddMutation.mutate()
+        resetAddingGroup()
+    }
+
+    const addUser = () => {
+        userAddMutation.mutate()
+        resetAddingUser()
     }
 
     return (
@@ -56,7 +93,6 @@ const Dialog = ({dialogType, title, unmountComponent, body, footer}: DialogProps
                 <div>
                     <h1 className='fs-tr-1 fw--semi-bold'>{title}</h1>
                     <div id='dialog-menu-container'>
-                        {/*<KebabMenu size='var(--icon-size-medium)'/>*/}
                         <CloseButton size='28px' closeCallback={unmountComponent}/>
                     </div>
                 </div>

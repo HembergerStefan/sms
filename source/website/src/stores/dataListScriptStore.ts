@@ -1,5 +1,5 @@
-import create from 'zustand'
-import {persist} from 'zustand/middleware'
+import {create} from 'zustand'
+import {createJSONStorage, persist} from 'zustand/middleware'
 
 export interface DataListScriptStore {
     table: any
@@ -8,14 +8,14 @@ export interface DataListScriptStore {
     scriptPageCount: number
     canNextScriptPage: () => boolean
     canPreviousScriptPage: () => boolean
-    selectionScriptRows: number[]
+    selectionScriptRows: string[]
     setScriptTable: (table: any) => void
     nextScriptPage: () => void
     previousScriptPage: () => void
     setScriptPageSize: (size: number) => void
     setScriptPageIndex: (index: number) => void
     setScriptPageCount: (size: number) => void
-    setSelectionScriptRows: (rows: number[]) => void
+    setSelectionScriptRows: (rows: string[]) => void
 }
 
 const useDataListScriptStore = create(
@@ -66,7 +66,7 @@ const useDataListScriptStore = create(
             })),
         }), {
             name: 'data-list-script-store',
-            getStorage: () => sessionStorage
+            storage: createJSONStorage(() => sessionStorage)
         }
     )
 )

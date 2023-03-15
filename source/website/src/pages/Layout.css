@@ -1,7 +1,8 @@
 #dashboard-layout--container {
     grid-area: main;
 
-    display: grid;
+    display: flex;
+    flex-direction: column;
     gap: 30px;
 
     height: 100%;
@@ -12,5 +13,11 @@
     border-radius: 25px 0 0 0;
     background: var(--nl-clr-1);
 
-    overflow: auto
+    overflow: auto;
+}
+
+#kpi-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 30px
 }

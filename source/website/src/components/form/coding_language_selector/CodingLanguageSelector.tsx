@@ -16,7 +16,7 @@ const CodingLanguageSelector = ({language, setLanguage}: CodingLanguageSelectorP
 
     const [mount, setMount] = useState<boolean>(false)
 
-    const LANGUAGE_ITEMS: string[] = ['Bash', 'Python', 'PowerShell', 'CMD'].sort()
+    const LANGUAGE_ITEMS: string[] = ['Bash', 'Python', 'CMD'].sort()
 
     /* Always hide the component when clicking outside the component */
     const [dropdownRef] = useOnClickOutside(() => mount ? setMount(false) : null)

@@ -1,5 +1,5 @@
-import create from 'zustand'
-import {persist} from 'zustand/middleware'
+import { create } from 'zustand'
+import {createJSONStorage, persist} from 'zustand/middleware'
 
 import {usa, austria} from '../data/images/language_dropdown'
 
@@ -12,7 +12,7 @@ export interface LngStore {
 
 const useLngStore = create(
     persist<LngStore>((set, get) => ({
-            selectedLng: 'de',
+            selectedLng: 'en',
             setLng: (lng) => set(prev => ({
                 selectedLng: prev.selectedLng = lng
             })),
@@ -26,12 +26,12 @@ const useLngStore = create(
                 return usa
             },
             resetLng: () => set(prev => ({
-                selectedLng: prev.selectedLng = 'de'
+                selectedLng: prev.selectedLng = 'en'
             }))
         }),
         {
             name: 'selected-lng-store',
-            getStorage: () => localStorage
+            storage: createJSONStorage(() => localStorage)
         }
     )
 )

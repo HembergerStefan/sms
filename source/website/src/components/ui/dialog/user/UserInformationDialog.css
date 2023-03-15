@@ -1,0 +1,51 @@
+#user-information-dialog--container {
+    display: grid;
+    gap: 1.75rem;
+
+    padding: 0.25rem;
+}
+
+#user-info--wrapper {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 50px;
+}
+
+#username-container--section, #password-container--section {
+    position: relative;
+    height: fit-content;
+}
+
+#username-container--section > input, #password-container--section > input {
+    width: 100%;
+    padding: 13px 20px;
+
+    color: var(--sc-clr);
+    background-color: transparent;
+}
+
+#username-container--section > input::placeholder, #password-container--section > input::placeholder {
+    color: var(--ipt--place-clr);
+}
+
+#username-container--section > div:last-of-type, #password-container--section > div:last-of-type {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translate(0, -50%);
+
+    padding: 6px;
+    border-radius: var(--br-r-small);
+
+    background-color: var(--user-ic-bg-clr);
+
+    z-index: 999;
+}
+
+#password-container--section > div:last-of-type {
+    cursor: pointer;
+}

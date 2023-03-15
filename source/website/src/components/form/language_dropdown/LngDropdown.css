@@ -37,6 +37,8 @@
     visibility: hidden;
     opacity: 0;
 
+    box-shadow: var(--drp-shadow-dark-rvt) !important;
+
     transform: translateY(10px);
 
     transition: opacity 0.3s ease-out, transform 0.3s ease-out, visibility 0.3s ease-out;

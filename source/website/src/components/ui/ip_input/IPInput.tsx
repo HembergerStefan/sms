@@ -13,16 +13,56 @@ const IpInput = ({value}: IpInputProps) => {
     const ipInputRef = useRef<HTMLDivElement>(null)
 
     const copyToClipboard = () => {
-        /* TODO: ADD COPY SUCCESS STATE NOTIFICATION IN NOTIFICATION TAB (HEADER) */
-        navigator.clipboard.writeText(value).then(text => {
-            if (ipInputRef.current !== null) {
-                ipInputRef.current.classList.add('success-copied')
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(value).then(text => {
+                if (ipInputRef.current !== null) {
+                    ipInputRef.current.classList.add('success-copied')
 
-                setTimeout(() => {
-                    ipInputRef.current!.classList.remove('success-copied')
-                }, 720)
-            }
-        }).catch(reason => console.log(reason))
+                    setTimeout(() => {
+                        ipInputRef.current!.classList.remove('success-copied')
+                    }, 1_500)
+                }
+            }).catch(reason => {
+                console.log(reason)
+
+                if(ipInputRef.current !== null) {
+                    ipInputRef.current.classList.add('error-copied')
+
+                    setTimeout(() => {
+                        ipInputRef.current!.classList.remove('error-copied')
+                    }, 1_500)
+                }
+            })
+            /* case when navigator clipboard is not available */
+        } else {
+            // text area method
+            let textArea = document.createElement('textarea')
+            textArea.value = value
+
+            // make the textarea out of viewport
+            textArea.style.position = 'fixed'
+            textArea.style.left = '-999999px'
+            textArea.style.top = '-999999px'
+
+            document.body.appendChild(textArea)
+
+            textArea.focus()
+            textArea.select()
+
+            return new Promise<void>((res, rej) => {
+                // here is the place where the magic happens
+                document.execCommand('copy') ? res() : rej()
+                textArea.remove()
+
+                if (ipInputRef.current !== null) {
+                    ipInputRef.current.classList.add('success-copied')
+
+                    setTimeout(() => {
+                        ipInputRef.current!.classList.remove('success-copied')
+                    }, 1_500)
+                }
+            })
+        }
     }
 
     return (

@@ -15,7 +15,7 @@ public class DTOScript {//Datenübertragungsklasse
     private String id;
     private String name;
     private String description;
-    private String script_value;
+    private String scriptValue;
     private String interpreter;
     private String fileExtension;
 }

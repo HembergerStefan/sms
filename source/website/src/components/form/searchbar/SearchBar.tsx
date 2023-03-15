@@ -3,7 +3,7 @@ import {useTranslation} from 'react-i18next'
 
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded'
 
-import {KeyWords} from '../../../data/searchbar/SearchKeyWords'
+import {KeyWord, KeyWords} from '../../../data/searchbar/SearchKeyWords'
 
 import useSearchStore from '../../../stores/searchResultStore'
 
@@ -22,7 +22,7 @@ const SearchBar = () => {
     const {setSearchResult} = useSearchStore()
 
     const memorizedSearchFoundData = useMemo(() => {
-        let foundWords: string[] = []
+        let foundWords: KeyWord[] = []
 
         if (searchQuery !== '') {
             KeyWords.forEach(keyWord => {
@@ -30,7 +30,7 @@ const SearchBar = () => {
 
                 // Filter if the item should be added or not
                 if (s >= 0.21) {
-                    foundWords.push(keyWord.name)
+                    foundWords.push(keyWord)
                 }
             })
         }
@@ -38,14 +38,20 @@ const SearchBar = () => {
         return foundWords
     }, [searchQuery])
 
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+    }
+
     return (
         <div id='search-bar--container'>
-            <input id='search-bar--text-input' className='fs-sc-body-1 fw-regular md-input' type='text'
-                   placeholder={t('Search for anything ...')}
-                   onChange={event => setQuery(() => event.target.value)}
-                   onKeyUp={() => setSearchResult(memorizedSearchFoundData)}
-                   autoComplete='off'
-                   autoFocus/>
+            <form onSubmit={handleSubmit}>
+                <input id='search-bar--text-input' className='fs-sc-body-1 fw-regular md-input' type='text'
+                       placeholder={t('Search for anything ...')}
+                       onChange={event => setQuery(() => event.target.value)}
+                       onKeyUp={() => setSearchResult(memorizedSearchFoundData)}
+                       autoComplete='off'
+                       autoFocus/>
+            </form>
 
             <div id='search-bar--icon-container'>
                 <SearchRoundedIcon/>

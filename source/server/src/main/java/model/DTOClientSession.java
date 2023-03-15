@@ -12,6 +12,6 @@ import javax.websocket.Session;
 @AllArgsConstructor
 @ToString
 public class DTOClientSession {//Datenübertragungsklasse
-    private String mac_address;
+    private String macAddress;
     private Session session;
 }

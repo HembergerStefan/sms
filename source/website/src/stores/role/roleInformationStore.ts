@@ -1,4 +1,4 @@
-import create from 'zustand'
+import {create} from 'zustand'
 
 import {Role} from '../../data/data_types'
 
@@ -10,6 +10,7 @@ export interface RoleStore {
     removeRole: (id: string) => void
     resetRole: () => void
     getRoleById: (id: string) => Role
+    getRoleByName: (name: string) => Role
 }
 
 export const initialRoleState: Role = {
@@ -53,6 +54,15 @@ const useRoleStore = create<RoleStore>((set, get) => ({
         })),
         getRoleById: (id) => {
             const selectedRole = get().roles.find((role) => role.id === id)
+
+            if (selectedRole !== undefined) {
+                return selectedRole
+            }
+
+            return initialRoleState
+        },
+        getRoleByName: (name) => {
+            const selectedRole = get().roles.find((role) => role.name === name)
 
             if (selectedRole !== undefined) {
                 return selectedRole

@@ -1,5 +1,5 @@
-import create from 'zustand'
-import {persist} from 'zustand/middleware'
+import { create } from 'zustand'
+import {createJSONStorage, persist} from 'zustand/middleware'
 
 export interface CardListClientStore {
     clientDisplayMode: 'Table' | 'Card'
@@ -73,7 +73,7 @@ const useCardListClientStore = create(
             }
         }), {
             name: 'card-list-client-store',
-            getStorage: () => sessionStorage
+            storage: createJSONStorage(() => sessionStorage)
         }
     )
 )

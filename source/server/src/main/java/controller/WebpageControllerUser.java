@@ -28,8 +28,6 @@ import java.util.UUID;
 public class WebpageControllerUser implements IWebpageResourceUser {
     @Inject//Dependency Injection des SMSStores
     protected SMSStore smsStore;
-
-    protected Gson gson = new Gson();
     private Login anno = null;
     private Adding add = null;
 
@@ -108,6 +106,21 @@ public class WebpageControllerUser implements IWebpageResourceUser {
             return Response.status(200)
                     .type(MediaType.APPLICATION_JSON)
                     .entity(smsStore.getScripts())
+                    .build();
+        }
+        return Response.status(500)
+                .type(MediaType.TEXT_PLAIN_TYPE)
+                .entity("Invalid Token")
+                .build();
+    }
+
+    @Override
+    @JsonView(ScriptView.Always.class)
+    public Response getClientScriptsByClientID(String token, String client_ID){
+        if(smsStore.isAllowed(token, anno)){
+            return Response.status(200)
+                    .type(MediaType.APPLICATION_JSON)
+                    .entity(smsStore.getClientScriptsByClient(client_ID))
                     .build();
         }
         return Response.status(500)

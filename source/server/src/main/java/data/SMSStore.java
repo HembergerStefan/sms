@@ -24,6 +24,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.transaction.Transactional;
 import javax.transaction.UserTransaction;
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.time.LocalDateTime;
@@ -34,7 +35,7 @@ import java.util.*;
 @ApplicationScoped
 @RequiredArgsConstructor
 @Getter
-public class SMSStore implements ISMSStore {
+public class SMSStore implements ISMSStore, Serializable {
 
 
     @Resource
@@ -68,14 +69,17 @@ public class SMSStore implements ISMSStore {
     public void init() {
         cleaner.start();//startet den Thread
     }
+
     @Override
     public Client getClientByID(String mac_Address) {
         return clientRepository.findById(mac_Address);
     }//holt einen Client durch seine ID
+
     @Override
     public void deleteToken(TokenInfos tokenInfo) {
         tokens.remove(tokenInfo);
     }//löscht einen Token aus der Liste
+
     @Override
     public boolean isAllowed(String token, String id, @NotNull Login anno) {//überprüft, ob ein Zugriff mit diesem Token erlaubt ist
         if (getIdByToken(token).equals(id)) {
@@ -88,6 +92,7 @@ public class SMSStore implements ISMSStore {
         }
         return false;
     }
+
     @Override
     public boolean isAllowed(String token, @NotNull Login anno) {//überprüft, ob ein Zugriff mit diesem Token erlaubt ist
         String[] roles = anno.roles();
@@ -98,6 +103,7 @@ public class SMSStore implements ISMSStore {
         }
         return false;
     }
+
     @Override
     public boolean isAllowed(String token, @NotNull Adding anno) {//überprüft, ob ein Zugriff mit diesem Token erlaubt ist
         String[] roles = anno.roles();
@@ -108,12 +114,23 @@ public class SMSStore implements ISMSStore {
         }
         return false;
     }
+
     @Override
     public String getRole(String token) {//holt alle Rollen
-        try{
+        try {
             String decodedToken = decodeToken(token);
             String[] infos = decodedToken.split("/");
             return infos[1];
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+        return null;
+    }
+
+    @Override
+    public List<Client_Script> getClientScriptsByClient(String client_ID){
+        try{
+            return client_scriptRepository.findById(client_ID);
         }catch(Exception e){
             System.err.println(e.getMessage());
         }
@@ -130,11 +147,12 @@ public class SMSStore implements ISMSStore {
         }
         return false;
     }
+
     @Override
     public boolean availableclientIsAvailable(String id) {//schaut, ob ein Available_Client verfügbar ist
         ArrayList<Available_Clients> clients = (ArrayList<Available_Clients>) available_clientsRepository.findAll().list();
         for (Available_Clients client : clients) {
-            if (client.getMac_Adress().getMacAddress().equals(id)) {
+            if (client.getMacAddress().getMacAddress().equals(id)) {
                 return true;
             }
         }
@@ -158,6 +176,7 @@ public class SMSStore implements ISMSStore {
         }
         return token;
     }
+
     @Override
     public String hashPassword(String password) {//hashen des Passwortes zum Speichern in der Datenbank
         String ret = "";
@@ -191,26 +210,30 @@ public class SMSStore implements ISMSStore {
         }
         return "";
     }
+
     @Override
     public String decodeToken(String token) {//dekodiert einen Token
         String replacedToken = token.replaceAll("汉", "/");
         SecretKeySpec sk = null;
         for (TokenInfos tokenInfo : tokens) {
             if (tokenInfo.getToken().equals(replacedToken)) {
-                tokenInfo.setExpireDate(LocalDateTime.now().plusMinutes(15));
+                tokenInfo.setExpireDate(LocalDateTime.now().plusMinutes(20));
                 sk = tokenInfo.getSecretKeySpec();
             }
         }
-        Cipher cipher;
-        try {
-            cipher = Cipher.getInstance("AES/ECB/PKCS5PADDING");
-            cipher.init(Cipher.DECRYPT_MODE, sk);
-            return new String(cipher.doFinal(Base64.getDecoder().decode(replacedToken)));
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
+        if (sk != null) {
+            Cipher cipher;
+            try {
+                cipher = Cipher.getInstance("AES/ECB/PKCS5PADDING");
+                cipher.init(Cipher.DECRYPT_MODE, sk);
+                return new String(cipher.doFinal(Base64.getDecoder().decode(replacedToken)));
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
+            }
         }
         return null;
     }
+
     @Override
     public String generateToken(User user) {//generriert einen Token
         Token t = null;
@@ -230,6 +253,7 @@ public class SMSStore implements ISMSStore {
         assert t != null;
         return t.toString();
     }
+
     @Override
     public SecretKeySpec generateKey() {//generriert einen Schlüssel
         SecretKeySpec secretKeySpec = null;
@@ -246,6 +270,7 @@ public class SMSStore implements ISMSStore {
         }
         return secretKeySpec;
     }
+
     @Override
     public ArrayList<Package> getPackagesByIDs(ArrayList<String> ids) {//holt packages durch IDs
         ArrayList<Package> packages = new ArrayList<>();
@@ -254,6 +279,7 @@ public class SMSStore implements ISMSStore {
         }
         return packages;
     }
+
     @Override
     public ArrayList<Script> getScriptsByIDs(ArrayList<String> ids) {//hold scripts durch IDs
         ArrayList<Script> packages = new ArrayList<>();
@@ -262,26 +288,31 @@ public class SMSStore implements ISMSStore {
         }
         return packages;
     }
+
     @Override
     public ArrayList<Role> getRoles() {
         return (ArrayList<Role>) roleRepository.findAll().list();
     }//holt alle Rollen
+
     @Override
     public Available_Clients getAvailableClientById(String mac_Address) {//holt einen Available_Client durch eine ID
         return available_clientsRepository.findById(mac_Address);
     }
 
-    public ArrayList<Available_Clients> getAvailableClients(){
+    public ArrayList<Available_Clients> getAvailableClients() {
         return (ArrayList<Available_Clients>) available_clientsRepository.findAll().list();
     }
+
     @Override
     public ArrayList<SmsGroup> getGroups() {
         return (ArrayList<SmsGroup>) groupRepository.findAll().list();
     }//holt alle Gruppen
+
     @Override
     public ArrayList<Package> getPackages() {
         return (ArrayList<Package>) packageRepository.findAll().list();
     }//holt alle Packages
+
     @Override
     public ArrayList<Script> getScripts() {
         return (ArrayList<Script>) scriptRepository.findAll().list();
@@ -291,18 +322,22 @@ public class SMSStore implements ISMSStore {
     public ArrayList<User> getUsers() {
         return (ArrayList<User>) userRepository.findAll().list();
     }//holt alle Benutzer
+
     @Override
     public User getUserByName(String name) {
         return userRepository.findByName(name);
     }//holt einen Benutzer durch seinen Namen
+
     @Override
     public User getUserByID(String id) {
         return userRepository.findByID(id);
     }//holt einen Benutzer durch seine ID
+
     @Override
     public Baseclient getBaseClientByID(String id) {
         return baseClientRepository.findById(id);
     }//holt einen BaseClient durch eine ID
+
     @Override
     @Transactional
     public ArrayList<Tasks> getTasks() {
@@ -315,9 +350,11 @@ public class SMSStore implements ISMSStore {
     public ArrayList<Task_Protocol> getTaskProtocols() {
         return (ArrayList<Task_Protocol>) task_protocol_repository.findAll().list();
     }
+
     @Override
     public void removeClient(@NotNull String id) {//löscht einen Client
         tasksRepository.deleteTasksByClient_ID(id);
+        task_protocol_repository.deleteTasksByClient_ID(id);
         client_packageRepository.deleteByClientID(id);
         client_scriptRepository.deleteByClientID(id);
         client_groupRepository.deleteByClientID(id);
@@ -335,8 +372,22 @@ public class SMSStore implements ISMSStore {
 
     @Override
     @Transactional
+    public void insertClient_Script(Client_Script client_script) {
+        client_scriptRepository.persist(client_script);
+    }
+
+    @Override
+    @Transactional
+    public void insertClient_Package(Client_Package client_package) {
+        client_packageRepository.persist(client_package);
+    }
+
+
+    @Override
+    @Transactional
     public void removePackage(@NotNull UUID id) {//löscht ein Package
         tasksRepository.deleteTasksByPackage_ID(id.toString());
+        task_protocol_repository.deleteTasksByPackage_ID(id.toString());
         client_packageRepository.deleteByPackageID(id.toString());
         packageRepository.deletePackageById(id.toString());
     }
@@ -344,6 +395,7 @@ public class SMSStore implements ISMSStore {
     @Override
     public void removeScript(@NotNull UUID id) {//löscht ein Script
         tasksRepository.deleteTasksByScript_ID(id.toString());
+        task_protocol_repository.deleteTasksByScript_ID(id.toString());
         client_scriptRepository.deleteByScriptID(id.toString());
         scriptRepository.deleteScriptById(id.toString());
     }
@@ -353,25 +405,30 @@ public class SMSStore implements ISMSStore {
         user_groupRepository.deleteByUserID(id.toString());
         userRepository.deleteUserById(id.toString());
     }
+
     @Override
     public void removeAvailableClient(String mac_Address) {//löscht einen AvailableClient
         available_clientsRepository.deleteAvailableClientById(mac_Address);
     }
+
     @Override
     @Transactional
     public void insertAvailable_Client(Available_Clients availableClient) {//fügt einen AvailableClient hinzu
         available_clientsRepository.persist(availableClient);
     }
+
     @Override
     @Transactional
     public void insertBase_Client(Baseclient baseclient) {
         baseClientRepository.persist(baseclient);
     }//fügt einen BaseClient hinzu
+
     @Override
     @Transactional
     public void insertClient(Client client) {
         clientRepository.persist(client);
     }//fügt einen Client hinzu
+
     @Override
     @Transactional
     public void insertPackage(Package packages) {//fügt ein Package hinzu
@@ -390,6 +447,7 @@ public class SMSStore implements ISMSStore {
             insertPackage(packages);
         }
     }
+
     @Override
     @Transactional
     public void insertScript(Script script) {//fügt ein Script hinzu
@@ -408,6 +466,7 @@ public class SMSStore implements ISMSStore {
             insertScript(script);
         }
     }
+
     @Override
     @Transactional
     public void insertSmsGroup(SmsGroup smsGroup) {//fügt eine Gruppe hinzu
@@ -426,6 +485,7 @@ public class SMSStore implements ISMSStore {
             insertSmsGroup(smsGroup);
         }
     }
+
     @Override
     @Transactional
     public void insertUser(DTOInsertUser user) {//fügt einen Benutzer hinzu
@@ -449,12 +509,12 @@ public class SMSStore implements ISMSStore {
     }
 
     @Override
-    public String generateSalt(){//generiert ein Salt
+    public String generateSalt() {//generiert ein Salt
         String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
         StringBuilder sb = new StringBuilder();
         Random random = new Random();
         int length = 4;
-        for(int i = 0; i < length; i++) {
+        for (int i = 0; i < length; i++) {
             int index = random.nextInt(alphabet.length());
             char randomChar = alphabet.charAt(index);
             sb.append(randomChar);
@@ -462,6 +522,7 @@ public class SMSStore implements ISMSStore {
 
         return sb.toString();
     }
+
     @Override
     @Transactional
     public void updateClient(@NotNull Client client) {//updated einen Client
@@ -471,18 +532,30 @@ public class SMSStore implements ISMSStore {
         realClient.setLastOnline(client.getLastOnline());
         realClient.setCpuUsage(client.getCpuUsage());
         realClient.setUsedDiskspace(client.getUsedDiskspace());
-        realClient.setPackages(client.getPackages());
-        realClient.setScript(client.getScript());
+        realClient.setRamUsage(client.getRamUsage());
+        realClient.setOs(client.getOs());
+       /* realClient.setPackages(client.getPackages());
+        realClient.setScript(client.getScript());*/
         clientRepository.getEntityManager().merge(realClient);
     }
+
+    public boolean isInstalled(String client_id, String package_id) {
+        Client_Package client_package = client_packageRepository.findById(client_id, package_id);
+        if (client_package == null) {
+            return false;
+        }
+        return true;
+    }
+
     @Override
     @Transactional
     public void updateAvailableClient(Available_Clients client) {//updated einen AvailableClient
-        Available_Clients realClient = available_clientsRepository.findById(client.getMac_Adress().getMacAddress());
+        Available_Clients realClient = available_clientsRepository.findById(client.getMacAddress().getMacAddress());
         realClient.setName(client.getName());
         realClient.setIp(client.getIp());
         available_clientsRepository.getEntityManager().merge(realClient);
     }
+
     @Override
     @Transactional
     public void updatePackage(Package packages) {//updated ein Package
@@ -490,10 +563,11 @@ public class SMSStore implements ISMSStore {
         package_.setName(packages.getName());
         package_.setVersion(packages.getVersion());
         package_.setDate(packages.getDate());
-        package_.setDownloadlink(packages.getDownloadlink());
+        package_.setDownloadLink(packages.getDownloadLink());
         package_.setSilentSwitch(packages.getSilentSwitch());
         packageRepository.getEntityManager().merge(package_);
     }
+
     @Override
     @Transactional
     public void updateScript(Script script) {//updated ein Script
@@ -502,9 +576,10 @@ public class SMSStore implements ISMSStore {
         script_.setDescription(script.getDescription());
         script_.setFileExtension(script.getFileExtension());
         script_.setInterpreter(script.getInterpreter());
-        script_.setScript_value(script.getScript_value());
+        script_.setScriptValue(script.getScriptValue());
         scriptRepository.getEntityManager().merge(script_);
     }
+
     @Override
     @Transactional
     public void updateGroup(SmsGroup group) {//updated eine Gruppe
@@ -512,15 +587,19 @@ public class SMSStore implements ISMSStore {
         group_.setName(group.getName());
         groupRepository.getEntityManager().merge(group_);
     }
+
     @Override
     @Transactional
     public void updateUser(DTOInsertUser user) {//updadted einen User
-          User user_ = userRepository.findByID(user.getId());
-          String password = hashPassword(user.getPassword() + user_.getSalt());
-          user_.setUsername(user.getUsername());
-          user_.setHash(password);
-          userRepository.getEntityManager().merge(user_);
+        User user_ = userRepository.findByID(user.getId());
+        String password = hashPassword(user.getPassword() + user_.getSalt());
+        user_.setUsername(user.getUsername());
+        if (user.getPassword() != null && user.getPassword() != "") {
+            user_.setHash(password);
+        }
+        userRepository.getEntityManager().merge(user_);
     }
+
     @Override
     @Transactional
     public ArrayList<Tasks> getTasksByClientID(String id) {
@@ -544,6 +623,7 @@ public class SMSStore implements ISMSStore {
         }
         return false;
     }
+
     @Override
     @Transactional
     public void insertTaskWithScript(String client_id, String script_id, String user_id, Adding add, String token) {//erstellt einen Task
@@ -566,6 +646,7 @@ public class SMSStore implements ISMSStore {
             }
         }
     }
+
     @Override
     @Transactional
     public void insertTaskWithPackage(String client_id, String package_id, String user_id, Adding add, String token) {//erstellt einen Task
@@ -590,57 +671,47 @@ public class SMSStore implements ISMSStore {
     }
 
 
-
-
-
-
     @Override
     @Transactional
     public void insertTaskProtocolWithScript(String client_id, String script_id) {//erstellt einen Task
-            UUID uuid = UUID.randomUUID();
-            boolean isUnique = true;
-            for (Task_Protocol task_protocol : getTaskProtocols()) {
-                if (task_protocol.getId().equals(uuid.toString())) {
-                    isUnique = false;
-                    break;
-                }
+        UUID uuid = UUID.randomUUID();
+        boolean isUnique = true;
+        for (Task_Protocol task_protocol : getTaskProtocols()) {
+            if (task_protocol.getId().equals(uuid.toString())) {
+                isUnique = false;
+                break;
             }
-            if (isUnique) {
-                Client client = clientRepository.findById(client_id);
-                Script script = scriptRepository.findById(script_id);
-                Task_Protocol task_protocol = new Task_Protocol(uuid.toString(), client, null, script);
-                task_protocol_repository.persist(task_protocol);
-            } else {
-                insertTaskProtocolWithScript(client_id, script_id);
-            }
+        }
+        if (isUnique) {
+            Client client = clientRepository.findById(client_id);
+            Script script = scriptRepository.findById(script_id);
+            Task_Protocol task_protocol = new Task_Protocol(uuid.toString(), client, null, script);
+            task_protocol_repository.persist(task_protocol);
+        } else {
+            insertTaskProtocolWithScript(client_id, script_id);
+        }
     }
+
     @Override
     @Transactional
     public void insertTaskProtocolWithPackage(String client_id, String package_id) {//erstellt einen Task
-            UUID uuid = UUID.randomUUID();
-            boolean isUnique = true;
-            for (Task_Protocol task_protocol : getTaskProtocols()) {
-                if (task_protocol.getId().equals(uuid.toString())) {
-                    isUnique = false;
-                    break;
-                }
+        UUID uuid = UUID.randomUUID();
+        boolean isUnique = true;
+        for (Task_Protocol task_protocol : getTaskProtocols()) {
+            if (task_protocol.getId().equals(uuid.toString())) {
+                isUnique = false;
+                break;
             }
-            if (isUnique) {
-                Client client = clientRepository.findById(client_id);
-                Package package_ = packageRepository.findById(package_id);
-                Task_Protocol task_protocol = new Task_Protocol(uuid.toString(), client, package_, null);
-                task_protocol_repository.persist(task_protocol);
-            } else {
-                insertTaskProtocolWithPackage(client_id, package_id);
-            }
+        }
+        if (isUnique) {
+            Client client = clientRepository.findById(client_id);
+            Package package_ = packageRepository.findById(package_id);
+            Task_Protocol task_protocol = new Task_Protocol(uuid.toString(), client, package_, null);
+            task_protocol_repository.persist(task_protocol);
+        } else {
+            insertTaskProtocolWithPackage(client_id, package_id);
+        }
     }
-
-
-
-
-
-
-
 
 
     @Override
@@ -648,6 +719,7 @@ public class SMSStore implements ISMSStore {
     public void removeTaskByPackageID(String id, String client_id) {//löscht einen Task
         tasksRepository.deleteTasksByPackage_ID(id, client_id);
     }
+
     @Override
     @Transactional
     public void removeTaskByScriptID(String id, String client_id) {//löscht einen Task
@@ -658,6 +730,7 @@ public class SMSStore implements ISMSStore {
     public Tasks getTaskByPackageID(String id) {
         return tasksRepository.findByPackage_ID(id);
     }//löscht einen Task
+
     @Override
     public Tasks getTaskByScriptID(String id) {
         return tasksRepository.findByScript_ID(id);
@@ -669,25 +742,29 @@ public class SMSStore implements ISMSStore {
         User_Group user_group = new User_Group(user_ID.toString(), group_ID.toString());
         user_groupRepository.persist(user_group);
     }
+
     @Override
     @Transactional
     public void addClientToGroup(String client_ID, UUID group_ID) {//füügt einen Client in eine Gruppe hinzu
         Client_Group client_group = new Client_Group(client_ID, group_ID.toString());
         client_groupRepository.persist(client_group);
     }
+
     @Override
     @Transactional
     public void removeUserToGroup(UUID user_ID, UUID group_ID) {//löscht einen Benutzer aus einer Gruppe
         user_groupRepository.deleteByGroupIDAndUserID(group_ID.toString(), user_ID.toString());
     }
+
     @Override
     @Transactional
     public void removeClientToGroup(String client_ID, UUID group_ID) {//löscht einen Client aus einer Gruppe
         client_groupRepository.deleteByGroupIDAndClientID(group_ID.toString(), client_ID);
     }
+
     @Override
     @Transactional
-    public void changeRole(String user_ID, Role role){//ändert die Rolle eines Benutzers
+    public void changeRole(String user_ID, Role role) {//ändert die Rolle eines Benutzers
         User user_ = userRepository.findByID(user_ID);
         user_.setRole(role);
         userRepository.getEntityManager().merge(user_);

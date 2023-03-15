@@ -3,6 +3,7 @@ import React, {useEffect, useState} from 'react'
 import {useTranslation} from 'react-i18next'
 
 import useClientStore from '../../../stores/clientInformationStore'
+import useLngStore from '../../../stores/lngStore'
 import {Client} from '../../../data/data_types'
 
 import useHover from '../../../hooks/useHover'
@@ -20,6 +21,7 @@ const OnlineStatus = ({client}: OnlineStatusProps) => {
     const {t} = useTranslation()
 
     const {getClientOnlineStatus} = useClientStore()
+    const {selectedLng} = useLngStore()
 
     const [hoverRef, isHovered] = useHover()
 
@@ -30,13 +32,18 @@ const OnlineStatus = ({client}: OnlineStatusProps) => {
 
     useEffect(() => {
         /* Get default data */
-        setStatus(() => getClientOnlineStatus(client.macAddress))
+        setStatus(() => getClientOnlineStatus(client.macAddress, selectedLng))
 
         /* Get new data every minute */
-        setInterval(() => {
-            setStatus(() => getClientOnlineStatus(client.macAddress))
+        const intervalId = setInterval(() => {
+            setStatus(() => getClientOnlineStatus(client.macAddress, selectedLng))
         }, 60_000)
-    }, [])
+
+        /* Cleanup */
+        return () => {
+            clearInterval(intervalId)
+        }
+    }, [selectedLng])
 
     return (
         status.status.toLowerCase() === 'online' ?

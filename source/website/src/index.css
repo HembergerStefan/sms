@@ -1,7 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;600;800&display=swap');
 
 :root {
-    --ac-clr-1: hsl(248, 64%, 56%);
+    --ac-clr-1: hsl(244, 88%, 60%);
+    --ac-clr-1--darker: hsl(244, 60%, 50%);
     --ac-clr-2: hsl(342, 99%, 45%);
     --ac-clr-3: hsl(160, 74%, 45%);
 
@@ -12,6 +13,10 @@
     --nl-clr-2: hsl(0, 0%, 100%);
     --nl-clr-3: hsl(0, 0%, 100%); /* Always the same */
     --nl-clr-4: hsl(0, 0%, 0%); /* Always the same */
+
+    --filter-bt-clr-1: hsl(0, 0%, 99%);
+    --filter-bt-ac-clr-1: hsl(0, 0%, 89%);
+    --filter-span-ac-clr-1: hsl(0, 0%, 75%);
 
     --anchor-d-clr: hsl(233, 59%, 56%);
     --anchor-h-clr: hsl(233, 52%, 44%);
@@ -29,6 +34,7 @@
     --mu-item--hover-bg--clr: hsl(0, 0%, 94%);
 
     /* Custom input style */
+    --ipt--place-clr: hsl(0, 0%, 46%);
     --ipt--bg-clr: hsl(0, 0%, 100%);
     --ipt--df-border--clr: hsl(210, 14%, 85%);
     --ipt--hover-border--clr: hsl(239, 84%, 67%);
@@ -68,6 +74,13 @@
     --cht-br-clr-1: hsl(248, 57%, 60%);
     --cht-br-clr-2: hsl(217, 85%, 53%);
 
+    /* Skeleton loading style */
+    --sk-load--clr-1: hsl(0, 0%, 100%);
+    --sk-load--clr-2: hsl(213, 100%, 96%);
+
+    /* User adding style */
+    --user-ic-bg-clr: hsl(250, 40%, 94%);
+
     --drp-shadow-light: 0.6px 0.6px 2.2px rgba(0, 0, 0, -0.014),
     1.3px 1.3px 5.3px rgba(0, 0, 0, -0.019),
     2.5px 2.5px 10px rgba(0, 0, 0, -0.015),
@@ -81,7 +94,6 @@
     3px 3px 21.9px rgba(0, 0, 0, 0.025),
     7.1px 7.1px 24.4px rgba(0, 0, 0, 0.042),
     20px 20px 40px rgba(0, 0, 0, 0.07);
-    /*--drp-shadow-dark: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.2);*/
 
     --drp-shadow-dark-rvt: 0px 0px 0.7px rgba(0, 0, 0, 0.07),
     0px 0px 2.7px rgba(0, 0, 0, 0.015),
@@ -145,15 +157,20 @@
 
 /* Theme packs section --Begin */
 [data-theme='moderna-dark'] {
-    --ac-clr-1: hsl(230, 94%, 82%);
-    --ac-clr-2: hsl(169, 97%, 46%);
-    --ac-clr-3: hsl(29, 78%, 70%);
+    --ac-clr-1: hsl(230, 91%, 63%);
+    --ac-clr-1--darker: hsl(230, 54%, 50%);
+    --ac-clr-2: hsl(342, 98%, 50%);
+    --ac-clr-3: hsl(166, 86%, 34%);
 
     --pr-clr: hsl(220, 9%, 87%);
     --sc-clr: hsl(215, 21%, 70%);
 
     --nl-clr-1: hsl(214, 72%, 6%);
-    --nl-clr-2: hsl(215, 69%, 9%);
+    --nl-clr-2: hsl(216, 70%, 9%);
+
+    --filter-bt-clr-1: hsl(226, 65%, 12%);
+    --filter-bt-ac-clr-1: hsl(213, 73%, 6%);
+    --filter-span-ac-clr-1: hsl(213, 7%, 48%);
 
     --nl--nav-clr-1: hsl(215, 69%, 9%);
 
@@ -161,25 +178,28 @@
     --nv-item--h--bg-clr: hsl(215, 55%, 13%); /* Navigation items hover background color */
 
     --li-item-d-clr: hsl(240, 75%, 97%); /* List item */
-    --li-item-h-clr: hsl(216, 55%, 13%); /* List item hover */
+    --li-item-h-clr: hsl(215, 55%, 13%); /* List item hover */
+    --li-item-ac-clr: hsl(213, 73%, 6%); /* List item active */
+    --li-item-dis-clr: hsl(213, 7%, 48%); /* List item disabled */
 
     /* Custom menu item style */
     --mu-item--hover-bg--clr: hsl(215, 71%, 16%);
 
     /* Custom input style */
+    --ipt--place-clr: hsl(0, 0%, 75%);
     --ipt--bg-clr: hsl(214, 72%, 6%);
     --ipt--df-border--clr: hsl(215, 70%, 15%);
     --ipt--hover-border--clr: hsl(230, 94%, 82%);
     --ipt--active-border--clr: hsl(226, 26%, 45%);
-    --ipt--disabled-bg--clr: hsl(0, 0%, 96%);
+    --ipt--disabled-bg--clr: hsl(213, 73%, 6%);
     --ipt--disabled-border--clr: hsl(0, 0%, 77%);
-    --ipt--disabled-text--clr: hsl(217, 20%, 78%);
+    --ipt--disabled-text--clr: hsl(210, 7%, 48%);
 
     /* Dropdown style */
     --dpn--bg-clr: hsl(215, 71%, 16%);
     --dpn--hover-bg-clr: hsl(216, 73%, 13%);
 
-    --box-bg: hsl(215, 70%, 15%, .55);
+    --box-bg: hsl(216, 70%, 9%);
     --box-shadow: 0px 50px 100px hsl(0, 0%, 0%, .25);
     --border-box--color: hsl(215, 66%, 20%); /* The border color of the boxes */
 
@@ -187,63 +207,37 @@
     --scrollbar-thumb--bg-clr: hsl(0, 0%, 41%);
     --scrollbar-thumb--hover-bg-clr: hsl(0, 0%, 48%);
 
-    --drp-shadow: 0 2rem 3rem hsl(228, 14%, 7%);
-}
+    /* Table style */
+    --table-th--clr: hsl(0, 0%, 75%);
+    --table-td--border-clr: hsl(217, 73%, 16%);
+    --table-status--suc-clr: hsl(166, 86%, 34%);
+    --table-status--suc--bg-clr: hsl(166, 86%, 34%, 30%);
+    --table-status--fail-clr: hsl(207, 28%, 69%);
+    --table-status--fail--bg-clr: hsl(207, 28%, 69%, 30%);
 
-[data-theme='syphus'] {
-    --ac-clr-1: hsl(355, 100%, 74%);
-    --ac-clr-2: hsl(345, 100%, 60%);
-    --ac-clr-3: hsl(161, 85%, 60%);
+    /* Progress circle style */
+    --pr-th--bg-clr: hsl(216, 71%, 20%);
 
-    --pr-clr: hsl(0, 0%, 89%);
-    --sc-clr: hsl(0, 0%, 78%);
+    /* Available client list style */
+    --av-cl--border-clr: hsl(215, 66%, 20%);
 
-    --nl-clr-1: hsl(0, 0%, 3%);
-    --nl-clr-2: hsl(0, 0%, 6%);
+    /* Chart style */
+    --cht-br-clr-1: hsl(248, 57%, 60%);
+    --cht-br-clr-2: hsl(217, 85%, 53%);
 
-    --drp-shadow: 0 2rem 3rem hsl(0, 0%, 0%);
-}
+    /* Skeleton loading style */
+    --sk-load--clr-1: hsl(216, 70%, 9%);
+    --sk-load--clr-2: hsl(214, 72%, 6%);
 
-[data-theme='midas'] {
-    --ac-clr-1: hsl(34, 45%, 50%);
-    --ac-clr-2: hsl(355, 100%, 74%);
-    --ac-clr-3: hsl(161, 85%, 60%);
+    /* User adding style */
+    --user-ic-bg-clr: hsl(215, 67%, 20%);
 
-    --pr-clr: hsl(216, 21%, 91%);
-    --sc-clr: hsl(220, 12%, 90%);
-
-    --nl-clr-1: hsl(0, 0%, 6%);
-    --nl-clr-2: hsl(0, 0%, 10%);
-
-    --drp-shadow: 0 2rem 3rem hsl(0, 0%, 4%);
-}
-
-[data-theme='clean-red'] {
-    --ac-clr-1: hsl(342, 99%, 45%);
-    --ac-clr-2: hsl(355, 100%, 74%);
-    --ac-clr-3: hsl(161, 85%, 60%);
-
-    --pr-clr: hsl(229, 18%, 30%);
-    --sc-clr: hsl(0, 0%, 27%);
-
-    --nl-clr-1: hsl(0, 0%, 100%);
-    --nl-clr-2: hsl(240, 67%, 96%);
-
-    --drp-shadow: 0 2rem 3rem hsl(240, 11%, 89%);
-}
-
-[data-theme='discord'] {
-    --ac-clr-1: hsl(235, 86%, 65%);
-    --ac-clr-2: hsl(359, 67%, 54%);
-    --ac-clr-3: hsl(139, 52%, 52%);
-
-    --pr-clr: hsl(0, 0%, 100%);
-    --sc-clr: hsl(216, 4%, 74%);
-
-    --nl-clr-1: hsl(216, 7%, 14%);
-    --nl-clr-2: hsl(223, 7%, 20%);
-
-    --drp-shadow: 0 2rem 3rem hsl(216, 7%, 12%);
+    --drp-shadow-dark-rvt: 0px 0px 2.2px rgba(0, 0, 0, 0.1),
+    0px 0px 5.3px rgba(0, 0, 0, 0.097),
+    0px 0px 10px rgba(0, 0, 0, 0.093),
+    0px 0px 17.9px rgba(0, 0, 0, 0.086),
+    0px 0px 33.4px rgba(0, 0, 0, 0.075),
+    0px 0px 80px rgba(0, 0, 0, 0.058);
 }
 
 /* Theme packs section --End */
@@ -592,6 +586,20 @@ ul {
 }
 
 /* Delete icon section --End */
+
+.active--search-item {
+    animation: active-search 1.5s linear infinite forwards !important;
+}
+
+@keyframes active-search {
+    0%, 100% {
+        border: 3px solid var(--border-box--color);
+    }
+
+    50% {
+        border: 3px solid var(--ac-clr-1);
+    }
+}
 
 .shake {
     animation: shake 720ms cubic-bezier(.36, .07, .19, .97) both;

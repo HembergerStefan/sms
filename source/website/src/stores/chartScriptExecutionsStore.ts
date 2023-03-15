@@ -1,5 +1,5 @@
-import create from 'zustand'
-import {persist} from 'zustand/middleware'
+import { create } from 'zustand'
+import {createJSONStorage, persist} from 'zustand/middleware'
 
 export type Dataset = {
     label: string
@@ -31,7 +31,7 @@ const useChartScriptExecutionsStore = create(
             })),
         }), {
             name: 'script-executions-store',
-            getStorage: () => sessionStorage
+            storage: createJSONStorage(() => sessionStorage)
         }
     )
 )

@@ -8,7 +8,7 @@
     width: 50vw;
 
     max-height: 80vh;
-    max-width: 740px;
+    max-width: 760px;
 
     padding: 25px 25px 25px 25px;
 
@@ -40,4 +40,19 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+@media only screen and (max-width: 1200px) {
+    .blocking-container {
+        justify-content: flex-start !important;
+    }
+
+    #dialog-container {
+        height: 100vh !important;
+        width: 740px !important;
+
+        max-height: unset !important;
+
+        border-radius: 0 var(--br-r-medium) var(--br-r-medium) 0 !important;
+    }
 }

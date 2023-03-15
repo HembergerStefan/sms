@@ -17,7 +17,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Entity
 @Table(name = "script", schema = "sms_data")
 public class Script implements Serializable {
@@ -33,7 +32,7 @@ public class Script implements Serializable {
     private String description;
     @Column(name="Script_Value", length = 5000, nullable = false)
     @JsonView(value = {ClientView.Always.class, ScriptView.Always.class, TaskView.Always.class, UserView.Always.class})
-    private String script_value;
+    private String scriptValue;
     @Column(name="Interpreter", length = 20, nullable = false)
     @JsonView(value = {ClientView.Always.class, ScriptView.Always.class, TaskView.Always.class, UserView.Always.class})
     private String interpreter;

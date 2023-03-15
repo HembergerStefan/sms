@@ -5,6 +5,7 @@ import DevicesRoundedIcon from '@mui/icons-material/DevicesRounded'
 import {AvailableClient} from '../../../../data/data_types'
 
 import useHover from '../../../../hooks/useHover'
+import {useActivateClientMutation} from '../../../../utils/api/ApiService'
 
 import Iconing from '../../numbering/iconing/Iconing'
 import IPInput from '../../ip_input/IPInput'
@@ -20,9 +21,10 @@ const AvailableClientItem = ({itemIndex, availableClient}: AvailableClientItemPr
 
     const [hoverRef, isHovered] = useHover()
 
-    /* TODO: implement onSuccess method */
-    const onSuccess = () => {
+    const clientActivateMutation = useActivateClientMutation(availableClient)
 
+    const adapt = () => {
+        clientActivateMutation.mutate()
     }
 
     return (
@@ -32,7 +34,7 @@ const AvailableClientItem = ({itemIndex, availableClient}: AvailableClientItemPr
                 <h2 ref={hoverRef} className='fs-qi-1 fw--semi-bold clr-pr-1'>{availableClient.name}</h2>
                 <IPInput value={availableClient.ip}/>
             </div>
-            <AdaptButton placeholder='Adapt' onOnClick={onSuccess}/>
+            <AdaptButton placeholder='Adapt' onOnClick={adapt}/>
 
             {
                 (isHovered) ? <TooltipManager

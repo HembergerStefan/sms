@@ -10,10 +10,10 @@
 
 @keyframes skeleton-loading {
     from {
-        background-color: hsl(210, 24%, 92%);
+        background-color: var(--sk-load--clr-1);
     }
 
     to {
-        background-color: hsl(213, 25%, 82%);
+        background-color: var(--sk-load--clr-2);
     }
 }

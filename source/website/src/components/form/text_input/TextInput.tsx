@@ -14,6 +14,7 @@ interface TextInputProps {
     placeholder: string
     customSize?: { height: number, hUnit: string, width: number, wUnit: string }
     setStoreValue: Function
+    renderFullSizeToggle?: boolean
 }
 
 const TextInput = ({
@@ -22,7 +23,8 @@ const TextInput = ({
                        defaultValue,
                        placeholder,
                        customSize = {height: 100, hUnit: '%', width: 100, wUnit: '%'},
-                       setStoreValue
+                       setStoreValue,
+                       renderFullSizeToggle = true
                    }: TextInputProps) => {
 
     const {t} = useTranslation()
@@ -54,7 +56,10 @@ const TextInput = ({
                                   required={true}
                                   autoComplete='off'/>
 
-                <FullSizeButton containerRef={labelRef} size='var(--icon-size-small)'/>
+                {
+                    renderFullSizeToggle ?
+                        <FullSizeButton containerRef={labelRef} size='var(--icon-size-small)'/> : null
+                }
             </label>
     )
 }

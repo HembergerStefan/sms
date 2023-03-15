@@ -45,7 +45,7 @@ public class ClientSocket {
         if (!smsStore.clientIsAvailable(mac_address)) {
             if (!smsStore.availableclientIsAvailable(mac_address)) {//wenn es noch keinen Client oder Available_Client gibt, wird ein neuer erstellt
                 var baseclient = new Baseclient(mac_address);
-                var available_client = new Available_Clients(new Baseclient(mac_address), "unkowen", "0.0.0.0");
+                var available_client = new Available_Clients(new Baseclient(mac_address), "unknown", "0.0.0.0");
                 smsStore.insertBase_Client(baseclient);
                 smsStore.insertAvailable_Client(available_client);
             }
@@ -88,13 +88,31 @@ public class ClientSocket {
                 client.setLastOnline(timestamp);
                 client.setCpuUsage((Integer) map.get("cpuUsage"));
                 client.setUsedDiskspace((Integer) map.get("diskUsage"));
+                client.setRamUsage((Integer) map.get("ramUsage"));
+                client.setOs((String) map.get("os"));
                 var packagesIDs = (ArrayList<String>) map.get("installed");
                 var scriptsIDs = (ArrayList<String>) map.get("executedScripts");
                 var packages = smsStore.getPackagesByIDs(packagesIDs);
                 var scripts = smsStore.getScriptsByIDs(scriptsIDs);
-                client.setPackages(packages);
-                client.setScript(scripts);
                 smsStore.updateClient(client);
+                for(Package package_ : packages){
+                    var client_package = new Client_Package(package_.getId(), mac_address);
+                    try{
+                        if(!smsStore.isInstalled(mac_address, package_.getId())){
+                            smsStore.insertClient_Package(client_package);
+                        }
+                    }catch (Exception e){
+
+                    }
+                }
+                for(Script script_ : scripts){
+                    var client_script = new Client_Script(script_.getId(), mac_address, new Timestamp(System.currentTimeMillis()));
+                    try{
+                        smsStore.insertClient_Script(client_script);
+                    }catch (Exception e){
+
+                    }
+                }
                 for (var id : packagesIDs) {//löscht Tasks
                     if (smsStore.getTaskByPackageID(id) != null) {
                         smsStore.insertTaskProtocolWithPackage(mac_address, id);
@@ -127,14 +145,14 @@ public class ClientSocket {
                     var allTasks = smsStore.getTasks();
                     boolean hasNoTask = true;
                     for (var task : allTasks) {
-                        if (task.getClient().getMacAddress().getMacAddress().equals(clientSession.getMac_address())) {
+                        if (task.getClient().getMacAddress().getMacAddress().equals(clientSession.getMacAddress())) {
                             hasNoTask = false;
                             break;
                         }
                     }
                     if (!hasNoTask) {
                         var gson = new Gson();
-                        var mac_address = clientSession.getMac_address();
+                        var mac_address = clientSession.getMacAddress();
                         var session = clientSession.getSession();
                         var tasks = smsStore.getTasksByClientID(mac_address);
                         var dtopackages = new ArrayList<DTOPackage>();
@@ -142,12 +160,12 @@ public class ClientSocket {
                         for (var task : tasks) {
                             if (task.getPackages() != null) {
                                 var package_ = task.getPackages();
-                                var dtopackage = new DTOPackage(package_.getId(), package_.getName(), package_.getVersion(), package_.getDate(), package_.getDownloadlink(), package_.getSilentSwitch());
+                                var dtopackage = new DTOPackage(package_.getId(), package_.getName(), package_.getVersion(), package_.getDate(), package_.getDownloadLink(), package_.getSilentSwitch());
                                 dtopackages.add(dtopackage);
                             }
                             if (task.getScript() != null) {
                                 var script_ = task.getScript();
-                                DTOScript dtoScript = new DTOScript(script_.getId(), script_.getName(), script_.getDescription(), script_.getScript_value(), script_.getInterpreter(), script_.getFileExtension());
+                                DTOScript dtoScript = new DTOScript(script_.getId(), script_.getName(), script_.getDescription(), script_.getScriptValue(), script_.getInterpreter(), script_.getFileExtension());
                                 dtoscripts.add(dtoScript);
                             }
                         }

@@ -1,33 +1,45 @@
-import React, {memo, useRef, useState} from 'react'
+import React, {memo, useEffect, useState} from 'react'
 
 import {useTranslation} from 'react-i18next'
+import {useMutation} from 'react-query'
+import axios from 'axios'
 
-import PersonRoundedIcon from "@mui/icons-material/PersonRounded"
-import LockOpenRoundedIcon from "@mui/icons-material/LockOpenRounded"
-import LockRoundedIcon from "@mui/icons-material/LockRounded"
+import {ApiConfig} from '../../../../data/api_data/ApiConfig'
+import useUserStore from '../../../../stores/user_session/userStore'
+
+import PersonRoundedIcon from '@mui/icons-material/PersonRounded'
+import LockOpenRoundedIcon from '@mui/icons-material/LockOpenRounded'
+import LockRoundedIcon from '@mui/icons-material/LockRounded'
 
 import Separator from '../separator/Separator'
 
-interface LoginInteractionProps {
-    setLoginPage: Function
-}
-
-const LoginInteraction = ({setLoginPage}: LoginInteractionProps) => {
+const LoginInteraction = () => {
 
     const {t} = useTranslation()
 
+    const {setUserId, setUsername, setUserToken} = useUserStore()
+
     const [isRevealPwd, setIsRevealPwd] = useState<boolean>(false)
-    const usernameRef = useRef<HTMLInputElement>(null)
-    const passwordRef = useRef<HTMLInputElement>(null)
+    const [loginData, setLoginData] = useState<{ username: string, password: string }>({username: '', password: ''})
+
+    const {data, mutate, isSuccess, isLoading} = useMutation(() => {
+        return axios.post(`${ApiConfig.baseUrl}:${ApiConfig.port}/webpage/login`, {
+            'name': loginData.username,
+            'password': loginData.password
+        })
+    })
+
+    useEffect(() => {
+        if (isSuccess) {
+            setUsername(loginData.username)
+            setUserToken(data.data.token)
+            setUserId(data.data.user_ID)
+        }
+    }, [data])
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-
-        if (usernameRef.current !== null && passwordRef.current !== null) {
-            if (usernameRef.current.value === 'admin' && passwordRef.current.value === 'admin') {
-                window.location.href = '/dashboard'
-            }
-        }
+        mutate()
     }
 
     return (
@@ -36,26 +48,31 @@ const LoginInteraction = ({setLoginPage}: LoginInteractionProps) => {
 
             <form id='login-form' onSubmit={handleSubmit}>
                 <div id='username-container' className='md-input'>
-                    <input ref={usernameRef} type='text' name='username' placeholder={t('Username')}
+                    <input type='text' name='username' placeholder={t('Username')}
                            autoFocus={true} autoComplete='off' className='input-container username-input-icon'
-                           onChange={e => {
-                               /* TODO: IMPLEMENT */
-                           }} tabIndex={1}/>
-
+                           tabIndex={1}
+                           onChange={(e) => {
+                               setLoginData((prevState) => (
+                                   ({...prevState, username: e.target.value})
+                               ))
+                           }}
+                    />
                     <div>
                         <PersonRoundedIcon fontSize='small'/>
                     </div>
                 </div>
 
                 <div id='password-container' className='md-input'>
-                    <input ref={passwordRef} type={isRevealPwd ? 'text' : 'password'} name='password'
+                    <input type={isRevealPwd ? 'text' : 'password'} name='password'
                            placeholder={t('Password')} autoComplete='off'
                            className='input-container password-input-icon'
-                           onChange={e => {
-                               /* TODO: IMPLEMENT */
+                           tabIndex={2}
+                           onChange={(e) => {
+                               setLoginData((prevState) => (
+                                   ({...prevState, password: e.target.value})
+                               ))
                            }}
-                           tabIndex={2}/>
-
+                    />
                     <div onClick={() => setIsRevealPwd(prevState => !prevState)}>
                         {
                             isRevealPwd ? <LockOpenRoundedIcon fontSize='small'/> :
@@ -64,17 +81,15 @@ const LoginInteraction = ({setLoginPage}: LoginInteractionProps) => {
                     </div>
                 </div>
 
-                <button id='submit-button' className='md-menu' type='submit' tabIndex={3}>
+                <button id='submit-button' className='md-menu' type='submit' tabIndex={3} disabled={isLoading}>
                     <span className='clr-nl-3 fw--semi-bold'>{t('Login')}</span>
                 </button>
             </form>
 
             <Separator/>
 
-            <span className='clr-pr-1 fw-regular fs-tr-body-1'>Don’t have an account? <a
-                className='fw--semi-bold fs-tr-body-1 anchor-d-clr'
-                onClick={() => setLoginPage(false)}
-                style={{cursor: 'pointer'}}>Click here</a></span>
+            <span className='clr-pr-1 fw--semi-bold fs-tr-body-1'>{t('Don’t have an account')}? <span
+                className='fw-regular fs-tr-body-1'>{t('Ask your Admin to create one for you')}.</span></span>
         </div>
     )
 }

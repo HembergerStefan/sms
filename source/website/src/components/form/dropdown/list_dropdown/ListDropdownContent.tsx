@@ -1,4 +1,5 @@
 import React, {memo} from 'react'
+import {useTranslation} from 'react-i18next'
 
 interface DropdownContentProps {
     setMount: Function
@@ -8,6 +9,8 @@ interface DropdownContentProps {
 }
 
 const DropdownContent = ({setMount, crItem, setCrItem, items}: DropdownContentProps) => {
+
+    const {t} = useTranslation()
 
     /* Select the item and unmount this component */
     const selectItem = (cr: string | number): void => {
@@ -21,13 +24,18 @@ const DropdownContent = ({setMount, crItem, setCrItem, items}: DropdownContentPr
     return (
         <ul id='dropdown-content'>
             {
-                items.map((cr, index) => (
-                    <li key={`dropdown-list-item-${index}`}
-                        className={cr === crItem ? 'selected--dropdown-item' : undefined}
-                        onClick={() => selectItem(cr)}>
-                        <span className='fs-pr-body-1 fw-regular'>{cr}</span>
+                items.length !== 0 ?
+                    items.map((cr, index) => (
+                        <li key={`dropdown-list-item-${index}`}
+                            className={cr === crItem ? 'selected--dropdown-item' : undefined}
+                            onClick={() => selectItem(cr)}>
+                            <span className='fs-pr-body-1 fw-regular'>{cr}</span>
+                        </li>
+                    ))
+                    :
+                    <li>
+                        <span className='fs-pr-body-1 fw-regular'>{t('No items available')}</span>
                     </li>
-                ))
             }
         </ul>
     )

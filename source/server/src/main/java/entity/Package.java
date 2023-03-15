@@ -18,7 +18,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Entity
 @Table(name = "package", schema = "sms_data")
 public class Package implements Serializable {
@@ -37,7 +36,7 @@ public class Package implements Serializable {
     private Timestamp date;
     @Column(name="URL", length = 255, nullable = false)
     @JsonView(value = {ClientView.Always.class, PackageView.Always.class, TaskView.Always.class, UserView.Always.class})
-    private String downloadlink;
+    private String downloadLink;
     @Column(name="SilentSwitch", length = 255, nullable = false)
     @JsonView(value = {ClientView.Always.class, PackageView.Always.class, TaskView.Always.class, UserView.Always.class})
     private String silentSwitch;

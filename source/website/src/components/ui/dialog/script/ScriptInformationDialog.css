@@ -13,7 +13,6 @@
     gap: 50px;
 }
 
-/* The heading of the execution date will be right aligned */
-#title-execution--wrapper > section:last-of-type > h2 {
-    text-align: right;
+#title-execution--wrapper > section:last-of-type {
+    width: 393px;
 }

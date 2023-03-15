@@ -11,6 +11,7 @@ import token.TokenInfos;
 
 import javax.crypto.spec.SecretKeySpec;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public interface ISMSStore{
@@ -22,9 +23,14 @@ public interface ISMSStore{
 
     void deleteToken(TokenInfos tokenInfo);
 
+    void insertClient_Script(Client_Script client_script);
+    void insertClient_Package(Client_Package client_package);
     boolean isAllowed(String token, String id, @NotNull Login anno);
 
+    boolean isInstalled(String client_id, String package_id);
     boolean isAllowed(String token, @NotNull Login anno);
+
+    List<Client_Script> getClientScriptsByClient(String client_ID);
 
     boolean isAllowed(String token, @NotNull Adding anno);
 

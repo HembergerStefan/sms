@@ -1,5 +1,5 @@
 export type Package = {
-    id: number
+    id: string
     name: string
     version: string
     url: string

@@ -1,4 +1,14 @@
 export const ApiConfig = {
-    baseUrl: 'http://25.21.61.172',
+    baseUrl: 'http://localhost',
     port: 8080,
+}
+
+export const WebsocketConfig = {
+    baseUrl: 'localhost',
+    port: 8080,
+}
+
+export const RoleSystemConfig = {
+    adminRoleName: 'Admin',
+    userRoleName: 'User'
 }

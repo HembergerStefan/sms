@@ -5,7 +5,6 @@ import {QueryClient, QueryClientProvider} from 'react-query'
 import App from './App'
 import './Translation' /* Very IMPORTANT import - without it, nothing can be translated */
 import './index.css'
-import {ReactQueryDevtools} from "react-query/devtools";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -19,7 +18,6 @@ root.render(
             <BrowserRouter>
                 <App/>
             </BrowserRouter>
-            <ReactQueryDevtools/>
         </QueryClientProvider>
     </React.StrictMode>
 )

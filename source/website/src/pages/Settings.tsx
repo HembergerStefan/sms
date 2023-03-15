@@ -1,14 +1,28 @@
 import React from 'react'
 
+import {useTranslation} from 'react-i18next'
+
+import ThemeMenu from '../components/ui/theme_menu/ThemeMenu'
+
+import './Layout.css'
+
 const Clients = () => {
 
+    const {t} = useTranslation()
+
     return (
-        <div style={{
-            height: '100%', width: '100%', background: 'var(--nl-clr-1)', borderRadius: '25px 0 0 0',
-            padding: '40px', gridArea: 'main'
-        }}>
-            <h1 className='fs-tr-1 fw--semi-bold'>Settings</h1>
-        </div>
+        <section id='dashboard-layout--container'>
+            <h1 className='fs-tr-1 fw--semi-bold'>{t('Settings')}</h1>
+
+            <div id='appearance-container' style={{display: 'flex', flexDirection: 'column', gap: '25px'}}>
+                <div>
+                    <h2 className='fs-qr-1 fw--semi-bold'>{t('Appearance')}</h2>
+                    <span>{t('Change how Systems Management Server looks and feels in your browser')}.</span>
+                </div>
+
+                <ThemeMenu/>
+            </div>
+        </section>
     )
 }
 
