@@ -1,0 +1,11 @@
+#basic-card-list-container {
+    padding: 17px 20px 10px 20px;
+}
+
+#basic-card-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    grid-gap: 10px;
+
+    margin-top: 16px;
+}

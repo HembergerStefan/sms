@@ -1,0 +1,32 @@
+#package-information-dialog--container {
+    display: grid;
+    gap: 1.75rem;
+
+    padding: 0.25rem;
+
+    overflow: auto;
+}
+
+#package-information-dialog--container > section:first-of-type > label {
+    width: 425px;
+}
+
+#title-version--wrapper {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 50px;
+}
+
+#title-version--wrapper > section:last-of-type > label {
+    height: 54px;
+}
+
+#title-version--wrapper > section:last-of-type > label > textarea {
+    margin-top: 2px;
+}
+
+
+/* The heading of the execution date will be right aligned */
+#title-version--wrapper > section:last-of-type > h2 {
+    text-align: right;
+}

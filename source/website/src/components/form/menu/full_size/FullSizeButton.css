@@ -1,0 +1,30 @@
+#full-size--container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: fit-content;
+    width: fit-content;
+
+    padding: var(--pd-t-small);
+
+    border-radius: var(--br-r-small);
+
+    cursor: pointer;
+}
+
+.active--full-size {
+    color: var(--nl-clr-3) !important;
+    background-color: var(--ac-clr-1) !important;
+
+    opacity: 1 !important;
+}
+
+/* The referenced container will be set to full size */
+.active--full-size--ref-container {
+    height: 250px !important;
+    width: 100% !important;
+
+    max-height: unset;
+    max-width: unset;
+}

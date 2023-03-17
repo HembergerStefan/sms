@@ -1,0 +1,21 @@
+#search-information-container {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+
+    max-height: 610px;
+
+    overflow: auto;
+}
+
+.search-information--result-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#search-information--recent-search-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

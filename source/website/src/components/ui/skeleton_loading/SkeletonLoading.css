@@ -1,0 +1,19 @@
+#skeleton-container {
+    height: 100%;
+    width: 100%;
+
+    border-radius: 25px 0 0 0;
+
+    opacity: .7;
+    animation: skeleton-loading 1s linear infinite alternate;
+}
+
+@keyframes skeleton-loading {
+    from {
+        background-color: var(--sk-load--clr-1);
+    }
+
+    to {
+        background-color: var(--sk-load--clr-2);
+    }
+}

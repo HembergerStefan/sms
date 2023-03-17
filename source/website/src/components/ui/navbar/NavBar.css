@@ -1,0 +1,96 @@
+#nav-container, #nav-logo-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Nav Section --Begin */
+#nav-container {
+    grid-area: navbar;
+
+    height: 100%;
+    width: 100%;
+
+    padding: 0 17px;
+
+    background-color: var(--nl--nav-clr-1);
+}
+
+#nav-container div:nth-of-type(2) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Nav Section --End */
+
+/* Nav Logo Section --Begin */
+#nav-logo-container {
+    gap: 1rem;
+
+    width: fit-content;
+}
+
+#nav-logo {
+    width: max(50px, 4.6vh);
+}
+
+/* Nav Logo Section --End */
+
+/* Nav Interaction Section --Begin */
+#nav-interaction-container {
+    display: flex;
+    gap: 25px;
+    margin-right: 25px;
+}
+
+/* Nav Profile Section --Begin */
+#nav-profile-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    border-radius: var(--br-r-small-medium);
+
+    line-height: 22px;
+}
+
+#nav-profile-container > div > h1:first-of-type{
+    max-width: 160px;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+#nav-profile-container span:last-of-type {
+    display: inline-block;
+
+    height: 45px;
+    width: 45px;
+
+    border-radius: 50%;
+
+    background-color: hsl(215, 21%, 28%);
+}
+
+#nav-profile-container span:last-of-type::after {
+    content: '';
+
+    display: inline-block;
+    position: relative;
+
+    top: 60%;
+    left: 75%;
+
+    height: 16px;
+    width: 16px;
+
+    border-radius: 50%;
+
+    background-color: var(--ac-clr-3);
+
+    border: 3px solid var(--nl-clr-2);
+}
+
+/* Nav Profile Section --End */

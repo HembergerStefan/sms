@@ -1,0 +1,28 @@
+#dashed-outlined {
+    height: 50px;
+    width: 140px;
+
+    border-radius: var(--br-r-small);
+    border: 2px dashed var(--ac-clr-2);
+    background-color: transparent;
+
+    cursor: pointer;
+
+    transition: background-color 200ms, color 200ms, border-color 200ms, box-shadow 200ms;
+}
+
+#dashed-outlined > span {
+    color: var(--ac-clr-2);
+}
+
+#dashed-outlined:hover {
+    background-color: var(--ac-clr-2);
+}
+
+#dashed-outlined:hover > span {
+    color: var(--nl-clr-3);
+}
+
+#dashed-outlined:active:focus-within {
+    box-shadow: 0 0 0 0.2rem hsl(343, 50%, 79%);
+}

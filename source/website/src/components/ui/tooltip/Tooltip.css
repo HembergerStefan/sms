@@ -1,0 +1,73 @@
+/* Add this attribute to the element that needs a tooltip */
+#tooltip-container {
+    text-align: center;
+
+    position: absolute;
+
+    width: fit-content;
+    max-width: 342px;
+
+    padding: var(--pd-t-small);
+
+    border-radius: var(--br-r-small);
+
+    background-color: var(--nl-clr-3);
+    box-shadow: var(--drp-shadow-dark);
+
+    opacity: 0;
+    visibility: hidden;
+
+    pointer-events: none; /* Can't select item */
+
+    z-index: 999;
+
+    animation: show-tooltip 300ms 600ms forwards;
+}
+
+#tooltip-container span {
+    color: var(--nl-clr-4);
+}
+
+.tooltip-top::before, .tooltip-left::before, .tooltip-bottom::before {
+    content: '';
+
+    position: absolute;
+
+    width: 0;
+
+    border-width: 8px;
+    border-style: solid;
+    border-color: var(--nl-clr-3) transparent transparent transparent;
+}
+
+.tooltip-top::before {
+    top: 100%;
+    left: 50%;
+
+    margin-left: -8px;
+}
+
+.tooltip-left::before {
+    top: 50%;
+    left: -16px;
+
+    margin-top: -8px;
+
+    transform: rotateZ(90deg);
+}
+
+.tooltip-bottom::before {
+    top: -16px;
+    left: 50%;
+
+    margin-left: -8px;
+
+    transform: rotateZ(180deg);
+}
+
+@keyframes show-tooltip {
+    to {
+        visibility: visible;
+        opacity: 1;
+    }
+}

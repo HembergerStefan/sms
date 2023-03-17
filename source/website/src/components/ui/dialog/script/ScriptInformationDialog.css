@@ -1,0 +1,18 @@
+#script-information-dialog--container {
+    display: grid;
+    gap: 1.75rem;
+
+    padding: 0.25rem;
+
+    overflow: auto;
+}
+
+#title-execution--wrapper {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 50px;
+}
+
+#title-execution--wrapper > section:last-of-type {
+    width: 393px;
+}

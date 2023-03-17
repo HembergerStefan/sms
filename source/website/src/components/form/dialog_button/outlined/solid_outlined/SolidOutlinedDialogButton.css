@@ -1,0 +1,28 @@
+#solid-outlined {
+    height: 50px;
+    width: 140px;
+
+    border-radius: var(--br-r-small);
+    border: 2px solid var(--ac-clr-3);
+    background-color: transparent;
+
+    cursor: pointer;
+
+    transition: background-color 200ms, color 200ms, border-color 200ms, box-shadow 200ms;
+}
+
+#solid-outlined > span {
+    color: var(--ac-clr-3);
+}
+
+#solid-outlined:hover {
+    background-color: var(--ac-clr-3);
+}
+
+#solid-outlined:hover > span {
+    color: var(--nl-clr-3);
+}
+
+#solid-outlined:active:focus-within {
+    box-shadow: 0 0 0 0.2rem hsl(161, 48%, 76%);
+}

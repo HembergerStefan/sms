@@ -1,0 +1,29 @@
+#code-section {
+    display: flex;
+    justify-content: space-between;
+
+    border-radius: var(--br-r-small);
+    border: 1px solid var(--ipt--df-border--clr);
+
+    background-color: var(--ipt--bg-clr);
+}
+
+#code-editor::placeholder {
+    color: var(--sc-clr) !important;
+}
+
+#code-editor--pref-settings {
+    position: relative;
+}
+
+#code-editor--pref-settings > div {
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+
+    opacity: 0;
+}
+
+#code-section:hover > div > div {
+    opacity: 1;
+}

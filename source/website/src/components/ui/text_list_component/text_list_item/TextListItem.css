@@ -1,0 +1,14 @@
+#list-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* For resetting the cursor pointer of the checkbox label */
+#list-item label {
+    cursor: default;
+}
+
+#info-date--wrapper {
+    display: grid;
+}

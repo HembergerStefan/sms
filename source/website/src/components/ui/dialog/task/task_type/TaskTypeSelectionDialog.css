@@ -1,0 +1,56 @@
+#task-type--information-dialog--container {
+    display: grid;
+    gap: 1.75rem;
+
+    padding: 0.25rem;
+
+    overflow: auto;
+}
+
+#task-type-options--container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Task type menu button --Begin */
+#task-type--menu-items {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#task-type--menu-items > button {
+    padding: 4px 10px;
+
+    border-radius: var(--br-r-small);
+    background-color: var(--nl-clr-2);
+
+    cursor: pointer;
+}
+
+#task-type--menu-items > button > span {
+    color: var(--filter-span-ac-clr-1);
+    user-select: none;
+}
+
+.active--task-type--button {
+    background-color: var(--filter-bt-ac-clr-1) !important;
+}
+
+.active--task-type--button > span {
+    color: var(--pr-clr) !important;
+}
+
+/* Task type menu button --End */
+
+#task-type-item--container {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    max-height: 325px;
+
+    overflow: auto;
+}

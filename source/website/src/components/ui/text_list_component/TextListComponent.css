@@ -1,0 +1,38 @@
+#text-list--container {
+    display: flex;
+    flex-direction: column;
+
+    gap: .8rem;
+
+    height: fit-content;
+    width: fit-content;
+
+    min-width: 480px;
+    min-height: 250px;
+
+    padding: var(--pd-t-big);
+}
+
+#text-list--container > header > section {
+    visibility: hidden;
+}
+
+/* The container of the listing items (TextListItem.tsx) */
+#list-item-container {
+    display: grid;
+    align-items: center;
+    gap: 1rem;
+
+    max-height: 200px;
+    max-width: 500px;
+
+    overflow: auto;
+}
+
+#no--client-script--executions, #no-tasks {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 160px;
+}

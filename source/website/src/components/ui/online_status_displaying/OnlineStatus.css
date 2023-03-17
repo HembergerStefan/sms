@@ -1,0 +1,28 @@
+.status {
+    border-radius: var(--br-r-extra-small);
+
+    user-select: none;
+    cursor: default;
+}
+
+#status-online {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#status-online > div:first-of-type {
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+
+    background-color: var(--ac-clr-3);
+}
+
+#status-online > span:last-of-type {
+    color: var(--ac-clr-3);
+}
+
+#status-offline {
+    color: hsl(217, 8%, 56%);
+}

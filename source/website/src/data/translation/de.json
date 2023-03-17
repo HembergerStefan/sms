@@ -1,0 +1,187 @@
+{
+  "Overview": "Übersicht",
+  "Main": "Hauptübersicht",
+  "Clients": "Geräte",
+  "Groups": "Gruppen",
+  "Scripts": "Skripte",
+  "Packages": "Pakete",
+  "Users": "Benutzer",
+  "Settings": "Einstellungen",
+
+
+  "Good Morning": "Guten Morgen",
+  "Have you had a good start to the day?": "Hatten Sie einen guten Start in den Tag?",
+  "Good Noon": "Guten Mittag",
+  "Lunchtime.": "Zeit für eine Mittagspause.",
+  "Good Afternoon": "Guten Tag",
+  "Did you finish of some tasks?": "Haben Sie Ihre Aufgaben erledigt?",
+  "Good Evening": "Guten Abend",
+  "Have a restful night.": "Ich wünsche Ihnen eine erholsame Nacht.",
+
+
+  "Amount of Groups": "Anzahl der Gruppen",
+  "Amount of Clients": "Anzahl der Geräte",
+  "Total Online Clients": "Insgesamt Online-Geräte",
+  "Scripts executed": "Skripte ausgeführt",
+  "Client-Script Executions": "Client-Skript-Ausführungen",
+  "Open Tasks": "Offene Aufgaben",
+  "Available Clients": "Verfügbare Geräte",
+  "Create Task": "Aufgabe hinzufügen",
+  "Client last online": "Gerät zuletzt online",
+  "Last online": "Zuletzt online",
+  "has a running task": "hat eine laufende Aufgabe",
+  "executed the script": "hat das Skript ausgeführt",
+  "on": "am",
+  "of": "von",
+  "Info": "Info",
+  "Usages": "Auslastungen",
+  "Memory": "Speicher",
+  "Page": "Seite",
+
+
+  "Add Group": "Gruppe hinzufügen",
+  "Users in Groups": "Benutzer in Gruppen",
+  "Clients in Group": "Geräte in Gruppe",
+  "Total Clients in Groups": "Insgesamt Geräte in Gruppen",
+  "Average Clients per Group": "Durchschnittliche Geräte pro Gruppe",
+  "Used Diskspace": "Belegter Speicherplatz",
+  "CPU Usage": "CPU-Nutzung",
+  "Group Action": "Gruppenaktion",
+
+
+  "Amount of Scripts": "Anzahl der Skripte",
+  "Scripts not executed": "Nicht ausgeführte Skripte",
+
+
+  "Amount of Packages": "Anzahl der Pakete",
+  "Add Package": "Paket hinzufügen",
+
+
+  "Amount of Users": "Anzahl der Benutzer",
+  "Add User": "Benutzer hinzufügen",
+  "Username": "Benutzername",
+  "Password": "Passwort",
+  "Role": "Rolle",
+
+
+  "Add Script": "Skript hinzufügen",
+  "Update Script Information": "Skriptinformationen bearbeiten",
+  "Title": "Titel",
+  "Description": "Beschreibung",
+  "Execution Date": "Ausführungsdatum",
+  "Installation Date": "Installationsdatum",
+  "Language": "Sprache",
+  "Version": "Version",
+  "Status": "Status",
+  "Add Date": "Hinzufügungsdatum",
+  "Link": "Link",
+  "Script Clarification": "Name",
+  "What makes my script so special ...": "Kurze Beschreibung des Skriptes ...",
+  "Code of the Script": "Code des Skriptes",
+
+
+  "Select Item": "Auswählen",
+  "Page Size": "Seitengröße",
+  "List View": "Listen-Ansicht",
+  "Card View": "Karten-Ansicht",
+  "Add Client": "Gerät zuweisen",
+  "Update Group": "Gruppe bearbeiten",
+
+
+  "Add": "Hinzufügen",
+  "Save": "Speichern",
+  "Delete": "Löschen",
+  "Remove": "Entfernen",
+  "Execute": "Ausführen",
+  "Adapt": "Adaptieren",
+  "Select": "Wählen",
+
+
+  "All Scripts": "Alle Skripte",
+  "All Packages": "Alle Pakete",
+  "All Clients": "Alle Geräte",
+  "All Users": "Alle Benutzer",
+  "Executed Scripts": "Ausgeführte Skripte",
+  "Installed Packages": "Installierte Pakete",
+
+
+  "Appearance": "Erscheinung",
+  "Change how Systems Management Server looks and feels in your browser": "Ändern Sie das Aussehen und die Bedienung von Systems Management Server in Ihrem Browser",
+
+
+  "No entries available": "Keine Datensätze vorhanden",
+  "Previous Page": "Vorherige Seite",
+  "Next Page": "Nächste Seite",
+
+
+  "Dashboard Search": "Dashboard Suche",
+  "Recent Searches": "Zuletzt gesucht",
+  "Results": "Suchergebnisse",
+  "Highest Conformity": "Höchste Übereinstimmung",
+  "Not looking for anything yet? Start your search now!": "Noch nichts gesucht? Beginnen Sie jetzt mit der Suche!",
+  "Search for anything ...": "Nach allem suchen ...",
+  "Delete recent searches": "Vergangene Suchanfragen löschen",
+  "Change language": "Sprache ändern",
+
+
+  "Within this dialog you can create tasks": "In diesem Dialog können Sie diverse Aufgaben erstellen",
+  "A Task can either cover a single client or an entire group of clients": "Eine Aufgabe kann entweder ein einzelnes Gerät oder eine ganze Gruppe von Geräten betreffen",
+  "You can choose between running scripts or installing packages": "Sie können zwischen der Ausführung von Skripten und der Installation von Paketen wählen",
+  "Depending on the selected group or client (according to the operating system), the system will automatically manage what you can select here": "Je nach ausgewählter Gruppe oder Gerät (nach dem Betriebssystem) verwaltet das System automatisch, was Sie hier auswählen können",
+  "Target Options": "Zieloptionen",
+  "Task-Type Options": "Optionen für Aufgabentypen",
+  "Select Client or Group": "Gerät oder Gruppe auswählen",
+  "Select Script or Package": "Skript oder Paket auswählen",
+  "First select target": "Wählen Sie zuerst das Ziel aus",
+
+  "Select Target": "Ziel auswählen",
+  "First, you have to decide on which device the task is to be performed or which devices of the group this task concerns.": "Zunächst müssen Sie entscheiden, auf welchem Gerät die Aufgabe durchgeführt werden soll oder welche Geräte der Gruppe diese Aufgabe betrifft.",
+
+  "Select Task-Type": "Aufgabentyp auswählen",
+  "At last, you have to decide what the task is all about": "Als letztes müssen Sie entscheiden, worum es bei der Aufgabe geht",
+  "Choose between Script and Package": "Wählen Sie zwischen Skript und Paket",
+
+  "Update Group Information": "Gruppeninformationen bearbeiten",
+  "Group Clarification": "Name",
+  "Add Users to Group": "Benutzer zur Gruppe hinzufügen",
+  "No users in group": "Keine Benutzer in der Gruppe",
+  "No users": "Keine Benutzer",
+  "user": "Benutzer",
+  "users": "Benutzer",
+  "currently in the group": "derzeit in der Gruppe",
+  "Total amount of users": "Gesamtanzahl der Benutzer",
+  "Available Users": "Verfügbare Benutzer",
+
+  "Add Clients to Group": "Geräte zur Gruppe hinzufügen",
+  "No clients": "Keine Gerät",
+  "client": "Gerät",
+  "clients": "Geräte",
+  "Total amount of clients": "Gesamtanzahl der Geräte",
+  "Your first selected Client will set the operation system type of the group": "Der erste von Ihnen ausgewählte Geräte legt den Betriebssystemtyp der Gruppe fest",
+  "From then on you can only add clients with that operation system": "Von da an können Sie nur noch Geräte mit diesem Betriebssystem hinzufügen",
+  "Only Mac-Clients can be added to group": "Nur Mac-Clients können zur Gruppe hinzugefügt werden",
+  "Only Windows-Clients can be added to group": "Nur Windows-Clients können zur Gruppe hinzugefügt werden",
+
+  "Update Client Information": "Geräteinformationen bearbeiten",
+
+
+  "Package Clarification": "Name",
+  "Package Version": "Version",
+  "Download Link": "Link zum Herunterladen",
+  "Silent installing key": "Zeichen für die Installation im Hintergrund",
+
+
+  "Update User Information": "Benutzerinformationen bearbeiten",
+  "In this dialog you can change the username and password, as well as the role of the specific user": "In diesem Dialog können Sie den Benutzernamen und das Passwort sowie die Rolle des jeweiligen Benutzers ändern",
+  "The role will be automatically saved after changing": "Die Rolle wird nach der Änderung automatisch gespeichert",
+  "If you don`t want to change the password, just leave it blank": "Wenn Sie das Passwort nicht ändern möchten, lassen Sie es einfach leer",
+  "If you want to change your credentials, ask your admin": "Wenn Sie Ihre Anmeldedaten ändern möchten, fragen Sie Ihren Administrator",
+  "In this dialog you can add a user and specify the specific role": "In diesem Dialog können Sie einen Benutzer hinzufügen und die spezifische Rolle angeben",
+
+
+  "No clients available": "Keine Geräte verfügbar",
+  "No new tasks": "Keine neuen Aufgaben",
+  "No client-script executions": "Keine Client-Skript-Ausführungen",
+  "No groups available": "Keine Gruppen verfügbar",
+  "No items available": "Keine Einträge verfügbar"
+}

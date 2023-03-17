@@ -1,0 +1,63 @@
+#ip-input--container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    width: fit-content;
+}
+
+#ip-input--container > span {
+    max-width: 80px;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+#ip-input--container > div {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+
+    border-radius: var(--br-r-extra-small);
+
+    cursor: pointer;
+}
+
+#ip-input--container > div:hover {
+    color: var(--ac-clr-1);
+    background-color: var(--nl-clr-3);
+    box-shadow: var(--drp-shadow-dark-rvt);
+}
+
+.success-copied {
+    animation: ip-input--success 1.5s cubic-bezier(.36, .07, .19, .97) infinite;
+}
+
+.error-copied {
+    animation: ip-input--error 1.5s cubic-bezier(.36, .07, .19, .97) infinite;
+}
+
+@keyframes ip-input--success {
+    0%, 100% {
+        color: var(--nl-clr-3);
+        background-color: var(--ac-clr-3);
+    }
+
+    50% {
+        color: var(--ac-clr-3);
+        background-color: var(--nl-clr-3);
+    }
+}
+
+@keyframes ip-input--error {
+    0%, 100% {
+        color: var(--nl-clr-3);
+        background-color: var(--ac-clr-2);
+    }
+
+    50% {
+        color: var(--ac-clr-2);
+        background-color: var(--nl-clr-3);
+    }
+}

@@ -1,0 +1,24 @@
+#dialog-button {
+    height: 50px;
+    width: 140px;
+
+    border-radius: var(--br-r-small);
+    background-color: var(--ac-clr-3);
+
+    cursor: pointer;
+
+    transition: background-color 200ms, color 200ms, border-color 200ms, box-shadow 200ms;
+}
+
+#dialog-button:active:focus-within {
+    box-shadow: 0 0 0 0.2rem hsl(161, 48%, 76%);
+}
+
+#dialog-button:disabled {
+    background-color: var(--ipt--disabled-bg--clr);
+    cursor: default;
+}
+
+#dialog-button:disabled > span {
+    color: var(--ipt--disabled-text--clr);
+}

@@ -1,0 +1,149 @@
+/* Sidebar area Section --Begin */
+#side-container {
+    grid-area: sidebar;
+
+    position: relative;
+
+    height: 100%;
+    width: 260px;
+
+    padding: 80px 0 48px;
+
+    background-color: var(--nl--nav-clr-1);
+
+    transition: width 400ms cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+/* When hovering the sidebar, the collapse button will appear */
+#side-container:hover #side-collapse-button {
+    opacity: 1;
+}
+
+#side-collapse-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: absolute;
+    top: 2%;
+    right: -12px;
+
+    height: 23px;
+    width: 23px;
+
+    border-radius: 50%;
+
+    background-color: var(--ac-clr-1);
+
+    cursor: pointer;
+
+    opacity: 0;
+
+    transition: opacity 300ms;
+
+    z-index: 1;
+}
+
+#side-collapse-icon {
+    color: var(--nl-clr-3);
+}
+
+.active-sidebar--button-icon {
+    transform: rotateZ(180deg);
+}
+
+/* Sidebar area Section --End */
+
+/* Sidebar nav listing Section --Begin */
+#side-content-container {
+    display: grid;
+
+    height: 100%;
+    width: 100%;
+}
+
+.side-content-nav:last-of-type {
+    align-self: flex-end;
+}
+
+.side-content-nav ul {
+    display: flex;
+    flex-direction: column;
+
+    padding-left: 24.5px;
+
+    user-select: none;
+}
+
+/* Sidebar nav listing Section --End */
+
+/* Sidebar single item  Section --Begin */
+.nav-item {
+    position: relative;
+}
+
+.side-image--text-wrapper a {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    width: 211px;
+
+    padding: 13px;
+    border-radius: var(--br-r-medium);
+
+    cursor: pointer;
+}
+
+.side-image--text-wrapper a:hover {
+    background-color: var(--nv-item--h--bg-clr);
+}
+
+.active-sidebar--collapse-text {
+    display: none !important;
+}
+
+.active-sidebar--link {
+    width: fit-content !important;
+}
+
+.side-active-nav-item, .side-active-nav-item > a > span {
+    color: var(--ac-clr-1) !important;
+
+    transition: color 200ms;
+}
+
+.side-active-nav-item::after {
+    content: '';
+
+    display: inline-block;
+    position: absolute;
+
+    top: 10%;
+    right: 0;
+
+    height: 40px;
+    width: 8px;
+
+    border-radius: var(--br-r-extra-small) 0 0 var(--br-r-extra-small);
+
+    background-color: var(--ac-clr-1);
+
+    opacity: 0;
+
+    animation: active-nav-item 600ms ease-out forwards;
+}
+
+/* Sidebar single item  Section --End */
+
+@keyframes active-nav-item {
+    to {
+        opacity: 1;
+    }
+}
+
+@media only screen and (max-width: 1250px) {
+    #side-collapse-button {
+        opacity: 1;
+    }
+}

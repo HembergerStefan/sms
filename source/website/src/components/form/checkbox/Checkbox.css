@@ -1,0 +1,112 @@
+/* Label wrapper */
+#checkbox-wrapper {
+    display: block;
+
+    position: relative;
+
+    width: fit-content;
+
+    border-radius: var(--br-r-small);
+
+    box-shadow: var(--drp-shadow-dark-rvt);
+
+    cursor: pointer;
+}
+
+/* The icon when the checkbox is checked */
+#checkbox-checked--icon {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+
+    font-size: 18px;
+
+    stroke: var(--nl-clr-3);
+
+    color: var(--nl-clr-3);
+}
+
+/* The icon when the checkbox is indeterminate */
+#checkbox-indeterminate--icon {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+
+    font-size: 18px;
+
+    stroke: hsl(206, 23%, 88%);
+
+    color: hsl(206, 23%, 88%);
+}
+
+input[type='checkbox'] {
+    display: block;
+
+    position: relative;
+
+    height: 26px;
+    width: 26px;
+
+    color: var(--pr-clr);
+
+    border: 2px solid var(--ipt--df-border--clr);
+    border-radius: var(--br-r-small);
+    background-color: var(--nl-clr-2);
+
+    transition: all 200ms;
+
+    cursor: pointer;
+
+    /* Reset the browser default checkbox displaying */
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+input[type='checkbox']::before {
+    content: '';
+
+    display: inline-block;
+
+    border: 0;
+    border-radius: inherit;
+
+    background-color: transparent;
+}
+
+/* Checked */
+[type=checkbox]:checked {
+    border-color: transparent;
+    background-color: hsl(236, 83%, 68%);
+    animation: jelly 600ms ease;
+}
+
+/* Disabled */
+[type=checkbox]:disabled {
+    background-color: var(--ipt--disabled-bg--clr);
+    opacity: 0.84;
+    cursor: not-allowed;
+}
+
+@keyframes jelly {
+    from {
+        transform: scale(1, 1);
+    }
+    30% {
+        transform: scale(1.25, 0.75);
+    }
+    40% {
+        transform: scale(0.75, 1.25);
+    }
+    50% {
+        transform: scale(1.15, 0.85);
+    }
+    65% {
+        transform: scale(.95, 1.05);
+    }
+    75% {
+        transform: scale(1.05, .95);
+    }
+    to {
+        transform: scale(1, 1);
+    }
+}
