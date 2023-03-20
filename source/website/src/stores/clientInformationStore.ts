@@ -104,14 +104,24 @@ const useClientStore = create<ClientSlice>((set, get) => ({
             const client: Client | undefined = get().getClientByMacAddress(macAddress)
 
             if (client === undefined) {
-                return {status: 'Offline', lastOnline: new Date().toLocaleString()}
+                return {
+                    status: 'Offline', lastOnline: formatDistance(new Date(), new Date(), {
+                        addSuffix: true,
+                        locale: selectedLng === 'de' ? deAT : enUS
+                    })
+                }
             }
 
             const timeDiff = new Date().getTime() - new Date(client.lastOnline).getTime()
 
             // Last five minutes
             if (timeDiff <= 300_000) {
-                return {status: 'Online', lastOnline: new Date(client.lastOnline).toLocaleTimeString()}
+                return {
+                    status: 'Online', lastOnline: formatDistance(new Date(client.lastOnline), new Date(), {
+                        addSuffix: true,
+                        locale: selectedLng === 'de' ? deAT : enUS
+                    })
+                }
             }
 
             return {
