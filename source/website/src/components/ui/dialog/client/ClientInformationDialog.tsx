@@ -31,8 +31,10 @@ const ClientInformationDialog = ({id, displayId, editMode = false}: ClientInform
         addingClient.macAddress = selectedClient.macAddress
         addingClient.name = selectedClient.name
         addingClient.ip = selectedClient.ip
+        addingClient.os = selectedClient.os
         addingClient.cpuUsage = selectedClient.cpuUsage
         addingClient.usedDiskspace = selectedClient.usedDiskspace
+        addingClient.ramUsage = selectedClient.ramUsage
         addingClient.lastOnline = selectedClient.lastOnline
     }, [selectedClient])
 

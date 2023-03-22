@@ -303,9 +303,11 @@ export const useUpdateClientMutation = (updateClient: Client) => {
             'macAddress': updateClient.macAddress,
             'name': updateClient.name,
             'ip': updateClient.ip,
+            'os': updateClient.os,
             'lastOnline': new Date(updateClient.lastOnline),
             'usedDiskspace': Number(updateClient.usedDiskspace),
             'cpuUsage': Number(updateClient.cpuUsage),
+            'ramUsage': Number(updateClient.ramUsage),
             'packages': [],
             'scripts': []
         })
