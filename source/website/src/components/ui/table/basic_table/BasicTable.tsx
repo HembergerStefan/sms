@@ -171,13 +171,6 @@ const BasicTable = ({tableType}: BasicTableProps) => {
             header: () => <h1>{t('Language')}</h1>,
             cell: info => <span>{info.getValue()}</span>,
         }),
-        {
-            id: 'status',
-            header: () => <h1>{t('Status')}</h1>,
-            cell: info => <StatusDisplaying status={getScriptStatus(info.row.original.id)}
-                                            success={getScriptStatus(info.row.original.id).toLowerCase() === 'executed'}/>,
-            accessorFn: originalRow => getScriptStatus(originalRow.id)
-        },
     ], [])
 
     const packageColumns = useMemo<ColumnDef<any, any>[]>(() => [
