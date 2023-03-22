@@ -3,7 +3,7 @@ import urllib.request
 import uuid
 
 
-def get_download_folder_path():
+def get_download_folder_path() -> str:
     return os.path.join(os.getenv('USERPROFILE'), 'Downloads')
 
 

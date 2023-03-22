@@ -35,10 +35,8 @@ class Client:
             async def receiving():
                 while True:
                     try:
-                        print("waiting")
                         response = await websocket.recv()
                         logging.debug('Received message from server')
-                        print(response)
                         ResponseHandler(json.loads(response)).start()
                         await asyncio.sleep(1)
                     except WebSocketException:
