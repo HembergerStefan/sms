@@ -40,7 +40,7 @@ public class WebpageControllerUser implements IWebpageResourceUser {
 
 
     @Override
-    public Response getUserByID(String id, String token) {//holt einen Benutzer durch seine ID
+    public Response getUserByID(String id, String token) {//holt einen Benutzer durch seine ID *
         if (smsStore.isAllowed(token, id, anno)) {
             return Response.status(200)
                     .type(MediaType.APPLICATION_JSON)
@@ -55,7 +55,7 @@ public class WebpageControllerUser implements IWebpageResourceUser {
     }
 
     @Override
-    public Response getRoleByUser(String id, String token) {//holt einen Benutzer durch seine ID
+    public Response getRoleByUser(String id, String token) {//holt einen Benutzer durch seine ID *
         if (smsStore.isAllowed(token, id, anno)) {
             return Response.status(200)
                     .type(MediaType.APPLICATION_JSON)
@@ -69,7 +69,7 @@ public class WebpageControllerUser implements IWebpageResourceUser {
     }
 
     @Override
-    public Response getRoles(String token) {//holt alle Rollen
+    public Response getRoles(String token) {//holt alle Rollen *
         if (smsStore.isAllowed(token, anno)) {
             return Response.status(200)
                     .type(MediaType.APPLICATION_JSON)
@@ -85,7 +85,7 @@ public class WebpageControllerUser implements IWebpageResourceUser {
 
     @Override
     @JsonView(PackageView.Always.class)
-    public Response getPackages(String token) {//holt alle Packages
+    public Response getPackages(String token) {//holt alle Packages *
         if (smsStore.isAllowed(token, anno)) {
             return Response.status(200)
                     .type(MediaType.APPLICATION_JSON)
@@ -101,7 +101,7 @@ public class WebpageControllerUser implements IWebpageResourceUser {
 
     @Override
     @JsonView(ScriptView.Always.class)
-    public Response getScripts(String token) {//holt alle Scripts
+    public Response getScripts(String token) {//holt alle Scripts *
         if (smsStore.isAllowed(token, anno)) {
             return Response.status(200)
                     .type(MediaType.APPLICATION_JSON)
@@ -130,21 +130,21 @@ public class WebpageControllerUser implements IWebpageResourceUser {
     }
 
     @Override
-    public void updateUser(DTOInsertUser user, String token) {//holt alle Benutzer
+    public void updateUser(DTOInsertUser user, String token) {//holt alle Benutzer *
         if (smsStore.isAllowed(token, user.getId(), anno)) {
             smsStore.updateUser(user);
         }
     }
 
     @Override
-    public void addScriptToTask(String token, UUID user_id, String mac_Address, String script_id) {//erstellt einen Task
+    public void addScriptToTask(String token, UUID user_id, String mac_Address, String script_id) {//erstellt einen Task *
         if (smsStore.isAllowed(token, anno)) {
             smsStore.insertTaskWithScript(mac_Address, script_id, user_id.toString(), add, token);
         }
     }
 
     @Override
-    public void addPackageToTask(String token, UUID user_id, String mac_Address, String package_id) {//erstellt einen Task
+    public void addPackageToTask(String token, UUID user_id, String mac_Address, String package_id) {//erstellt einen Task *
         if (smsStore.isAllowed(token, anno)) {
             smsStore.insertTaskWithPackage(mac_Address, package_id, user_id.toString(), add, token);
         }
