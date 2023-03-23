@@ -48,6 +48,8 @@ public class ClientSocket {
                 var available_client = new Available_Clients(new Baseclient(mac_address), "unknown", "0.0.0.0");
                 smsStore.insertBase_Client(baseclient);
                 smsStore.insertAvailable_Client(available_client);
+                var clientSession = new DTOClientSession(mac_address, session);//Client und dazugehörige Session wird gespeichert
+                clientSessions.add(clientSession);
             }
         } else {
             var clientSession = new DTOClientSession(mac_address, session);//Client und dazugehörige Session wird gespeichert
