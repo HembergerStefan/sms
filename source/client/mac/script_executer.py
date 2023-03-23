@@ -27,6 +27,8 @@ class ScriptExecutor:
         # run the script, with the right interpreter
         if interpreter == 'bash':
             resp = subprocess.run(['sudo', 'bash', file.name])
+        elif interpreter == 'python':
+            resp = subprocess.run(['sudo', 'python3', file.name])
         else:
             return -1
 

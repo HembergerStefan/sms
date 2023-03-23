@@ -5,7 +5,6 @@ from script_executer import ScriptExecutor
 
 
 class ResponseHandler(Thread):
-
     # currently executing scripts or packages
     current_scripts_ids: set[str] = set()
     current_packages_ids: set[str] = set()
