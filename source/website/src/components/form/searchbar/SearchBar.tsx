@@ -29,7 +29,7 @@ const SearchBar = () => {
                 const s = DiceCoefficient.distance(searchQuery, t(keyWord.name))
 
                 // Filter if the item should be added or not
-                if (s >= 0.21) {
+                if (s >= 0.5) {
                     foundWords.push(keyWord)
                 }
             })
