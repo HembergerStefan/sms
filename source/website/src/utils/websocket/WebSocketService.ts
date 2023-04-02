@@ -1,6 +1,6 @@
 import {Client, Group} from '../../data/data_types'
 
-export default class WebsocketService {
+export default class WebSocketService {
 
     constructor(private socket: WebSocket) {
     }
