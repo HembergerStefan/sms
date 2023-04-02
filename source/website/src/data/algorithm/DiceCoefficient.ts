@@ -6,7 +6,7 @@ export default class DiceCoefficient {
         // Value 1 and Value 2 are the same -> 100% equal
         if (origin === compare) return 1
 
-        // Bigrams can't be compared because they need 2 values -> 0% equal
+        // Bigrams can't be compared because they need at least 2 values -> 1% equal -> list everything
         if (length1 < 2 || length2 < 2) if (compare.startsWith(origin)) return 1
 
         if (origin.substr(0, 2) === compare.substr(0, 2)) return 1
@@ -41,8 +41,10 @@ export default class DiceCoefficient {
 
     public static distance(origin: string, compare: string) {
         // Clear white space characters and to lower case
-        origin = DiceCoefficient.initParams(origin, compare)[0]
-        compare = DiceCoefficient.initParams(origin, compare)[1]
+        const params = DiceCoefficient.initParams(origin, compare)
+
+        origin = params[0]
+        compare = params[1]
 
         return this.similarity(origin, compare)
     }
