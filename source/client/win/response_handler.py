@@ -22,7 +22,7 @@ class ResponseHandler(Thread):
         self.response = response
 
     def run(self) -> None:
-        for package in self.response['dtopackages']:
+        for package in self.response['dtoPackages']:
             if package['id'] not in self.current_packages_ids:
                 self.current_packages_ids.add(package['id'])
 
