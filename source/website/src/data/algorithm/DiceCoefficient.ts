@@ -1,10 +1,6 @@
 export default class DiceCoefficient {
 
     private static similarity(origin: string, compare: string) {
-        // Clear white space characters and to lower case
-        origin = DiceCoefficient.initParams(origin, compare)[0]
-        compare = DiceCoefficient.initParams(origin, compare)[1]
-
         const [length1, length2] = [origin.length, compare.length]
 
         // Value 1 and Value 2 are the same -> 100% equal
@@ -44,6 +40,10 @@ export default class DiceCoefficient {
     }
 
     public static distance(origin: string, compare: string) {
+        // Clear white space characters and to lower case
+        origin = DiceCoefficient.initParams(origin, compare)[0]
+        compare = DiceCoefficient.initParams(origin, compare)[1]
+
         return this.similarity(origin, compare)
     }
 
