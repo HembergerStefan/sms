@@ -59,7 +59,7 @@ const Overview = () => {
     useEffect(() => {
         if (token !== undefined && id !== '' && roleName === RoleSystemConfig.userRoleName && location.pathname.includes('dashboard')) {
             const socketService = new WebSocketService(new WebSocket(`ws://${WebsocketConfig.baseUrl}:${WebsocketConfig.port}/webpage/${id}/${token}`))
-            socketService.initWebsocket(setUsers, setGroups, setClients)   // start socket.onmessage function
+            socketService.initWebSocket(setUsers, setGroups, setClients)   // start socket.onmessage function
         }
     }, [])
 

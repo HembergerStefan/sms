@@ -5,16 +5,16 @@ export default class WebSocketService {
     constructor(private socket: WebSocket) {
     }
 
-    public initWebsocket(setUsers: Function, setGroups: Function, setClients: Function) {
+    public initWebSocket(setUsers: Function, setGroups: Function, setClients: Function) {
         this.socket.onmessage = (event) => {
             const json = JSON.parse(event.data)
 
             try {
                 if ((json.event = 'data')) {
                     /* Set user data */
-                    this.setWebsocketUserData(json, setUsers)
+                    this.setWebSocketUserData(json, setUsers)
                     /* Set group data */
-                    this.setWebsocketGroupData(json.groups, setGroups, setClients)
+                    this.setWebSocketGroupData(json.groups, setGroups, setClients)
                 }
             } catch (err) {
                 console.log(`websocket exception: ${err}`)
@@ -22,7 +22,7 @@ export default class WebSocketService {
         }
     }
 
-    private setWebsocketUserData = (json: any, setUsers: Function) => {
+    private setWebSocketUserData = (json: any, setUsers: Function) => {
         setUsers([{
             id: json.id,
             username: json.username,
@@ -31,7 +31,7 @@ export default class WebSocketService {
         }])
     }
 
-    private setWebsocketGroupData = (json: any, setGroups: Function, setClients: Function) => {
+    private setWebSocketGroupData = (json: any, setGroups: Function, setClients: Function) => {
         const groupsTemp: Group[] = []
         let clientsTempList: Client[] = []
 
@@ -42,7 +42,7 @@ export default class WebSocketService {
                 clientsTemp.push(client.macAddress.macAddress)
 
                 /* Set client data */
-                this.setWebsocketClientData(client, clientsTempList)
+                this.setWebSocketClientData(client, clientsTempList)
             })
 
             groupsTemp.push({
@@ -63,7 +63,7 @@ export default class WebSocketService {
         setClients(clientsTempList)
     }
 
-    private setWebsocketClientData = (entry: any, clientsTemp: Client[]) => {
+    private setWebSocketClientData = (entry: any, clientsTemp: Client[]) => {
         const scriptsTemp: string[] = []
         const packagesTemp: string[] = []
 
