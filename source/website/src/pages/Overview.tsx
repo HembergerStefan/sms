@@ -38,7 +38,7 @@ const Overview = () => {
 
     const {token, id, roleName} = useUserStore()
     const {groups, setGroups} = useGroupStore()
-    const {clients, setClients} = useClientStore()
+    const {clients, setClients, getScriptsOfClients} = useClientStore()
     const {setUsers} = useUserInfoStore()
     const {getExecutedScripts} = useScriptStore()
     const {tasks} = useTaskStore()
@@ -77,7 +77,7 @@ const Overview = () => {
                               theme={getComputedStyle(document.body).getPropertyValue('--ac-clr-2')}/>
                 <KPIComponent title='Amount of Clients' value={clients.length} icon={<DevicesRoundedIcon/>}
                               theme={getComputedStyle(document.body).getPropertyValue('--ac-clr-1')}/>
-                <KPIComponent title='Scripts executed' value={getExecutedScripts().length} icon={<TerminalRoundedIcon/>}
+                <KPIComponent title='Scripts executed' value={getScriptsOfClients().length} icon={<TerminalRoundedIcon/>}
                               theme={getComputedStyle(document.body).getPropertyValue('--ac-clr-3')}/>
                 <KPIComponent title='Open Tasks' value={tasks.length} icon={<PlaylistAddCheckRoundedIcon/>}
                               theme={getComputedStyle(document.body).getPropertyValue('--ac-clr-2')}/>
