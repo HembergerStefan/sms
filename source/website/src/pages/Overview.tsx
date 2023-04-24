@@ -18,7 +18,7 @@ import useTaskStore from '../stores/task/taskInformationStore'
 import useUserInfoStore from '../stores/user/userInformationStore'
 import {RoleSystemConfig, WebsocketConfig} from '../data/api_data/ApiConfig'
 import {DataTypes} from '../data/data_types'
-import WebsocketService from '../utils/websocket/WebsocketService'
+import WebSocketService from '../utils/websocket/WebSocketService'
 
 import {useUserPermittedQuery} from '../utils/api/ApiService'
 
@@ -38,7 +38,7 @@ const Overview = () => {
 
     const {token, id, roleName} = useUserStore()
     const {groups, setGroups} = useGroupStore()
-    const {clients, setClients} = useClientStore()
+    const {clients, setClients, getScriptsOfClients} = useClientStore()
     const {setUsers} = useUserInfoStore()
     const {getExecutedScripts} = useScriptStore()
     const {tasks} = useTaskStore()
@@ -58,8 +58,8 @@ const Overview = () => {
 
     useEffect(() => {
         if (token !== undefined && id !== '' && roleName === RoleSystemConfig.userRoleName && location.pathname.includes('dashboard')) {
-            const socketService = new WebsocketService(new WebSocket(`ws://${WebsocketConfig.baseUrl}:${WebsocketConfig.port}/webpage/${id}/${token}`))
-            socketService.initWebsocket(setUsers, setGroups, setClients)   // start socket.onmessage function
+            const socketService = new WebSocketService(new WebSocket(`ws://${WebsocketConfig.baseUrl}:${WebsocketConfig.port}/webpage/${id}/${token}`))
+            socketService.initWebSocket(setUsers, setGroups, setClients)   // start socket.onmessage function
         }
     }, [])
 
@@ -77,7 +77,7 @@ const Overview = () => {
                               theme={getComputedStyle(document.body).getPropertyValue('--ac-clr-2')}/>
                 <KPIComponent title='Amount of Clients' value={clients.length} icon={<DevicesRoundedIcon/>}
                               theme={getComputedStyle(document.body).getPropertyValue('--ac-clr-1')}/>
-                <KPIComponent title='Scripts executed' value={getExecutedScripts().length} icon={<TerminalRoundedIcon/>}
+                <KPIComponent title='Scripts executed' value={getScriptsOfClients().length} icon={<TerminalRoundedIcon/>}
                               theme={getComputedStyle(document.body).getPropertyValue('--ac-clr-3')}/>
                 <KPIComponent title='Open Tasks' value={tasks.length} icon={<PlaylistAddCheckRoundedIcon/>}
                               theme={getComputedStyle(document.body).getPropertyValue('--ac-clr-2')}/>
