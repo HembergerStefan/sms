@@ -22,6 +22,7 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.lang.model.type.ExecutableType;
 import javax.transaction.Transactional;
 import javax.transaction.UserTransaction;
 import java.io.Serializable;
@@ -373,13 +374,21 @@ public class SMSStore implements ISMSStore, Serializable {
     @Override
     @Transactional
     public void insertClient_Script(Client_Script client_script) {
-        client_scriptRepository.persist(client_script);
+        try{
+            client_scriptRepository.persist(client_script);
+        }catch(Exception e){
+            System.err.println(e.getMessage());
+        }
     }
 
     @Override
     @Transactional
     public void insertClient_Package(Client_Package client_package) {
+        try{
         client_packageRepository.persist(client_package);
+        }catch(Exception e){
+            System.err.println(e.getMessage());
+        }
     }
 
 
@@ -414,19 +423,31 @@ public class SMSStore implements ISMSStore, Serializable {
     @Override
     @Transactional
     public void insertAvailable_Client(Available_Clients availableClient) {//fügt einen AvailableClient hinzu
+        try{
         available_clientsRepository.persist(availableClient);
+        }catch(Exception e){
+            System.err.println(e.getMessage());
+        }
     }
 
     @Override
     @Transactional
     public void insertBase_Client(Baseclient baseclient) {
+        try{
         baseClientRepository.persist(baseclient);
+        }catch(Exception e){
+            System.err.println(e.getMessage());
+        }
     }//fügt einen BaseClient hinzu
 
     @Override
     @Transactional
     public void insertClient(Client client) {
+        try{
         clientRepository.persist(client);
+        }catch(Exception e){
+            System.err.println(e.getMessage());
+        }
     }//fügt einen Client hinzu
 
     @Override

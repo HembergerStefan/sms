@@ -38,7 +38,7 @@ public class ClientSocket {
 
     @Inject
     Logger log;
-    private final ArrayList<DTOClientSession> clientSessions = new ArrayList<DTOClientSession>();//Liste mit allen Sessions zu den Clients
+    private ArrayList<DTOClientSession> clientSessions = new ArrayList<DTOClientSession>();//Liste mit allen Sessions zu den Clients
 
     @OnOpen
     public void onOpen(Session session, @PathParam("mac_address") String mac_address) {//öffnen einer Verbindung
@@ -59,21 +59,37 @@ public class ClientSocket {
 
     @OnClose
     public void onClose(Session session, @PathParam("mac_address") String mac_address) {//wird die Verbindung geschlossen wird der Client und die Session entfernt
-        var clone = (List<DTOClientSession>) clientSessions.clone();
-        for (var clientSession : clone) {
-            if (clientSession.getSession().toString().equals(session.toString())) {
-                clientSessions.remove(clientSession);
+        try {
+            if (clientSessions.size() <= 0) {
+                clientSessions = new ArrayList<>();
+            } else {
+                var clone = (List<DTOClientSession>) clientSessions.clone();
+                for (var clientSession : clone) {
+                    if (clientSession.getSession().toString().equals(session.toString())) {
+                        clientSessions.remove(clientSession);
+                    }
+                }
             }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
         }
     }
 
     @OnError
     public void onError(Session session, @PathParam("mac_address") String mac_address, Throwable throwable) {//gibt es einen Fehler wird der Client und die Session entfernt
-        var clone = (List<DTOClientSession>) clientSessions.clone();
-        for (var clientSession : clone) {
-            if (clientSession.getSession().toString().equals(session.toString())) {
-                clientSessions.remove(clientSession);
+        try {
+            if (clientSessions.size() <= 0) {
+                clientSessions = new ArrayList<>();
+            } else {
+                var clone = (List<DTOClientSession>) clientSessions.clone();
+                for (var clientSession : clone) {
+                    if (clientSession.getSession().toString().equals(session.toString())) {
+                        clientSessions.remove(clientSession);
+                    }
+                }
             }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
         }
     }
 
@@ -97,21 +113,21 @@ public class ClientSocket {
                 var packages = smsStore.getPackagesByIDs(packagesIDs);
                 var scripts = smsStore.getScriptsByIDs(scriptsIDs);
                 smsStore.updateClient(client);
-                for(Package package_ : packages){
+                for (Package package_ : packages) {
                     var client_package = new Client_Package(package_.getId(), mac_address);
-                    try{
-                        if(!smsStore.isInstalled(mac_address, package_.getId())){
+                    try {
+                        if (!smsStore.isInstalled(mac_address, package_.getId())) {
                             smsStore.insertClient_Package(client_package);
                         }
-                    }catch (Exception e){
+                    } catch (Exception e) {
 
                     }
                 }
-                for(Script script_ : scripts){
+                for (Script script_ : scripts) {
                     var client_script = new Client_Script(script_.getId(), mac_address, new Timestamp(System.currentTimeMillis()));
-                    try{
+                    try {
                         smsStore.insertClient_Script(client_script);
-                    }catch (Exception e){
+                    } catch (Exception e) {
 
                     }
                 }
